@@ -11,17 +11,17 @@ public class SystemConfig {
 	/**
 	 * 是否显示log
 	 */
-	public static final boolean IS_OPEN_LOG_INFO = false;
+	public static final boolean IS_OPEN_LOG_INFO = true;
 
 	/**
 	 * 是否打开debug
 	 */
-	public static final boolean IS_OPEN_DEBUG = false;
+	public static final boolean IS_OPEN_DEBUG = true;
 
 	/**
 	 * 网络请求地址
 	 */
-	public static final String HostName = null;
+	public static final String HostName = "http://yundong.shenghuo365.net/";
 
 	/** 网络状态 **/
 	public static int mNetWorkState = 0;

@@ -28,15 +28,15 @@ import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
 public class BaseActivity extends Activity implements OnClickListener {
-	public String					TAG	= BaseActivity.class.getSimpleName();
-	public Context					mContext;
-	public LayoutInflater			layoutInflater;
-	public LoadingDialog			alertDialog;
-	public ImageLoader				imageLoader;
-	private HttpTaskHelper			mHttpTaskHelper;
-	public DisplayMetrics			dm;
+	public String TAG = BaseActivity.class.getSimpleName();
+	public Context mContext;
+	public LayoutInflater layoutInflater;
+	public LoadingDialog alertDialog;
+	public ImageLoader imageLoader;
+	private HttpTaskHelper mHttpTaskHelper;
+	public DisplayMetrics dm;
 
-	public SharedPreferencesUtils	shPrefUtils;
+	public SharedPreferencesUtils shPrefUtils;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +52,14 @@ public class BaseActivity extends Activity implements OnClickListener {
 			dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
 			Utilities.dm = dm;
-		}
-		else {
+		} else {
 			dm = Utilities.dm;
 		}
 		layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		alertDialog = new LoadingDialog(this);
-		alertDialog.setLoadingText(mContext.getString(R.string.loading_public_default));
+		alertDialog.setLoadingText(mContext
+				.getString(R.string.loading_public_default));
 
 		if (TextUtils.isEmpty(Utilities.FILE_ROOT)) {
 			Utilities.CheckFileRoot(getApplication());
@@ -97,7 +97,8 @@ public class BaseActivity extends Activity implements OnClickListener {
 	 * @param requestCall
 	 *            与dialog绑定的请求
 	 */
-	public void showLoadingDialog(int resId, boolean cancelable, Request requestCall) {
+	public void showLoadingDialog(int resId, boolean cancelable,
+			Request requestCall) {
 		String title;
 		if (alertDialog == null) {
 			LoadingDialog dialog = new LoadingDialog(this);
@@ -108,16 +109,14 @@ public class BaseActivity extends Activity implements OnClickListener {
 		if (alertDialog.isShowing()) {
 			if (alertDialog.getDialogCancelable()) {
 				return;
-			}
-			else {
+			} else {
 				alertDialog.dismiss();
 			}
 		}
 
 		if (resId <= 0) {
 			title = getResources().getString(R.string.loading_public_default);
-		}
-		else {
+		} else {
 			title = getResources().getString(resId);
 		}
 		alertDialog.setCanceledOnTouchOutside(false);
@@ -126,16 +125,16 @@ public class BaseActivity extends Activity implements OnClickListener {
 		alertDialog.setLoadingText(title);
 		if (cancelable) {
 			final Request tmpRequest = requestCall;
-			alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					if (null != mHttpTaskHelper && null != tmpRequest) {
-						mHttpTaskHelper.cancelRequest(tmpRequest);
-					}
-				}
-			});
-		}
-		else {
+			alertDialog
+					.setOnDismissListener(new DialogInterface.OnDismissListener() {
+						@Override
+						public void onDismiss(DialogInterface dialog) {
+							if (null != mHttpTaskHelper && null != tmpRequest) {
+								mHttpTaskHelper.cancelRequest(tmpRequest);
+							}
+						}
+					});
+		} else {
 			alertDialog.setOnDismissListener(null);
 		}
 		alertDialog.show();
@@ -188,26 +187,28 @@ public class BaseActivity extends Activity implements OnClickListener {
 	 * @param listener
 	 *            response callback since it will be removed later.
 	 */
-	public Request sendRequestWithNoDialog(ServiceRequest request, final IRequestProxyListener listener) {
+	public Request sendRequestWithNoDialog(ServiceRequest request,
+			final IRequestProxyListener listener) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 
 		return mHttpTaskHelper.sendRequest(request, new IRequestListener() {
 			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse,
+					HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != listener) {
 					listener.onSuccess(jsonResponse, requestInfo);
 				}
 			}
 
 			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+			public void onError(ResponseContent.Header header,
+					HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != listener) {
 					listener.onError(header, requestInfo);
 				}
@@ -230,26 +231,28 @@ public class BaseActivity extends Activity implements OnClickListener {
 	 * {@link IRequestProxyCallback#onSuccess(com.tongcheng.android.base.HttpTaskHelper.JsonResponse, com.tongcheng.android.base.HttpTaskHelper.RequestInfo)}
 	 * is must.
 	 */
-	public Request sendRequestWithNoDialog(ServiceRequest request, final IRequestProxyCallback callback) {
+	public Request sendRequestWithNoDialog(ServiceRequest request,
+			final IRequestProxyCallback callback) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 
 		return mHttpTaskHelper.sendRequest(request, new IRequestListener() {
 			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse,
+					HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != callback) {
 					callback.onSuccess(jsonResponse, requestInfo);
 				}
 			}
 
 			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+			public void onError(ResponseContent.Header header,
+					HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != callback) {
 					callback.onError(header, requestInfo);
 				}
@@ -275,44 +278,49 @@ public class BaseActivity extends Activity implements OnClickListener {
 	 *            response callback
 	 * @return real request，use for cancel since it will be removed later.
 	 */
-	public Request sendRequestWithDialog(ServiceRequest request, DialogConfig dialogConfig, final IRequestProxyListener listener) {
+	public Request sendRequestWithDialog(ServiceRequest request,
+			DialogConfig dialogConfig, final IRequestProxyListener listener) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 		if (null == listener) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
-				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			}
-			else {
+				throw new IllegalArgumentException(
+						"IRequestPoxyListener == null");
+			} else {
 				return null;
 			}
 		}
 
 		Request realRequest = mHttpTaskHelper.createConnectionRequest(request);
-		showLoadingDialog(dialogConfig.loadingMessage(), dialogConfig.cancelable(), realRequest);
-		mHttpTaskHelper.sendRequest(request, realRequest, new IRequestListener() {
-			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
-				listener.onSuccess(jsonResponse, requestInfo);
-			}
+		showLoadingDialog(dialogConfig.loadingMessage(),
+				dialogConfig.cancelable(), realRequest);
+		mHttpTaskHelper.sendRequest(request, realRequest,
+				new IRequestListener() {
+					@Override
+					public void onSuccess(
+							HttpTaskHelper.JsonResponse jsonResponse,
+							HttpTaskHelper.RequestInfo requestInfo) {
+						dismissLoadingDialog();
+						listener.onSuccess(jsonResponse, requestInfo);
+					}
 
-			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
-				listener.onError(header, requestInfo);
-			}
+					@Override
+					public void onError(ResponseContent.Header header,
+							HttpTaskHelper.RequestInfo requestInfo) {
+						dismissLoadingDialog();
+						listener.onError(header, requestInfo);
+					}
 
-			@Override
-			public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
-				listener.onCanceled(cancelInfo);
-			}
-		});
+					@Override
+					public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
+						listener.onCanceled(cancelInfo);
+					}
+				});
 		return realRequest;
 	}
 
@@ -324,44 +332,49 @@ public class BaseActivity extends Activity implements OnClickListener {
 	 * {@link IRequestProxyCallback#onSuccess(com.tongcheng.android.base.HttpTaskHelper.JsonResponse, com.tongcheng.android.base.HttpTaskHelper.RequestInfo)}
 	 * is must.
 	 */
-	public Request sendRequestWithDialog(ServiceRequest request, DialogConfig dialogConfig, final IRequestProxyCallback callback) {
+	public Request sendRequestWithDialog(ServiceRequest request,
+			DialogConfig dialogConfig, final IRequestProxyCallback callback) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 		if (null == callback) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
-				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			}
-			else {
+				throw new IllegalArgumentException(
+						"IRequestPoxyListener == null");
+			} else {
 				return null;
 			}
 		}
 
 		Request realRequest = mHttpTaskHelper.createConnectionRequest(request);
-		showLoadingDialog(dialogConfig.loadingMessage(), dialogConfig.cancelable(), realRequest);
-		mHttpTaskHelper.sendRequest(request, realRequest, new IRequestListener() {
-			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
-				callback.onSuccess(jsonResponse, requestInfo);
-			}
+		showLoadingDialog(dialogConfig.loadingMessage(),
+				dialogConfig.cancelable(), realRequest);
+		mHttpTaskHelper.sendRequest(request, realRequest,
+				new IRequestListener() {
+					@Override
+					public void onSuccess(
+							HttpTaskHelper.JsonResponse jsonResponse,
+							HttpTaskHelper.RequestInfo requestInfo) {
+						dismissLoadingDialog();
+						callback.onSuccess(jsonResponse, requestInfo);
+					}
 
-			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
-				callback.onError(header, requestInfo);
-			}
+					@Override
+					public void onError(ResponseContent.Header header,
+							HttpTaskHelper.RequestInfo requestInfo) {
+						dismissLoadingDialog();
+						callback.onError(header, requestInfo);
+					}
 
-			@Override
-			public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
-				callback.onCanceled(cancelInfo);
-			}
-		});
+					@Override
+					public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
+						callback.onCanceled(cancelInfo);
+					}
+				});
 		return realRequest;
 	}
 
