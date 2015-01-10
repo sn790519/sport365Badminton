@@ -11,11 +11,11 @@ import android.graphics.Bitmap.Config;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
+import com.sport365.badminton.BaseApplication;
 import com.sport365.badminton.R;
 import com.sport365.badminton.picasso.Callback;
 import com.sport365.badminton.picasso.Picasso;
 import com.sport365.badminton.picasso.Target;
-import com.sport365.badminton.utils.BaseApplication;
 
 public class ImageLoader {
 

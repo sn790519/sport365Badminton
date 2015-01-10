@@ -37,6 +37,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.widget.AutoCompleteTextView;
 
+import com.sport365.badminton.BaseApplication;
 import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.HanziToPinyin.Token;
 

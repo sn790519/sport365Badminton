@@ -30,7 +30,7 @@ public class SystemConfig {
 	public static String deviceId = "";
 
 	/** sp的名字 **/
-	public static String PREFERENCES_NAME = "";
+	public static String PREFERENCES_NAME = "badmintion";
 
 	/** 会员memberId **/
 	public static String memberId;

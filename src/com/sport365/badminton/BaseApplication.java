@@ -5,18 +5,22 @@ import android.app.Application;
 import com.baidu.mapapi.SDKInitializer;
 
 public class BaseApplication extends Application {
-	private static BaseApplication instance;
+	public static BaseApplication application = null;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		instance = this;
+		application = this;
 		// 百度地图初始化
 		SDKInitializer.initialize(getApplicationContext());
 	}
 
 	public static BaseApplication getInstance() {
-		return instance;
+		if (application == null) {
+			application = new BaseApplication();
+			return application;
+		}
+		return application;
 	}
 
 }

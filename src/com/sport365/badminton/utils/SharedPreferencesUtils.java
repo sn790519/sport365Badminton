@@ -14,35 +14,32 @@ import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.sport365.badminton.BaseApplication;
 import com.sport365.badminton.params.SystemConfig;
 
 /**
  * SharedPreferences操作
- * 
- * @author clz
- * 
- * 2014-09-25
- * SharedPreference统一用此工具类
- * jiagj
  */
 public class SharedPreferencesUtils {
 	private SharedPreferences sharedPreferences;
 	private Editor editor;
 	private static SharedPreferencesUtils sharedPrefUtils;
 	private Map<String, SoftReference<String>> prefCache = new HashMap<String, SoftReference<String>>();
-	
-	private SharedPreferencesUtils(){
-		sharedPreferences = BaseApplication.getInstance().getApplicationContext().getSharedPreferences(SystemConfig.PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+	private SharedPreferencesUtils() {
+		BaseApplication baseApplication = BaseApplication.getInstance();
+		Context context = baseApplication.getApplicationContext();
+		sharedPreferences = context.getSharedPreferences(SystemConfig.PREFERENCES_NAME, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 	}
-	
-	public synchronized static SharedPreferencesUtils getInstance(){
+
+	public synchronized static SharedPreferencesUtils getInstance() {
 		if (sharedPrefUtils == null) {
 			sharedPrefUtils = new SharedPreferencesUtils();
 		}
 		return sharedPrefUtils;
 	}
-	
+
 	/**
 	 * 写入Boolean
 	 */
@@ -62,13 +59,13 @@ public class SharedPreferencesUtils {
 		if (sharedPreferences == null || TextUtils.isEmpty(name)) {
 			return defaultValue;
 		}
-		
+
 		SoftReference<String> softRef = prefCache.get(name);
 		if (softRef == null || (softRef != null && TextUtils.isEmpty(softRef.get()))) {
 			boolean value = sharedPreferences.getBoolean(name, defaultValue);
 			prefCache.put(name, new SoftReference<String>(String.valueOf(value)));
 		}
-		
+
 		return Boolean.valueOf(prefCache.get(name).get());
 	}
 
@@ -118,7 +115,7 @@ public class SharedPreferencesUtils {
 		if (sharedPreferences == null || TextUtils.isEmpty(name)) {
 			return defaultValue;
 		}
-		
+
 		SoftReference<String> softRef = prefCache.get(name);
 		if (softRef == null || (softRef != null && TextUtils.isEmpty(softRef.get()))) {
 			long value = sharedPreferences.getLong(name, defaultValue);
@@ -153,7 +150,7 @@ public class SharedPreferencesUtils {
 		}
 		return Integer.valueOf(prefCache.get(name).get());
 	}
-	
+
 	/**
 	 * 写入Int
 	 */
@@ -173,7 +170,7 @@ public class SharedPreferencesUtils {
 		if (sharedPreferences == null || TextUtils.isEmpty(name)) {
 			return defaultValue;
 		}
-		
+
 		SoftReference<String> softRef = prefCache.get(name);
 		if (softRef == null || (softRef != null && TextUtils.isEmpty(softRef.get()))) {
 			float value = sharedPreferences.getFloat(name, defaultValue);
@@ -181,18 +178,18 @@ public class SharedPreferencesUtils {
 		}
 		return Float.valueOf(prefCache.get(name).get());
 	}
-	
+
 	/**
 	 * sharedPreferences写入Set<String>
 	 */
-	public boolean putSet(String key, Set<String> value){
+	public boolean putSet(String key, Set<String> value) {
 		if (TextUtils.isEmpty(key) || sharedPreferences == null || editor == null) {
 			return false;
 		}
-		
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			editor.putStringSet(key, value);
-		}else {
+		} else {
 			final String regularEx = "|";
 			StringBuilder sBuilder = new StringBuilder();
 			if (value != null) {
@@ -203,26 +200,26 @@ public class SharedPreferencesUtils {
 			}
 			putString(key, sBuilder.toString());
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * sharedPreferences读取Set<String>
 	 */
-	public Set<String> getSet(String key, Set<String> defaultValue){
+	public Set<String> getSet(String key, Set<String> defaultValue) {
 		if (TextUtils.isEmpty(key) || sharedPreferences == null) {
 			return defaultValue;
 		}
-		
+
 		if (!sharedPreferences.contains(key)) {
 			return null;
 		}
-		
+
 		Set<String> valueSet = new HashSet<String>();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			valueSet = sharedPreferences.getStringSet(key, defaultValue);
-		}else {
+		} else {
 			String value = null;
 			if (defaultValue != null) {
 				final String regularExPut = "|";
@@ -232,10 +229,10 @@ public class SharedPreferencesUtils {
 					sBuilder.append(regularExPut);
 				}
 				value = getString(key, sBuilder.toString());
-			}else {
+			} else {
 				value = getString(key, "");
 			}
-			
+
 			final String regularExGet = "\\|";
 			String[] valueArray;
 			if (!TextUtils.isEmpty(value)) {
@@ -245,42 +242,42 @@ public class SharedPreferencesUtils {
 				}
 			}
 		}
-		
+
 		return valueSet;
 	}
-	
+
 	/**
 	 * commit
 	 */
-	public boolean commitValue(){
+	public boolean commitValue() {
 		if (editor == null) {
 			return false;
 		}
-		
+
 		return editor.commit();
 	}
-	
+
 	/**
 	 * remove
 	 */
-	public boolean removeValue(String key){
+	public boolean removeValue(String key) {
 		if (TextUtils.isEmpty(key) || sharedPreferences == null || editor == null) {
 			return false;
 		}
-		
+
 		if (!sharedPreferences.contains(key)) {
 			return false;
 		}
-		
+
 		editor.remove(key);
-		
+
 		if (prefCache.containsKey(key)) {
 			prefCache.remove(key);
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * sharedPreferences写入List<String>
 	 */
@@ -288,7 +285,7 @@ public class SharedPreferencesUtils {
 		editor.remove(name).commit();
 		return putListValue(name, value);
 	}
-	
+
 	/**
 	 * sharedPreferences读取List<String>
 	 */
@@ -344,17 +341,16 @@ public class SharedPreferencesUtils {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 清空历史记录数据
 	 */
-	public boolean clearData(){
+	public boolean clearData() {
 		if (editor == null) {
 			return false;
 		}
-		
+
 		editor.clear();
 		return true;
 	}
 }
-
