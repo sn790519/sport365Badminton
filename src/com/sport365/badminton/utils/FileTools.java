@@ -99,7 +99,7 @@ public class FileTools {
 	 */
 
 	public static Drawable getDrawable(Activity activity, String price, float density) {
-		InputStream is = activity.getResources().openRawResource(R.drawable.bg_hotelmap_price);
+		InputStream is = activity.getResources().openRawResource(R.drawable.bg_map_price);
 		return get(activity, is, price, density);
 	}
 
@@ -111,7 +111,7 @@ public class FileTools {
 	 * @return
 	 */
 	public static Drawable getDrawableFullRoom(Activity activity, String price, float density) {
-		InputStream is = activity.getResources().openRawResource(R.drawable.bg_hotelmap_full);
+		InputStream is = activity.getResources().openRawResource(R.drawable.bg_map_full);
 		return get(activity, is, price, density);
 	}
 
@@ -123,7 +123,7 @@ public class FileTools {
 	 * @return
 	 */
 	public static Drawable getDrawablePressed(Activity activity, String price, float density) {
-		InputStream is = activity.getResources().openRawResource(R.drawable.bg_hotelmapdown_price);
+		InputStream is = activity.getResources().openRawResource(R.drawable.bg_mapdown_price);
 		return get(activity, is, price, density);
 	}
 
