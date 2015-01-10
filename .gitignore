@@ -65,4 +65,5 @@ META-INF
 
 /.project
 /bin
- /out
+/out
+/gen
