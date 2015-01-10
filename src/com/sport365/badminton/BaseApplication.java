@@ -1,11 +1,11 @@
-package com.sport365.badminton.utils;
+package com.sport365.badminton;
 
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
 
-public class SportBadmintonApplication extends Application {
-	private static SportBadmintonApplication instance;
+public class BaseApplication extends Application {
+	private static BaseApplication instance;
 
 	@Override
 	public void onCreate() {
@@ -15,7 +15,7 @@ public class SportBadmintonApplication extends Application {
 		SDKInitializer.initialize(getApplicationContext());
 	}
 
-	public static SportBadmintonApplication getInstance() {
+	public static BaseApplication getInstance() {
 		return instance;
 	}
 

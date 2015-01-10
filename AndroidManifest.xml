@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.sport365.badminton.utils.SportBadmintonApplication"
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -34,7 +34,7 @@
             android:value="vRA2Ub7El8ximBg30jToPBle" />
 
         <activity
-            android:name=".MapFragmentDemo"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.sport365.badminton.base;
+package com.sport365.badminton.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

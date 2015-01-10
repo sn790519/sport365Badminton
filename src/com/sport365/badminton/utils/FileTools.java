@@ -24,14 +24,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.sport365.badminton.R;
-import com.sport365.badminton.base.BizException;
+import com.sport365.badminton.http.base.BizException;
 
 public class FileTools {
 
 	public static String installPath;// 在sdcard
 
-	private static BitmapDrawable get(Activity activity,
-			InputStream inputStream, String price, float density) {
+	private static BitmapDrawable get(Activity activity, InputStream inputStream, String price, float density) {
 		Paint paintText = new Paint();
 		paintText.setColor(Color.WHITE);
 		paintText.setTextSize(13 * density);
@@ -47,8 +46,7 @@ public class FileTools {
 		int height = bbbm.getHeight();
 		int allwidth = (int) (textWidth + addWidth);
 		int allHeight = height + addHeight;
-		Bitmap bitmapReal = Bitmap.createBitmap(allwidth, allHeight,
-				Config.ARGB_8888);
+		Bitmap bitmapReal = Bitmap.createBitmap(allwidth, allHeight, Config.ARGB_8888);
 
 		Canvas canvasRef = new Canvas(bitmapReal);
 		Rect dst = new Rect();// 屏幕裁剪区域
@@ -56,29 +54,20 @@ public class FileTools {
 		dst.top = 0;
 		dst.right = allwidth;
 		dst.bottom = allHeight;
-
 		canvasRef.drawBitmap(bbbm, null, dst, null);
-
 		// 绘制文本
-		canvasRef.drawText(displayText, addWidth / 2, allHeight / 2 - 5,
-				paintText);
+		canvasRef.drawText(displayText, addWidth / 2, allHeight / 2 - 5, paintText);
 
-		BitmapDrawable bitmapDrawable = new BitmapDrawable(
-				activity.getResources(), bitmapReal);
-		// bitmapDrawable.setBounds(0, 0, bitmapDrawable.getIntrinsicWidth(),
-		// bitmapDrawable.getIntrinsicHeight());
+		BitmapDrawable bitmapDrawable = new BitmapDrawable(activity.getResources(), bitmapReal);
 		return bitmapDrawable;
 	}
 
-	public static Bitmap getStreet(Activity activity, int resId, String title,
-			float density) {
+	public static Bitmap getStreet(Activity activity, int resId, String title, float density) {
 		Paint paintText = new Paint();
 		paintText.setColor(Color.WHITE);
 		paintText.setTextSize(13 * density);
 		paintText.setStyle(Paint.Style.STROKE);
-		// ANTI_ALIAS
 		paintText.setFlags(Paint.ANTI_ALIAS_FLAG);
-		// Measure the width of the text string.
 		float textWidth = paintText.measureText(title);// 文本宽度
 		InputStream is = activity.getResources().openRawResource(resId);
 		Bitmap bbbm = BitmapFactory.decodeStream(is);
@@ -87,8 +76,7 @@ public class FileTools {
 		int height = bbbm.getHeight();
 		int allwidth = (int) (textWidth + addWidth);
 		int allHeight = height + addHeight;
-		Bitmap bitmapReal = Bitmap.createBitmap(allwidth, allHeight,
-				Config.ARGB_8888);
+		Bitmap bitmapReal = Bitmap.createBitmap(allwidth, allHeight, Config.ARGB_8888);
 
 		Canvas canvasRef = new Canvas(bitmapReal);
 		Rect dst = new Rect();// 屏幕裁剪区域
@@ -96,12 +84,9 @@ public class FileTools {
 		dst.top = 0;
 		dst.right = allwidth;
 		dst.bottom = allHeight;
-
 		canvasRef.drawBitmap(bbbm, null, dst, null);
-
 		// 绘制文本
 		canvasRef.drawText(title, addWidth / 2, allHeight / 2 + 5, paintText);
-
 		return bitmapReal;
 	}
 
@@ -113,10 +98,8 @@ public class FileTools {
 	 * @return
 	 */
 
-	public static Drawable getDrawable(Activity activity, String price,
-			float density) {
-		InputStream is = activity.getResources().openRawResource(
-				R.drawable.bg_hotelmap_price);
+	public static Drawable getDrawable(Activity activity, String price, float density) {
+		InputStream is = activity.getResources().openRawResource(R.drawable.bg_hotelmap_price);
 		return get(activity, is, price, density);
 	}
 
@@ -127,10 +110,8 @@ public class FileTools {
 	 * @param price
 	 * @return
 	 */
-	public static Drawable getDrawableFullRoom(Activity activity, String price,
-			float density) {
-		InputStream is = activity.getResources().openRawResource(
-				R.drawable.bg_hotelmap_full);
+	public static Drawable getDrawableFullRoom(Activity activity, String price, float density) {
+		InputStream is = activity.getResources().openRawResource(R.drawable.bg_hotelmap_full);
 		return get(activity, is, price, density);
 	}
 
@@ -141,10 +122,8 @@ public class FileTools {
 	 * @param price
 	 * @return
 	 */
-	public static Drawable getDrawablePressed(Activity activity, String price,
-			float density) {
-		InputStream is = activity.getResources().openRawResource(
-				R.drawable.bg_hotelmapdown_price);
+	public static Drawable getDrawablePressed(Activity activity, String price, float density) {
+		InputStream is = activity.getResources().openRawResource(R.drawable.bg_hotelmapdown_price);
 		return get(activity, is, price, density);
 	}
 
@@ -159,8 +138,7 @@ public class FileTools {
 	}
 
 	// 将bitmap保存到file
-	public static void saveMyBitmap(Bitmap bm, String bitName)
-			throws IOException {
+	public static void saveMyBitmap(Bitmap bm, String bitName) throws IOException {
 		File f = new File(Utilities.FILE_ROOT + bitName);
 		f.createNewFile();
 		FileOutputStream fOut = null;
@@ -210,8 +188,7 @@ public class FileTools {
 		return urlName;
 	}
 
-	public static boolean saveToSD(String dirName, String fileName,
-			String content) throws BizException {
+	public static boolean saveToSD(String dirName, String fileName, String content) throws BizException {
 		File dirFile = new File(dirName);// 判断文件夹是否存在
 		if (!dirFile.exists()) {
 			return false;
@@ -235,8 +212,7 @@ public class FileTools {
 		}
 	}
 
-	public static void saveToSD(String fileName, String content)
-			throws BizException {
+	public static void saveToSD(String fileName, String content) throws BizException {
 		saveToSD(Utilities.JSON_FILE_ROOT, fileName, content);
 	}
 
@@ -244,8 +220,7 @@ public class FileTools {
 		return readFile(Utilities.JSON_FILE_ROOT, fileName);
 	}
 
-	public static String readFile(String dirName, String fileName)
-			throws BizException {
+	public static String readFile(String dirName, String fileName) throws BizException {
 		File readFile = new File(dirName, fileName);
 		if (readFile.exists() && readFile.canRead()) {
 			FileInputStream fis = null;
@@ -327,8 +302,7 @@ public class FileTools {
 	 */
 	public static String renameFolder(String folderPath) {
 		File file = new File(folderPath);
-		final File to = new File(file.getAbsolutePath()
-				+ System.currentTimeMillis());
+		final File to = new File(file.getAbsolutePath() + System.currentTimeMillis());
 		file.renameTo(to);
 		return to.getAbsolutePath();
 	}
@@ -463,8 +437,7 @@ public class FileTools {
 		}
 	}
 
-	public static synchronized boolean writeObjectToFile(Object object,
-			String dirName, String fileName) {
+	public static synchronized boolean writeObjectToFile(Object object, String dirName, String fileName) {
 		createDir(dirName);
 		File file = new File(installPath + dirName + File.separator + fileName);
 		if (!file.exists()) {
@@ -500,8 +473,7 @@ public class FileTools {
 		delAllFile(file.getAbsolutePath());
 	}
 
-	public static synchronized Object readObjectFromFile(String dirName,
-			String fileName) {
+	public static synchronized Object readObjectFromFile(String dirName, String fileName) {
 		File file = new File(installPath + dirName + File.separator + fileName);
 		if (!file.exists()) {
 			return null;

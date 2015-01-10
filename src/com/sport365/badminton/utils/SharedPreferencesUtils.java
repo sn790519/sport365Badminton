@@ -32,7 +32,7 @@ public class SharedPreferencesUtils {
 	private Map<String, SoftReference<String>> prefCache = new HashMap<String, SoftReference<String>>();
 	
 	private SharedPreferencesUtils(){
-		sharedPreferences = SportBadmintonApplication.getInstance().getApplicationContext().getSharedPreferences(SystemConfig.PREFERENCES_NAME, Context.MODE_PRIVATE);
+		sharedPreferences = BaseApplication.getInstance().getApplicationContext().getSharedPreferences(SystemConfig.PREFERENCES_NAME, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 	}
 	

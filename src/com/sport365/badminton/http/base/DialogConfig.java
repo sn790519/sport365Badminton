@@ -1,14 +1,10 @@
-/**
- * Copyright (C) 2006-2014 TongCheng All rights reserved
- */
-package com.sport365.badminton.base;
+package com.sport365.badminton.http.base;
 
 import com.sport365.badminton.R;
 
 /**
  * 请求信息，
  * 
- * @author wh09507 2014-12-09 11:29
  */
 public final class DialogConfig {
 
@@ -35,8 +31,7 @@ public final class DialogConfig {
 
 	@Override
 	public String toString() {
-		return "RequestInfo{loadingMessage=" + loadingMessage + ", cancelable="
-				+ cancelable + '}';
+		return "RequestInfo{loadingMessage=" + loadingMessage + ", cancelable=" + cancelable + '}';
 	}
 
 	public static class Builder {
@@ -55,8 +50,7 @@ public final class DialogConfig {
 
 		public Builder loadingMessage(int loadingMessage) {
 			if (loadingMessage == 0)
-				throw new IllegalArgumentException(
-						"loadingMessage must have value");
+				throw new IllegalArgumentException("loadingMessage must have value");
 			this.loadingMessage = loadingMessage;
 			return this;
 		}

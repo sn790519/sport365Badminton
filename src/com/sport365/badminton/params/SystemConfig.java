@@ -47,7 +47,7 @@ public class SystemConfig {
 	/** 版本号 **/
 	public static final String VersionType = "VersionType";
 
-	public static String IP = null;
+	public static String IP = "1111111";
 
 	public static final String APIACCOUNTID = "c26b007f-c89e-431a-b8cc-493becbdd8a2";// "7187c05f-951b-4ca6-888a-b8edf8c6679f";
 	public static final String APIACCOUNTKEY = "8874d8a8b8b391fbbd1a25bda6ecda11";// "fb13a093870f2028";

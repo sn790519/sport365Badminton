@@ -22,7 +22,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import android.app.Activity;
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ObjectAnimator;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
@@ -35,12 +37,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
-import com.actionbarsherlock.internal.nineoldandroids.animation.Animator;
-import com.actionbarsherlock.internal.nineoldandroids.animation.Animator.AnimatorListener;
-import com.actionbarsherlock.internal.nineoldandroids.animation.ObjectAnimator;
-import com.sport365.badminton.R;
-import com.sport365.badminton.dialog.CommonShowInfoDialog;
-import com.sport365.badminton.dialog.HotelShowInfoDialogListener;
 import com.sport365.badminton.params.SystemConfig;
 
 /**
@@ -87,8 +83,7 @@ public class Utilities {
 			if (myTabViewBottom != null) {
 				if (myTabViewBottom.getVisibility() == View.GONE) {
 					myTabViewBottom.clearAnimation();
-					myTabViewBottom
-							.startAnimation(translate_foot_bottom_to_top);
+					myTabViewBottom.startAnimation(translate_foot_bottom_to_top);
 				}
 			}
 			ticpkerHandler.removeCallbacks(this);
@@ -99,11 +94,9 @@ public class Utilities {
 		/**
 		 * 判断SD卡是否存在
 		 */
-		if (Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED)) {
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			// 存在的操作
-			FILE_ROOT = Environment.getExternalStorageDirectory()
-					.getAbsolutePath();
+			FILE_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
 			FILE_ROOT = FILE_ROOT + File.separator + fileName + File.separator;
 			new File(FILE_ROOT).mkdirs();
 			FileTools.installPath = Utilities.FILE_ROOT + File.separator;
@@ -111,17 +104,14 @@ public class Utilities {
 			JSON_FILE_ROOT = FILE_ROOT + json_fileName + File.separator;
 			new File(JSON_FILE_ROOT).mkdirs();
 			// 永久存储的json
-			JSON_FOREVER_FILE_ROOT = FILE_ROOT + json_forEverName
-					+ File.separator;
+			JSON_FOREVER_FILE_ROOT = FILE_ROOT + json_forEverName + File.separator;
 			new File(JSON_FOREVER_FILE_ROOT).mkdirs();
 			// scream voice
-			SCREAM_VOICE_FILE_ROOT = FILE_ROOT + scream_voice_file_name
-					+ File.separator;
+			SCREAM_VOICE_FILE_ROOT = FILE_ROOT + scream_voice_file_name + File.separator;
 			new File(SCREAM_VOICE_FILE_ROOT).mkdirs();
 		} else {
 			// 存入内部路径
-			FILE_ROOT = app.getDir("service_api_cache", Context.MODE_PRIVATE)
-					.getAbsolutePath();
+			FILE_ROOT = app.getDir("service_api_cache", Context.MODE_PRIVATE).getAbsolutePath();
 			FILE_ROOT = FILE_ROOT + File.separator + fileName + File.separator;
 			new File(FILE_ROOT).mkdirs();
 			FileTools.installPath = Utilities.FILE_ROOT + File.separator;
@@ -130,11 +120,9 @@ public class Utilities {
 			new File(JSON_FILE_ROOT).mkdirs();
 
 			// 永久存储的json
-			JSON_FOREVER_FILE_ROOT = FILE_ROOT + json_forEverName
-					+ File.separator;
+			JSON_FOREVER_FILE_ROOT = FILE_ROOT + json_forEverName + File.separator;
 			// scream voice
-			SCREAM_VOICE_FILE_ROOT = FILE_ROOT + scream_voice_file_name
-					+ File.separator;
+			SCREAM_VOICE_FILE_ROOT = FILE_ROOT + scream_voice_file_name + File.separator;
 			new File(JSON_FOREVER_FILE_ROOT).mkdirs();
 		}
 		initEnv(app);
@@ -151,8 +139,7 @@ public class Utilities {
 	public static void showToast(CharSequence message, Context context) {
 		int duration = Toast.LENGTH_SHORT;
 
-		Toast toast = Toast.makeText(context.getApplicationContext(), message,
-				duration);
+		Toast toast = Toast.makeText(context.getApplicationContext(), message, duration);
 		toast.show();
 	}
 
@@ -163,8 +150,7 @@ public class Utilities {
 		}
 		Class clazz = target.getClass();
 		try { // 先通过getXxx()方法设置类属性值
-			String methodname = "get" + Character.toUpperCase(fname.charAt(0))
-					+ fname.substring(1);
+			String methodname = "get" + Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
 			Method method = clazz.getDeclaredMethod(methodname); // 获取定义的方法
 			if (!Modifier.isPublic(method.getModifiers())) { // 设置非共有方法权限
 				method.setAccessible(true);
@@ -191,8 +177,7 @@ public class Utilities {
 		}
 		Class clazz = target.getClass();
 		try { // 先通过getXxx()方法设置类属性值
-			String methodname = "get" + Character.toUpperCase(fname.charAt(0))
-					+ fname.substring(1);
+			String methodname = "get" + Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
 			Method method = clazz.getDeclaredMethod(methodname); // 获取定义的方法
 			if (!Modifier.isPublic(method.getModifiers())) { // 设置非共有方法权限
 				method.setAccessible(true);
@@ -211,19 +196,16 @@ public class Utilities {
 		return "";
 	}
 
-	public static void setFieldValue(Object target, String fname, Class ftype,
-			Object fvalue) { // 设置字段值 如:username 字段,setUsername(String username)
-		if (target == null
-				|| fname == null
-				|| "".equals(fname)
-				|| (fvalue != null && !ftype
-						.isAssignableFrom(fvalue.getClass()))) {// 如果类型不匹配，直接退出
+	public static void setFieldValue(Object target, String fname, Class ftype, Object fvalue) { // 设置字段值
+																								// 如:username
+																								// 字段,setUsername(String
+																								// username)
+		if (target == null || fname == null || "".equals(fname) || (fvalue != null && !ftype.isAssignableFrom(fvalue.getClass()))) {// 如果类型不匹配，直接退出
 			return;
 		}
 		Class clazz = target.getClass();
 		try { // 先通过setXxx()方法设置类属性值
-			String methodname = "set" + Character.toUpperCase(fname.charAt(0))
-					+ fname.substring(1);
+			String methodname = "set" + Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
 			Method method = clazz.getDeclaredMethod(methodname, ftype); // 获取定义的方法
 			if (!Modifier.isPublic(method.getModifiers())) { // 设置非共有方法权限
 				method.setAccessible(true);
@@ -258,8 +240,7 @@ public class Utilities {
 
 	// 从下面弹出背景的淡入的动画
 	public static void showPopBg(final View ll_popupbg) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg,
-				"alpha", 0, 1).setDuration(500);
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 0, 1).setDuration(500);
 		objectAnimator.addListener(new AnimatorListener() {
 
 			@Override
@@ -288,8 +269,7 @@ public class Utilities {
 
 	// 从下面弹出背景的淡出的动画
 	public static void dismissPopBg(final View ll_popupbg) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg,
-				"alpha", 1, 0).setDuration(500);
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 1, 0).setDuration(500);
 		objectAnimator.addListener(new AnimatorListener() {
 
 			@Override
@@ -324,8 +304,7 @@ public class Utilities {
 	 * @since tongcheng_client_6.4 Jun 4, 2014 6:31:32 PM
 	 */
 	public static void showPopBg(final View ll_popupbg, final View view) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg,
-				"alpha", 0, 1).setDuration(500);
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 0, 1).setDuration(500);
 		objectAnimator.addListener(new AnimatorListener() {
 
 			@Override
@@ -361,8 +340,7 @@ public class Utilities {
 	 * @since tongcheng_client_6.4 Jun 4, 2014 6:32:56 PM
 	 */
 	public static void dismissPopBg(final View ll_popupbg, final View view) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg,
-				"alpha", 1, 0).setDuration(500);
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 1, 0).setDuration(500);
 		objectAnimator.addListener(new AnimatorListener() {
 
 			@Override
@@ -410,8 +388,7 @@ public class Utilities {
 	 * @author Ruyan.Zhao 6045
 	 * @since tongcheng_client_6.0.1 2014-2-20 下午3:30:12
 	 */
-	public static void upZipFile(File zipFile, String folderPath)
-			throws ZipException, IOException {
+	public static void upZipFile(File zipFile, String folderPath) throws ZipException, IOException {
 		if (!zipFile.exists()) {
 			return;
 		} else {
@@ -425,8 +402,7 @@ public class Utilities {
 					File f = new File(folderPath + zn.getName());
 					File file = f.getParentFile();
 					file.mkdirs();
-					FileOutputStream outputStream = new FileOutputStream(
-							folderPath + zn.getName());
+					FileOutputStream outputStream = new FileOutputStream(folderPath + zn.getName());
 					int len = 0;
 					byte bufer[] = new byte[1024];
 					while (-1 != (len = inputStream.read(bufer))) {
@@ -446,8 +422,7 @@ public class Utilities {
 	 * @param dateFormat
 	 * @return
 	 */
-	public static String getDateCellValue(Calendar calendar,
-			SimpleDateFormat dateFormat, SimpleDateFormat dayFormat) {
+	public static String getDateCellValue(Calendar calendar, SimpleDateFormat dateFormat, SimpleDateFormat dayFormat) {
 		String cellValue = getTodayFromDate(calendar.getTime());
 		if (TextUtils.isEmpty(cellValue)) {
 			cellValue = dateFormat.format(calendar.getTime());
@@ -589,31 +564,6 @@ public class Utilities {
 			}
 		}
 		return index;
-	}
-
-	/**
-	 * 显示提示框的公共方法
-	 * 
-	 * @param tip
-	 *            原因
-	 */
-	public static void displayDialPhoneDialog(final Activity activity,
-			String tip) {
-		String phoneTip = activity.getString(R.string.show_phone_tip);
-		CommonShowInfoDialog dialog = new CommonShowInfoDialog(activity,
-				new HotelShowInfoDialogListener() {
-					@Override
-					public void refreshUI(String sType) {
-						if (sType.equals(HotelShowInfoDialogListener.BTN_LEFT)) {
-
-						} else if (sType
-								.equals(HotelShowInfoDialogListener.BTN_RIGHT)) {
-							Tools.dailTcPhone(activity,
-									activity.getString(R.string.phone_number));
-						}
-					}
-				}, View.VISIBLE, tip + "\n" + phoneTip, "取消", "确定拨打");
-		dialog.showdialog();
 	}
 
 }

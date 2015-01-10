@@ -2,7 +2,7 @@ package com.sport365.badminton.http;
 
 import java.util.Map;
 
-import com.sport365.badminton.http.base.RequestBaseObject;
+import com.sport365.badminton.http.entity.RequestBaseObject;
 
 /*
  * request

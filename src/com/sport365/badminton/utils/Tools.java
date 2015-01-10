@@ -31,14 +31,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.widget.AutoCompleteTextView;
 
-import com.sport365.badminton.base.SystemSaveInstanceCache;
 import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.HanziToPinyin.Token;
 
@@ -48,13 +46,13 @@ import com.sport365.badminton.utils.HanziToPinyin.Token;
  */
 public class Tools {
 
-	private static final int BUFFER = 1024;
-	public static final int OLD_COUNT = 6;// SharedPreference 6条记录
+	private static final int	BUFFER			= 1024;
+	public static final int		OLD_COUNT		= 6;	// SharedPreference 6条记录
 
-	public static final int NETWORN_NONE = 3;
-	public static final int NETWORN_WIFI = 1;
-	public static final int NETWORN_MOBILE = 2;
-	public static final int NETWORN_OTHER = 0;
+	public static final int		NETWORN_NONE	= 3;
+	public static final int		NETWORN_WIFI	= 1;
+	public static final int		NETWORN_MOBILE	= 2;
+	public static final int		NETWORN_OTHER	= 0;
 
 	/**
 	 * 获得手机的DeviceId
@@ -66,23 +64,18 @@ public class Tools {
 		String deviceId = SystemConfig.deviceId;
 		if (TextUtils.isEmpty(deviceId) || "00".equals(deviceId)) {
 			try {
-				Context context = SportBadmintonApplication.getInstance()
-						.getApplicationContext();
+				Context context = BaseApplication.getInstance().getApplicationContext();
 
 				// 先获取保存的deviceid
-				deviceId = SharedPreferencesUtils.getInstance().getString(
-						SharedPreferencesKeys.DEVICEID, "");
+				deviceId = SharedPreferencesUtils.getInstance().getString(SharedPreferencesKeys.DEVICEID, "");
 
 				if (TextUtils.isEmpty(deviceId)) {
 					// 先获取androidid
-					deviceId = Secure.getString(context.getContentResolver(),
-							Secure.ANDROID_ID);
+					deviceId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
 					// 在主流厂商生产的设备上，有一个很经常的bug，
 					// 就是每个设备都会产生相同的ANDROID_ID：9774d56d682e549c
-					if (TextUtils.isEmpty(deviceId)
-							|| "9774d56d682e549c".equals(deviceId)) {
-						TelephonyManager telephonyManager = (TelephonyManager) context
-								.getSystemService(Context.TELEPHONY_SERVICE);
+					if (TextUtils.isEmpty(deviceId) || "9774d56d682e549c".equals(deviceId)) {
+						TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 						deviceId = telephonyManager.getDeviceId();
 					}
 					if (TextUtils.isEmpty(deviceId)) {
@@ -90,8 +83,7 @@ public class Tools {
 						deviceId = deviceId.replaceAll("-", "");
 					}
 					// <2014-09-22, SharedPreferences统一，jiagj
-					SharedPreferencesUtils.getInstance().putString(
-							SharedPreferencesKeys.DEVICEID, deviceId);
+					SharedPreferencesUtils.getInstance().putString(SharedPreferencesKeys.DEVICEID, deviceId);
 					SharedPreferencesUtils.getInstance().commitValue();
 				}
 			} catch (Exception e) {
@@ -128,8 +120,7 @@ public class Tools {
 	 * @param os
 	 * @throws Exception
 	 */
-	public static void compress(InputStream is, OutputStream os)
-			throws Exception {
+	public static void compress(InputStream is, OutputStream os) throws Exception {
 		GZIPOutputStream gos = new GZIPOutputStream(os);
 
 		int count;
@@ -212,8 +203,7 @@ public class Tools {
 	 * @param os
 	 * @throws Exception
 	 */
-	public static void decompress(InputStream is, OutputStream os)
-			throws Exception {
+	public static void decompress(InputStream is, OutputStream os) throws Exception {
 		GZIPInputStream gis = new GZIPInputStream(is);
 
 		int count;
@@ -234,8 +224,7 @@ public class Tools {
 	 */
 	public static void dailPhoneNoAsk(Context context) {
 		try {
-			Intent intent = new Intent(Intent.ACTION_DIAL,
-					Uri.parse("tel:4007991555"));
+			Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:4007991555"));
 			context.startActivity(intent);
 		} catch (Exception e) {
 			Utilities.showToast("R.string.err_phone_tip", context);
@@ -247,8 +236,7 @@ public class Tools {
 	 */
 	public static void dailTcPhone(final Context context, final String tel) {
 		try {
-			Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
-					+ tel));
+			Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tel));
 			context.startActivity(intent);
 		} catch (Exception e) {
 			Utilities.showToast("R.string.err_phone_tip", context);
@@ -263,14 +251,11 @@ public class Tools {
 	 */
 	public static String getPsdnIp() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface
-					.getNetworkInterfaces(); en.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf
-						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress()
-							&& inetAddress instanceof Inet4Address) {
+					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
 						// if (!inetAddress.isLoopbackAddress() && inetAddress
 						// instanceof Inet6Address) {
 						return inetAddress.getHostAddress().toString();
@@ -300,7 +285,8 @@ public class Tools {
 				if (addend > 9) {
 					addend -= 9;
 				}
-			} else {
+			}
+			else {
 				addend = digit;
 			}
 			sum += addend;
@@ -360,8 +346,7 @@ public class Tools {
 	 * @return
 	 */
 	public static String stringFilter(String str) {
-		str = str.replaceAll("【", "[").replaceAll("】", "]")
-				.replaceAll("！", "!").replaceAll("：", ":");// 替换中文标号
+		str = str.replaceAll("【", "[").replaceAll("】", "]").replaceAll("！", "!").replaceAll("：", ":");// 替换中文标号
 		String regEx = "[『』]"; // 清除掉特殊字符
 		Pattern p = Pattern.compile(regEx);
 		Matcher m = p.matcher(str);
@@ -431,7 +416,8 @@ public class Tools {
 			for (Token token : tokens) {
 				if (Token.PINYIN == token.type) {
 					sb.append(token.target);
-				} else {
+				}
+				else {
 					sb.append(token.source);
 				}
 			}
@@ -445,8 +431,7 @@ public class Tools {
 	 * @param str
 	 * @param autoCompleteTextView
 	 */
-	public static void removeCitySelectBlankSpace(String str,
-			AutoCompleteTextView autoCompleteTextView) {
+	public static void removeCitySelectBlankSpace(String str, AutoCompleteTextView autoCompleteTextView) {
 		String ss = str.replaceAll(" ", "");
 		if (ss.length() != str.length()) {
 			autoCompleteTextView.setText(ss);
@@ -463,8 +448,7 @@ public class Tools {
 		try {
 			Method method = Build.class.getMethod("hasSmartBar");
 			return method != null;
-		} catch (NoSuchMethodException e) {
-		}
+		} catch (NoSuchMethodException e) {}
 		return false;
 	}
 
@@ -484,8 +468,7 @@ public class Tools {
 			e.printStackTrace();
 		}
 		try {
-			HttpURLConnection conn = (HttpURLConnection) myFileUrl
-					.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
 			conn.setDoInput(true);
 			conn.connect();
 			is = conn.getInputStream();
@@ -508,70 +491,14 @@ public class Tools {
 	// 判断当前设备是否是模拟器。如果返回TRUE，则当前是模拟器，不是返回FALSE
 	public static boolean isEmulator(Context context) {
 		try {
-			TelephonyManager tm = (TelephonyManager) context
-					.getSystemService(Context.TELEPHONY_SERVICE);
+			TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 			String imei = tm.getDeviceId();
 			if (imei != null && imei.equals("000000000000000")) {
 				return true;
 			}
-			return (Build.MODEL.equals("sdk"))
-					|| (Build.MODEL.equals("google_sdk"));
-		} catch (Exception ioe) {
-		}
+			return (Build.MODEL.equals("sdk")) || (Build.MODEL.equals("google_sdk"));
+		} catch (Exception ioe) {}
 		return false;
-	}
-
-	public static void getInstanceCache(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			SystemSaveInstanceCache systemSaveInstanceCache = (SystemSaveInstanceCache) savedInstanceState
-					.getSerializable("SystemSaveInstanceCache");
-			if (systemSaveInstanceCache != null) {
-				// TongchengMainUIActivity
-				// .setHotelAdvList(systemSaveInstanceCache.hotelAdvList);
-				// TongchengMainUIActivity
-				// .setFlightAdvList(systemSaveInstanceCache.flightAdvList);
-				// TongchengMainUIActivity
-				// .setShareInfo(systemSaveInstanceCache.shareInfo);
-				// TongchengMainUIActivity
-				// .setSwitchList(systemSaveInstanceCache.switchList);
-				// TongchengMainUIActivity
-				// .setCopyWritingList(systemSaveInstanceCache.copyWritingList);
-				// systemConfig下的缓存对象
-				SystemConfig.memberId = systemSaveInstanceCache.memberId;
-				SystemConfig.userName = systemSaveInstanceCache.userName;
-				SystemConfig.deviceId = systemSaveInstanceCache.deviceId;
-				// 保存经纬度信息 Aaron Start
-				Utilities.latitude = systemSaveInstanceCache.latitude;
-				Utilities.longitude = systemSaveInstanceCache.longitude;
-				// 保存经纬度信息 Aaron end
-			}
-		}
-	}
-
-	public static void putInstanceCache(Bundle outState) {
-		SystemSaveInstanceCache systemSaveInstanceCache = SystemSaveInstanceCache
-				.getInstance();
-		// 大首页的静态变量的缓存
-		// systemSaveInstanceCache.hotelAdvList = TongchengMainUIActivity
-		// .getHotelAdvList();
-		// systemSaveInstanceCache.flightAdvList = TongchengMainUIActivity
-		// .getFlightAdvList();
-		// systemSaveInstanceCache.shareInfo = TongchengMainUIActivity
-		// .getShareInfo();
-		// systemSaveInstanceCache.switchList = TongchengMainUIActivity
-		// .getSwitchList();
-		// systemSaveInstanceCache.copyWritingList = TongchengMainUIActivity
-		// .getCopyWritingList();
-		// systemConfig下的缓存对象
-		systemSaveInstanceCache.memberId = SystemConfig.memberId;
-		systemSaveInstanceCache.userName = SystemConfig.userName;
-		systemSaveInstanceCache.deviceId = SystemConfig.deviceId;
-		// 保存经纬度信息 Aaron start
-		systemSaveInstanceCache.latitude = Utilities.latitude;
-		systemSaveInstanceCache.longitude = Utilities.longitude;
-		// 保存经纬度信息 Aaron end
-		outState.putSerializable("SystemSaveInstanceCache",
-				systemSaveInstanceCache);
 	}
 
 	/**
@@ -582,13 +509,13 @@ public class Tools {
 	 */
 	public static int getDisplayMetrics(Activity activity) {
 		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-		activity.getWindowManager().getDefaultDisplay()
-				.getMetrics(mDisplayMetrics);
+		activity.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
 		int width = mDisplayMetrics.widthPixels;
 		int imageSizeType = 1;
 		if (width <= 540) {
 			imageSizeType = 2;
-		} else if (width >= 1080) {
+		}
+		else if (width >= 1080) {
 			imageSizeType = 6;
 		}
 		return imageSizeType;
@@ -633,10 +560,8 @@ public class Tools {
 	 * 2014-09-25，jiagj SharedPreference统一，由于多处使用，从SharedPreferenceUtils移到此处
 	 * 保存新的关键字到历史记录中，旧的中已有的移除，新关键字放在最前面
 	 */
-	public static void addSearchKey2Shared(String key, String name,
-			int maxSaveCount) {
-		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils
-				.getInstance();
+	public static void addSearchKey2Shared(String key, String name, int maxSaveCount) {
+		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils.getInstance();
 		String nametemp = shPrefUtils.getString(key, "");
 		if ("".equals(nametemp)) {
 			shPrefUtils.putString(key, name);
@@ -671,8 +596,7 @@ public class Tools {
 	 * 得到保存的关键字历史记录，转为数组列表
 	 */
 	public static ArrayList<String> getSearchKeysArrays(String key) {
-		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils
-				.getInstance();
+		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils.getInstance();
 		String strs = shPrefUtils.getString(key, "");
 		if ("".equals(strs)) {
 			return new ArrayList<String>();
@@ -694,10 +618,8 @@ public class Tools {
 	 */
 	public static boolean isNetworkConnected(Context context) {
 		if (context != null) {
-			ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-					.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo mNetworkInfo = mConnectivityManager
-					.getActiveNetworkInfo();
+			ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
 			if (mNetworkInfo != null) {
 				return mNetworkInfo.isAvailable();
 			}
@@ -717,8 +639,7 @@ public class Tools {
 	 *         defined by {@link ConnectivityManager}
 	 */
 	public static int getConnectedType(Context context) {
-		ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
 		if (mNetworkInfo != null && mNetworkInfo.isAvailable()) {
 			return mNetworkInfo.getType();
@@ -737,12 +658,15 @@ public class Tools {
 			int netWorkType = getConnectedType(context);
 			if (netWorkType == ConnectivityManager.TYPE_WIFI) {
 				return NETWORN_WIFI;
-			} else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
+			}
+			else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
 				return NETWORN_MOBILE;
-			} else {
+			}
+			else {
 				return NETWORN_OTHER;
 			}
-		} else {
+		}
+		else {
 			return NETWORN_NONE;
 		}
 	}
@@ -758,12 +682,15 @@ public class Tools {
 			int netWorkType = getConnectedType(context);
 			if (netWorkType == ConnectivityManager.TYPE_WIFI) {
 				return "wifi";
-			} else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
+			}
+			else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
 				return "3G";
-			} else {
+			}
+			else {
 				return "其他方式";
 			}
-		} else {
+		}
+		else {
 			return "无网络";
 		}
 	}
@@ -779,9 +706,7 @@ public class Tools {
 		if (TextUtils.isEmpty(url)) {
 			return result;
 		}
-		if (url.contains("wsq") || url.contains("webapp/990/")
-				|| url.contains("webapp/10/")
-				|| url.contains("webapp/h5_community/")) {
+		if (url.contains("wsq") || url.contains("webapp/990/") || url.contains("webapp/10/") || url.contains("webapp/h5_community/")) {
 			result = true;
 		}
 		return result;
@@ -794,8 +719,7 @@ public class Tools {
 	 * @param id
 	 * @return
 	 */
-	public static Bitmap decodeImage(Resources res, int id, int requiredWidth,
-			int requiredHeight) {
+	public static Bitmap decodeImage(Resources res, int id, int requiredWidth, int requiredHeight) {
 		try {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
@@ -811,12 +735,9 @@ public class Tools {
 				height_tmp = var;
 			}
 			if (height_tmp > requiredHeight || width_tmp > requiredWidth) {
-				final int heightRatio = (int) Math.floor((float) height_tmp
-						/ (float) requiredHeight);
-				final int widthRatio = (int) Math.floor((float) width_tmp
-						/ (float) requiredWidth);
-				sampleSize = heightRatio < widthRatio ? heightRatio
-						: widthRatio;
+				final int heightRatio = (int) Math.floor((float) height_tmp / (float) requiredHeight);
+				final int widthRatio = (int) Math.floor((float) width_tmp / (float) requiredWidth);
+				sampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
 			}
 
 			// decode with inSampleSize
@@ -842,11 +763,9 @@ public class Tools {
 	public static String GetMD5(String source, String inputCharset) {
 		String s = null;
 		char hexDigits[] = { // 用来将字节转换成 16 进制表示的字符
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-				'e', 'f' };
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 		try {
-			java.security.MessageDigest md = java.security.MessageDigest
-					.getInstance("MD5");
+			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
 			md.update(source.getBytes(inputCharset));
 			byte tmp[] = md.digest(); // MD5 的计算结果是一个 128 位的长整数，
 										// 用字节表示就是 16 个字节
@@ -904,15 +823,15 @@ public class Tools {
 	/**
 	 * 获取数组加密值
 	 */
-	public static String GetMD5ByArray(String[] sortedstr, String key,
-			String inputCharset) {
+	public static String GetMD5ByArray(String[] sortedstr, String key, String inputCharset) {
 		// 构造待md5摘要字符串
 		StringBuilder prestr = new StringBuilder();
 
 		for (int i = 0; i < sortedstr.length; i++) {
 			if (i == sortedstr.length - 1) {
 				prestr.append(sortedstr[i]);
-			} else {
+			}
+			else {
 				prestr.append(sortedstr[i] + "&");
 			}
 		}

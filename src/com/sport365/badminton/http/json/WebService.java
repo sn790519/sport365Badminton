@@ -7,8 +7,6 @@ import com.sport365.badminton.params.SystemConfig;
 /**
  * Every web service should extends this to implement an entire web service.
  * 
- * @author zf08526
- * 
  */
 public abstract class WebService {
 
@@ -46,8 +44,7 @@ public abstract class WebService {
 		}
 
 		if (serviceAction.startsWith("/")) {
-			throw new RuntimeException(
-					"Service action cannot start with '/' for " + serviceAction);
+			throw new RuntimeException("Service action cannot start with '/' for " + serviceAction);
 		}
 
 		return SystemConfig.HostName + getServiceAction();

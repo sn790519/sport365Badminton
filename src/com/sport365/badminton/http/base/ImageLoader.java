@@ -1,8 +1,7 @@
-package com.sport365.badminton.base;
+package com.sport365.badminton.http.base;
 
 /**
  * 图片加载管理类，上层业务和下层图片管理插件的中间层（没有使用Build模式，以防止不在使用毕加索）
- * hl09287@ly.com
  */
 import java.io.File;
 
@@ -16,7 +15,7 @@ import com.sport365.badminton.R;
 import com.sport365.badminton.picasso.Callback;
 import com.sport365.badminton.picasso.Picasso;
 import com.sport365.badminton.picasso.Target;
-import com.sport365.badminton.utils.SportBadmintonApplication;
+import com.sport365.badminton.utils.BaseApplication;
 
 public class ImageLoader {
 
@@ -30,13 +29,11 @@ public class ImageLoader {
 
 	private ImageLoader(Context context) {
 		this.context = context;
-		// Picasso.with(context).setIndicatorsEnabled(true);//显示图片的来源
 	}
 
 	public static synchronized ImageLoader getInstance() {
 		if (imageLoader == null) {
-			imageLoader = new ImageLoader(
-					SportBadmintonApplication.getInstance());
+			imageLoader = new ImageLoader(BaseApplication.getInstance());
 		}
 		return imageLoader;
 	}
@@ -61,8 +58,7 @@ public class ImageLoader {
 	 */
 	public void displayImage(String imageUrl, ImageView imageView, int stub_id) {
 		if (stub_id == STUB_NULL) {
-			Picasso.with(context).load(imageUrl).config(DEFAULT_CONFIG)
-					.into(imageView);
+			Picasso.with(context).load(imageUrl).config(DEFAULT_CONFIG).into(imageView);
 		} else {
 			displayImage(imageUrl, imageView, stub_id, stub_id, DEFAULT_CONFIG);
 		}
@@ -75,13 +71,11 @@ public class ImageLoader {
 	 * @param imageView
 	 * @param config
 	 */
-	public void displayImage(String imageUrl, ImageView imageView,
-			Bitmap.Config config) {
+	public void displayImage(String imageUrl, ImageView imageView, Bitmap.Config config) {
 		displayImage(imageUrl, imageView, STUB_ID, STUB_ID, config);
 	}
 
-	public void displayImage(String imageUrl, ImageView imageView, int stub_id,
-			Bitmap.Config config) {
+	public void displayImage(String imageUrl, ImageView imageView, int stub_id, Bitmap.Config config) {
 		displayImage(imageUrl, imageView, stub_id, stub_id, config);
 	}
 
@@ -93,26 +87,21 @@ public class ImageLoader {
 	 * @param stub_id
 	 * @param isNoFade
 	 */
-	public void displayImage(String imageUrl, ImageView imageView, int stub_id,
-			boolean isNoFade) {
+	public void displayImage(String imageUrl, ImageView imageView, int stub_id, boolean isNoFade) {
 		if (imageUrl == null || "".equals(imageUrl)) {
 			imageView.setScaleType(ScaleType.FIT_XY);
 			imageView.setImageResource(stub_id);
 			return;
 		}
 		if (stub_id == STUB_NULL) {
-			Picasso.with(context).load(imageUrl).config(DEFAULT_CONFIG)
-					.noFade().into(imageView);
+			Picasso.with(context).load(imageUrl).config(DEFAULT_CONFIG).noFade().into(imageView);
 			return;
 		}
 		if (isNoFade) {
-			Picasso.with(context).load(imageUrl).placeholder(stub_id)
-					.error(stub_id).config(DEFAULT_CONFIG).noFade()
-					.into(imageView);
+			Picasso.with(context).load(imageUrl).placeholder(stub_id).error(stub_id).config(DEFAULT_CONFIG).noFade().into(imageView);
 			return;
 		}
-		Picasso.with(context).load(imageUrl).placeholder(stub_id)
-				.error(stub_id).config(DEFAULT_CONFIG).into(imageView);
+		Picasso.with(context).load(imageUrl).placeholder(stub_id).error(stub_id).config(DEFAULT_CONFIG).into(imageView);
 	}
 
 	/**
@@ -123,15 +112,13 @@ public class ImageLoader {
 	 * @param stub_id
 	 * @param stub_id_no_img
 	 */
-	public void displayImage(String imageUrl, ImageView imageView, int stub_id,
-			int stub_id_no_img, Bitmap.Config config) {
+	public void displayImage(String imageUrl, ImageView imageView, int stub_id, int stub_id_no_img, Bitmap.Config config) {
 		if (imageUrl == null || "".equals(imageUrl)) {
 			imageView.setScaleType(ScaleType.FIT_XY);
 			imageView.setImageResource(stub_id);
 			return;
 		}
-		Picasso.with(context).load(imageUrl).placeholder(stub_id)
-				.error(stub_id_no_img).config(config).into(imageView);
+		Picasso.with(context).load(imageUrl).placeholder(stub_id).error(stub_id_no_img).config(config).into(imageView);
 	}
 
 	/**
@@ -143,25 +130,19 @@ public class ImageLoader {
 	 * @param pb_img_loading
 	 * @param handler
 	 */
-	public void displayImage(String imageUrl, ImageView imageView,
-			Callback callback) {
-		displayImage(imageUrl, imageView, STUB_ID, STUB_ID, callback,
-				DEFAULT_CONFIG);
+	public void displayImage(String imageUrl, ImageView imageView, Callback callback) {
+		displayImage(imageUrl, imageView, STUB_ID, STUB_ID, callback, DEFAULT_CONFIG);
 	}
 
-	public void displayImage(String imageUrl, ImageView imageView,
-			Callback callback, int stub_id) {
-		displayImage(imageUrl, imageView, stub_id, stub_id, callback,
-				DEFAULT_CONFIG);
+	public void displayImage(String imageUrl, ImageView imageView, Callback callback, int stub_id) {
+		displayImage(imageUrl, imageView, stub_id, stub_id, callback, DEFAULT_CONFIG);
 	}
 
-	public void displayImage(String imageUrl, ImageView imageView,
-			Callback callback, Config config) {
+	public void displayImage(String imageUrl, ImageView imageView, Callback callback, Config config) {
 		displayImage(imageUrl, imageView, STUB_ID, STUB_ID, callback, config);
 	}
 
-	public void displayImage(String imageUrl, ImageView imageView,
-			Callback callback, int stub_id, Config config) {
+	public void displayImage(String imageUrl, ImageView imageView, Callback callback, int stub_id, Config config) {
 		displayImage(imageUrl, imageView, stub_id, stub_id, callback, config);
 	}
 
@@ -174,15 +155,13 @@ public class ImageLoader {
 	 * @param stub_id_no_img
 	 * @param callback
 	 */
-	public void displayImage(String imageUrl, ImageView imageView, int stub_id,
-			int stub_id_no_img, Callback callback, Config config) {
+	public void displayImage(String imageUrl, ImageView imageView, int stub_id, int stub_id_no_img, Callback callback, Config config) {
 		if (imageUrl == null || "".equals(imageUrl)) {
 			imageView.setScaleType(ScaleType.FIT_XY);
 			imageView.setImageResource(stub_id);
 			return;
 		}
-		Picasso.with(context).load(imageUrl).placeholder(stub_id)
-				.error(stub_id_no_img).config(config).into(imageView, callback);
+		Picasso.with(context).load(imageUrl).placeholder(stub_id).error(stub_id_no_img).config(config).into(imageView, callback);
 
 	}
 

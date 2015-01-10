@@ -3,9 +3,8 @@ package com.sport365.badminton.http.json.res;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import com.sport365.badminton.base.JsonHelper;
+import com.sport365.badminton.http.base.JsonHelper;
 import com.sport365.badminton.http.json.JsonBean;
-
 
 /**
  * JSON format class of Response.
@@ -25,12 +24,11 @@ import com.sport365.badminton.http.json.JsonBean;
  * }
  * </pre>
  * 
- * @author zf08526
  * @param <T>
  *            Class type of "Body" extends "BaseResBody" in "Response".
  */
 public class ResponseContainer<T> extends JsonBean {
-	private ResponseContent<T> response = new ResponseContent<T>();
+	private ResponseContent<T>	response	= new ResponseContent<T>();
 
 	public ResponseContent<T> getResponse() {
 		return response;
@@ -53,12 +51,6 @@ public class ResponseContainer<T> extends JsonBean {
 		Type objectType = buildType(ResponseContainer.class, bodyClass);
 		return JsonHelper.fromJson(json, objectType);
 	}
-
-	/*
-	 * public String toJson(Class<T> classType) { Gson gson = new Gson(); Type
-	 * objectType = buildType(Response.class, classType); return
-	 * gson.toJson(this, objectType); }
-	 */
 
 	private ParameterizedType buildType(final Class<?> raw, final Type... args) {
 		return new ParameterizedType() {

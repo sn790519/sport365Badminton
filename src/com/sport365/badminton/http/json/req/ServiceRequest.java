@@ -1,14 +1,11 @@
 package com.sport365.badminton.http.json.req;
 
-import java.util.HashMap;
-
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.sport365.badminton.base.HttpTaskHelper;
-import com.sport365.badminton.base.JsonHelper;
 import com.sport365.badminton.http.HttpEngine;
+import com.sport365.badminton.http.base.HttpTaskHelper;
+import com.sport365.badminton.http.base.JsonHelper;
 import com.sport365.badminton.http.json.CacheOptions;
 import com.sport365.badminton.http.json.WebService;
 import com.sport365.badminton.params.SystemConfig;
@@ -17,7 +14,6 @@ import com.sport365.badminton.utils.Tools;
 /**
  * A container contains request JSON, URL of web service and cache options.
  * 
- * @author zf08526
  */
 public final class ServiceRequest {
 	public static final String LOG_TAG = HttpEngine.class.getSimpleName();
@@ -26,8 +22,7 @@ public final class ServiceRequest {
 	private String serviceUrl = "";
 	private String serviceName = "";
 	private boolean showPromptMessage = false;
-	private CacheOptions cacheOptions = CacheOptions
-			.buildCacheOptions(CacheOptions.NO_CACHE);
+	private CacheOptions cacheOptions = CacheOptions.buildCacheOptions(CacheOptions.NO_CACHE);
 	private String cacheName = "";
 
 	/**
@@ -41,8 +36,7 @@ public final class ServiceRequest {
 	 * @param body
 	 *            business web service's body
 	 */
-	public <T extends WebService> ServiceRequest(Context context,
-			Class<T> service, Object body) {
+	public <T extends WebService> ServiceRequest(Context context, Class<T> service, Object body) {
 		if (service == null || body == null) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new RuntimeException("service or body cannot be empty.");
@@ -51,8 +45,7 @@ public final class ServiceRequest {
 			try {
 				T request = service.newInstance();
 				this.serviceName = request.getServiceName();
-				this.requestJson = HttpTaskHelper.convertObjectToJson(
-						serviceName, body);
+				this.requestJson = HttpTaskHelper.convertObjectToJson(serviceName, body);
 				this.serviceUrl = request.getServiceUrl();
 				this.showPromptMessage = request.isShowPromptMessage();
 				this.cacheOptions = request.getCacheOptions();
@@ -79,8 +72,7 @@ public final class ServiceRequest {
 
 			try {
 				this.serviceName = service.getServiceName();
-				this.requestJson = HttpTaskHelper.convertObjectToJson(
-						serviceName, body);
+				this.requestJson = HttpTaskHelper.convertObjectToJson(serviceName, body);
 				this.serviceUrl = service.getServiceUrl();
 				this.showPromptMessage = service.isShowPromptMessage();
 				this.cacheOptions = service.getCacheOptions();

@@ -1,4 +1,4 @@
-package com.sport365.badminton.base;
+package com.sport365.badminton.http.base;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,12 +13,6 @@ import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.params.SystemConfig;
 import com.squareup.okhttp.Request;
 
-/**
- * Fragement基类，项目中的Fragemnt均需继承这个类. 以后相关Fragement的需求可以在基类中添加，方便日后维护
- * 
- * @author Ruyan.Zhao 6045
- * @since tongcheng_client_5.2
- */
 public class BaseFragment extends Fragment implements OnClickListener {
 
 	private HttpTaskHelper mHttpTaskHelper;
@@ -26,11 +20,9 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		alertDialog = new LoadingDialog(this.getActivity());
 		mHttpTaskHelper = new HttpTaskHelper(getActivity());
-
 	}
 
 	@Override
@@ -87,8 +79,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	 * @param requestCall
 	 *            与dialog绑定的请求
 	 */
-	public void showLoadingDialog(int resId, boolean cancelable,
-			Request requestCall) {
+	public void showLoadingDialog(int resId, boolean cancelable, Request requestCall) {
 		String title;
 		if (null == getActivity()) {
 			return;
@@ -119,15 +110,14 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		alertDialog.setLoadingText(title);
 		if (cancelable) {
 			final Request tmpRequest = requestCall;
-			alertDialog
-					.setOnDismissListener(new DialogInterface.OnDismissListener() {
-						@Override
-						public void onDismiss(DialogInterface dialog) {
-							if (null != mHttpTaskHelper && null != tmpRequest) {
-								mHttpTaskHelper.cancelRequest(tmpRequest);
-							}
-						}
-					});
+			alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					if (null != mHttpTaskHelper && null != tmpRequest) {
+						mHttpTaskHelper.cancelRequest(tmpRequest);
+					}
+				}
+			});
 		} else {
 			alertDialog.setOnDismissListener(null);
 		}
@@ -156,8 +146,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	 *            response callback
 	 * @return real request，use for cancel since it will be removed later.
 	 */
-	public Request sendRequestWithNoDialog(ServiceRequest request,
-			final IRequestProxyListener listener) {
+	public Request sendRequestWithNoDialog(ServiceRequest request, final IRequestProxyListener listener) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
@@ -168,16 +157,14 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 		return mHttpTaskHelper.sendRequest(request, new IRequestListener() {
 			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse,
-					HttpTaskHelper.RequestInfo requestInfo) {
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != listener) {
 					listener.onSuccess(jsonResponse, requestInfo);
 				}
 			}
 
 			@Override
-			public void onError(ResponseContent.Header header,
-					HttpTaskHelper.RequestInfo requestInfo) {
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != listener) {
 					listener.onError(header, requestInfo);
 				}
@@ -200,8 +187,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	 * {@link IRequestProxyCallback#onSuccess(com.tongcheng.android.base.HttpTaskHelper.JsonResponse, com.tongcheng.android.base.HttpTaskHelper.RequestInfo)}
 	 * is must.
 	 */
-	public Request sendRequestWithNoDialog(ServiceRequest request,
-			final IRequestProxyCallback callback) {
+	public Request sendRequestWithNoDialog(ServiceRequest request, final IRequestProxyCallback callback) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
@@ -212,16 +198,14 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 		return mHttpTaskHelper.sendRequest(request, new IRequestListener() {
 			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse,
-					HttpTaskHelper.RequestInfo requestInfo) {
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != callback) {
 					callback.onSuccess(jsonResponse, requestInfo);
 				}
 			}
 
 			@Override
-			public void onError(ResponseContent.Header header,
-					HttpTaskHelper.RequestInfo requestInfo) {
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != callback) {
 					callback.onError(header, requestInfo);
 				}
@@ -247,8 +231,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	 *            response callback
 	 * @return real request，use for cancel
 	 */
-	public Request sendRequestWithDialog(ServiceRequest request,
-			DialogConfig dialogConfig, final IRequestProxyListener listener) {
+	public Request sendRequestWithDialog(ServiceRequest request, DialogConfig dialogConfig, final IRequestProxyListener listener) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
@@ -258,38 +241,32 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		}
 		if (null == listener) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
-				throw new IllegalArgumentException(
-						"IRequestPoxyListener == null");
+				throw new IllegalArgumentException("IRequestPoxyListener == null");
 			} else {
 				return null;
 			}
 		}
 
 		Request realRequest = mHttpTaskHelper.createConnectionRequest(request);
-		showLoadingDialog(dialogConfig.loadingMessage(),
-				dialogConfig.cancelable(), realRequest);
-		mHttpTaskHelper.sendRequest(request, realRequest,
-				new IRequestListener() {
-					@Override
-					public void onSuccess(
-							HttpTaskHelper.JsonResponse jsonResponse,
-							HttpTaskHelper.RequestInfo requestInfo) {
-						dismissLoadingDialog();
-						listener.onSuccess(jsonResponse, requestInfo);
-					}
+		showLoadingDialog(dialogConfig.loadingMessage(), dialogConfig.cancelable(), realRequest);
+		mHttpTaskHelper.sendRequest(request, realRequest, new IRequestListener() {
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				dismissLoadingDialog();
+				listener.onSuccess(jsonResponse, requestInfo);
+			}
 
-					@Override
-					public void onError(ResponseContent.Header header,
-							HttpTaskHelper.RequestInfo requestInfo) {
-						dismissLoadingDialog();
-						listener.onError(header, requestInfo);
-					}
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				dismissLoadingDialog();
+				listener.onError(header, requestInfo);
+			}
 
-					@Override
-					public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
-						listener.onCanceled(cancelInfo);
-					}
-				});
+			@Override
+			public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
+				listener.onCanceled(cancelInfo);
+			}
+		});
 		return realRequest;
 	}
 
@@ -301,8 +278,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	 * {@link IRequestProxyCallback#onSuccess(com.tongcheng.android.base.HttpTaskHelper.JsonResponse, com.tongcheng.android.base.HttpTaskHelper.RequestInfo)}
 	 * is must.
 	 */
-	public Request sendRequestWithDialog(ServiceRequest request,
-			DialogConfig dialogConfig, final IRequestProxyCallback callback) {
+	public Request sendRequestWithDialog(ServiceRequest request, DialogConfig dialogConfig, final IRequestProxyCallback callback) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
@@ -312,38 +288,32 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		}
 		if (null == callback) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
-				throw new IllegalArgumentException(
-						"IRequestPoxyListener == null");
+				throw new IllegalArgumentException("IRequestPoxyListener == null");
 			} else {
 				return null;
 			}
 		}
 
 		Request realRequest = mHttpTaskHelper.createConnectionRequest(request);
-		showLoadingDialog(dialogConfig.loadingMessage(),
-				dialogConfig.cancelable(), realRequest);
-		mHttpTaskHelper.sendRequest(request, realRequest,
-				new IRequestListener() {
-					@Override
-					public void onSuccess(
-							HttpTaskHelper.JsonResponse jsonResponse,
-							HttpTaskHelper.RequestInfo requestInfo) {
-						dismissLoadingDialog();
-						callback.onSuccess(jsonResponse, requestInfo);
-					}
+		showLoadingDialog(dialogConfig.loadingMessage(), dialogConfig.cancelable(), realRequest);
+		mHttpTaskHelper.sendRequest(request, realRequest, new IRequestListener() {
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				dismissLoadingDialog();
+				callback.onSuccess(jsonResponse, requestInfo);
+			}
 
-					@Override
-					public void onError(ResponseContent.Header header,
-							HttpTaskHelper.RequestInfo requestInfo) {
-						dismissLoadingDialog();
-						callback.onError(header, requestInfo);
-					}
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				dismissLoadingDialog();
+				callback.onError(header, requestInfo);
+			}
 
-					@Override
-					public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
-						callback.onCanceled(cancelInfo);
-					}
-				});
+			@Override
+			public void onCanceled(HttpTaskHelper.CancelInfo cancelInfo) {
+				callback.onCanceled(cancelInfo);
+			}
+		});
 		return realRequest;
 	}
 

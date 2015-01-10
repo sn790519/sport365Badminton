@@ -1,7 +1,4 @@
-/**
- * Copyright (C) 2006-2014 TongCheng All rights reserved
- */
-package com.sport365.badminton.base;
+package com.sport365.badminton.http.base;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -35,9 +32,6 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-/**
- * @author wh09507 2014-11-25 16:38 use for http json post request
- */
 public class HttpTaskHelper {
 	public static final String LOG_TAG = HttpEngine.class.getSimpleName();
 
@@ -89,8 +83,7 @@ public class HttpTaskHelper {
 	 * @param listener
 	 *            response callback. return realRequest
 	 */
-	public Request sendRequest(ServiceRequest serviceRequest,
-			IRequestListener listener) {
+	public Request sendRequest(ServiceRequest serviceRequest, IRequestListener listener) {
 		Request realRequest = createConnectionRequest(serviceRequest);
 		sendRequest(serviceRequest, realRequest, listener);
 		return realRequest;
@@ -106,13 +99,11 @@ public class HttpTaskHelper {
 	 * @param listener
 	 *            response callback.
 	 */
-	public void sendRequest(ServiceRequest serviceRequest, Request realRequest,
-			IRequestListener listener) {
+	public void sendRequest(ServiceRequest serviceRequest, Request realRequest, IRequestListener listener) {
 
 		if (null == serviceRequest || null == realRequest || null == listener) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
-				throw new RuntimeException(
-						"serviceRequest or realRequest 、listener cannot be null.");
+				throw new RuntimeException("serviceRequest or realRequest 、listener cannot be null.");
 			} else {
 				return;
 			}
@@ -137,18 +128,15 @@ public class HttpTaskHelper {
 				@Override
 				public void run() {
 					// 允许离线时，读取保存的数据
-					readDataFromCache(tmpServiceRequest, tmpFileName,
-							tmpIRequestListener, tmpKey);
+					readDataFromCache(tmpServiceRequest, tmpFileName, tmpIRequestListener, tmpKey);
 				}
 			});
 			thread.start();
 		} else {
 			synchronized (mLock) {
 
-				Call call = HttpEngine.getInstance().createRequestCall(
-						realRequest);
-				boolean success = readDataFromNetWork(serviceRequest, fileName,
-						call, listener);
+				Call call = HttpEngine.getInstance().createRequestCall(realRequest);
+				boolean success = readDataFromNetWork(serviceRequest, fileName, call, listener);
 
 				// marked the request
 				if (success && !TextUtils.isEmpty(key)) {
@@ -175,8 +163,7 @@ public class HttpTaskHelper {
 
 			HashMap<String, String> headers = createRequestHeaders(jsonData);
 
-			request = HttpEngine.getInstance().createRequest(url, jsonData,
-					headers);
+			request = HttpEngine.getInstance().createRequest(url, jsonData, headers);
 			return request;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -203,22 +190,18 @@ public class HttpTaskHelper {
 	 * @param serviceRequest
 	 * @return serviceRequest
 	 */
-	private ServiceRequest validateAndReturnRequest(
-			ServiceRequest serviceRequest) {
+	private ServiceRequest validateAndReturnRequest(ServiceRequest serviceRequest) {
 		if (SystemConfig.IS_OPEN_DEBUG) {
 			if (serviceRequest == null) {
-				throw new RuntimeException(
-						"Http request parameter cannot be null.");
+				throw new RuntimeException("Http request parameter cannot be null.");
 			}
 
 			if (TextUtils.isEmpty(serviceRequest.getServiceUrl())) {
-				throw new RuntimeException(
-						"Service url cannot be empty or null.");
+				throw new RuntimeException("Service url cannot be empty or null.");
 			}
 
 			if (TextUtils.isEmpty(serviceRequest.getRequestJson())) {
-				throw new RuntimeException(
-						"Request json cannot be empty or null.");
+				throw new RuntimeException("Request json cannot be empty or null.");
 			}
 		}
 
@@ -237,8 +220,7 @@ public class HttpTaskHelper {
 	 * @param requestKey
 	 *            requestKey.
 	 */
-	private void readDataFromCache(ServiceRequest serviceRequest,
-			String fileName, IRequestListener listener, String requestKey) {
+	private void readDataFromCache(ServiceRequest serviceRequest, String fileName, IRequestListener listener, String requestKey) {
 		String content = "";
 		String errorMessage = "服务器暂无响应，请稍后再试。";
 		try {
@@ -260,9 +242,7 @@ public class HttpTaskHelper {
 			if (null != content) {
 				onSuccess(listener, serviceRequest, content, true, requestKey);
 			} else {
-				onError(listener, serviceRequest, RetCodes.IO_EXCEPTION,
-						RESPONSE_CODE_ERROR_RESULT, errorMessage, true,
-						requestKey);
+				onError(listener, serviceRequest, RetCodes.IO_EXCEPTION, RESPONSE_CODE_ERROR_RESULT, errorMessage, true, requestKey);
 			}
 		}
 	}
@@ -279,16 +259,12 @@ public class HttpTaskHelper {
 	 * @param requestListener
 	 *            response call back.
 	 */
-	private boolean readDataFromNetWork(ServiceRequest serviceRequest,
-			String fileName, Call requestCall, IRequestListener requestListener) {
+	private boolean readDataFromNetWork(ServiceRequest serviceRequest, String fileName, Call requestCall, IRequestListener requestListener) {
 		boolean successSendRequest = false;
 		String errorMessage = "";
 		try {
 
-			HttpEngine.getInstance().getConnectionResponseAsync(
-					requestCall,
-					new ResponseCallBack(serviceRequest, fileName,
-							requestListener));
+			HttpEngine.getInstance().getConnectionResponseAsync(requestCall, new ResponseCallBack(serviceRequest, fileName, requestListener));
 			successSendRequest = true;
 		} catch (BizException e) {
 			e.printStackTrace();
@@ -299,8 +275,7 @@ public class HttpTaskHelper {
 			errorMessage = "服务器暂无响应，请稍后再试。";
 		} finally {
 			if (!TextUtils.isEmpty(errorMessage)) {
-				onError(requestListener, serviceRequest, RetCodes.IO_EXCEPTION,
-						RESPONSE_CODE_ERROR_RESULT, errorMessage, false, null);
+				onError(requestListener, serviceRequest, RetCodes.IO_EXCEPTION, RESPONSE_CODE_ERROR_RESULT, errorMessage, false, null);
 			}
 			return successSendRequest;
 		}
@@ -322,8 +297,7 @@ public class HttpTaskHelper {
 					return;
 				}
 				// request already canceled just return
-				if (!mRequestCallMap.containsKey(key)
-						&& !mRequestListenerHashMap.containsKey(key)) {
+				if (!mRequestCallMap.containsKey(key) && !mRequestListenerHashMap.containsKey(key)) {
 					return;
 				}
 				Call call = mRequestCallMap.get(key);
@@ -382,8 +356,7 @@ public class HttpTaskHelper {
 		private String mFileName;
 		private IRequestListener mListener;
 
-		private ResponseCallBack(ServiceRequest serviceRequest,
-				String cacheFileName, IRequestListener listener) {
+		private ResponseCallBack(ServiceRequest serviceRequest, String cacheFileName, IRequestListener listener) {
 			mServiceRequest = serviceRequest;
 			mFileName = cacheFileName;
 			mListener = listener;
@@ -401,8 +374,7 @@ public class HttpTaskHelper {
 
 					if (null != request && (request.tag() instanceof String)) {
 						key = (String) request.tag();
-						if (null != mRequestCallMap
-								&& mRequestCallMap.containsKey(key)) {
+						if (null != mRequestCallMap && mRequestCallMap.containsKey(key)) {
 							mRequestCallMap.remove(key);
 							mRequestListenerHashMap.remove(key);
 						} else {
@@ -420,10 +392,7 @@ public class HttpTaskHelper {
 						throw new BizException(errCode, errorMessage, null);
 					} catch (BizException e1) {
 						e1.printStackTrace();
-						onError(mListener, mServiceRequest,
-								String.valueOf(errCode),
-								RESPONSE_CODE_ERROR_RESULT, errorMessage,
-								false, key);
+						onError(mListener, mServiceRequest, String.valueOf(errCode), RESPONSE_CODE_ERROR_RESULT, errorMessage, false, key);
 					}
 
 				}
@@ -448,11 +417,9 @@ public class HttpTaskHelper {
 						return;
 					}
 
-					if (null != response.request()
-							&& (response.request().tag() instanceof String)) {
+					if (null != response.request() && (response.request().tag() instanceof String)) {
 						key = (String) response.request().tag();
-						if (null != mRequestCallMap
-								&& mRequestCallMap.containsKey(key)) {
+						if (null != mRequestCallMap && mRequestCallMap.containsKey(key)) {
 							mRequestCallMap.remove(key);
 							mRequestListenerHashMap.remove(key);
 						} else {
@@ -476,54 +443,37 @@ public class HttpTaskHelper {
 							}
 
 							// 解析json数据
-							JSONObject responseContainerJson = new JSONObject(
-									content);
-							JSONObject responseJson = responseContainerJson
-									.optJSONObject("response");
+							JSONObject responseContainerJson = new JSONObject(content);
+							JSONObject responseJson = responseContainerJson.optJSONObject("response");
 							if (responseJson == null) {
-								throw new BizException(
-										"invalid response json for have no 'response' node.",
-										new Exception());
+								throw new BizException("invalid response json for have no 'response' node.", new Exception());
 							}
 
-							JSONObject headerJson = responseJson
-									.optJSONObject("header");
+							JSONObject headerJson = responseJson.optJSONObject("header");
 							if (headerJson == null) {
-								throw new BizException(
-										"invalid response json for have no 'header' node.",
-										new Exception());
+								throw new BizException("invalid response json for have no 'header' node.", new Exception());
 							}
 
-							String rspCode = headerJson
-									.optString("rspCode", "");
-							String rspType = headerJson
-									.optString("rspType", "");
-							String rspDesc = headerJson
-									.optString("rspDesc", "");
+							String rspCode = headerJson.optString("rspCode", "");
+							String rspType = headerJson.optString("rspType", "");
+							String rspDesc = headerJson.optString("rspDesc", "");
 
-							boolean hasResult = (CONNECTION_SUCCESS_RSP_TYPE)
-									.equals(rspType)
-									&& (CONNECTION_SUCCESS_RSP_CODE)
-											.equals(rspCode);
+							boolean hasResult = (CONNECTION_SUCCESS_RSP_TYPE).equals(rspType) && (CONNECTION_SUCCESS_RSP_CODE).equals(rspCode);
 
 							// 解析数据
-							boolean canSaveCache = ConfigCache
-									.canSaveFileCache(mFileName) && hasResult;
+							boolean canSaveCache = ConfigCache.canSaveFileCache(mFileName) && hasResult;
 
 							if (canSaveCache) {
 								saveResponseData(content, mFileName);
 							}
 
 							if (!hasResult) {
-								onError(mListener, mServiceRequest, rspCode,
-										rspType, rspDesc, false, key, content);
+								onError(mListener, mServiceRequest, rspCode, rspType, rspDesc, false, key, content);
 							} else {
-								onSuccess(mListener, mServiceRequest, content,
-										false, key);
+								onSuccess(mListener, mServiceRequest, content, false, key);
 							}
 						} else {// 连接服务器失败
-							throw new BizException(response.code(),
-									"服务器暂无响应，请稍后再试。", null);
+							throw new BizException(response.code(), "服务器暂无响应，请稍后再试。", null);
 						}
 
 					} catch (JSONException e) {
@@ -539,9 +489,7 @@ public class HttpTaskHelper {
 						errorMessage = "服务器暂无响应，请稍后再试。";
 					} finally {
 						if (!TextUtils.isEmpty(errorMessage)) {
-							onError(mListener, mServiceRequest,
-									String.valueOf(errCode), errRspType,
-									errorMessage, false, key);
+							onError(mListener, mServiceRequest, String.valueOf(errCode), errRspType, errorMessage, false, key);
 						}
 					}
 				}
@@ -561,8 +509,7 @@ public class HttpTaskHelper {
 	 *            cached data fileName.
 	 * @throws BizException
 	 */
-	private void saveResponseData(String content, String fileName)
-			throws BizException {
+	private void saveResponseData(String content, String fileName) throws BizException {
 
 		if (content.length() < 100) {
 			content = content.replace(",\"body\":\"\"", "");
@@ -575,17 +522,13 @@ public class HttpTaskHelper {
 
 	}
 
-	private void onSuccess(final IRequestListener listener,
-			final ServiceRequest serviceRequest, final String jsonResponse,
-			final boolean fromCache, final String requestKey) {
+	private void onSuccess(final IRequestListener listener, final ServiceRequest serviceRequest, final String jsonResponse, final boolean fromCache, final String requestKey) {
 		try {
 			mUiHandler.post(new Runnable() {
 				@Override
 				public void run() {
-					JsonResponse response = new JsonResponse(serviceRequest
-							.getRequestJson(), jsonResponse);
-					RequestInfo requestInfo = new RequestInfo(serviceRequest,
-							requestKey, fromCache);
+					JsonResponse response = new JsonResponse(serviceRequest.getRequestJson(), jsonResponse);
+					RequestInfo requestInfo = new RequestInfo(serviceRequest, requestKey, fromCache);
 					if (null != listener) {
 						listener.onSuccess(response, requestInfo);
 					}
@@ -596,23 +539,16 @@ public class HttpTaskHelper {
 		}
 	}
 
-	private void onError(final IRequestListener listener,
-			final ServiceRequest serviceRequest, final String rspCode,
-			final String rspType, final String message,
-			final boolean fromCache, final String requestKey) {
-		onError(listener, serviceRequest, rspCode, rspType, message, fromCache,
-				requestKey, null);
+	private void onError(final IRequestListener listener, final ServiceRequest serviceRequest, final String rspCode, final String rspType, final String message, final boolean fromCache,
+			final String requestKey) {
+		onError(listener, serviceRequest, rspCode, rspType, message, fromCache, requestKey, null);
 	}
 
-	private void onError(final IRequestListener listener,
-			final ServiceRequest serviceRequest, final String rspCode,
-			final String rspType, final String message,
-			final boolean fromCache, final String requestKey,
-			final String jsonContent) {
+	private void onError(final IRequestListener listener, final ServiceRequest serviceRequest, final String rspCode, final String rspType, final String message, final boolean fromCache,
+			final String requestKey, final String jsonContent) {
 
 		try {
-			final boolean showPromptMessage = serviceRequest
-					.isShowPromptMessage();
+			final boolean showPromptMessage = serviceRequest.isShowPromptMessage();
 			mUiHandler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -623,11 +559,9 @@ public class HttpTaskHelper {
 					header.setRspCode(rspCode);
 					header.setRspType(rspType);
 					header.setRspDesc(message);
-					RequestInfo requestInfo = new RequestInfo(serviceRequest,
-							requestKey, fromCache);
+					RequestInfo requestInfo = new RequestInfo(serviceRequest, requestKey, fromCache);
 					if (!TextUtils.isEmpty(jsonContent)) {
-						JsonResponse response = new JsonResponse(serviceRequest
-								.getRequestJson(), jsonContent);
+						JsonResponse response = new JsonResponse(serviceRequest.getRequestJson(), jsonContent);
 						requestInfo.setJsonResponse(response);
 					}
 					if (null != listener) {
@@ -683,10 +617,8 @@ public class HttpTaskHelper {
 		public <T> T getRequestContent(Class<T> reqBodyClass) {
 			try {
 				JSONObject requestJosn = new JSONObject(request);
-				JSONObject requestContentJson = requestJosn
-						.getJSONObject(TC_REQUEST);
-				JSONObject bodyJson = requestContentJson
-						.getJSONObject(TC_REQUEST_BODY);
+				JSONObject requestContentJson = requestJosn.getJSONObject(TC_REQUEST);
+				JSONObject bodyJson = requestContentJson.getJSONObject(TC_REQUEST_BODY);
 				bodyJson.remove(TC_REQUEST_CLIENT_INFO);
 				return JsonHelper.fromJson(bodyJson.toString(), reqBodyClass);
 			} catch (Exception e) {
@@ -707,8 +639,7 @@ public class HttpTaskHelper {
 
 		public <T> ResponseContent<T> getResponseContent(Class<T> resBodyClass) {
 			try {
-				return new ResponseContainer<T>().fromJson(response,
-						resBodyClass).getResponse();
+				return new ResponseContainer<T>().fromJson(response, resBodyClass).getResponse();
 			} catch (Exception e) {
 				if (SystemConfig.IS_OPEN_DEBUG) {
 					throw new RuntimeException("getResponseContent error");
@@ -726,8 +657,7 @@ public class HttpTaskHelper {
 		// use for no result response case
 		private JsonResponse jsonResponse;
 
-		public RequestInfo(ServiceRequest serviceRequest, String requestKey,
-				boolean formCache) {
+		public RequestInfo(ServiceRequest serviceRequest, String requestKey, boolean formCache) {
 			this.serviceRequest = serviceRequest;
 			this.requestKey = requestKey;
 			this.formCache = formCache;
@@ -801,28 +731,6 @@ public class HttpTaskHelper {
 
 		public void setHeader(ResponseContent.Header header) {
 			this.header = header;
-		}
-	}
-
-	/**
-	 * show dialPhone dialog
-	 * 
-	 * @param activity
-	 * @param headerMsg
-	 */
-	public static void showDialPhoneDialog(Activity activity, String headerMsg) {
-		try {
-			if (Tools.getNetworkState(activity) == Tools.NETWORN_NONE) {
-				Utilities
-						.displayDialPhoneDialog(
-								activity,
-								activity.getResources().getString(
-										R.string.show_errnetwork_tip));
-			} else {
-				Utilities.displayDialPhoneDialog(activity, headerMsg);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

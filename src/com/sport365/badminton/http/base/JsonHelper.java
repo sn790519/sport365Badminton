@@ -1,4 +1,4 @@
-package com.sport365.badminton.base;
+package com.sport365.badminton.http.base;
 
 import java.lang.reflect.Type;
 

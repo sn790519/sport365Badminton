@@ -9,7 +9,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.sport365.badminton.base.BizException;
+import com.sport365.badminton.http.base.BizException;
 import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.Tools;
 import com.sport365.badminton.utils.Utilities;
@@ -25,8 +25,7 @@ public class HttpEngine {
 
 	public static final String LOG_TAG = HttpEngine.class.getSimpleName();
 
-	public static final MediaType JSON = MediaType
-			.parse("application/json;charset=utf-8");
+	public static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
 
 	public static final String REQUEST_STORE_KEY_PRE = "TC-REQUEST-KEY-";
 
@@ -41,10 +40,8 @@ public class HttpEngine {
 
 	private HttpEngine() {
 		mOkHttpClient = new OkHttpClient();
-		mOkHttpClient.setConnectTimeout(timeOut,
-				java.util.concurrent.TimeUnit.MILLISECONDS);
-		mOkHttpClient.setReadTimeout(timeOut,
-				java.util.concurrent.TimeUnit.MILLISECONDS);
+		mOkHttpClient.setConnectTimeout(timeOut, java.util.concurrent.TimeUnit.MILLISECONDS);
+		mOkHttpClient.setReadTimeout(timeOut, java.util.concurrent.TimeUnit.MILLISECONDS);
 		mOkHttpClient.setFollowRedirects(true);
 	}
 
@@ -63,8 +60,7 @@ public class HttpEngine {
 		return instance;
 	}
 
-	private static String getFileName(String funName,
-			HashMap<String, Object> param) {
+	private static String getFileName(String funName, HashMap<String, Object> param) {
 		String fileName = "";
 		fileName = funName;
 		for (String o : param.keySet()) {
@@ -98,8 +94,7 @@ public class HttpEngine {
 	 * @throws com.tongcheng.android.base.BizException
 	 *             错误处理异常，用于判断请求成功以及自定义errorCode
 	 */
-	public void getConnectionResponseAsync(Call requestCall, Callback callback)
-			throws BizException {
+	public void getConnectionResponseAsync(Call requestCall, Callback callback) throws BizException {
 
 		try {
 
@@ -125,8 +120,7 @@ public class HttpEngine {
 	 * @param <T1>
 	 * @return
 	 */
-	public <T1> String getRequestCacheFileName(String requestServerName,
-			boolean useCache, T1 m) {
+	public <T1> String getRequestCacheFileName(String requestServerName, boolean useCache, T1 m) {
 		HashMap<String, Object> map = changeTtoMap(m);
 		return useCache ? getFileName(requestServerName, map) : "";
 	}
@@ -142,8 +136,7 @@ public class HttpEngine {
 	 *            请求的headers，可定制
 	 * @return
 	 */
-	public Request createRequest(String url, String jsonData,
-			HashMap<String, String> headers) {
+	public Request createRequest(String url, String jsonData, HashMap<String, String> headers) {
 		if (TextUtils.isEmpty(jsonData)) {
 			return null;
 		}
@@ -151,9 +144,7 @@ public class HttpEngine {
 		// okhttp 缓存需要jdk1.7支持，在此不使用缓存
 		Request request;
 		RequestBody body = RequestBody.create(JSON, jsonData);
-		Request.Builder builder = new Request.Builder()
-				.cacheControl(CacheControl.FORCE_NETWORK).url(url)
-				.tag(createRequestTag()).post(body);
+		Request.Builder builder = new Request.Builder().cacheControl(CacheControl.FORCE_NETWORK).url(url).tag(createRequestTag()).post(body);
 
 		// add request header
 		if (null != headers && headers.size() > 0) {

@@ -1,4 +1,4 @@
-package com.sport365.badminton.http.base;
+package com.sport365.badminton.http.entity;
 
 import java.util.HashMap;
 import java.util.Map;

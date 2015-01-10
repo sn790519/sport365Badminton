@@ -1,6 +1,5 @@
 package com.sport365.badminton.http.json.res;
 
-
 import com.sport365.badminton.http.json.JsonBean;
 
 /**
@@ -26,17 +25,15 @@ import com.sport365.badminton.http.json.JsonBean;
  * }
  * </pre>
  * 
- * @author zf08526
- * 
  */
 public class ResponseContent<T> extends JsonBean {
-	private Header header;
-	private T body;
-	
+	private Header	header;
+	private T		body;
+
 	public static final class Header extends JsonBean {
-		private String rspType;
-		private String rspCode;
-		private String rspDesc;
+		private String	rspType;
+		private String	rspCode;
+		private String	rspDesc;
 
 		public String getRspType() {
 			return rspType;

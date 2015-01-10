@@ -1,6 +1,4 @@
-package com.sport365.badminton.http.base;
-
-import android.text.TextUtils;
+package com.sport365.badminton.http.entity;
 
 import com.sport365.badminton.params.SystemConfig;
 
