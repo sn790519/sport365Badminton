@@ -1,4 +1,4 @@
-package com.sport365.badminton.activity;
+package com.sport365.badminton;
 
 import android.app.Activity;
 import android.content.Context;
