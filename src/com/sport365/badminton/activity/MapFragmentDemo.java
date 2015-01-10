@@ -1,4 +1,4 @@
-package com.sport365.badminton;
+package com.sport365.badminton.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.SupportMapFragment;
+import com.sport365.badminton.R;
 
 public class MapFragmentDemo extends FragmentActivity {
 	@SuppressWarnings("unused")

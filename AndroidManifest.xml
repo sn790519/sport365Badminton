@@ -34,7 +34,7 @@
             android:value="vRA2Ub7El8ximBg30jToPBle" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.sport365.badminton.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

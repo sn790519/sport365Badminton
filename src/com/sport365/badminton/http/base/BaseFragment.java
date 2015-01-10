@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.sport365.badminton.R;
-import com.sport365.badminton.dialog.LoadingDialog;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
 public class BaseFragment extends Fragment implements OnClickListener {

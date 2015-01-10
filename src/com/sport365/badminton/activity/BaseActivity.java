@@ -1,4 +1,4 @@
-package com.sport365.badminton;
+package com.sport365.badminton.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.sport365.badminton.dialog.LoadingDialog;
+import com.sport365.badminton.R;
 import com.sport365.badminton.http.base.DialogConfig;
 import com.sport365.badminton.http.base.HttpTaskHelper;
 import com.sport365.badminton.http.base.IRequestListener;
@@ -24,6 +24,7 @@ import com.sport365.badminton.utils.SharedPreferencesUtils;
 import com.sport365.badminton.utils.Tools;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
 public class BaseActivity extends Activity implements OnClickListener {

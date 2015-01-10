@@ -1,4 +1,4 @@
-package com.sport365.badminton.dialog;
+package com.sport365.badminton.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +15,6 @@ import com.sport365.badminton.utils.Tools;
 /**
  * loading对话框
  * 
- * @author Tc11096
  * 
  */
 public class LoadingDialog extends Dialog implements OnClickListener {
