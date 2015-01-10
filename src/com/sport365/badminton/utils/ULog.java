@@ -2,7 +2,7 @@ package com.sport365.badminton.utils;
 
 import java.util.Locale;
 
-import com.sport365.badminton.params.Systemconfig;
+import com.sport365.badminton.params.SystemConfig;
 
 public class ULog {
 	public static String	TAG	= "com.sport365.badminton";
@@ -27,7 +27,7 @@ public class ULog {
 	 *            替换参数
 	 */
 	public static void verbose(String format, Object... args) {
-		if (Systemconfig.DEBUG) {
+		if (SystemConfig.DEBUG) {
 			android.util.Log.v(TAG, buildMessage(format, args));
 		}
 	}
@@ -41,7 +41,7 @@ public class ULog {
 	 *            替换参数
 	 */
 	public static void debug(String format, Object... args) {
-		if (Systemconfig.DEBUG) {
+		if (SystemConfig.DEBUG) {
 			android.util.Log.d(TAG, buildMessage(format, args));
 		}
 	}
@@ -55,7 +55,7 @@ public class ULog {
 	 *            替换参数
 	 */
 	public static void info(String format, Object... args) {
-		if (Systemconfig.DEBUG) {
+		if (SystemConfig.DEBUG) {
 			android.util.Log.i(TAG, buildMessage(format, args));
 		}
 	}

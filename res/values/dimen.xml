@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- s means standard -->
+    <dimen name="s_component_space">8dp</dimen>
+    <dimen name="s_component_height">48dp</dimen>
+    <dimen name="s_component_height_40">40dp</dimen>
+    <dimen name="s_component_sheight">32dp</dimen>
+    <dimen name="s_component_half_height">24dp</dimen>
+    <dimen name="s_tsize_micro">12sp</dimen>
+    <dimen name="s_tsize_small">14sp</dimen>
+    <dimen name="s_tsize_middle">18sp</dimen>
+    <dimen name="s_tsize_large">22sp</dimen>
+
+    <!-- c means custom -->
+    <dimen name="c_content_edge_space">10dp</dimen>
+    <dimen name="c_padding_small">5dp</dimen>
+    <dimen name="c_tsize_micro">12sp</dimen>
+    <dimen name="c_tsize_small">14sp</dimen>
+    <dimen name="c_tsize_middle">15sp</dimen>
+    <dimen name="c_tsize_normal">16sp</dimen>
+    <dimen name="c_tsize_large">20sp</dimen>
+    <dimen name="image_thumbnail_size">100dp</dimen>
+    <dimen name="image_thumbnail_spacing">8dp</dimen>
+    <dimen name="today_textsize">8sp</dimen>
+    <dimen name="calendar_textsize">18sp</dimen>
+
+    <!-- 机票订单 -->
+    <dimen name="popwindow_width">85dp</dimen>
+    <dimen name="scenery_popwindow_width">120dp</dimen>
+    <dimen name="scenery_erwei_width">218dp</dimen>
+    <!-- 攻略 -->
+    <dimen name="guide_detail_textsize">16sp</dimen>
+    <dimen name="guide_collection_textsize">11sp</dimen>
+    <dimen name="strategy_model_space">10dp</dimen>
+    <dimen name="strategy_citymain_model_space">12dp</dimen>
+    <dimen name="strategy_model_space_big">8dp</dimen>
+    <dimen name="strategy_model_small_space">5dp</dimen>
+    <dimen name="btn_height">50dp</dimen>
+    <dimen name="scenery_order_detail_textsize">14dp</dimen>
+    <dimen name="scenery_order_item_textsize">16dp</dimen>
+    <!-- <dimen name="clendar_padding">3dp</dimen> -->
+
+    <dimen name="scenery_theme_margin_top">20dp</dimen>
+    <dimen name="scenery_theme_width">140dp</dimen>
+    <dimen name="s_hdp_space">5dp</dimen>
+    <dimen name="s_hdp_width">10dp</dimen>
+    <!-- new cal -->
+    <dimen name="calendar_day_headers_paddingtop">0dp</dimen>
+    <dimen name="calendar_day_headers_paddingbottom">4dp</dimen>
+    <dimen name="calendar_month_topmargin">8dp</dimen>
+    <dimen name="calendar_month_title_bottommargin">0dp</dimen>
+    <dimen name="calendar_text_medium">18sp</dimen>
+    <dimen name="calendar_text_big">20sp</dimen>
+    <dimen name="calendar_text_small">14sp</dimen>
+    <dimen name="calendar_text_normal">14px</dimen>
+    <dimen name="calendar_title_height">30dip</dimen>
+    <dimen name="calendar_festival_textsize">14px</dimen>
+    <dimen name="priceTextsize">12px</dimen>
+
+    <!-- 酒店 -->
+    <dimen name="hotel_tv_hotel_address_width">135dp</dimen>
+    <!-- 地图 -->
+    <dimen name="map_icon_left">-25dp</dimen>
+    <dimen name="map_icon_top">-50dp</dimen>
+    <dimen name="map_icon_right">25dp</dimen>
+    <dimen name="map_icon_bottom">0dp</dimen>
+
+    <!-- 机票价格趋势图 -->
+    <dimen name="dateTextSize">10sp</dimen>
+    <dimen name="weekTextSize">8sp</dimen>
+    <dimen name="pricePaintSize">16sp</dimen>
+    <dimen name="textPaintTextSize">16sp</dimen>
+    <dimen name="pointradius">3.3sp</dimen>
+    <dimen name="strokeWidth">2sp</dimen>
+    <dimen name="rectFWidth">1.4sp</dimen>
+    <!-- 邮轮度假中 自定义邮轮航线的间距 -->
+    <dimen name="cruiseshipline_margin_bottom">10dp</dimen>
+    <dimen name="cruiseshipcompany_height">120dp</dimen>
+    <dimen name="cruiseshipline_height">110dp</dimen>
+    <dimen name="vacation_detail_lltrip_margintop">10dp</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">5dp</dimen>
+    <dimen name="featurehorizontalSpacing">6dp</dimen>
+    <dimen name="modulehorizontalSpacing">0dp</dimen>
+    <!-- 旅游模块行高 -->
+    <dimen name="vacation_cell_height">50dp</dimen>
+    <dimen name="vacation_height">70dp</dimen>
+    <dimen name="vacation_width">100dp</dimen>
+    <dimen name="filter_line_height">0.5dp</dimen>
+
+    <!-- 警告：不要用compat打头的 -->
+    <dimen name="compat_text_size">15sp</dimen>
+    <dimen name="compat_height64">48dp</dimen>
+    <dimen name="compat_height48">40dp</dimen>
+    <dimen name="notice_height">150dp</dimen>
+    <dimen name="flight_change_marginright">10dp</dimen>
+    <dimen name="flight_mainpage_citychange_margin_leftorright">15dp</dimen>
+    <dimen name="flight_mainpage_citychange_bottom_margin">16dp</dimen>
+    <dimen name="flight_citychange_bottom_margin">10dp</dimen>
+
+    <!-- 周边游 -->
+    <dimen name="travel_main_module_horizontal_spacing">0dp</dimen>
+    <dimen name="travel_errlayout_top_margin">70dp</dimen>
+    <dimen name="travel_list_no_result_hint_height">45dp</dimen>
+    <!-- 错误提示界面上边距 -->
+    <dimen name="travel_left_margin">0dp</dimen>
+    <!-- 计时器数字左边距 -->
+    <dimen name="travel_timer_padding">2dp</dimen>
+    <!-- 计时器数字左右边距 -->
+    <dimen name="travel_timer_middlepadding">0dp</dimen>
+    <dimen name="travel_header_view_margin">10dp</dimen>
+    <!-- 心愿单 -->
+    <dimen name="rank_round_radius">26dp</dimen>
+
+    <!-- 景区 -->
+    <dimen name="scenery_erweima_size">10dp</dimen>
+    <dimen name="ass_push_line">1px</dimen>
+    <dimen name="scenery_bottom_load_view_padding">10dp</dimen>
+
+    <!-- 周边游圆角尺寸 -->
+    <dimen name="rounded_image_radius">8dp</dimen>
+    <dimen name="rounded_image_radius_main">5dp</dimen>
+
+    <!-- 周边游详情页 tab高度 -->
+    <dimen name="travel_detail_tab_height">45dp</dimen>
+    <!-- 票夹列表圆角尺寸 -->
+    <dimen name="scenery_wallet_rounded_image_radius">4dp</dimen>
+
+    <!-- tab page indicator -->
+    <dimen name="default_tab_indicator_paddingleft">20dp</dimen>
+    <dimen name="default_tab_indicator_paddingright">20dp</dimen>
+    <dimen name="default_tab_indicator_paddingtop">10dp</dimen>
+    <dimen name="default_tab_indicator_paddingbottom">10dp</dimen>
+    <dimen name="default_tab_indicator_textsize">12sp</dimen>
+    <dimen name="default_tab_indicator_selected_height">3dp</dimen>
+    <dimen name="default_tab_indicator_unselected_height">1dp</dimen>
+
+    <dimen name="cruise_card_order_row_margin">10dp</dimen>
+    
+    <!-- 7.0UI规范 -->
+    <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="text_size_title">19sp</dimen>
+    <dimen name="text_size_list">17sp</dimen>
+    <dimen name="text_size_info">15sp</dimen>
+    <dimen name="text_size_hint">13sp</dimen>
+    <dimen name="text_size_xsmall">11sp</dimen>
+    <dimen name="text_size_small">9sp</dimen>
+    
+    <dimen name="btn_height_commen_big">45dip</dimen>
+    <dimen name="btn_height_commen_middle">36dip</dimen>
+    <dimen name="btn_height_commen_small">30dip</dimen>
+    <dimen name="btn_height_commen_round">45dip</dimen>
+    <dimen name="btn_width_common_round_submit">220dip</dimen>
+    <dimen name="common_margin">16dip</dimen>
+    <dimen name="common_order_width">100dip</dimen>
+    <dimen name="common_order_margin_top">12dip</dimen>
+    <dimen name="common_order_bottom_bar_height">64dp</dimen>
+    <dimen name="common_warning_line_space">5dp</dimen>
+    <dimen name="ll_tab">45.0dip</dimen>
+
+    <!-- 换行间距-->
+    <dimen name="content_space">10dip</dimen>
+    <!-- 栏高 -->
+    <dimen name="column_height">48dip</dimen>
+
+    <dimen name="tab_btn_margin_three">10dip</dimen>
+    <dimen name="tab_btn_margin_two">20dip</dimen>
+    <dimen name="tab_btn_width">120dip</dimen>
+   
+    <dimen name="line_hight">0.5dip</dimen>
+    <dimen name="selected_line_height">1.5dp</dimen>
+    
+    <!-- actionbar的高度 -->
+    <dimen name="tc_actionbar_height">52dp</dimen>
+    <!-- RatingBar的高度 -->
+    <dimen name="tc_ratingbar_height">34dp</dimen>
+    
+    <!-- 城市选择索引宽度 -->
+    <dimen name="city_list_index_width">28dp</dimen>
+    
+    <!-- 订单无结果按钮的左右margin -->
+    <dimen name="common_order_list_margin">55dip</dimen>
+    
+    <!-- 机票列表广告图高度 -->
+    <dimen name="flight_list_ad_height">40dp</dimen>
+</resources>
