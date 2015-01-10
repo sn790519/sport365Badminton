@@ -18,7 +18,7 @@ public class BaseActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		ULog.debug("--->onStart");
+		ULog.debug("--->onStart");  
 	}
 
 	@Override
