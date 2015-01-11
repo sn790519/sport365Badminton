@@ -3,7 +3,33 @@
 
     <color name="frame_gray">#ffcecece</color>
     <color name="c_text_color">#ff646464</color>
-   <!-- 用于tab文字，二级文字 -->
-    <color name="main_secondary">#ff666666</color>
+    <!-- 浅灰背景色 -->
+    <color name="background">#fff5f5f5</color>
+    <!-- 蓝色字 -->
+    <color name="blue">#ff007aff</color>
+    <!-- 深黑 用于正文文字 -->
+    <color name="primary">#ff333333</color>
+    <!-- 用于tab文字，二级文字 -->
+    <color name="secondary">#ff666666</color>
+    <!-- 用于说明文字，提示文字 -->
+    <color name="hint">#ff999999</color>
+    <!-- 用于输入框默认显示 -->
+    <color name="disable">#ffcccccc</color>
+    <!-- 绿色 -->
+    <color name="green">#ff009900</color>
+    <!-- 橘色 -->
+    <color name="orangn">#ffee6b3f</color>
+    <!-- 用于反白 -->
+    <color name="white">#ffffffff</color>
+    <!-- 红色 -->
+    <color name="red">#ffff3300</color>
+    <!-- 列表框中的灰色字体颜色 -->
+    <color name="info">#ff6f6f6f</color>
+    <!-- 列表item按钮深灰背景色 -->
+    <color name="item_btn_background">#ffeeeeee</color>
+    <!-- line色 -->
+    <color name="line">#ffe5e5e5</color>
+    <!-- 底部4个tab字体颜色 -->
+    <color name="tab_text">#fff7f7f7</color>
 
 </resources>
