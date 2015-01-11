@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.entity.reqbody.GetSprotHomeReqBody;
 import com.sport365.badminton.entity.reqbody.ReqBody;
+import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.DialogConfig;
@@ -18,6 +20,7 @@ import com.sport365.badminton.http.base.HttpTaskHelper.JsonResponse;
 import com.sport365.badminton.http.base.HttpTaskHelper.RequestInfo;
 import com.sport365.badminton.http.base.IRequestProxyListener;
 import com.sport365.badminton.http.json.req.ServiceRequest;
+import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
 
 public class MainActivity extends BaseActivity {
@@ -69,18 +72,24 @@ public class MainActivity extends BaseActivity {
 	 */
 
 	private void testWithRequestDialog() {
-		ReqBody reqBody = new ReqBody();
+		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
+		reqBody.CityId = "226";
 		// 请求有加载框
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(
-				SportParameter.GET_INSURANCE_LIST), reqBody),
+				SportParameter.GET_SPROT_HOME), reqBody),
 				new DialogConfig.Builder().build(),
 				new IRequestProxyListener() {
 
 					@Override
 					public void onSuccess(JsonResponse jsonResponse,
 							RequestInfo requestInfo) {
-						Toast.makeText(MainActivity.this, "onSuccess",
+						ResponseContent<GetSprotHomeResBody> de = jsonResponse
+								.getResponseContent(GetSprotHomeResBody.class);
+						GetSprotHomeResBody resBody = de.getBody();
+						Toast.makeText(MainActivity.this,
+								"onSuccess" + resBody.aboutUs,
 								Toast.LENGTH_LONG).show();
+
 					}
 
 					@Override
@@ -98,11 +107,11 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void testWithRequestNoDialog() {
-		ReqBody reqBody = new ReqBody();
+		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
+		reqBody.CityId = "226";
 		// 请求没有加载框
-		sendRequestWithNoDialog(
-				new ServiceRequest(mContext, new SportWebService(
-						SportParameter.GET_INSURANCE_LIST), reqBody),
+		sendRequestWithNoDialog(new ServiceRequest(mContext,
+				new SportWebService(SportParameter.GET_SPROT_HOME), reqBody),
 				new IRequestProxyListener() {
 
 					@Override

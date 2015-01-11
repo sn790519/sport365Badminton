@@ -14,10 +14,10 @@ public enum SportParameter {
 	 */
 	SUBMIT_ORDER("shenghuohome", "ShenghuoHandler.ashx", CacheOptions.NO_CACHE),
 	/**
-	 * 75 获取保险列表接口
+	 * 1.获取365首页接口
 	 */
-	GET_INSURANCE_LIST("shenghuohome", "ShenghuoHandler.ashx",
-			CacheOptions.NO_CACHE);
+	GET_SPROT_HOME("getsprothome", "AdministrativeDivisionsHandler.ashx",
+			CacheOptions.USE_CACHE);
 
 	private final String mServiceName;
 	private final String mServiceAction;

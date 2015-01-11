@@ -27,7 +27,7 @@ public class SystemConfig {
 	public static int mNetWorkState = 0;
 
 	/** 设备号 **/
-	public static String deviceId = "";
+	public static String deviceId = "68a116b07394858b";
 
 	/** sp的名字 **/
 	public static String PREFERENCES_NAME = "badmintion";
@@ -45,9 +45,13 @@ public class SystemConfig {
 
 	public static final String STACKTRACE_DATADIR = "stacktrace";
 	/** 版本号 **/
-	public static final String VersionType = "VersionType";
+	public static final String VersionType = "android";
 
-	public static String IP = "1111111";
+	public static String IP = "10.228.237.141";
+
+	public static String refId = "5866720";
+
+	public static String networktype = "wifi";
 
 	public static final String APIACCOUNTID = "c26b007f-c89e-431a-b8cc-493becbdd8a2";// "7187c05f-951b-4ca6-888a-b8edf8c6679f";
 	public static final String APIACCOUNTKEY = "8874d8a8b8b391fbbd1a25bda6ecda11";// "fb13a093870f2028";

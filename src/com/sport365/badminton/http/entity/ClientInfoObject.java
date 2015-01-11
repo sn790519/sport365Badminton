@@ -6,16 +6,20 @@ import com.sport365.badminton.params.SystemConfig;
  * 客户端信息
  */
 public class ClientInfoObject {
-	private String versionType;
-	private String versionNumber;
-	private String deviceId;
 	private String clientIp;
+	private String deviceId;
+	private String refId;
+	private String versionNumber;
+	private String versionType;
+	private String networktype;
 
 	public ClientInfoObject() {
+		this.setClientIp(SystemConfig.IP);
 		this.deviceId = SystemConfig.deviceId;
+		this.refId = SystemConfig.refId;
 		this.versionNumber = SystemConfig.versionNumber;
 		this.versionType = SystemConfig.VersionType;
-		this.setClientIp(SystemConfig.IP);
+		this.networktype = SystemConfig.networktype;
 	}
 
 	public String getVersionType() {
@@ -50,4 +54,19 @@ public class ClientInfoObject {
 		this.clientIp = clientIp;
 	}
 
+	public String getRefId() {
+		return refId;
+	}
+
+	public void setRefId(String refId) {
+		this.refId = refId;
+	}
+
+	public String getNetworktype() {
+		return networktype;
+	}
+
+	public void setNetworktype(String networktype) {
+		this.networktype = networktype;
+	}
 }
