@@ -6,35 +6,6 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <!-- Messgae Loading box -->
-    <style name="MessageLoadingBox">
-
-        <!-- parent="android:style/Theme.Dialog.Alert" -->
-        <!-- item name="android:windowBackground">@drawable/message_box_panel</item> -->
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:windowBackground"> @android:color/transparent</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    
-    <!-- Messgae box -->
-    <style name="MessageBox">
-
-        <!-- parent="android:style/Theme.Dialog.Alert" -->
-        <!-- item name="android:windowBackground">@drawable/message_box_panel</item> -->
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="centerDialogWindowAnim" mce_bogus="1" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/scale_dialog_show</item>
-        <item name="android:windowExitAnimation">@anim/scale_dialog_close</item>
-    </style>
 
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
