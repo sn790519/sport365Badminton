@@ -10,7 +10,6 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -47,13 +46,13 @@ import com.sport365.badminton.utils.HanziToPinyin.Token;
  */
 public class Tools {
 
-	private static final int	BUFFER			= 1024;
-	public static final int		OLD_COUNT		= 6;	// SharedPreference 6条记录
+	private static final int BUFFER = 1024;
+	public static final int OLD_COUNT = 6; // SharedPreference 6条记录
 
-	public static final int		NETWORN_NONE	= 3;
-	public static final int		NETWORN_WIFI	= 1;
-	public static final int		NETWORN_MOBILE	= 2;
-	public static final int		NETWORN_OTHER	= 0;
+	public static final int NETWORN_NONE = 3;
+	public static final int NETWORN_WIFI = 1;
+	public static final int NETWORN_MOBILE = 2;
+	public static final int NETWORN_OTHER = 0;
 
 	/**
 	 * 获得手机的DeviceId
@@ -66,10 +65,8 @@ public class Tools {
 		if (TextUtils.isEmpty(deviceId) || "00".equals(deviceId)) {
 			try {
 				Context context = BaseApplication.getInstance().getApplicationContext();
-
 				// 先获取保存的deviceid
-				deviceId = SharedPreferencesUtils.getInstance().getString(SharedPreferencesKeys.DEVICEID, "");
-
+				deviceId = SharedPreferencesUtils.getInstance(context).getString(SharedPreferencesKeys.DEVICEID, "");
 				if (TextUtils.isEmpty(deviceId)) {
 					// 先获取androidid
 					deviceId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
@@ -83,9 +80,8 @@ public class Tools {
 						deviceId = UUID.randomUUID().toString();
 						deviceId = deviceId.replaceAll("-", "");
 					}
-					// <2014-09-22, SharedPreferences统一，jiagj
-					SharedPreferencesUtils.getInstance().putString(SharedPreferencesKeys.DEVICEID, deviceId);
-					SharedPreferencesUtils.getInstance().commitValue();
+					SharedPreferencesUtils.getInstance(context).putString(SharedPreferencesKeys.DEVICEID, deviceId);
+					SharedPreferencesUtils.getInstance(context).commitValue();
 				}
 			} catch (Exception e) {
 				deviceId = "00";
@@ -102,8 +98,6 @@ public class Tools {
 	/**
 	 * 加密手机号中间显示****
 	 * 
-	 * @author Ruyan.Zhao 6045
-	 * @since tongcheng_client Jun 20, 2014 1:55:09 PM
 	 */
 	public static String encryptMobileNumber(String mobile) {
 		if (mobile.length() == 11) {
@@ -123,13 +117,11 @@ public class Tools {
 	 */
 	public static void compress(InputStream is, OutputStream os) throws Exception {
 		GZIPOutputStream gos = new GZIPOutputStream(os);
-
 		int count;
 		byte data[] = new byte[BUFFER];
 		while ((count = is.read(data, 0, BUFFER)) != -1) {
 			gos.write(data, 0, count);
 		}
-
 		gos.finish();
 		gos.flush();
 		gos.close();
@@ -143,16 +135,13 @@ public class Tools {
 	 * @throws Exception
 	 */
 	public static byte[] compress(String str) throws IOException {
-
 		if (str == null || str.length() == 0) {
 			return null;
 		}
-
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GZIPOutputStream gzip = new GZIPOutputStream(out);
 		gzip.write(str.getBytes("UTF-8"));
 		gzip.close();
-		// String s = new String(Base64.encode(out.toByteArray()));
 		return out.toByteArray();
 	}
 
@@ -168,7 +157,6 @@ public class Tools {
 		GZIPOutputStream gzip = new GZIPOutputStream(out);
 		gzip.write(bt);
 		gzip.close();
-		// String s = new String(Base64.encode(out.toByteArray()));
 		return out.toByteArray();
 	}
 
@@ -180,20 +168,13 @@ public class Tools {
 	 * @throws Exception
 	 */
 	public static byte[] decompress(InputStream is) throws Exception {
-		// ByteArrayInputStream bais = new ByteArrayInputStream(data);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
 		// 解压缩
-
 		decompress(is, baos);
-
 		byte[] data = baos.toByteArray();
-
 		baos.flush();
 		baos.close();
-
 		is.close();
-
 		return data;
 	}
 
@@ -206,38 +187,20 @@ public class Tools {
 	 */
 	public static void decompress(InputStream is, OutputStream os) throws Exception {
 		GZIPInputStream gis = new GZIPInputStream(is);
-
 		int count;
 		byte data[] = new byte[BUFFER];
 		while ((count = gis.read(data, 0, BUFFER)) != -1) {
 			os.write(data, 0, count);
 		}
-
 		gis.close();
 	}
 
 	/**
 	 * 直接拨打电话
-	 * 
-	 * @param context
-	 * @param tel
-	 *            void 2012-11-14 上午11:06:58
 	 */
 	public static void dailPhoneNoAsk(Context context) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:4007991555"));
-			context.startActivity(intent);
-		} catch (Exception e) {
-			Utilities.showToast("R.string.err_phone_tip", context);
-		}
-	}
-
-	/**
-	 * 拨打同程的预订电话 void 2012-11-14 上午10:21:13
-	 */
-	public static void dailTcPhone(final Context context, final String tel) {
-		try {
-			Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tel));
 			context.startActivity(intent);
 		} catch (Exception e) {
 			Utilities.showToast("R.string.err_phone_tip", context);
@@ -257,8 +220,6 @@ public class Tools {
 				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-						// if (!inetAddress.isLoopbackAddress() && inetAddress
-						// instanceof Inet6Address) {
 						return inetAddress.getHostAddress().toString();
 					}
 				}
@@ -286,8 +247,7 @@ public class Tools {
 				if (addend > 9) {
 					addend -= 9;
 				}
-			}
-			else {
+			} else {
 				addend = digit;
 			}
 			sum += addend;
@@ -312,19 +272,6 @@ public class Tools {
 		}
 		return digitsOnly.toString();
 	}
-
-	/**
-	 * webapp页面统计
-	 * 
-	 * @param context
-	 * @param pageName
-	 */
-	/*
-	 * public static void setPageStart(String pageName){ if
-	 * (!TextUtils.isEmpty(pageName)) { //
-	 * UmengMobClickAngent.onPageStart(pageName);//先不接h5页面的umeng统计
-	 * Track.postWebappPageView(pageName); } }
-	 */
 
 	// 解决TextView排版问题
 	public static String ToDBC(String input) {
@@ -392,19 +339,6 @@ public class Tools {
 	}
 
 	/**
-	 * 景区价格统一显示样式式
-	 * 
-	 * @param double
-	 * 
-	 */
-	public static String getSceneryPriceString(double price) {
-
-		DecimalFormat df = new DecimalFormat("#.##");
-
-		return df.format(price);
-	}
-
-	/**
 	 * 汉字返回拼音，字母原样返回，都转换为小写
 	 * 
 	 * @param input
@@ -417,8 +351,7 @@ public class Tools {
 			for (Token token : tokens) {
 				if (Token.PINYIN == token.type) {
 					sb.append(token.target);
-				}
-				else {
+				} else {
 					sb.append(token.source);
 				}
 			}
@@ -441,7 +374,7 @@ public class Tools {
 	}
 
 	/**
-	 * 6.4 [Smartbar] 魅族的适配，判断是否有hasSmartBar
+	 * [Smartbar] 魅族的适配，判断是否有hasSmartBar
 	 * 
 	 * @return
 	 */
@@ -449,7 +382,8 @@ public class Tools {
 		try {
 			Method method = Build.class.getMethod("hasSmartBar");
 			return method != null;
-		} catch (NoSuchMethodException e) {}
+		} catch (NoSuchMethodException e) {
+		}
 		return false;
 	}
 
@@ -498,15 +432,13 @@ public class Tools {
 				return true;
 			}
 			return (Build.MODEL.equals("sdk")) || (Build.MODEL.equals("google_sdk"));
-		} catch (Exception ioe) {}
+		} catch (Exception ioe) {
+		}
 		return false;
 	}
 
 	/**
 	 * 1:大图 720p 2：中图 480p 6：高清图 1080p
-	 * 
-	 * @param activity
-	 * @return
 	 */
 	public static int getDisplayMetrics(Activity activity) {
 		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
@@ -515,8 +447,7 @@ public class Tools {
 		int imageSizeType = 1;
 		if (width <= 540) {
 			imageSizeType = 2;
-		}
-		else if (width >= 1080) {
+		} else if (width >= 1080) {
 			imageSizeType = 6;
 		}
 		return imageSizeType;
@@ -553,16 +484,11 @@ public class Tools {
 		return (int) (dipValue * scale + 0.5f);// 小数点四舍五入取整
 	}
 
-	public static void addSearchKey2Shared(String key, String name) {
-		addSearchKey2Shared(key, name, OLD_COUNT);
-	}
-
 	/**
-	 * 2014-09-25，jiagj SharedPreference统一，由于多处使用，从SharedPreferenceUtils移到此处
 	 * 保存新的关键字到历史记录中，旧的中已有的移除，新关键字放在最前面
 	 */
-	public static void addSearchKey2Shared(String key, String name, int maxSaveCount) {
-		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils.getInstance();
+	public static void addSearchKey2Shared(Context context, String key, String name, int maxSaveCount) {
+		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils.getInstance(context);
 		String nametemp = shPrefUtils.getString(key, "");
 		if ("".equals(nametemp)) {
 			shPrefUtils.putString(key, name);
@@ -593,11 +519,10 @@ public class Tools {
 	}
 
 	/**
-	 * 2014-09-25，jiagj SharedPreference统一，由于多处使用，从SharedPreferenceUtils移到此处
 	 * 得到保存的关键字历史记录，转为数组列表
 	 */
-	public static ArrayList<String> getSearchKeysArrays(String key) {
-		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils.getInstance();
+	public static ArrayList<String> getSearchKeysArrays(Context context, String key) {
+		SharedPreferencesUtils shPrefUtils = SharedPreferencesUtils.getInstance(context);
 		String strs = shPrefUtils.getString(key, "");
 		if ("".equals(strs)) {
 			return new ArrayList<String>();
@@ -659,15 +584,12 @@ public class Tools {
 			int netWorkType = getConnectedType(context);
 			if (netWorkType == ConnectivityManager.TYPE_WIFI) {
 				return NETWORN_WIFI;
-			}
-			else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
+			} else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
 				return NETWORN_MOBILE;
-			}
-			else {
+			} else {
 				return NETWORN_OTHER;
 			}
-		}
-		else {
+		} else {
 			return NETWORN_NONE;
 		}
 	}
@@ -683,34 +605,14 @@ public class Tools {
 			int netWorkType = getConnectedType(context);
 			if (netWorkType == ConnectivityManager.TYPE_WIFI) {
 				return "wifi";
-			}
-			else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
+			} else if (netWorkType == ConnectivityManager.TYPE_MOBILE) {
 				return "3G";
-			}
-			else {
+			} else {
 				return "其他方式";
 			}
-		}
-		else {
+		} else {
 			return "无网络";
 		}
-	}
-
-	/**
-	 * 出于性能需要 1.微社区页面需要打开webview 硬件加速，在此通过url判断 是否微社区请求 2....
-	 * 
-	 * @return
-	 */
-	public static boolean shouldOpenWebViewHardwareAcceleration(String url) {
-		boolean result = false;
-
-		if (TextUtils.isEmpty(url)) {
-			return result;
-		}
-		if (url.contains("wsq") || url.contains("webapp/990/") || url.contains("webapp/10/") || url.contains("webapp/h5_community/")) {
-			result = true;
-		}
-		return result;
 	}
 
 	/**
@@ -725,9 +627,6 @@ public class Tools {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
 			BitmapFactory.decodeResource(res, id, o);
-
-			// Find the correct scale value. It should be the power of 2.
-
 			int width_tmp = o.outWidth, height_tmp = o.outHeight;
 			int sampleSize = 1;
 			if (width_tmp > height_tmp) {
@@ -831,8 +730,7 @@ public class Tools {
 		for (int i = 0; i < sortedstr.length; i++) {
 			if (i == sortedstr.length - 1) {
 				prestr.append(sortedstr[i]);
-			}
-			else {
+			} else {
 				prestr.append(sortedstr[i] + "&");
 			}
 		}

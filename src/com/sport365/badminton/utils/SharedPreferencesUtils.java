@@ -14,7 +14,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.sport365.badminton.BaseApplication;
 import com.sport365.badminton.params.SystemConfig;
 
 /**
@@ -26,16 +25,14 @@ public class SharedPreferencesUtils {
 	private static SharedPreferencesUtils sharedPrefUtils;
 	private Map<String, SoftReference<String>> prefCache = new HashMap<String, SoftReference<String>>();
 
-	private SharedPreferencesUtils() {
-		BaseApplication baseApplication = BaseApplication.getInstance();
-		Context context = baseApplication.getApplicationContext();
+	private SharedPreferencesUtils(Context context) {
 		sharedPreferences = context.getSharedPreferences(SystemConfig.PREFERENCES_NAME, Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 	}
 
-	public synchronized static SharedPreferencesUtils getInstance() {
+	public synchronized static SharedPreferencesUtils getInstance(Context context) {
 		if (sharedPrefUtils == null) {
-			sharedPrefUtils = new SharedPreferencesUtils();
+			sharedPrefUtils = new SharedPreferencesUtils(context);
 		}
 		return sharedPrefUtils;
 	}

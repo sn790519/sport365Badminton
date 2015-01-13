@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.reqbody.GetSprotHomeReqBody;
-import com.sport365.badminton.entity.reqbody.ReqBody;
 import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
@@ -38,15 +37,13 @@ public class MainActivity extends BaseActivity {
 		btn_with_dialog = (Button) findViewById(R.id.btn_with_dialog);
 		btn_with_no_dialog = (Button) findViewById(R.id.btn_with_no_dialog);
 		iv_test = (ImageView) findViewById(R.id.iv_test);
-		imageLoader
-				.displayImage(
-						"http://f.hiphotos.baidu.com/image/pic/item/a1ec08fa513d26970c5be74a56fbb2fb4316d819.jpg",
-						iv_test);
+		mImageLoader.displayImage("http://f.hiphotos.baidu.com/image/pic/item/a1ec08fa513d26970c5be74a56fbb2fb4316d819.jpg", iv_test);
 		btn_with_dialog.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				testWithRequestDialog();
+//				mLoadingDialog.show();
 			}
 		});
 		btn_with_no_dialog.setOnClickListener(new OnClickListener() {
@@ -75,64 +72,49 @@ public class MainActivity extends BaseActivity {
 		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
 		reqBody.CityId = "226";
 		// 请求有加载框
-		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(
-				SportParameter.GET_SPROT_HOME), reqBody),
-				new DialogConfig.Builder().build(),
-				new IRequestProxyListener() {
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_SPROT_HOME), reqBody), new DialogConfig.Builder().build(), new IRequestProxyListener() {
 
-					@Override
-					public void onSuccess(JsonResponse jsonResponse,
-							RequestInfo requestInfo) {
-						ResponseContent<GetSprotHomeResBody> de = jsonResponse
-								.getResponseContent(GetSprotHomeResBody.class);
-						GetSprotHomeResBody resBody = de.getBody();
-						Toast.makeText(MainActivity.this,
-								"onSuccess" + resBody.aboutUs,
-								Toast.LENGTH_LONG).show();
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+				GetSprotHomeResBody resBody = de.getBody();
+				Toast.makeText(MainActivity.this, "onSuccess" + resBody.aboutUs, Toast.LENGTH_LONG).show();
 
-					}
+			}
 
-					@Override
-					public void onError(Header header, RequestInfo requestInfo) {
-						Toast.makeText(MainActivity.this, "onError",
-								Toast.LENGTH_LONG).show();
-					}
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				Toast.makeText(MainActivity.this, "onError", Toast.LENGTH_LONG).show();
+			}
 
-					@Override
-					public void onCanceled(CancelInfo cancelInfo) {
-						Toast.makeText(MainActivity.this, "onCanceled",
-								Toast.LENGTH_LONG).show();
-					}
-				});
+			@Override
+			public void onCanceled(CancelInfo cancelInfo) {
+				Toast.makeText(MainActivity.this, "onCanceled", Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
 	private void testWithRequestNoDialog() {
 		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
 		reqBody.CityId = "226";
 		// 请求没有加载框
-		sendRequestWithNoDialog(new ServiceRequest(mContext,
-				new SportWebService(SportParameter.GET_SPROT_HOME), reqBody),
-				new IRequestProxyListener() {
+		sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_SPROT_HOME), reqBody), new IRequestProxyListener() {
 
-					@Override
-					public void onSuccess(JsonResponse jsonResponse,
-							RequestInfo requestInfo) {
-						Toast.makeText(MainActivity.this, "onSuccess",
-								Toast.LENGTH_LONG).show();
-					}
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+				Toast.makeText(MainActivity.this, "onSuccess", Toast.LENGTH_LONG).show();
+			}
 
-					@Override
-					public void onError(Header header, RequestInfo requestInfo) {
-						Toast.makeText(MainActivity.this, "onError",
-								Toast.LENGTH_LONG).show();
-					}
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				Toast.makeText(MainActivity.this, "onError", Toast.LENGTH_LONG).show();
+			}
 
-					@Override
-					public void onCanceled(CancelInfo cancelInfo) {
-						Toast.makeText(MainActivity.this, "onCanceled",
-								Toast.LENGTH_LONG).show();
-					}
-				});
+			@Override
+			public void onCanceled(CancelInfo cancelInfo) {
+				Toast.makeText(MainActivity.this, "onCanceled", Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
 }

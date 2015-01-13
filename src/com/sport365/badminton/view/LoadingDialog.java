@@ -2,109 +2,103 @@ package com.sport365.badminton.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
+import android.graphics.drawable.AnimationDrawable;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sport365.badminton.R;
-import com.sport365.badminton.utils.Tools;
 
 /**
- * loading对话框
- * 
+ * 进度条对话框
  * 
  */
-public class LoadingDialog extends Dialog implements OnClickListener {
+public class LoadingDialog extends Dialog {
 
-	private TextView topTextView;
-	private ImageButton ib;
-	private TextView tv_line;
-	private String loadingText;
-	private boolean flag = true;
-	private int mTextMaxWidth = -1;
-	private RelativeLayout rl_background;
+	private static LoadingDialog mLoadingDialog;
+
+	public LoadingDialog(Context context, int theme) {
+		super(context, theme);
+	}
 
 	public LoadingDialog(Context context) {
-		super(context, R.style.MessageLoadingBox);
+		super(context);
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param message
+	 * @param cancelable
+	 * @return
+	 */
+	private static LoadingDialog create(Context context, String message, boolean cancelable) {
+		if (null == mLoadingDialog)
+			mLoadingDialog = new LoadingDialog(context, R.style.CustomProgressDialog);
+		mLoadingDialog.setContentView(R.layout.myprogressdialog);
+		mLoadingDialog.setCancelable(cancelable);
+		mLoadingDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
+		TextView tv_message = (TextView) mLoadingDialog.findViewById(R.id.tv_message);
+		if (TextUtils.isEmpty(message))
+			tv_message.setVisibility(View.GONE);
+		else
+			tv_message.setText(message);
+		return mLoadingDialog;
+	}
+
+	/**
+	 * 不可取消
+	 * 
+	 * @param context
+	 * @param message
+	 * @return
+	 */
+	public static LoadingDialog create(Context context, String title, String message) {
+		return create(context, message, false);
+	}
+
+	/**
+	 * 不可取消
+	 * 
+	 * @param context
+	 * @param message
+	 * @return
+	 */
+	public static LoadingDialog create(Context context, String message) {
+		return create(context, message, false);
+	}
+
+	/**
+	 * 不可取消
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static LoadingDialog create(Context context) {
+		return create(context, null, false);
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.progress_bar);
-		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		initUI();
-	}
-
-	private void initUI() {
-		topTextView = (TextView) findViewById(R.id.top_process_promot);
-		rl_background = (RelativeLayout) findViewById(R.id.rl_background);
-		ib = (ImageButton) findViewById(R.id.imgbtn_guanbi);
-		tv_line = (TextView) findViewById(R.id.tv_line);
-		if (mTextMaxWidth > 0) {
-			topTextView.setMaxWidth(mTextMaxWidth);
-		}
-		ib.setOnClickListener(this);
-		topTextView.setText(loadingText);
-		showFlag();
-	}
-
-	public void setLoadingText(String text) {
-		loadingText = text;
-		if (loadingText.length() >= 12) {
-			mTextMaxWidth = Tools.dip2px(getContext(), 125);
-		} else {
-			mTextMaxWidth = Tools.dip2px(getContext(), 95);
-		}
-
-		if (topTextView != null) {
-			if (mTextMaxWidth > 0) {
-				topTextView.setMaxWidth(mTextMaxWidth);
-			}
-			topTextView.setText(loadingText);
-		}
-	}
-
-	public void showdialog() {
-		show();
-	}
-
-	public void showFlag() {
-		if (ib == null || rl_background == null) {
-			return;
-		}
-		if (flag) {
-			ib.setVisibility(View.VISIBLE);
-			tv_line.setVisibility(View.VISIBLE);
-		} else {
-			ib.setVisibility(View.GONE);
-			tv_line.setVisibility(View.GONE);
-		}
+	public void cancel() {
+		super.cancel();
+		mLoadingDialog = null;
 	}
 
 	@Override
-	public void show() {
-		showFlag();
-		super.show();
+	public void dismiss() {
+		super.dismiss();
+		mLoadingDialog = null;
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (ib == v) {
-			cancel();
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (mLoadingDialog != null) {
+			ImageView imageView = (ImageView) mLoadingDialog.findViewById(R.id.loadingImageView);
+			AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getBackground();
+			animationDrawable.start();
 		}
-	}
-
-	@Override
-	public void setCancelable(boolean flag) {
-		this.flag = flag;
-		super.setCancelable(flag);
-	}
-
-	public boolean getDialogCancelable() {
-		return flag;
 	}
 }

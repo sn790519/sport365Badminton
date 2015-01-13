@@ -68,8 +68,6 @@ public class Utilities {
 	public static String street;
 	public static long locationTime;// 记录定位时间
 	public static String address;// 定位地址信息
-	// 获取手机屏幕分辨率
-	public static DisplayMetrics dm;
 
 	// 列表页滑动动画
 	private static Animation translate_foot_bottom_to_top,// 底部TAB显示动画
