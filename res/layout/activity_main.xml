@@ -1,36 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.sport365.badminton.activity.MainActivity" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_menu_bg"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/btn_with_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="with dialog" />
+        <RadioButton
+            android:id="@+id/rb_tab_mian"
+            style="@style/tab_main_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tab_mian" />
 
-    <Button
-        android:id="@+id/btn_with_no_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="with no dialog" />
+        <RadioButton
+            android:id="@+id/rb_tab_pay"
+            style="@style/tab_main_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tab_pay" />
 
-    <ImageView
-        android:id="@+id/iv_test"
-        android:layout_width="200.0dip"
-        android:layout_height="200.0dip"
-        android:src="@drawable/ic_launcher" />
+        <RadioButton
+            android:id="@+id/rb_tab_ball_friend"
+            style="@style/tab_main_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tab_ball_friend" />
 
-</LinearLayout>
+        <RadioButton
+            android:id="@+id/rb_tab_my"
+            style="@style/tab_main_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tab_my" />
+    </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/home_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab"
+        android:background="@color/background_color"
+        android:visibility="gone" >
+    </RelativeLayout>
+
+</RelativeLayout>

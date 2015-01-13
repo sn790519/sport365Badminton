@@ -1,12 +1,13 @@
 package com.sport365.badminton;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 
 import com.sport365.badminton.http.base.DialogConfig;
 import com.sport365.badminton.http.base.HttpTaskHelper;
@@ -23,7 +24,7 @@ import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
-public class BaseActivity extends Activity implements OnClickListener {
+public class BaseActivity extends FragmentActivity implements OnClickListener {
 	public String			TAG	= BaseActivity.class.getSimpleName();
 	public Context			mContext;
 	public LoadingDialog	mLoadingDialog;
@@ -34,6 +35,7 @@ public class BaseActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		ULog.setTag(getClass().getSimpleName());
 		ULog.debug("--->onCreate");
 		init();
@@ -42,7 +44,7 @@ public class BaseActivity extends Activity implements OnClickListener {
 	private void init() {
 		mContext = this;
 		mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mLoadingDialog = LoadingDialog.create(mContext, mContext.getString(R.string.loading_public_default));
+		mLoadingDialog = LoadingDialog.create(mContext, mContext.getString(R.string.loading));
 
 		if (TextUtils.isEmpty(Utilities.FILE_ROOT)) {
 			Utilities.CheckFileRoot(getApplication());

@@ -39,7 +39,7 @@ public final class DialogConfig {
 		private boolean cancelable;
 
 		public Builder() {
-			this.loadingMessage = R.string.loading_public_default;
+			this.loadingMessage = R.string.loading;
 			this.cancelable = true;
 		}
 

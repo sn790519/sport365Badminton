@@ -22,4 +22,37 @@
     <!-- 大字体 -->
     <dimen name="xlarge">24sp</dimen>
 
+    <!-- margin attribute -->
+    <dimen name="margin_one_px">1px</dimen>
+    <dimen name="margin_three_dp">3dp</dimen>
+    <dimen name="margin_five_dp">5dp</dimen>
+    <dimen name="margin_six_dp">6dp</dimen>
+    <dimen name="margin_eight_dp">8dp</dimen>
+    <dimen name="margin_ten_dp">10dp</dimen>
+    <dimen name="margin_fifteen_dp">15dp</dimen>
+    <dimen name="margin_twenty_dp">20dp</dimen>
+    <dimen name="margin_twenty_five_dp">25dp</dimen>
+    <dimen name="margin_thirty_dp">30dp</dimen>
+    <dimen name="margin_forty_dp">40dp</dimen>
+
+    <!-- padding attribute -->
+    <dimen name="padding_one_px">1px</dimen>
+    <dimen name="padding_three_dp">3dp</dimen>
+    <dimen name="padding_five_dp">5dp</dimen>
+    <dimen name="padding_six_dp">6dp</dimen>
+    <dimen name="padding_eight_dp">8dp</dimen>
+    <dimen name="padding_ten_dp">10dp</dimen>
+    <dimen name="padding_fifteen_dp">15dp</dimen>
+    <dimen name="padding_twenty_dp">20dp</dimen>
+    <dimen name="padding_twenty_five_dp">25dp</dimen>
+    <dimen name="padding_thirty_dp">30dp</dimen>
+    <dimen name="padding_forty_dp">40dp</dimen>
+
+    <!-- Text Size attribute -->
+    <dimen name="text_ten_sp">10sp</dimen>
+    <dimen name="text_twelve_sp">12sp</dimen>
+    <dimen name="text_fifteen_sp">15sp</dimen>
+    <dimen name="text_eighteen_sp">18sp</dimen>
+    <dimen name="text_twenty_sp">20sp</dimen>
+
 </resources>

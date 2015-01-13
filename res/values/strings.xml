@@ -2,9 +2,10 @@
 <resources>
 
     <string name="app_name">精羽门</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="loading_public_default">正在加载...</string>
-    <string name="show_errnetwork_tip">亲，网络不给力哦</string>
+    <string name="tab_mian">首页</string>
+    <string name="tab_pay">充值</string>
+    <string name="tab_ball_friend">惠球友</string>
+    <string name="tab_my">我的</string>
+    <string name="loading">正在加载</string>
 
 </resources>
