@@ -21,7 +21,7 @@ public class ImageLoader {
 
 	public static final int STUB_NULL = -1;// 不设置默认图
 
-	private static final int STUB_ID = R.drawable.bg_home_ad_small; // 默认图片（再不设置默认图的情况下用这个）
+	private static final int STUB_ID = R.drawable.bg_default_common; // 默认图片（再不设置默认图的情况下用这个）
 	private static final Config DEFAULT_CONFIG = Config.RGB_565;
 
 	private static ImageLoader imageLoader = null;

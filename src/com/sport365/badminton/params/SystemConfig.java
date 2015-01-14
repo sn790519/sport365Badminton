@@ -8,6 +8,10 @@ public class SystemConfig {
 	/** 百度API_KEY */
 	public static final String BAIDU_AK = "vRA2Ub7El8ximBg30jToPBle";
 
+	/** 微信appid */
+	public static final String WEIXIN_APP_ID = "";
+	public static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
+
 	/**
 	 * 是否显示log
 	 */
