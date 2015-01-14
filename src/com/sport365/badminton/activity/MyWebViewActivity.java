@@ -22,7 +22,8 @@ import com.sport365.badminton.utils.ULog;
 public class MyWebViewActivity extends BaseActivity {
 
 	private WebView my_webview;
-	private String LOADURL = "";
+	private String loadurl = "";
+	private String title = "";
 	private ProgressBar pb_webview_loading;
 
 	@Override
@@ -32,8 +33,9 @@ public class MyWebViewActivity extends BaseActivity {
 
 		pb_webview_loading = (ProgressBar) findViewById(R.id.pb_webview_loading);
 		my_webview = (WebView) findViewById(R.id.my_webview);
-		LOADURL = getIntent().getStringExtra(BundleKeys.LOADURL);
-
+		loadurl = getIntent().getStringExtra(BundleKeys.WEBVIEEW_LOADURL);
+		title = getIntent().getStringExtra(BundleKeys.WEBVIEEW_TITLE);
+		setActionBarTitle(title);
 		/*----设置WebView控件参数----*/
 		WebSettings webSettings = my_webview.getSettings();
 		webSettings.setJavaScriptEnabled(true);// 设置响应JS
@@ -79,7 +81,7 @@ public class MyWebViewActivity extends BaseActivity {
 				}
 			}
 		});
-		my_webview.loadUrl(LOADURL);
+		my_webview.loadUrl(loadurl);
 	}
 
 }

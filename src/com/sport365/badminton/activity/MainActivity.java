@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
@@ -23,6 +24,14 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		setHomeBar("精羽门");
+		setActionBarRightMenu(R.drawable.line_tad_more, new RightClickListen() {
+
+			@Override
+			public void onRightMenuClick() {
+				Toast.makeText(MainActivity.this, "Right Click Test", Toast.LENGTH_LONG).show();
+			}
+		});
 		Button btn = (Button) findViewById(R.id.btn);
 		btn.setOnClickListener(new Button.OnClickListener() {
 
@@ -57,4 +66,5 @@ public class MainActivity extends BaseActivity {
 		ad_one.redirectUrl = "http://www.baidu.com";
 		return ad_one;
 	}
+
 }

@@ -11,5 +11,6 @@ public class BundleKeys {
 	/**
 	 * webview的key值
 	 */
-	public static final String LOADURL = "loadurl";
+	public static final String WEBVIEEW_LOADURL = "loadurl";
+	public static final String WEBVIEEW_TITLE = "loadtitle";
 }

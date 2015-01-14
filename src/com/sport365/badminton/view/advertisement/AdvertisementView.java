@@ -75,7 +75,8 @@ public class AdvertisementView extends BaseImageSwitcher<AdvertisementObject> {
 				Toast.makeText(getContext(), "点击事件", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(getContext(), MyWebViewActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString(BundleKeys.LOADURL, data_obj.redirectUrl);
+				bundle.putString(BundleKeys.WEBVIEEW_LOADURL, data_obj.redirectUrl);
+				bundle.putString(BundleKeys.WEBVIEEW_TITLE, "详情");
 				intent.putExtras(bundle);
 				getContext().startActivity(intent);
 
