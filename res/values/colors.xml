@@ -502,10 +502,7 @@
     <color name="controler_zone_grey">#aa2C3843</color>
     <!-- Controler 控制栏区域透明灰 -->
 
-    <color name="text_sub_title_light_blue">#ff93c7f3</color>
-    <!-- 二级子菜单字体默认浅蓝 -->
-
-<<<<<<< HEAD    <color name="text_sub_title_bright_blue">#ff0099ff</color>
+    <color name="text_sub_title_bright_blue">#ff0099ff</color>
     <!-- 二级子菜单字体选中深蓝 -->
     <color name="main_title_color">#ff1b56b7</color>
     <color name="gray_text_color">#ff4a4849</color>
@@ -543,7 +540,7 @@
    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
-   <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+   <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
     -->
 
     <drawable name="transparent_background">#00000000</drawable>
@@ -579,8 +576,7 @@
 
     <!-- dialoag -->
     <color name="dialog_loading_button_text_color">#FF9F382A</color>
-=======
     <!-- app主蓝色调 -->
     <color name="base_blue">#007aff</color>
->>>>>>> origin/master
+
 </resources>

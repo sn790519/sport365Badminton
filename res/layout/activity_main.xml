@@ -50,18 +50,29 @@
             android:text="@string/menu_my" />
     </RadioGroup>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/home_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rg_menu"
-        android:background="@color/background_color" >
+        android:background="@color/background_color"
+        android:orientation="vertical" >
+
+        <!-- 广告 -->
+
+        <LinearLayout
+            android:id="@+id/ll_ad_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="分享" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
