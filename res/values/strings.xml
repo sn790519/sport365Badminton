@@ -2,10 +2,10 @@
 <resources>
 
     <string name="app_name">精羽门</string>
-    <string name="tab_mian">首页</string>
-    <string name="tab_pay">充值</string>
-    <string name="tab_ball_friend">惠球友</string>
-    <string name="tab_my">我的</string>
+    <string name="menu_main">首页</string>
+    <string name="menu_pay">充值</string>
+    <string name="menu_ball_friend">惠球友</string>
+    <string name="menu_my">我的</string>
     <string name="loading">正在加载</string>
 
 </resources>

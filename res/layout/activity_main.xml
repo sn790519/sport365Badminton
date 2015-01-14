@@ -4,54 +4,64 @@
     android:layout_height="match_parent" >
 
     <RadioGroup
-        android:id="@+id/tab"
+        android:id="@+id/rg_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_menu_bg"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="2dp" >
 
         <RadioButton
-            android:id="@+id/rb_tab_mian"
+            android:id="@+id/rb_menu_mian"
             style="@style/tab_main_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tab_mian" />
+            android:drawableTop="@drawable/icon_menu_home_bg"
+            android:text="@string/menu_main" />
 
         <RadioButton
-            android:id="@+id/rb_tab_pay"
+            android:id="@+id/rb_menu_pay"
             style="@style/tab_main_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tab_pay" />
+            android:drawableTop="@drawable/icon_menu_pay_bg"
+            android:text="@string/menu_pay" />
 
         <RadioButton
-            android:id="@+id/rb_tab_ball_friend"
+            android:id="@+id/rb_menu_ball_friend"
             style="@style/tab_main_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tab_ball_friend" />
+            android:drawableTop="@drawable/icon_menu_ballfriend_bg"
+            android:text="@string/menu_ball_friend" />
 
         <RadioButton
-            android:id="@+id/rb_tab_my"
+            android:id="@+id/rb_menu_my"
             style="@style/tab_main_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tab_my" />
+            android:drawableTop="@drawable/icon_menu_my_bg"
+            android:text="@string/menu_my" />
     </RadioGroup>
 
     <RelativeLayout
         android:id="@+id/home_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tab"
-        android:background="@color/background_color"
-        android:visibility="gone" >
+        android:layout_above="@id/rg_menu"
+        android:background="@color/background_color" >
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享" />
     </RelativeLayout>
 
 </RelativeLayout>
