@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
 		// and add the transaction to the back stack so the user can
 		// navigate back
 		transaction.replace(R.id.ll_fragment_container, homePageFragment);
-		transaction.addToBackStack(null);
+		// transaction.addToBackStack(null);
 		// Commit the transaction
 		transaction.commit();
 	}
@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity {
 		// and add the transaction to the back stack so the user can
 		// navigate back
 		transaction.replace(R.id.ll_fragment_container, homePayFragment);
-		transaction.addToBackStack(null);
+		// transaction.addToBackStack(null);
 		// Commit the transaction
 		transaction.commit();
 	}
@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity {
 		// and add the transaction to the back stack so the user can
 		// navigate back
 		transaction.replace(R.id.ll_fragment_container, homeBallFriendFragment);
-		transaction.addToBackStack(null);
+		// transaction.addToBackStack(null);
 		// Commit the transaction
 		transaction.commit();
 	}
@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity {
 		// and add the transaction to the back stack so the user can
 		// navigate back
 		transaction.replace(R.id.ll_fragment_container, homeMyFragment);
-		transaction.addToBackStack(null);
+		// transaction.addToBackStack(null);
 		// Commit the transaction
 		transaction.commit();
 	}

@@ -13,6 +13,6 @@ public class HomeBallFriendFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.main_action_bar, container, false);
+		return inflater.inflate(R.layout.home_ballfriend_layout, container, false);
 	}
 }
