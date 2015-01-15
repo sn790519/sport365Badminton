@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.activity.fragment.HomeBallFriendFragment;
+import com.sport365.badminton.activity.fragment.HomeMyFragment;
+import com.sport365.badminton.activity.fragment.HomePageFragment;
+import com.sport365.badminton.activity.fragment.HomePayFragment;
 
 public class MainActivity extends BaseActivity {
 	private String TAG = MainActivity.class.getSimpleName();

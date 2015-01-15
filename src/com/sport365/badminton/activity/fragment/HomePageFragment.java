@@ -1,4 +1,4 @@
-package com.sport365.badminton.activity;
+package com.sport365.badminton.activity.fragment;
 
 import java.util.ArrayList;
 

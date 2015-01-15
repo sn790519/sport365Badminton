@@ -1,4 +1,4 @@
-package com.sport365.badminton.activity;
+package com.sport365.badminton.activity.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
