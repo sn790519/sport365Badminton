@@ -19,8 +19,14 @@
     <dimen name="hint">12sp</dimen>
     <!-- 小字体 -->
     <dimen name="xsmall">10sp</dimen>
-    <!-- 大字体 -->
-    <dimen name="xlarge">24sp</dimen>
+
+    <!-- 7.0UI规范 -->
+    <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="text_size_title">19sp</dimen>
+    <dimen name="text_size_list">17sp</dimen>
+    <dimen name="text_size_hint">13sp</dimen>
+    <dimen name="text_size_xsmall">11sp</dimen>
+    <dimen name="text_size_small">9sp</dimen>
 
     <!-- margin attribute -->
     <dimen name="margin_one_px">1px</dimen>
@@ -54,5 +60,6 @@
     <dimen name="text_fifteen_sp">15sp</dimen>
     <dimen name="text_eighteen_sp">18sp</dimen>
     <dimen name="text_twenty_sp">20sp</dimen>
+    <dimen name="line_hight">0.5dip</dimen>
 
 </resources>

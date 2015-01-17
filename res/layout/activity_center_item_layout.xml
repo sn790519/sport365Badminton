@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_ad_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible" >
+
+    <TextView
+        android:id="@+id/tv_venue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:padding="8.0dip"
+        android:text="独墅湖体育馆羽毛球"
+        android:textColor="@color/orangn"
+        android:textSize="@dimen/text_size_list" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90.0dp" >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="0.5dp"
+            android:layout_marginTop="0.5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_default_common" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="90.0dp"
+            android:layout_marginLeft="11dp"
+            android:layout_toRightOf="@id/imageView"
+            android:gravity="top" >
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_list_time"
+                android:drawablePadding="4.0dip"
+                android:gravity="center_vertical"
+                android:text="10:00 -- 11:00"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_time"
+                android:layout_marginTop="4.0dip"
+                android:drawableLeft="@drawable/icon_list_phone"
+                android:drawablePadding="4.0dip"
+                android:gravity="center_vertical"
+                android:text="0515 86577806"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_phone"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="4.0dip"
+                android:drawableLeft="@drawable/icon_list_address"
+                android:drawablePadding="4.0dip"
+                android:drawableRight="@drawable/icon_nearby_map"
+                android:gravity="top"
+                android:maxLines="2"
+                android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dip"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="11dp"
+            android:layout_toRightOf="@id/imageView"
+            android:background="@color/line" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8.0dip"
+        android:visibility="visible"
+        android:weightSum="3" >
+
+        <TextView
+            android:id="@+id/tv_club"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/icon_list_club"
+            android:drawablePadding="2.0dip"
+            android:gravity="center_vertical"
+            android:text="俱乐部(06)"
+            android:textColor="@color/hint"
+            android:textSize="@dimen/hint" />
+
+        <TextView
+            android:id="@+id/tv_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/icon_list_activity"
+            android:drawablePadding="2.0dip"
+            android:gravity="center_vertical"
+            android:text="活动(06)"
+            android:textColor="@color/hint"
+            android:textSize="@dimen/hint" />
+
+        <TextView
+            android:id="@+id/tv_game"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/icon_list_contest"
+            android:drawablePadding="2.0dip"
+            android:gravity="center_vertical"
+            android:text="比赛(06)"
+            android:textColor="@color/hint"
+            android:textSize="@dimen/hint" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 广告 -->
+
+    <LinearLayout
+        android:id="@+id/ll_ad_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+    </LinearLayout>
+
+    <!-- 搜索 -->
+
+    <LinearLayout
+        android:id="@+id/ll_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <EditText
+            android:id="@+id/et_search_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_ten_dp"
+            android:layout_marginRight="@dimen/margin_ten_dp"
+            android:drawableLeft="@drawable/icon_fifter_search"
+            android:drawablePadding="6.0dip"
+            android:hint="提示文案"
+            android:textSize="@dimen/list" />
+    </LinearLayout>
+
+</LinearLayout>

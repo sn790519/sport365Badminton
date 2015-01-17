@@ -2,6 +2,7 @@ package com.sport365.badminton.activity;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioButton;
@@ -43,6 +44,8 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onRightMenuClick() {
 				Toast.makeText(MainActivity.this, "Right Click Test", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(MainActivity.this, ActivityCenterAtivity.class);
+				startActivity(intent);
 			}
 		});
 		initMainView();
