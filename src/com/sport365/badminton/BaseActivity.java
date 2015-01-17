@@ -1,6 +1,5 @@
 package com.sport365.badminton;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -8,7 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,126 +27,27 @@ import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
 public class BaseActivity extends FragmentActivity implements OnClickListener {
-	public String TAG = BaseActivity.class.getSimpleName();
-	private final int DEFALUT_ACTIONBAR_BG_ID = R.drawable.navibar_common_bg;
-	private final int DEFAULT_ACTIONBAR_RESOURCE_ID = R.layout.main_action_bar;
-	private int actionbar_resource_id = DEFAULT_ACTIONBAR_RESOURCE_ID;
-	public Context mContext;
-	public LoadingDialog mLoadingDialog;
-	public LayoutInflater mLayoutInflater;
-	public ImageLoader mImageLoader;
-	private HttpTaskHelper mHttpTaskHelper;
-	private ActionBar mActionBar;
-	private ImageView actionbar_back, actionbar_right_menu;
-	private ImageView action_icon;
-	private TextView actionbar_title, actionbar_icon;
-	private View mTitleView;
+	public String			TAG	= BaseActivity.class.getSimpleName();
+	public Context			mContext;
+	public LoadingDialog	mLoadingDialog;
+	public LayoutInflater	mLayoutInflater;
+	public ImageLoader		mImageLoader;
+	private HttpTaskHelper	mHttpTaskHelper;
+
+	/** 左侧ImageVIew */
+	public ImageView		mActionbar_left;
+	/** 中间的Textview */
+	public TextView			mActionbar_title;
+	/** 右侧ImageVIew */
+	public ImageView		mActionbar_right;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		ULog.setTag(getClass().getSimpleName());
 		ULog.debug("--->onCreate");
-		initActionBar();
 		init();
-	}
-
-	private void initActionBar() {
-		mTitleView = getLayoutInflater().inflate(actionbar_resource_id, null);
-		mActionBar = getActionBar();
-		if (mActionBar != null) {
-			mActionBar.setDisplayShowCustomEnabled(true);// 可以自定义actionbar
-			mActionBar.setDisplayShowTitleEnabled(false);// 不显示logo
-			mActionBar.setDisplayShowHomeEnabled(false);
-			mActionBar.setBackgroundDrawable(getResources().getDrawable(DEFALUT_ACTIONBAR_BG_ID));
-			if (actionbar_resource_id == DEFAULT_ACTIONBAR_RESOURCE_ID) {
-				actionbar_back = (ImageView) mTitleView.findViewById(R.id.actionbar_back);
-				actionbar_back.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						onBackPressed();
-					}
-				});
-				actionbar_icon = (TextView) mTitleView.findViewById(R.id.actionbar_icon);
-				actionbar_icon.setVisibility(View.GONE);
-				action_icon = (ImageView) mTitleView.findViewById(R.id.action_icon);
-				actionbar_right_menu = (ImageView) mTitleView.findViewById(R.id.actionbar_right_menu);
-				action_icon.setVisibility(View.GONE);
-				actionbar_title = (TextView) mTitleView.findViewById(R.id.actionbar_title);
-				actionbar_title.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						/**
-						 * Call this view's OnClickListener, if it is defined.
-						 * Performs all normal actions associated with clicking:
-						 * reporting accessibility event, playing a sound, etc.
-						 * 
-						 */
-						actionbar_back.performClick();
-					}
-				});
-			}
-			ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			mActionBar.setCustomView(mTitleView, params);
-		}
-	}
-
-	public void setActionBarTitle(String title) {
-		if (actionbar_title != null) {
-			actionbar_title.setText(title);
-		}
-	}
-
-	public void setHomeBar(String text) {
-		if (actionbar_icon != null && action_icon != null) {
-			actionbar_back.setVisibility(View.GONE);
-			actionbar_icon.setVisibility(View.VISIBLE);
-			actionbar_icon.setText(text);
-			action_icon.setVisibility(View.VISIBLE);
-		}
-	}
-
-	public void setHomeBar() {
-		if (actionbar_icon != null && action_icon != null) {
-			actionbar_back.setVisibility(View.GONE);
-			actionbar_icon.setVisibility(View.VISIBLE);
-			action_icon.setVisibility(View.VISIBLE);
-		}
-	}
-
-	public TextView getActionBarTitle() {
-		return actionbar_title;
-	}
-
-	public ActionBar getmActionBar() {
-		return mActionBar;
-	}
-
-	public View getActionBarTitleView() {
-		return mTitleView;
-	}
-
-	/**
-	 * 设置右侧按钮的背景图
-	 * 
-	 * @param resId
-	 */
-	public void setActionBarRightMenu(int resId, final RightClickListen rightClickListen) {
-		if (resId == 0 || actionbar_right_menu == null) {
-			return;
-		} else {
-			actionbar_right_menu.setVisibility(View.VISIBLE);
-			actionbar_right_menu.setImageResource(resId);
-			actionbar_right_menu.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					rightClickListen.onRightMenuClick();
-				}
-			});
-		}
 	}
 
 	private void init() {
@@ -165,6 +65,13 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		mHttpTaskHelper = new HttpTaskHelper(this);
 	}
 
+	public void initActionBar() {
+		View view = findViewById(R.id.action_bar);
+		mActionbar_left = (ImageView) view.findViewById(R.id.iv_actionbar_left);
+		mActionbar_title = (TextView) view.findViewById(R.id.tv_actionbar_title);
+		mActionbar_right = (ImageView) view.findViewById(R.id.iv_actionbar_right);
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -179,8 +86,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
-	}
+	public void onClick(View v) {}
 
 	/**
 	 * http post request with dialog
@@ -194,7 +100,8 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -235,7 +142,8 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -279,14 +187,16 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
 		if (null == listener) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -326,14 +236,16 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
 		if (null == callback) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}

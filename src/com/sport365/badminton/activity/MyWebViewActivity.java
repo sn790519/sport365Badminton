@@ -35,7 +35,7 @@ public class MyWebViewActivity extends BaseActivity {
 		my_webview = (WebView) findViewById(R.id.my_webview);
 		loadurl = getIntent().getStringExtra(BundleKeys.WEBVIEEW_LOADURL);
 		title = getIntent().getStringExtra(BundleKeys.WEBVIEEW_TITLE);
-		setActionBarTitle(title);
+//		setActionBarTitle(title);
 		/*----设置WebView控件参数----*/
 		WebSettings webSettings = my_webview.getSettings();
 		webSettings.setJavaScriptEnabled(true);// 设置响应JS

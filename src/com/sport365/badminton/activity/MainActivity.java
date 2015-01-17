@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.Toast;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
@@ -16,39 +17,44 @@ import com.sport365.badminton.activity.fragment.HomeBallFriendFragment;
 import com.sport365.badminton.activity.fragment.HomeMyFragment;
 import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
+import com.sport365.badminton.utils.ULog;
 
 /**
  * 首页的4个fragment
  * 
  */
-public class MainActivity extends BaseActivity {
-	private String TAG = MainActivity.class.getSimpleName();
+public class MainActivity extends BaseActivity implements OnCheckedChangeListener {
 
-	private RadioGroup rg_menu;
-	private RadioButton rb_menu_mian;
-	private RadioButton rb_menu_pay;
-	private RadioButton rb_menu_ball_friend;
-	private RadioButton rb_menu_my;
+	private RadioGroup				rg_menu;
+	private RadioButton				rb_menu_mian;
+	private RadioButton				rb_menu_pay;
+	private RadioButton				rb_menu_ball_friend;
+	private RadioButton				rb_menu_my;
 
-	private ArrayList<BaseFragment> fragments = new ArrayList<BaseFragment>();// 存放fragment
-	private int currentTab = 0; // 当前Tab页面索引
+	private ArrayList<BaseFragment>	fragments	= new ArrayList<BaseFragment>();	// 存放fragment
+	private int						currentTab	= 0;								// 当前Tab页面索引
+
+	/** 当前显示的fragment */
+	private BaseFragment			mCurrentFragment;
+	/** 首页fragment */
+	private BaseFragment			mHomeFragment;
+	/** 充值fragment */
+	private BaseFragment			mPayFragment;
+	/** 惠球友fragment */
+	private BaseFragment			mBallfriendFragment;
+	/** 我的fragment */
+	private BaseFragment			mMyFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		setHomeBar("");
-		setActionBarRightMenu(R.drawable.line_tad_more, new RightClickListen() {
-
-			@Override
-			public void onRightMenuClick() {
-				Toast.makeText(MainActivity.this, "Right Click Test", Toast.LENGTH_LONG).show();
-			}
-		});
+		initActionBar();
+		mActionbar_left.setImageResource(R.drawable.icon_title365_logo);
+		mActionbar_title.setVisibility(View.GONE);
 		initMainView();
-		initFragments();
 		rb_menu_mian.setChecked(true);
-
+		ULog.debug("--->onCreate");
 	}
 
 	private void initMainView() {
@@ -57,101 +63,76 @@ public class MainActivity extends BaseActivity {
 		rb_menu_pay = (RadioButton) findViewById(R.id.rb_menu_pay);
 		rb_menu_ball_friend = (RadioButton) findViewById(R.id.rb_menu_ball_friend);
 		rb_menu_my = (RadioButton) findViewById(R.id.rb_menu_my);
-		rg_menu.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				switch (checkedId) {
-				case R.id.rb_menu_mian:
-					changeFragment(0);
-					break;
-				case R.id.rb_menu_pay:
-					changeFragment(1);
-					break;
-				case R.id.rb_menu_ball_friend:
-					changeFragment(2);
-					break;
-				case R.id.rb_menu_my:
-					changeFragment(3);
-					break;
-				}
-			}
-		});
+		rg_menu.setOnCheckedChangeListener(this);
 	}
 
-	private void initFragments() {
-		HomePageFragment homePageFragment = new HomePageFragment();
-		Bundle home = new Bundle();
-		homePageFragment.setArguments(home);
-		fragments.add(homePageFragment);
-
-		HomePayFragment homePayFragment = new HomePayFragment();
-		Bundle pay = new Bundle();
-		homePayFragment.setArguments(pay);
-		fragments.add(homePayFragment);
-
-		HomeBallFriendFragment homeBallFriendFragment = new HomeBallFriendFragment();
-		Bundle ballfriend = new Bundle();
-		homeBallFriendFragment.setArguments(ballfriend);
-		fragments.add(homeBallFriendFragment);
-
-		HomeMyFragment homeMyFragment = new HomeMyFragment();
-		Bundle my = new Bundle();
-		homeMyFragment.setArguments(my);
-		fragments.add(homeMyFragment);
-	}
-
-	private void changeFragment(int index) {
-
-		BaseFragment fragment = fragments.get(index);
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		getCurrentFragment().onPause(); // 暂停当前tab
-
-		if (fragment.isAdded()) {
-			// fragment.onStart(); // 启动目标tab的onStart()
-			fragment.onResume(); // 启动目标tab的onResume()
-		} else {
-			ft.add(R.id.ll_fragment_container, fragment);
-		}
-		showTab(index); // 显示目标tab
-		// transaction.addToBackStack(null);
-		ft.commit();
-
-	}
-
-	public BaseFragment getCurrentFragment() {
-		return fragments.get(currentTab);
-	}
-
-	private void showTab(int idx) {
-		for (int i = 0; i < fragments.size(); i++) {
-			BaseFragment fragment = fragments.get(i);
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			if (idx == i) {
-				ft.show(fragment);
-			} else {
-				ft.hide(fragment);
-			}
-			ft.commit();
-		}
-		currentTab = idx; // 更新目标tab为当前tab
-	}
-
-	/**
-	 * 异常情况保存数据
-	 */
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		if (mCurrentFragment != null) {
+			fragmentTransaction.hide(mCurrentFragment);
+		}
 
+		switch (checkedId) {
+		case R.id.rb_menu_mian:
+			if (mHomeFragment != null) {
+				fragmentTransaction.show(mHomeFragment);
+			}
+			else {
+				mHomeFragment = new HomePageFragment();
+				fragmentTransaction.add(R.id.ll_fragment_container, mHomeFragment);
+			}
+			mCurrentFragment = mHomeFragment;
+			break;
+		case R.id.rb_menu_pay:
+			if (mPayFragment == null) {
+				fragmentTransaction.show(mPayFragment);
+			}
+			else {
+				mPayFragment = new HomePayFragment();
+				fragmentTransaction.add(R.id.ll_fragment_container, mPayFragment);
+			}
+			mCurrentFragment = mPayFragment;
+			break;
+		case R.id.rb_menu_ball_friend:
+			if (mBallfriendFragment != null) {
+				fragmentTransaction.show(mBallfriendFragment);
+			}
+			else {
+				mBallfriendFragment = new HomeBallFriendFragment();
+				fragmentTransaction.add(R.id.ll_fragment_container, mBallfriendFragment);
+			}
+			mCurrentFragment = mBallfriendFragment;
+			break;
+		case R.id.rb_menu_my:
+			if (mMyFragment != null) {
+				fragmentTransaction.show(mMyFragment);
+			}
+			else {
+				mMyFragment = new HomeMyFragment();
+				fragmentTransaction.add(R.id.ll_fragment_container, mMyFragment);
+			}
+			mCurrentFragment = mMyFragment;
+			break;
+		default:
+			break;
+		}
+
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commitAllowingStateLoss();
+		ULog.debug("---->onCheckedChanged()");
 	}
 
-	/**
-	 * 获取异常情况保存的数据
-	 */
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }
