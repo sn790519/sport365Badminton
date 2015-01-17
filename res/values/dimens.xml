@@ -52,7 +52,9 @@
     <dimen name="padding_twenty_dp">20dp</dimen>
     <dimen name="padding_twenty_five_dp">25dp</dimen>
     <dimen name="padding_thirty_dp">30dp</dimen>
+    <dimen name="padding_thirty_four_dp">34dp</dimen>
     <dimen name="padding_forty_dp">40dp</dimen>
+    <dimen name="padding_forty_four_dp">44dp</dimen>
 
     <!-- Text Size attribute -->
     <dimen name="text_ten_sp">10sp</dimen>

@@ -17,18 +17,13 @@ import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
-/**
- * Fragement基类，项目中的Fragemnt均需继承这个类. 以后相关Fragement的需求可以在基类中添加，方便日后维护
- * 
- */
 public class BaseFragment extends Fragment implements OnClickListener {
 
-	private HttpTaskHelper mHttpTaskHelper;
-	public LoadingDialog mLoadingDialog;
+	private HttpTaskHelper	mHttpTaskHelper;
+	public LoadingDialog	mLoadingDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mLoadingDialog = LoadingDialog.create(getActivity(), getActivity().getString(R.string.loading));
 		mHttpTaskHelper = new HttpTaskHelper(getActivity());
@@ -37,14 +32,12 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null) {
-		}
+		if (savedInstanceState != null) {}
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.getTag(v.getId()) != null) {
-		}
+		if (v.getTag(v.getId()) != null) {}
 	}
 
 	@Override
@@ -94,7 +87,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		}
 		if (resId <= 0) {
 			title = getResources().getString(R.string.loading);
-		} else {
+		}
+		else {
 			title = getResources().getString(resId);
 		}
 		if (mLoadingDialog == null) {
@@ -119,7 +113,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
 					}
 				}
 			});
-		} else {
+		}
+		else {
 			mLoadingDialog.setOnDismissListener(null);
 		}
 		mLoadingDialog.show();
@@ -151,7 +146,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -192,7 +188,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -236,14 +233,16 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
 		if (null == listener) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -283,14 +282,16 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
 		if (null == callback) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
