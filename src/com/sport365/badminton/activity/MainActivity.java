@@ -1,5 +1,6 @@
 package com.sport365.badminton.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			break;
 		}
 
-		fragmentTransaction.addToBackStack(null);
+//		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commitAllowingStateLoss();
 		ULog.debug("---->onCheckedChanged()");
 	}
@@ -140,10 +141,10 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (rg_menu.getCheckedRadioButtonId() != R.id.rb_menu_mian) {
-				rg_menu.check(R.id.rb_menu_mian);
-			}
-			else {
+//			if (rg_menu.getCheckedRadioButtonId() != R.id.rb_menu_mian) {
+//				rg_menu.check(R.id.rb_menu_mian);
+//			}
+//			else {
 				if ((System.currentTimeMillis() - exitTime) > 2000) {
 					Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
 					exitTime = System.currentTimeMillis();
@@ -152,10 +153,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 					MainActivity.this.finish();
 				}
 				return true;
-			}
-			break;
-		default:
-			break;
+//			}
+//			break;
 		}
 		return super.onKeyDown(keyCode, event);
 	}

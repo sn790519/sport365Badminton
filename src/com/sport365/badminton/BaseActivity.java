@@ -1,5 +1,7 @@
 package com.sport365.badminton;
 
+import android.app.ActionBar;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -7,7 +9,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,13 +42,21 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 	/** 右侧ImageVIew */
 	public ImageView		mActionbar_right;
 
+	private ActionBar		mActionBar;
+	private View			mActionBarView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		ULog.setTag(getClass().getSimpleName());
 		ULog.debug("--->onCreate");
+		initActionBar();
 		init();
+		initActionBar();
+	}
+	
+	public void setActionBarTitle(String title){
+		mActionbar_title.setText(title);
 	}
 
 	private void init() {
@@ -65,11 +74,27 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		mHttpTaskHelper = new HttpTaskHelper(this);
 	}
 
-	public void initActionBar() {
-		View view = findViewById(R.id.action_bar);
-		mActionbar_left = (ImageView) view.findViewById(R.id.iv_actionbar_left);
-		mActionbar_title = (TextView) view.findViewById(R.id.tv_actionbar_title);
-		mActionbar_right = (ImageView) view.findViewById(R.id.iv_actionbar_right);
+	private void initActionBar() {
+		mActionBarView = getLayoutInflater().inflate(R.layout.main_action_bar, null);
+		mActionBar = getActionBar();
+		if (mActionBar != null) {
+			mActionBar.setDisplayShowCustomEnabled(true);// 可以自定义actionbar
+			mActionBar.setDisplayShowTitleEnabled(false);// 不显示logo
+			mActionBar.setDisplayShowHomeEnabled(false);
+			mActionBar.setBackgroundDrawable(getResources().getDrawable(R.color.base_blue));
+			mActionbar_left = (ImageView) mActionBarView.findViewById(R.id.iv_actionbar_left);
+			mActionbar_left.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onBackPressed();
+				}
+			});
+			mActionbar_right = (ImageView) mActionBarView.findViewById(R.id.iv_actionbar_right);
+
+			mActionbar_title = (TextView) mActionBarView.findViewById(R.id.tv_actionbar_title);
+			ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			mActionBar.setCustomView(mActionBarView, params);
+		}
 	}
 
 	@Override
