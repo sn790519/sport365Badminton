@@ -49,6 +49,8 @@
         </activity>
         <activity android:name=".activity.ActivityCenterListAtivity" >
         </activity>
+        <activity android:name=".activity.ActivityCenterDetailActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -158,13 +158,13 @@ public class GetSprotHomeResBody implements Serializable {
         "contactUs": "赛事组织:尹先生 13052892875 <br> 俱乐部入驻: NC 13052892875"
     }*/
 	public String homeImg;
-	public String homeImgUrl;
-	public ArrayList<SportAdvertismentObj> sportAdvertismentList = new ArrayList<SportAdvertismentObj>();
+	public String homeImgUrl;//底部广告1个固定
+	public ArrayList<SportAdvertismentObj> sportAdvertismentList = new ArrayList<SportAdvertismentObj>();// 首页顶部广告
 	public ArrayList<SportThemeObj> sportThemeList = new ArrayList<SportThemeObj>();
-	public ArrayList<HomeKeyWordObj> homeKeyWordsList = new ArrayList<HomeKeyWordObj>();
-	public ArrayList<NearActiveObj> nearActiveList = new ArrayList<NearActiveObj>();
-	public ArrayList<NearActiveObj> hotActiveList = new ArrayList<NearActiveObj>();
+	public ArrayList<HomeKeyWordObj> homeKeyWordsList = new ArrayList<HomeKeyWordObj>();//导航菜单，4个
+	public ArrayList<NearActiveObj> nearActiveList = new ArrayList<NearActiveObj>();//废弃
+	public ArrayList<NearActiveObj> hotActiveList = new ArrayList<NearActiveObj>();//废弃
 	public String isCache;
-	public String aboutUs;
-	public String contactUs;
+	public String aboutUs;//关于我们
+	public String contactUs;// 联系我们
 }

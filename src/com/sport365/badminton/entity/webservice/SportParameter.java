@@ -10,14 +10,13 @@ import com.sport365.badminton.http.json.CacheOptions;
  */
 public enum SportParameter {
 	/**
-	 * 0景点下单接口
+	 * 会所列表
 	 */
-	SUBMIT_ORDER("shenghuohome", "ShenghuoHandler.ashx", CacheOptions.NO_CACHE),
+	GET_VENUE_LIST("GetVenueList", "VenueHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 1.获取365首页接口
 	 */
-	GET_SPROT_HOME("getsprothome", "AdministrativeDivisionsHandler.ashx",
-			CacheOptions.USE_CACHE);
+	GET_SPROT_HOME("getsprothome", "AdministrativeDivisionsHandler.ashx", CacheOptions.USE_CACHE);
 
 	private final String mServiceName;
 	private final String mServiceAction;

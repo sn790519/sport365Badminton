@@ -3,9 +3,12 @@ package com.sport365.badminton.activity;
 import java.util.ArrayList;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +24,11 @@ import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.DialogConfig;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
-
+/**
+ * 运动会所列表页面
+ * @author Frank
+ *
+ */
 public class ActivityCenterListAtivity extends BaseActivity {
 
 	private EditText						et_search_text;												// 搜索输入框
@@ -40,6 +47,14 @@ public class ActivityCenterListAtivity extends BaseActivity {
 		lv_activity_center.addHeaderView(initHeadView());
 		activityCenterAdapter = new ActivityCenterAdapter();
 		lv_activity_center.setAdapter(activityCenterAdapter);
+		lv_activity_center.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Intent intent = new Intent(ActivityCenterListAtivity.this,ActivityCenterDetailActivity.class);
+					startActivity(intent);
+			}
+		});
 		initADdata();
 	}
 

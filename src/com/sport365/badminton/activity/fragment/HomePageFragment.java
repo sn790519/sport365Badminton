@@ -14,13 +14,19 @@ import com.sport365.badminton.entity.obj.AdvertisementObject;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
+/**
+ * 首页界面
+ * 
+ * @author Frank
+ * 
+ */
 public class HomePageFragment extends BaseFragment {
-	private ArrayList<AdvertisementObject>	advertismentlist	= new ArrayList<AdvertisementObject>(); // 广告
-	private AdvertisementView				advertisementControlLayout;
-	private LinearLayout					ll_ad_layout;
+	private ArrayList<AdvertisementObject> advertismentlist = new ArrayList<AdvertisementObject>(); // 广告
+	private AdvertisementView advertisementControlLayout;
+	private LinearLayout ll_ad_layout;
 
-	private AdvertisementView				advertisementControlLayout_bottom;
-	private LinearLayout					ll_ad_layout_bottom;
+	private AdvertisementView advertisementControlLayout_bottom;
+	private LinearLayout ll_ad_layout_bottom;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,8 +62,5 @@ public class HomePageFragment extends BaseFragment {
 		ad_one.redirectUrl = "http://www.baidu.com";
 		return ad_one;
 	}
-	
-	
-	
 
 }

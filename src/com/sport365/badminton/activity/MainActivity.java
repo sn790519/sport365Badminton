@@ -17,6 +17,16 @@ import com.sport365.badminton.activity.fragment.HomeBallFriendFragment;
 import com.sport365.badminton.activity.fragment.HomeMyFragment;
 import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
+import com.sport365.badminton.entity.reqbody.GetSprotHomeReqBody;
+import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
+import com.sport365.badminton.entity.webservice.SportParameter;
+import com.sport365.badminton.entity.webservice.SportWebService;
+import com.sport365.badminton.http.base.HttpTaskHelper.JsonResponse;
+import com.sport365.badminton.http.base.HttpTaskHelper.RequestInfo;
+import com.sport365.badminton.http.base.IRequestProxyCallback;
+import com.sport365.badminton.http.json.req.ServiceRequest;
+import com.sport365.badminton.http.json.res.ResponseContent;
+import com.sport365.badminton.http.json.res.ResponseContent.Header;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
 
@@ -27,24 +37,24 @@ import com.sport365.badminton.utils.Utilities;
 public class MainActivity extends BaseActivity implements OnCheckedChangeListener {
 
 	/** 再按一次退出应用 */
-	private long			exitTime	= 0;
+	private long exitTime = 0;
 
-	private RadioGroup		rg_menu;
-	private RadioButton		rb_menu_mian;
-	private RadioButton		rb_menu_pay;
-	private RadioButton		rb_menu_ball_friend;
-	private RadioButton		rb_menu_my;
+	private RadioGroup rg_menu;
+	private RadioButton rb_menu_mian;
+	private RadioButton rb_menu_pay;
+	private RadioButton rb_menu_ball_friend;
+	private RadioButton rb_menu_my;
 
 	/** 当前显示的fragment */
-	private BaseFragment	mCurrentFragment;
+	private BaseFragment mCurrentFragment;
 	/** 首页fragment */
-	private BaseFragment	mHomeFragment;
+	private BaseFragment mHomeFragment;
 	/** 充值fragment */
-	private BaseFragment	mPayFragment;
+	private BaseFragment mPayFragment;
 	/** 惠球友fragment */
-	private BaseFragment	mBallfriendFragment;
+	private BaseFragment mBallfriendFragment;
 	/** 我的fragment */
-	private BaseFragment	mMyFragment;
+	private BaseFragment mMyFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +66,15 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		rb_menu_mian.setChecked(true);
 		setRightClick();
 		ULog.debug("--->onCreate");
+		initMainPageRequest();
 	}
-	
-	private void setRightClick()
-	{
+
+	private void setRightClick() {
 		mActionbar_right.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this,ActivityCenterListAtivity.class);
+				Intent intent = new Intent(MainActivity.this, ActivityCenterListAtivity.class);
 				startActivity(intent);
 			}
 		});
@@ -91,8 +101,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_mian:
 			if (mHomeFragment != null) {
 				fragmentTransaction.show(mHomeFragment);
-			}
-			else {
+			} else {
 				mHomeFragment = new HomePageFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mHomeFragment);
 			}
@@ -101,8 +110,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_pay:
 			if (mPayFragment != null) {
 				fragmentTransaction.show(mPayFragment);
-			}
-			else {
+			} else {
 				mPayFragment = new HomePayFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mPayFragment);
 			}
@@ -111,8 +119,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_ball_friend:
 			if (mBallfriendFragment != null) {
 				fragmentTransaction.show(mBallfriendFragment);
-			}
-			else {
+			} else {
 				mBallfriendFragment = new HomeBallFriendFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mBallfriendFragment);
 			}
@@ -121,8 +128,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_my:
 			if (mMyFragment != null) {
 				fragmentTransaction.show(mMyFragment);
-			}
-			else {
+			} else {
 				mMyFragment = new HomeMyFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mMyFragment);
 			}
@@ -132,7 +138,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			break;
 		}
 
-//		fragmentTransaction.addToBackStack(null);
+		// fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commitAllowingStateLoss();
 		ULog.debug("---->onCheckedChanged()");
 	}
@@ -141,22 +147,59 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-//			if (rg_menu.getCheckedRadioButtonId() != R.id.rb_menu_mian) {
-//				rg_menu.check(R.id.rb_menu_mian);
-//			}
-//			else {
-				if ((System.currentTimeMillis() - exitTime) > 2000) {
-					Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
-					exitTime = System.currentTimeMillis();
-				}
-				else {
-					MainActivity.this.finish();
-				}
-				return true;
-//			}
-//			break;
+			if ((System.currentTimeMillis() - exitTime) > 2000) {
+				Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
+				exitTime = System.currentTimeMillis();
+			} else {
+				MainActivity.this.finish();
+			}
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	/**
+	 * 首页接口的请求
+	 */
+	private void initMainPageRequest() {
+		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
+		reqBody.CityId = "226";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_SPROT_HOME), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+				GetSprotHomeResBody resBody = de.getBody();
+			}
+
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	/**
+	 * 会所列表
+	 */
+	private void init_Get_Venue_List() {
+		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
+		reqBody.CityId = "226";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_VENUE_LIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+				GetSprotHomeResBody resBody = de.getBody();
+			}
+
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
 	}
 
 }
