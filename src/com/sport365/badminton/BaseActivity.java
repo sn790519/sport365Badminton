@@ -48,6 +48,11 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		ULog.setTag(getClass().getSimpleName());
 		ULog.debug("--->onCreate");
 		init();
+		initActionBar();
+	}
+	
+	public void setActionBarTitle(String title){
+		mActionbar_title.setText(title);
 	}
 
 	private void init() {
