@@ -72,13 +72,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		rb_menu_mian.setChecked(true);
 		setRightClick();
 		ULog.debug("--->onCreate");
-//		initMainPageRequest();
-//		init_Get_Venue_List();
-//		init_GET_VENUE_DETAIL_BYI();
-//		init_GET_CLUB_LIST_BYVENUE();
-//		init_GET_CLUB_INFO_BYID();
+		initMainPageRequest();
+		init_Get_Venue_List();
+		init_GET_VENUE_DETAIL_BYI();
+		init_GET_CLUB_LIST_BYVENUE();
+		init_GET_CLUB_INFO_BYID();
 		init_GET_ALL_ACTIVE_LIST();
-//		init_GET_ACTIVE_DETAIL_BYID();
+		init_GET_ACTIVE_DETAIL_BYID();
 	}
 
 	private void setRightClick() {

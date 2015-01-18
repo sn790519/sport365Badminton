@@ -52,6 +52,18 @@
         </activity>
         <activity android:name=".activity.ActivityCenterDetailActivity" >
         </activity>
+        <activity android:name=".activity.ActivityDetailActivity" >
+        </activity>
+        <activity android:name=".activity.ActivityListActivity" >
+        </activity>
+        <activity android:name=".activity.ClubDetailActivity" >
+        </activity>
+        <activity android:name=".activity.ClubListActivity" >
+        </activity>
+        <activity android:name=".activity.PlayDetailActivity" >
+        </activity>
+        <activity android:name=".activity.PlayListActivity" >
+        </activity>
     </application>
 
 </manifest>
