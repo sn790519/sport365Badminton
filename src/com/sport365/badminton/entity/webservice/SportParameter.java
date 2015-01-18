@@ -27,6 +27,15 @@ public enum SportParameter {
 	 */
 	GET_ACTIVE_DETAIL_BYID("GetActiveDetailById", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
 	/**
+	 * 俱乐部列表
+	 */
+	GET_CLUB_LIST_BYVENUE("GetClubListByVenue", "ClubHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 俱乐部详情
+	 */
+	GET_CLUB_INFO_BYID("GetClubInfoByid", "ClubHandler.ashx", CacheOptions.NO_CACHE),
+
+	/**
 	 * 1.获取365首页接口
 	 */
 	GET_SPROT_HOME("getsprothome", "AdministrativeDivisionsHandler.ashx", CacheOptions.USE_CACHE);

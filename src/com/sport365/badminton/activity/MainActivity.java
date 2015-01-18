@@ -19,6 +19,8 @@ import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
 import com.sport365.badminton.entity.reqbody.GetActiveDetailByIdReqBody;
 import com.sport365.badminton.entity.reqbody.GetAllActiveListReqBody;
+import com.sport365.badminton.entity.reqbody.GetClubInfoByidReqBody;
+import com.sport365.badminton.entity.reqbody.GetClubListByVenueReqBody;
 import com.sport365.badminton.entity.reqbody.GetSprotHomeReqBody;
 import com.sport365.badminton.entity.reqbody.GetVenueDetailByIdReqBody;
 import com.sport365.badminton.entity.reqbody.GetVenueListReqBody;
@@ -70,7 +72,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		rb_menu_mian.setChecked(true);
 		setRightClick();
 		ULog.debug("--->onCreate");
-		initMainPageRequest();
+//		initMainPageRequest();
+//		init_Get_Venue_List();
+//		init_GET_VENUE_DETAIL_BYI();
+//		init_GET_CLUB_LIST_BYVENUE();
+//		init_GET_CLUB_INFO_BYID();
+		init_GET_ALL_ACTIVE_LIST();
+//		init_GET_ACTIVE_DETAIL_BYID();
 	}
 
 	private void setRightClick() {
@@ -198,8 +206,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
 			@Override
 			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
-				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
-				GetSprotHomeResBody resBody = de.getBody();
+//				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+//				GetSprotHomeResBody resBody = de.getBody();
 			}
 
 			@Override
@@ -220,8 +228,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
 			@Override
 			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
-				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
-				GetSprotHomeResBody resBody = de.getBody();
+//				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+//				GetSprotHomeResBody resBody = de.getBody();
 			}
 
 			@Override
@@ -247,8 +255,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
 			@Override
 			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
-				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
-				GetSprotHomeResBody resBody = de.getBody();
+//				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+//				GetSprotHomeResBody resBody = de.getBody();
 			}
 
 			@Override
@@ -269,8 +277,56 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
 			@Override
 			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
-				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
-				GetSprotHomeResBody resBody = de.getBody();
+//				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+//				GetSprotHomeResBody resBody = de.getBody();
+			}
+
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	/**
+	 * 俱乐部列表
+	 */
+	private void init_GET_CLUB_LIST_BYVENUE() {
+		GetClubListByVenueReqBody reqBody = new GetClubListByVenueReqBody();
+		reqBody.page = "1";
+		reqBody.pageSize = "10";
+		reqBody.provinceId = "17";
+		reqBody.cityId = "220";
+		reqBody.countyId = "2143";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST_BYVENUE), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+//				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+//				GetSprotHomeResBody resBody = de.getBody();
+			}
+
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	/**
+	 * 俱乐部详情
+	 */
+	private void init_GET_CLUB_INFO_BYID() {
+		GetClubInfoByidReqBody reqBody = new GetClubInfoByidReqBody();
+		reqBody.clubId = "1";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_INFO_BYID), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+//				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+//				GetSprotHomeResBody resBody = de.getBody();
 			}
 
 			@Override
