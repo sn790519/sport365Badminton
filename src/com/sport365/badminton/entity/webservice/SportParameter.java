@@ -13,6 +13,19 @@ public enum SportParameter {
 	 * 会所列表
 	 */
 	GET_VENUE_LIST("GetVenueList", "VenueHandler.ashx", CacheOptions.NO_CACHE),
+
+	/**
+	 * 会所详情页面
+	 */
+	GET_VENUE_DETAIL_BYID("GetVenueDetailById", "VenueHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 活动列表
+	 */
+	GET_ALL_ACTIVE_LIST("GetAllActiveList", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 活动详情
+	 */
+	GET_ACTIVE_DETAIL_BYID("GetActiveDetailById", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 1.获取365首页接口
 	 */
