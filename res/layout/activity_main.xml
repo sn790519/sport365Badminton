@@ -68,8 +68,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <include
-        android:id="@+id/action_bar"
-        layout="@layout/main_action_bar" />
-
 </RelativeLayout>

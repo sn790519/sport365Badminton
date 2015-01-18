@@ -56,5 +56,8 @@ public class HomePageFragment extends BaseFragment {
 		ad_one.redirectUrl = "http://www.baidu.com";
 		return ad_one;
 	}
+	
+	
+	
 
 }

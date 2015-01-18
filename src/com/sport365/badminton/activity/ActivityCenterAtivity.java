@@ -20,19 +20,18 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 public class ActivityCenterAtivity extends BaseActivity {
 
-	private EditText et_search_text;// 搜索输入框
-	private LinearLayout ll_ad_layout;// 广告
+	private EditText						et_search_text;												// 搜索输入框
+	private LinearLayout					ll_ad_layout;												// 广告
 
-	private ListView lv_activity_center;
-	private ActivityCenterAdapter activityCenterAdapter;
-	private ArrayList<AdvertisementObject> advertismentlist = new ArrayList<AdvertisementObject>();// 广告
-	private AdvertisementView advertisementControlLayout;
+	private ListView						lv_activity_center;
+	private ActivityCenterAdapter			activityCenterAdapter;
+	private ArrayList<AdvertisementObject>	advertismentlist	= new ArrayList<AdvertisementObject>();	// 广告
+	private AdvertisementView				advertisementControlLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_center_layout);
-		setActionBarTitle("运动会所");
 		lv_activity_center = (ListView) findViewById(R.id.lv_activity_center);
 		lv_activity_center.addHeaderView(initHeadView());
 		activityCenterAdapter = new ActivityCenterAdapter();
@@ -100,7 +99,8 @@ public class ActivityCenterAtivity extends BaseActivity {
 				viewHolder.tv_game = (TextView) convertView.findViewById(R.id.tv_game);
 				viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
 				convertView.setTag(viewHolder);
-			} else {
+			}
+			else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 			return convertView;
@@ -109,14 +109,14 @@ public class ActivityCenterAtivity extends BaseActivity {
 	}
 
 	class ViewHolder {
-		TextView tv_venue;// 场馆
-		ImageView imageView;// 图片
-		TextView tv_time;// 时间
-		TextView tv_phone;// 电话
-		TextView tv_distance;// 地址
-		TextView tv_club;// 俱乐部
-		TextView tv_activity;// 活动
-		TextView tv_game;// 比赛
+		TextView	tv_venue;		// 场馆
+		ImageView	imageView;		// 图片
+		TextView	tv_time;		// 时间
+		TextView	tv_phone;		// 电话
+		TextView	tv_distance;	// 地址
+		TextView	tv_club;		// 俱乐部
+		TextView	tv_activity;	// 活动
+		TextView	tv_game;		// 比赛
 	}
 
 }

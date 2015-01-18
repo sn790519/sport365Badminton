@@ -1,8 +1,5 @@
 package com.sport365.badminton.activity;
 
-import java.util.ArrayList;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -20,6 +17,7 @@ import com.sport365.badminton.activity.fragment.HomeMyFragment;
 import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
 import com.sport365.badminton.utils.ULog;
+import com.sport365.badminton.utils.Utilities;
 
 /**
  * 首页的4个fragment
@@ -27,25 +25,25 @@ import com.sport365.badminton.utils.ULog;
  */
 public class MainActivity extends BaseActivity implements OnCheckedChangeListener {
 
-	private RadioGroup rg_menu;
-	private RadioButton rb_menu_mian;
-	private RadioButton rb_menu_pay;
-	private RadioButton rb_menu_ball_friend;
-	private RadioButton rb_menu_my;
+	/** 再按一次退出应用 */
+	private long			exitTime	= 0;
 
-	private ArrayList<BaseFragment> fragments = new ArrayList<BaseFragment>(); // 存放fragment
-	private int currentTab = 0; // 当前Tab页面索引
+	private RadioGroup		rg_menu;
+	private RadioButton		rb_menu_mian;
+	private RadioButton		rb_menu_pay;
+	private RadioButton		rb_menu_ball_friend;
+	private RadioButton		rb_menu_my;
 
 	/** 当前显示的fragment */
-	private BaseFragment mCurrentFragment;
+	private BaseFragment	mCurrentFragment;
 	/** 首页fragment */
-	private BaseFragment mHomeFragment;
+	private BaseFragment	mHomeFragment;
 	/** 充值fragment */
-	private BaseFragment mPayFragment;
+	private BaseFragment	mPayFragment;
 	/** 惠球友fragment */
-	private BaseFragment mBallfriendFragment;
+	private BaseFragment	mBallfriendFragment;
 	/** 我的fragment */
-	private BaseFragment mMyFragment;
+	private BaseFragment	mMyFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		setContentView(R.layout.activity_main);
 		mActionbar_left.setImageResource(R.drawable.icon_title365_logo);
 		mActionbar_title.setVisibility(View.GONE);
-		initMainView();
+		findViews();
 		rb_menu_mian.setChecked(true);
 		setRightClick();
 		ULog.debug("--->onCreate");
@@ -71,7 +69,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		});
 	}
 
-	private void initMainView() {
+	private void findViews() {
 		rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
 		rb_menu_mian = (RadioButton) findViewById(R.id.rb_menu_mian);
 		rb_menu_pay = (RadioButton) findViewById(R.id.rb_menu_pay);
@@ -84,6 +82,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		if (mCurrentFragment != null) {
+			mCurrentFragment.onPause();
 			fragmentTransaction.hide(mCurrentFragment);
 		}
 
@@ -91,16 +90,18 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_mian:
 			if (mHomeFragment != null) {
 				fragmentTransaction.show(mHomeFragment);
-			} else {
+			}
+			else {
 				mHomeFragment = new HomePageFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mHomeFragment);
 			}
 			mCurrentFragment = mHomeFragment;
 			break;
 		case R.id.rb_menu_pay:
-			if (mPayFragment == null) {
+			if (mPayFragment != null) {
 				fragmentTransaction.show(mPayFragment);
-			} else {
+			}
+			else {
 				mPayFragment = new HomePayFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mPayFragment);
 			}
@@ -109,7 +110,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_ball_friend:
 			if (mBallfriendFragment != null) {
 				fragmentTransaction.show(mBallfriendFragment);
-			} else {
+			}
+			else {
 				mBallfriendFragment = new HomeBallFriendFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mBallfriendFragment);
 			}
@@ -118,7 +120,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		case R.id.rb_menu_my:
 			if (mMyFragment != null) {
 				fragmentTransaction.show(mMyFragment);
-			} else {
+			}
+			else {
 				mMyFragment = new HomeMyFragment();
 				fragmentTransaction.add(R.id.ll_fragment_container, mMyFragment);
 			}
@@ -137,7 +140,19 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-
+			if (rg_menu.getCheckedRadioButtonId() != R.id.rb_menu_mian) {
+				rg_menu.check(R.id.rb_menu_mian);
+			}
+			else {
+				if ((System.currentTimeMillis() - exitTime) > 2000) {
+					Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
+					exitTime = System.currentTimeMillis();
+				}
+				else {
+					MainActivity.this.finish();
+				}
+				return true;
+			}
 			break;
 		default:
 			break;
