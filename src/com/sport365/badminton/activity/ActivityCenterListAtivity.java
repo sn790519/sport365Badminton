@@ -22,7 +22,7 @@ import com.sport365.badminton.http.base.DialogConfig;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
-public class ActivityCenterAtivity extends BaseActivity {
+public class ActivityCenterListAtivity extends BaseActivity {
 
 	private EditText						et_search_text;												// 搜索输入框
 	private LinearLayout					ll_ad_layout;												// 广告

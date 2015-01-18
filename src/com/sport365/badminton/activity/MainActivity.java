@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this,ActivityCenterAtivity.class);
+				Intent intent = new Intent(MainActivity.this,ActivityCenterListAtivity.class);
 				startActivity(intent);
 			}
 		});
