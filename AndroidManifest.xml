@@ -3,7 +3,7 @@
     package="com.sport365.badminton"
     android:versionCode="1"
     android:versionName="1.0" >
-<!—-测试测试—>
+<!—-删除测试测试—>
 
     <uses-sdk
         android:minSdkVersion="14"
