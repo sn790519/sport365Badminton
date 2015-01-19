@@ -16,8 +16,6 @@ import com.sport365.badminton.utils.BundleKeys;
 
 /**
  * 广告专用.
- * 
- * @date 2014-10-16
  */
 public class AdvertisementView extends BaseImageSwitcher<AdvertisementObject> {
 

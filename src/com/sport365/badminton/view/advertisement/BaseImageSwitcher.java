@@ -36,9 +36,6 @@ import com.sport365.badminton.http.base.ImageLoader;
 /**
  * 图片切换器.
  *
- * @param <T>
- * @author sk. 09145
- * @date 2014-10-16
  */
 public abstract class BaseImageSwitcher<T> extends RelativeLayout implements OnItemSelectedListener, OnItemClickListener, OnTouchListener, ISwithcer<T> {
 

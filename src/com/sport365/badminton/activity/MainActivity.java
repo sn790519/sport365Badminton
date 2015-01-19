@@ -38,11 +38,12 @@ import com.sport365.badminton.utils.Utilities;
 
 /**
  * 首页的4个fragment
- * 
  */
 public class MainActivity extends BaseActivity implements OnCheckedChangeListener {
 
-	/** 再按一次退出应用 */
+	/**
+	 * 再按一次退出应用
+	 */
 	private long exitTime = 0;
 
 	private RadioGroup rg_menu;
@@ -51,15 +52,25 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	private RadioButton rb_menu_ball_friend;
 	private RadioButton rb_menu_my;
 
-	/** 当前显示的fragment */
+	/**
+	 * 当前显示的fragment
+	 */
 	private BaseFragment mCurrentFragment;
-	/** 首页fragment */
+	/**
+	 * 首页fragment
+	 */
 	private BaseFragment mHomeFragment;
-	/** 充值fragment */
+	/**
+	 * 充值fragment
+	 */
 	private BaseFragment mPayFragment;
-	/** 惠球友fragment */
+	/**
+	 * 惠球友fragment
+	 */
 	private BaseFragment mBallfriendFragment;
-	/** 我的fragment */
+	/**
+	 * 我的fragment
+	 */
 	private BaseFragment mMyFragment;
 
 	@Override
@@ -110,44 +121,44 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		}
 
 		switch (checkedId) {
-		case R.id.rb_menu_mian:
-			if (mHomeFragment != null) {
-				fragmentTransaction.show(mHomeFragment);
-			} else {
-				mHomeFragment = new HomePageFragment();
-				fragmentTransaction.add(R.id.ll_fragment_container, mHomeFragment);
-			}
-			mCurrentFragment = mHomeFragment;
-			break;
-		case R.id.rb_menu_pay:
-			if (mPayFragment != null) {
-				fragmentTransaction.show(mPayFragment);
-			} else {
-				mPayFragment = new HomePayFragment();
-				fragmentTransaction.add(R.id.ll_fragment_container, mPayFragment);
-			}
-			mCurrentFragment = mPayFragment;
-			break;
-		case R.id.rb_menu_ball_friend:
-			if (mBallfriendFragment != null) {
-				fragmentTransaction.show(mBallfriendFragment);
-			} else {
-				mBallfriendFragment = new HomeBallFriendFragment();
-				fragmentTransaction.add(R.id.ll_fragment_container, mBallfriendFragment);
-			}
-			mCurrentFragment = mBallfriendFragment;
-			break;
-		case R.id.rb_menu_my:
-			if (mMyFragment != null) {
-				fragmentTransaction.show(mMyFragment);
-			} else {
-				mMyFragment = new HomeMyFragment();
-				fragmentTransaction.add(R.id.ll_fragment_container, mMyFragment);
-			}
-			mCurrentFragment = mMyFragment;
-			break;
-		default:
-			break;
+			case R.id.rb_menu_mian:
+				if (mHomeFragment != null) {
+					fragmentTransaction.show(mHomeFragment);
+				} else {
+					mHomeFragment = new HomePageFragment();
+					fragmentTransaction.add(R.id.ll_fragment_container, mHomeFragment);
+				}
+				mCurrentFragment = mHomeFragment;
+				break;
+			case R.id.rb_menu_pay:
+				if (mPayFragment != null) {
+					fragmentTransaction.show(mPayFragment);
+				} else {
+					mPayFragment = new HomePayFragment();
+					fragmentTransaction.add(R.id.ll_fragment_container, mPayFragment);
+				}
+				mCurrentFragment = mPayFragment;
+				break;
+			case R.id.rb_menu_ball_friend:
+				if (mBallfriendFragment != null) {
+					fragmentTransaction.show(mBallfriendFragment);
+				} else {
+					mBallfriendFragment = new HomeBallFriendFragment();
+					fragmentTransaction.add(R.id.ll_fragment_container, mBallfriendFragment);
+				}
+				mCurrentFragment = mBallfriendFragment;
+				break;
+			case R.id.rb_menu_my:
+				if (mMyFragment != null) {
+					fragmentTransaction.show(mMyFragment);
+				} else {
+					mMyFragment = new HomeMyFragment();
+					fragmentTransaction.add(R.id.ll_fragment_container, mMyFragment);
+				}
+				mCurrentFragment = mMyFragment;
+				break;
+			default:
+				break;
 		}
 
 		// fragmentTransaction.addToBackStack(null);
@@ -158,16 +169,26 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			if ((System.currentTimeMillis() - exitTime) > 2000) {
-				Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
-				exitTime = System.currentTimeMillis();
-			} else {
-				MainActivity.this.finish();
-			}
-			return true;
+			case KeyEvent.KEYCODE_BACK:
+				if ((System.currentTimeMillis() - exitTime) > 2000) {
+					Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
+					exitTime = System.currentTimeMillis();
+				} else {
+					MainActivity.this.finish();
+				}
+				return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
+			exitTime = System.currentTimeMillis();
+		} else {
+			MainActivity.this.finish();
+		}
 	}
 
 	/**
