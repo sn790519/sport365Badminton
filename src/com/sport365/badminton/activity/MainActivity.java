@@ -28,6 +28,7 @@ import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.view.PopupWindowItem;
 
 /**
  * 首页的4个fragment
@@ -70,12 +71,9 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mActionbar_left.setImageResource(R.drawable.icon_title365_logo);
-        mActionbar_left.setClickable(false);
-        mActionbar_title.setVisibility(View.GONE);
+        initActionBar();
         findViews();
         rb_menu_mian.setChecked(true);
-        setRightClick();
         ULog.debug("--->onCreate");
         initMainPageRequest();
         init_Get_Venue_List();
@@ -86,16 +84,41 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         init_GET_ACTIVE_DETAIL_BYID();
     }
 
-    private void setRightClick() {
+    private void initActionBar()
+    {
+        mActionbar_left.setImageResource(R.drawable.icon_title365_logo);
+        mActionbar_left.setClickable(false);
+        mActionbar_title.setVisibility(View.GONE);
+        final OnClickListener tel_listener=new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //弹出打电话
+            }
+        };
+        final OnClickListener aboutUs_listener=new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //弹出关于我们
+            }
+        };
         mActionbar_right.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ActivityCenterListAtivity.class);
-                startActivity(intent);
+
+                PopupWindowItem tel =new PopupWindowItem();
+                tel.text=getString(R.string.tel);
+                tel.onClickListener=tel_listener;
+
+                PopupWindowItem aboutUs=new PopupWindowItem();
+                aboutUs.text=getString(R.string.about_us);
+                aboutUs.onClickListener=aboutUs_listener;
+
+
             }
         });
     }
+
 
     private void findViews() {
         rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
@@ -179,15 +202,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         return super.onKeyDown(keyCode, event);
     }
 
-//	@Override
-//	public void onBackPressed() {
-//		if ((System.currentTimeMillis() - exitTime) > 2000) {
-//			Utilities.showToast(mContext.getResources().getString(R.string.press_more_exit), this);
-//			exitTime = System.currentTimeMillis();
-//		} else {
-//			MainActivity.this.finish();
-//		}
-//	}
+
 
     /**
      * 首页接口的请求

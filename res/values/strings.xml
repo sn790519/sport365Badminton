@@ -15,5 +15,7 @@
     <string name="cancel">取消</string>
     <string name="remind">提示</string>
     <string name="press_more_exit">再按一次退出</string>
+    <string name="tel">联系电话</string>
+    <string name="about_us">关于我们</string>
 
 </resources>
