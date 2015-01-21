@@ -1,6 +1,5 @@
 package com.sport365.badminton.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -28,7 +27,10 @@ import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.view.ActionBarPopupWindow;
 import com.sport365.badminton.view.PopupWindowItem;
+
+import java.util.ArrayList;
 
 /**
  * 首页的4个fragment
@@ -84,36 +86,42 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         init_GET_ACTIVE_DETAIL_BYID();
     }
 
-    private void initActionBar()
-    {
+    private void initActionBar() {
         mActionbar_left.setImageResource(R.drawable.icon_title365_logo);
         mActionbar_left.setClickable(false);
         mActionbar_title.setVisibility(View.GONE);
-        final OnClickListener tel_listener=new OnClickListener() {
+        final OnClickListener tel_listener = new OnClickListener() {
             @Override
             public void onClick(View view) {
                 //弹出打电话
             }
         };
-        final OnClickListener aboutUs_listener=new OnClickListener() {
+        final OnClickListener aboutUs_listener = new OnClickListener() {
             @Override
             public void onClick(View view) {
                 //弹出关于我们
             }
         };
+
+        PopupWindowItem tel = new PopupWindowItem();
+        tel.text = getString(R.string.tel);
+        tel.onClickListener = tel_listener;
+
+        PopupWindowItem aboutUs = new PopupWindowItem();
+        aboutUs.text = getString(R.string.about_us);
+        aboutUs.onClickListener = aboutUs_listener;
+        final ArrayList<PopupWindowItem> list = new ArrayList<PopupWindowItem>();
+        list.add(tel);
+        list.add(aboutUs);
         mActionbar_right.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                PopupWindowItem tel =new PopupWindowItem();
-                tel.text=getString(R.string.tel);
-                tel.onClickListener=tel_listener;
-
-                PopupWindowItem aboutUs=new PopupWindowItem();
-                aboutUs.text=getString(R.string.about_us);
-                aboutUs.onClickListener=aboutUs_listener;
-
+                ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(mContext, 0, 0, list);
+                //  popupwindw显示太宽，让美工换个切图
+                actionBarPopupWindow.showAsDropDown(
+                        mActionbar_right,
+                        0, 15);
 
             }
         });
@@ -201,7 +209,6 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
     /**

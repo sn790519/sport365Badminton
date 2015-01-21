@@ -43,7 +43,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
     public ImageView mActionbar_right;
 
     private ActionBar mActionBar;
-    private View mActionBarView;
+    public View mActionBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
