@@ -15,5 +15,6 @@ public class PlayDetailActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setActionBarTitle("比赛详情");
 	}
 }

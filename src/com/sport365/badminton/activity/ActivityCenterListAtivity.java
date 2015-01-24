@@ -43,6 +43,7 @@ public class ActivityCenterListAtivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_center_layout);
+		setActionBarTitle("运动会所");
 		lv_activity_center = (ListView) findViewById(R.id.lv_activity_center);
 		lv_activity_center.addHeaderView(initHeadView());
 		activityCenterAdapter = new ActivityCenterAdapter();
@@ -85,7 +86,7 @@ public class ActivityCenterListAtivity extends BaseActivity {
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
 	}
-	
+
 	class ActivityCenterAdapter extends BaseAdapter {
 
 		@Override
