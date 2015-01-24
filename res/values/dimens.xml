@@ -62,6 +62,7 @@
     <dimen name="text_fifteen_sp">15sp</dimen>
     <dimen name="text_eighteen_sp">18sp</dimen>
     <dimen name="text_twenty_sp">20sp</dimen>
+    <dimen name="text_twenty_four_sp">24sp</dimen>
     <dimen name="line_hight">0.5dip</dimen>
 
 </resources>
