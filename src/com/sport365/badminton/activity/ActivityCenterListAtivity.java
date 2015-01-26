@@ -2,7 +2,6 @@ package com.sport365.badminton.activity;
 
 import java.util.ArrayList;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,9 +18,6 @@ import android.widget.TextView;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.AdvertisementObject;
-import com.sport365.badminton.entity.webservice.SportParameter;
-import com.sport365.badminton.entity.webservice.SportWebService;
-import com.sport365.badminton.http.base.DialogConfig;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 /**

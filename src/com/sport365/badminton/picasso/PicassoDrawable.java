@@ -17,9 +17,6 @@ package com.sport365.badminton.picasso;
 
 import static android.graphics.Color.WHITE;
 import static com.sport365.badminton.picasso.Picasso.LoadedFrom.MEMORY;
-
-import com.sport365.badminton.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -35,6 +32,8 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+
+import com.sport365.badminton.R;
 
 final class PicassoDrawable extends BitmapDrawable {
   // Only accessed from main thread.

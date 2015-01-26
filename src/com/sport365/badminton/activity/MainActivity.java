@@ -1,5 +1,7 @@
 package com.sport365.badminton.activity;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -8,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
@@ -15,7 +18,13 @@ import com.sport365.badminton.activity.fragment.HomeBallFriendFragment;
 import com.sport365.badminton.activity.fragment.HomeMyFragment;
 import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
-import com.sport365.badminton.entity.reqbody.*;
+import com.sport365.badminton.entity.reqbody.GetActiveDetailByIdReqBody;
+import com.sport365.badminton.entity.reqbody.GetAllActiveListReqBody;
+import com.sport365.badminton.entity.reqbody.GetClubInfoByidReqBody;
+import com.sport365.badminton.entity.reqbody.GetClubListByVenueReqBody;
+import com.sport365.badminton.entity.reqbody.GetSprotHomeReqBody;
+import com.sport365.badminton.entity.reqbody.GetVenueDetailByIdReqBody;
+import com.sport365.badminton.entity.reqbody.GetVenueListReqBody;
 import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
@@ -29,8 +38,6 @@ import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.ActionBarPopupWindow;
 import com.sport365.badminton.view.PopupWindowItem;
-
-import java.util.ArrayList;
 
 /**
  * 首页的4个fragment

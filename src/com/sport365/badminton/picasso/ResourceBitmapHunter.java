@@ -15,13 +15,14 @@
  */
 package com.sport365.badminton.picasso;
 
+import static com.sport365.badminton.picasso.Picasso.LoadedFrom.DISK;
+
+import java.io.IOException;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import java.io.IOException;
-
-import static com.sport365.badminton.picasso.Picasso.LoadedFrom.DISK;
 
 class ResourceBitmapHunter extends BitmapHunter {
   private final Context context;

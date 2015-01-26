@@ -15,6 +15,14 @@
  */
 package com.sport365.badminton.picasso;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.provider.ContactsContract.Contacts.openContactPhotoInputStream;
+import static com.sport365.badminton.picasso.Picasso.LoadedFrom.DISK;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -23,14 +31,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-import static android.provider.ContactsContract.Contacts.openContactPhotoInputStream;
-import static com.sport365.badminton.picasso.Picasso.LoadedFrom.DISK;
 
 class ContactsPhotoBitmapHunter extends BitmapHunter {
   /** A lookup uri (e.g. content://com.android.contacts/contacts/lookup/3570i61d948d30808e537) */

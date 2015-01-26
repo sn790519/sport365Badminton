@@ -15,23 +15,24 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import java.io.IOException;
-
 import static android.content.ContentUris.parseId;
-import static android.provider.MediaStore.Images;
-import static android.provider.MediaStore.Video;
 import static android.provider.MediaStore.Images.Thumbnails.FULL_SCREEN_KIND;
 import static android.provider.MediaStore.Images.Thumbnails.MICRO_KIND;
 import static android.provider.MediaStore.Images.Thumbnails.MINI_KIND;
 import static com.sport365.badminton.picasso.MediaStoreBitmapHunter.PicassoKind.FULL;
 import static com.sport365.badminton.picasso.MediaStoreBitmapHunter.PicassoKind.MICRO;
 import static com.sport365.badminton.picasso.MediaStoreBitmapHunter.PicassoKind.MINI;
+
+import java.io.IOException;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Video;
 
 class MediaStoreBitmapHunter extends ContentStreamBitmapHunter {
   private static final String[] CONTENT_ORIENTATION = new String[] {

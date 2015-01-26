@@ -9,13 +9,11 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.sport365.badminton.R;
 import com.sport365.badminton.http.HttpEngine;
 import com.sport365.badminton.http.RequestObject;
 import com.sport365.badminton.http.RetCodes;

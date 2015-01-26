@@ -15,13 +15,14 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
+import static java.util.Collections.unmodifiableList;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.Collections.unmodifiableList;
+import android.graphics.Bitmap;
+import android.net.Uri;
 
 /** Immutable data about an image and the transformations that will be applied to it. */
 public final class Request {

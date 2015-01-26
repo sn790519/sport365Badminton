@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
-import com.sport365.badminton.activity.ClubListActivity.ClubAdapter;
-import com.sport365.badminton.activity.ClubListActivity.ViewHolder;
 import com.sport365.badminton.entity.obj.AdvertisementObject;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;

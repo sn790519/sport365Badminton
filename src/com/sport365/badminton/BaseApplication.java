@@ -12,7 +12,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		application = this;
 		// 百度地图初始化
-		SDKInitializer.initialize(getApplicationContext());
+//		SDKInitializer.initialize(getApplicationContext());
 	}
 
 	public static BaseApplication getInstance() {

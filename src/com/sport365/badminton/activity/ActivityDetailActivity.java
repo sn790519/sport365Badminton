@@ -1,19 +1,19 @@
 package com.sport365.badminton.activity;
 
-import android.os.Bundle;
+import java.util.ArrayList;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.AdvertisementObject;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
-
-import java.util.ArrayList;
 
 /**
  * 活动详情页面

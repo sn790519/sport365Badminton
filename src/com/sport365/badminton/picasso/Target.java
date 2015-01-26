@@ -18,7 +18,7 @@ package com.sport365.badminton.picasso;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
-import static com.sport365.badminton.picasso.Picasso.LoadedFrom;
+import com.sport365.badminton.picasso.Picasso.LoadedFrom;
 
 /**
  * Represents an arbitrary listener for image loading.
