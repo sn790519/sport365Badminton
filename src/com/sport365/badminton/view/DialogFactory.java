@@ -1,8 +1,5 @@
 package com.sport365.badminton.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,14 +18,16 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.sport365.badminton.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DialogFactory {
-	public static final String	TAG	= DialogFactory.class.getSimpleName();
-	private Context				context;
-	private Dialog				dialog;
-	public PopupWindow			pop;
+	public static final String TAG = DialogFactory.class.getSimpleName();
+	private Context context;
+	private Dialog dialog;
+	public PopupWindow pop;
 
 	public DialogFactory(Context context) {
 		this.context = context;
@@ -53,8 +52,7 @@ public class DialogFactory {
 		if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 			// 竖屏 竖屏的时候取屏幕宽度，作为对话框的宽度基础值*比例
 			lp.width = (int) (display.getWidth() * width); // 设置宽度
-		}
-		else {// 横屏 横屏的时候取高度
+		} else {// 横屏 横屏的时候取高度
 			lp.width = (int) (display.getHeight() * width); // 设置宽度
 		}
 		dialog.getWindow().setAttributes(lp);
@@ -67,7 +65,7 @@ public class DialogFactory {
 
 	/**
 	 * 查询所有支持分享的应用信息
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -83,7 +81,7 @@ public class DialogFactory {
 
 	/**
 	 * 得到应用列表
-	 * 
+	 *
 	 * @return
 	 */
 	private List<AppInfo> getShareAppList() {
@@ -92,8 +90,7 @@ public class DialogFactory {
 		List<ResolveInfo> resolveInfos = getShareApps(context);
 		if (null == resolveInfos) {
 			return null;
-		}
-		else {
+		} else {
 			for (ResolveInfo resolveInfo : resolveInfos) {
 				AppInfo appInfo = new AppInfo();
 				appInfo.setAppPkgName(resolveInfo.activityInfo.packageName);
@@ -112,13 +109,10 @@ public class DialogFactory {
 
 	/**
 	 * 一个按钮
-	 * 
-	 * @param title
-	 *            标题
-	 * @param content
-	 *            提示内容
-	 * @param okContent
-	 *            dialog左边按钮内容
+	 *
+	 * @param title           标题
+	 * @param content         提示内容
+	 * @param okContent       dialog左边按钮内容
 	 * @param onClickListener
 	 * @param isCancelable
 	 */
@@ -128,24 +122,17 @@ public class DialogFactory {
 
 	public void showDialog(String title, String content, String okContent, final onBtnClickListener onClickListener) {
 		showDialog(title, content, okContent, onClickListener, false);
-
 	}
 
 	/**
 	 * 2个按钮
-	 * 
-	 * @param title
-	 *            标题
-	 * @param content
-	 *            提示内容
-	 * @param ok
-	 *            dialog左边按钮内容
-	 * @param cancle
-	 *            dialog右边按钮内容
-	 * @param onClickListener
-	 *            点击事件
-	 * @param isCancelable
-	 *            能否被返回键取消
+	 *
+	 * @param title           标题
+	 * @param content         提示内容
+	 * @param ok              dialog左边按钮内容
+	 * @param cancle          dialog右边按钮内容
+	 * @param onClickListener 点击事件
+	 * @param isCancelable    能否被返回键取消
 	 */
 	public void showDialog2Btn(String title, String content, String ok, String cancle, final onBtnClickListener onClickListener, boolean isCancelable) {
 		showDialog3Btn(title, content, ok, null, cancle, onClickListener, isCancelable);
@@ -156,25 +143,48 @@ public class DialogFactory {
 	}
 
 	/**
-	 * 3个按钮
-	 * 
 	 * @param title
-	 *            提示标题
 	 * @param content
-	 *            提示内容
-	 * @param btn_left_content
-	 *            dialog左边确定按钮文字
-	 * @param btn_center_content
-	 *            dialog中间自定义按钮文字
-	 * @param btn_right_content
-	 *            dialog右边取消按钮文字
-	 * @param onClickListener
-	 *            点击事件
-	 * @param isCancelable
-	 *            能否响应返回键
+	 */
+	public void showDialogWithClose(String title, String content) {
+		onBtnClickListener onClickListener = new onBtnClickListener() {
+			@Override
+			public void btnLeftClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnNeutralClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnRightClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnCloseClickListener(View v) {
+				if (null != dialog & dialog.isShowing())
+					dialog.dismiss();
+			}
+		};
+		this.showDialog3Btn(title, content, null, null, null, onClickListener, true);
+	}
+
+	/**
+	 * 3个按钮
+	 *
+	 * @param title              提示标题
+	 * @param content            提示内容
+	 * @param btn_left_content   dialog左边确定按钮文字
+	 * @param btn_center_content dialog中间自定义按钮文字
+	 * @param btn_right_content  dialog右边取消按钮文字
+	 * @param onClickListener    点击事件
+	 * @param isCancelable       能否响应返回键
 	 */
 	public void showDialog3Btn(String title, final String content, String btn_left_content, String btn_center_content, String btn_right_content, final onBtnClickListener onClickListener,
-			boolean isCancelable) {
+							   boolean isCancelable) {
 		dialog = new Dialog(context, R.style.dialog);
 		dialog.setCancelable(isCancelable);
 		dialog.setContentView(R.layout.dialog_factory_button);
@@ -192,22 +202,25 @@ public class DialogFactory {
 		if (tvContent != null) {
 			tvContent.setText((null == content) ? "" : content);
 		}
-		if (btn_left_content != null) {
+
+		if (TextUtils.isEmpty(btn_left_content)) {
+			btn_left.setVisibility(View.GONE);
+		} else {
+			btn_left.setVisibility(View.VISIBLE);
 			btn_left.setText(TextUtils.isEmpty(btn_left_content) ? context.getString(R.string.ok) : btn_left_content);
 		}
+
 
 		if (btn_center_content != null) {
 			btn_center.setText(btn_center_content);
 			btn_center.setVisibility(View.VISIBLE);
-		}
-		else {
+		} else {
 			btn_center.setVisibility(View.GONE);
 		}
 		if (btn_right_content != null) {
 			btn_right.setText(btn_right_content);
 			btn_right.setVisibility(View.VISIBLE);
-		}
-		else {
+		} else {
 			btn_right.setVisibility(View.GONE);
 		}
 		if (btn_right_content == null && btn_center_content == null) {
@@ -259,9 +272,8 @@ public class DialogFactory {
 
 	/**
 	 * 退出对话框点击事件
-	 * 
+	 *
 	 * @author wchen
-	 * 
 	 */
 	public interface onExitBtnClickListener {
 
@@ -274,28 +286,28 @@ public class DialogFactory {
 	public interface onBtnClickListener {
 		/**
 		 * 左边确认按钮
-		 * 
+		 *
 		 * @param v
 		 */
 		public abstract void btnLeftClickListener(View v);
 
 		/**
 		 * dialog中间自定义按钮
-		 * 
+		 *
 		 * @param v
 		 */
 		public abstract void btnNeutralClickListener(View v);
 
 		/**
 		 * dialog最右边按钮
-		 * 
+		 *
 		 * @param v
 		 */
 		public abstract void btnRightClickListener(View v);
 
 		/**
 		 * 右上角关闭
-		 * 
+		 *
 		 * @param v
 		 */
 		public abstract void btnCloseClickListener(View v);
@@ -303,14 +315,13 @@ public class DialogFactory {
 
 	/**
 	 * 可分享应用程序信息
-	 * 
 	 */
 	public class AppInfo {
 
-		private String		AppPkgName;			// 应用包名
-		private String		AppLauncherClassName;	// 接受分享内容activity名称
-		private String		AppName;				// 应用名称
-		private Drawable	AppIcon;				// 应用图标
+		private String AppPkgName;            // 应用包名
+		private String AppLauncherClassName;    // 接受分享内容activity名称
+		private String AppName;                // 应用名称
+		private Drawable AppIcon;                // 应用图标
 
 		public AppInfo() {
 			super();

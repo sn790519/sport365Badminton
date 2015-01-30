@@ -66,6 +66,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+                android:id="@+id/rl_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
@@ -99,6 +100,7 @@
                 android:layout_height="0.5dp"
                 android:background="@color/main_line"/>
         <RelativeLayout
+                android:id="@+id/rl_pay_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
