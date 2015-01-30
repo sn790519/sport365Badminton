@@ -15,12 +15,13 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.telephony.TelephonyManager;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
 
 /**
  * The default {@link java.util.concurrent.ExecutorService} used for new {@link Picasso} instances.

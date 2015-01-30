@@ -15,24 +15,9 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.NetworkInfo;
-import android.net.Uri;
-import android.provider.MediaStore;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Future;
-
 import static android.content.ContentResolver.SCHEME_ANDROID_RESOURCE;
 import static android.content.ContentResolver.SCHEME_CONTENT;
 import static android.content.ContentResolver.SCHEME_FILE;
-import static android.provider.ContactsContract.Contacts;
 import static com.sport365.badminton.picasso.AssetBitmapHunter.ANDROID_ASSET;
 import static com.sport365.badminton.picasso.Picasso.LoadedFrom.MEMORY;
 import static com.sport365.badminton.picasso.Utils.OWNER_HUNTER;
@@ -43,6 +28,22 @@ import static com.sport365.badminton.picasso.Utils.VERB_REMOVED;
 import static com.sport365.badminton.picasso.Utils.VERB_TRANSFORMED;
 import static com.sport365.badminton.picasso.Utils.getLogIdsForHunter;
 import static com.sport365.badminton.picasso.Utils.log;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.provider.ContactsContract.Contacts;
+import android.provider.MediaStore;
 
 abstract class BitmapHunter implements Runnable {
 

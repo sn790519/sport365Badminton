@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_ad_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="90.0dp" >
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="0.5dp"
+                android:layout_marginTop="0.5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_default_common" />
+
+            <TextView
+                android:id="@+id/tv_play_activity_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/anim_cycle_activities"
+                android:gravity="center_vertical"
+                android:text="周期活动"
+                android:textColor="@color/white"
+                android:textSize="@dimen/hint" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="0.5dp"
+                android:layout_marginTop="0.5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/line_expandarrow_keyword" />
+
+            <RelativeLayout
+                android:id="@+id/rl_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="90.0dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/iv_arrow"
+                android:layout_toRightOf="@id/imageView"
+                android:gravity="top" >
+
+                <TextView
+                    android:id="@+id/tv_paly_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_list_time"
+                    android:drawablePadding="4.0dip"
+                    android:gravity="center_vertical"
+                    android:text="第二届 “全体独墅湖高教区”羽毛球大奖赛"
+                    android:textColor="@color/hint"
+                    android:textSize="@dimen/hint" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_paly_name" >
+
+                    <TextView
+                        android:id="@+id/tv_play_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="4.0dip"
+                        android:drawableLeft="@drawable/icon_list_phone"
+                        android:drawablePadding="4.0dip"
+                        android:gravity="center_vertical"
+                        android:text="22 人已报名"
+                        android:textColor="@color/hint"
+                        android:textSize="@dimen/hint" />
+
+                    <TextView
+                        android:id="@+id/tv_play_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/photoframe_indicator"
+                        android:gravity="center"
+                        android:text="$ 58"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/list" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="11dp"
+                android:layout_toRightOf="@id/imageView"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="90.0dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="6dp"
+            android:gravity="top" >
+
+            <TextView
+                android:id="@+id/tv_time_on"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_list_time"
+                android:drawablePadding="4.0dip"
+                android:gravity="center_vertical"
+                android:text="10:00 -- 11:00"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+
+            <TextView
+                android:id="@+id/tv_place_big"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_time_on"
+                android:layout_marginTop="4.0dip"
+                android:drawableLeft="@drawable/icon_list_phone"
+                android:drawablePadding="4.0dip"
+                android:gravity="center_vertical"
+                android:text="区域 苏州独墅湖教育区"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+
+            <TextView
+                android:id="@+id/tv_place_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_place_big"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="4.0dip"
+                android:drawableLeft="@drawable/icon_list_address"
+                android:drawablePadding="4.0dip"
+                android:drawableRight="@drawable/icon_nearby_map"
+                android:gravity="top"
+                android:maxLines="2"
+                android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8.0dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:text="详细信息"
+                android:textColor="@color/green"
+                android:textSize="@dimen/list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8.0dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:text="主办单位：独墅湖高教区\n\n赞助单位：中国科学技术大学研究院\n\n协办单位：独墅湖高教区体育馆"
+                android:textColor="@color/gray_text_color"
+                android:textSize="@dimen/list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8.0dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:text="一、比赛项目\n 精英组男双，混合团体赛\n二、比赛规则\n精英组男双，混合团体赛\n三、比赛规则\n1.......\n2........\n3.........\n\n"
+                android:textColor="@color/gray_text_color"
+                android:textSize="@dimen/list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/base_blue"
+            android:orientation="horizontal"
+            android:padding="8.0dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/tv_club"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="我要报名"
+                android:textColor="@color/white"
+                android:textSize="@dimen/list" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

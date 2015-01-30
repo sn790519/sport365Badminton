@@ -15,16 +15,17 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.content.Context;
-import android.net.Uri;
-import android.net.http.HttpResponseCache;
-import android.os.Build;
+import static com.sport365.badminton.picasso.Utils.parseResponseSourceHeader;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.sport365.badminton.picasso.Utils.parseResponseSourceHeader;
+import android.content.Context;
+import android.net.Uri;
+import android.net.http.HttpResponseCache;
+import android.os.Build;
 
 /**
  * A {@link Downloader} which uses {@link HttpURLConnection} to download images. A disk cache of 2%

@@ -1,5 +1,7 @@
 package com.sport365.badminton.view;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
@@ -9,10 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.sport365.badminton.R;
 import com.sport365.badminton.utils.ULog;
-
-import java.util.ArrayList;
 
 public class ActionBarPopupWindow extends PopupWindow {
 

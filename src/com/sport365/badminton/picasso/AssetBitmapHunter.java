@@ -1,14 +1,15 @@
 package com.sport365.badminton.picasso;
 
+import static android.content.ContentResolver.SCHEME_FILE;
+import static com.sport365.badminton.picasso.Picasso.LoadedFrom.DISK;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static android.content.ContentResolver.SCHEME_FILE;
-import static com.sport365.badminton.picasso.Picasso.LoadedFrom.DISK;
 
 class AssetBitmapHunter extends BitmapHunter {
   protected static final String ANDROID_ASSET = "android_asset";

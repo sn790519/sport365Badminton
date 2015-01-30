@@ -15,14 +15,13 @@
  */
 package com.sport365.badminton.picasso;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static com.sport365.badminton.picasso.Utils.getService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
 import android.graphics.Bitmap;
 import android.widget.RemoteViews;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static com.sport365.badminton.picasso.Utils.getService;
 
 abstract class RemoteViewsAction extends Action<RemoteViewsAction.RemoteViewsTarget> {
   final RemoteViews remoteViews;

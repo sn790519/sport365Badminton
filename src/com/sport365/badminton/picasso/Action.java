@@ -15,10 +15,11 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 abstract class Action<T> {
   static class RequestWeakReference<T> extends WeakReference<T> {

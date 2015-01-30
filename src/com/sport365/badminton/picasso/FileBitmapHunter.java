@@ -15,17 +15,18 @@
  */
 package com.sport365.badminton.picasso;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.ExifInterface;
-import android.net.Uri;
-import java.io.IOException;
-
 import static android.media.ExifInterface.ORIENTATION_NORMAL;
 import static android.media.ExifInterface.ORIENTATION_ROTATE_180;
 import static android.media.ExifInterface.ORIENTATION_ROTATE_270;
 import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
 import static android.media.ExifInterface.TAG_ORIENTATION;
+
+import java.io.IOException;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
+import android.net.Uri;
 
 class FileBitmapHunter extends ContentStreamBitmapHunter {
 

@@ -15,6 +15,23 @@
  */
 package com.sport365.badminton.picasso;
 
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
+import static com.sport365.badminton.picasso.Dispatcher.HUNTER_BATCH_COMPLETE;
+import static com.sport365.badminton.picasso.Dispatcher.REQUEST_GCED;
+import static com.sport365.badminton.picasso.Utils.OWNER_MAIN;
+import static com.sport365.badminton.picasso.Utils.THREAD_PREFIX;
+import static com.sport365.badminton.picasso.Utils.VERB_COMPLETED;
+import static com.sport365.badminton.picasso.Utils.VERB_ERRORED;
+import static com.sport365.badminton.picasso.Utils.checkMain;
+import static com.sport365.badminton.picasso.Utils.log;
+
+import java.io.File;
+import java.lang.ref.ReferenceQueue;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.ExecutorService;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -25,23 +42,8 @@ import android.os.Message;
 import android.os.Process;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
-import java.io.File;
-import java.lang.ref.ReferenceQueue;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.ExecutorService;
 
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
-import static com.sport365.badminton.picasso.Action.RequestWeakReference;
-import static com.sport365.badminton.picasso.Dispatcher.HUNTER_BATCH_COMPLETE;
-import static com.sport365.badminton.picasso.Dispatcher.REQUEST_GCED;
-import static com.sport365.badminton.picasso.Utils.OWNER_MAIN;
-import static com.sport365.badminton.picasso.Utils.THREAD_PREFIX;
-import static com.sport365.badminton.picasso.Utils.VERB_COMPLETED;
-import static com.sport365.badminton.picasso.Utils.VERB_ERRORED;
-import static com.sport365.badminton.picasso.Utils.checkMain;
-import static com.sport365.badminton.picasso.Utils.log;
+import com.sport365.badminton.picasso.Action.RequestWeakReference;
 
 /**
  * Image downloading, transformation, and caching manager.
