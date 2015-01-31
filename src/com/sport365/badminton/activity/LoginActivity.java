@@ -17,8 +17,8 @@ import com.sport365.badminton.http.base.HttpTaskHelper;
 import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
+import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.BundleKeys;
-import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 
 /**
@@ -32,7 +32,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText et_login_pwd;
     private Button btn_login;
     private TextView tv_find_pwd;
-    private TextView tv_regist;
+    private TextView tv_register;
 
 
     @Override
@@ -55,8 +55,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         btn_login.setOnClickListener(this);
         tv_find_pwd = (TextView) findViewById(R.id.tv_find_pwd);
         tv_find_pwd.setOnClickListener(this);
-        tv_regist = (TextView) findViewById(R.id.tv_regist);
-        tv_regist.setOnClickListener(this);
+        tv_register = (TextView) findViewById(R.id.tv_register);
+        tv_register.setOnClickListener(this);
     }
 
 
@@ -66,23 +66,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         switch (v.getId()) {
             case R.id.btn_login:
-                if (TextUtils.isEmpty(et_login_name.getText().toString())) {
-                    Utilities.showToast(getString(R.string.account_hint), mContext);
-                    return;
-                }
-                if (TextUtils.isEmpty(et_login_pwd.getText().toString())) {
-                    Utilities.showToast(getString(R.string.account_pasword_hint), mContext);
-                    return;
-                }
+//                if (TextUtils.isEmpty(et_login_name.getText().toString())) {
+//                    Utilities.showToast(getString(R.string.account_hint), mContext);
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(et_login_pwd.getText().toString())) {
+//                    Utilities.showToast(getString(R.string.account_pasword_hint), mContext);
+//                    return;
+//                }
                 LoginReqBody reqBody = new LoginReqBody();
-                reqBody.mobile = et_login_name.getText().toString();
-                reqBody.Password = et_login_pwd.getText().toString();
+//                reqBody.mobile = et_login_name.getText().toString();
+//                reqBody.Password = et_login_pwd.getText().toString();
+                reqBody.mobile = "13052892875";
+                reqBody.Password = "5778763";
                 login(reqBody);
                 break;
             case R.id.tv_find_pwd:
 
                 break;
-            case R.id.tv_regist:
+            case R.id.tv_register:
 
                 break;
         }
@@ -98,10 +100,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 ResponseContent<LoginResBody> de = jsonResponse.getResponseContent(LoginResBody.class);
                 LoginResBody resBody = de.getBody();
                 //保存登录状态
-                SystemConfig.memberId=resBody.memberId;
-                Intent intent=new Intent();
-                intent.putExtra(BundleKeys.LOGIN,resBody);
-                setResult(RESULT_OK, intent);
+                SystemConfig.memberId = resBody.memberId;
+                SystemConfig.loginResBody = resBody;
                 finish();
             }
 

@@ -24,6 +24,7 @@
 
 
 	<string name="user_center">会员中心</string>
+	<string name="user_center_no_login">您还没有登录，点击登录</string>
 	<string name="user_center_user_name">用户名：</string>
 	<string name="user_center_score">积分：</string>
 	<string name="user_center_pay_online">在线充值</string>

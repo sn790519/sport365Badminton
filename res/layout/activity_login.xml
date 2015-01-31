@@ -79,6 +79,8 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:background="@color/base_blue"
+            android:layout_marginLeft="@dimen/margin_fifteen_dp"
+            android:layout_marginRight="@dimen/margin_fifteen_dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_login"
@@ -101,7 +103,7 @@
                 android:textSize="@dimen/text_size_info"/>
         <TextView
                 android:layout_weight="1"
-                android:id="@+id/tv_regist"
+                android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
