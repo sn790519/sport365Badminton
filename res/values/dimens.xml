@@ -65,4 +65,5 @@
     <dimen name="text_twenty_four_sp">24sp</dimen>
     <dimen name="line_hight">0.5dip</dimen>
 
+    <dimen name="min_hight">48dp</dimen>
 </resources>

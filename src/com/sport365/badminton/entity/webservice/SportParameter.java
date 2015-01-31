@@ -10,6 +10,10 @@ import com.sport365.badminton.http.json.CacheOptions;
  */
 public enum SportParameter {
 	/**
+	 * 登录
+	 */
+	Login("login", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
 	 * 会所列表
 	 */
 	GET_VENUE_LIST("GetVenueList", "VenueHandler.ashx", CacheOptions.NO_CACHE),
