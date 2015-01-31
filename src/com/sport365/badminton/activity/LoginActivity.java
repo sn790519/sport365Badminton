@@ -17,6 +17,8 @@ import com.sport365.badminton.http.base.HttpTaskHelper;
 import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
+import com.sport365.badminton.utils.BundleKeys;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 
 /**
@@ -95,8 +97,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
                 ResponseContent<LoginResBody> de = jsonResponse.getResponseContent(LoginResBody.class);
                 LoginResBody resBody = de.getBody();
-                Intent intent=new Intent()
-                setResult(RESULT_OK,resBody);
+                //保存登录状态
+                SystemConfig.memberId=resBody.memberId;
+                Intent intent=new Intent();
+                intent.putExtra(BundleKeys.LOGIN,resBody);
+                setResult(RESULT_OK, intent);
+                finish();
             }
 
             @Override

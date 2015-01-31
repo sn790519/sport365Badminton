@@ -13,4 +13,7 @@ public class BundleKeys {
 	 */
 	public static final String WEBVIEEW_LOADURL = "loadurl";
 	public static final String WEBVIEEW_TITLE = "loadtitle";
+
+
+	public static final String LOGIN = "login";
 }
