@@ -41,7 +41,7 @@
                           android:textColor="@color/white"
                           android:textSize="@dimen/text_eighteen_sp"
                           android:layout_marginLeft="@dimen/margin_twenty_five_dp"
-                          android:layout_marginTop="@dimen/margin_twenty_five_dp"
+                          android:layout_marginTop="@dimen/margin_twenty_dp"
                           android:text="@string/user_center_user_name"
                         />
                 <TextView android:id="@+id/tv_user_name"
