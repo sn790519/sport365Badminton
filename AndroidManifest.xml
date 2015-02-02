@@ -73,6 +73,8 @@
 		</activity>
 		<activity android:name=".activity.RegisterActivity">
 		</activity>
+		<activity android:name=".activity.FindPwdActivity">
+		</activity>
 		<activity android:name=".activity.MapFragmentDemo">
 		</activity>
 

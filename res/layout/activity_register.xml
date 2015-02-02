@@ -15,16 +15,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:minWidth="96dp"
+                android:minWidth="70dp"
                 android:textSize="@dimen/text_size_list"
-                android:text="账号"
+                android:text="手机号"
                 />
 
         <EditText
-                android:id="@+id/et_login_name"
+                android:id="@+id/et_phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/account_hint"
+                android:hint="请输入手机号"
                 android:paddingLeft="10dp"
                 android:background="@android:color/transparent"
                 android:singleLine="true"
@@ -38,6 +38,7 @@
             android:layout_height="0.5dp"
             android:background="@color/main_line"/>
 
+
     <LinearLayout
             android:layout_height="@dimen/min_hight"
             android:layout_width="match_parent"
@@ -50,24 +51,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:minWidth="96dp"
-                android:text="密码"
+                android:minWidth="70dp"
+                android:text="验证码"
                 android:textSize="@dimen/text_size_list"/>
 
         <EditText
-                android:id="@+id/et_login_pwd"
-                android:layout_width="match_parent"
+                android:id="@+id/et_code"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="@string/account_pasword_hint"
+                android:hint="请输入验证码"
+                android:layout_weight="1"
                 android:maxLength="30"
                 android:paddingLeft="10dp"
                 android:password="true"
                 android:singleLine="true"
                 android:textSize="@dimen/text_size_list"/>
+        <Button
+                android:id="@+id/btn_send_code"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/base_blue"
+                android:paddingLeft="@dimen/margin_fifteen_dp"
+                android:paddingRight="@dimen/margin_fifteen_dp"
+                android:layout_marginRight="@dimen/margin_fifteen_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发送验证码"/>
     </LinearLayout>
     <View
-            android:layout_marginTop="@dimen/padding_three_dp"
             android:layout_marginRight="@dimen/padding_three_dp"
             android:layout_marginLeft="@dimen/margin_fifteen_dp"
             android:layout_width="match_parent"
@@ -83,36 +95,10 @@
             android:layout_marginRight="@dimen/margin_fifteen_dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_login"
-            android:text="登录"/>
+            android:id="@+id/btn_register"
+            android:text="注册"/>
 
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-                android:layout_weight="1"
-                android:id="@+id/tv_find_pwd"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="找回密码 ?"
-                android:textColor="@color/base_blue"
-                android:textSize="@dimen/text_size_title"/>
-        <TextView
-                android:layout_weight="1"
-                android:id="@+id/tv_register"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="注册"
-                android:textColor="@color/base_blue"
-                android:textSize="@dimen/text_size_title"/>
-
-    </LinearLayout>
 </LinearLayout>
 
 

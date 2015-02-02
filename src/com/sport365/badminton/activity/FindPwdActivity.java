@@ -22,10 +22,10 @@ import com.squareup.okhttp.ResponseBody;
 
 
 /**
- * 注册
+ * 找回密码
  * Created by vincent on 15/2/1.
  */
-public class RegisterActivity extends BaseActivity implements View.OnClickListener {
+public class FindPwdActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btn_send_code;
     private Button btn_register;
@@ -42,7 +42,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initActionBar() {
-        setActionBarTitle("注册");
+        setActionBarTitle("找回密码");
         mActionbar_right.setVisibility(View.GONE);
     }
 
@@ -129,7 +129,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
                 ResponseContent<ResponseBody> de = jsonResponse.getResponseContent(ResponseBody.class);
                 Utilities.showToast(de.getHeader().getRspDesc(), mContext);
-                Intent data=new Intent();
+                Intent data = new Intent();
                 data.putExtra("phone", et_phone.getText().toString());
                 setResult(RESULT_FIRST_USER, data);
                 finish();

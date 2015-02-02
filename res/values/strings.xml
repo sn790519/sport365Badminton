@@ -17,6 +17,8 @@
 	<string name="modify">修改</string>
 	<string name="press_more_exit">再按一次退出</string>
 	<string name="account_hint">请输入手机号码或账号</string>
+	<string name="register_hint">请输入手机号码</string>
+	<string name="register_hint_code">请输入验证码</string>
 	<string name="account_pasword_hint">请输入密码</string>
 	<string name="tel">联系电话</string>
 	<string name="about_us">关于我们</string>

@@ -15,10 +15,10 @@ public class MapFragmentDemo extends Activity {
 		//注意该方法要再setContentView方法之前实现
 		setContentView(R.layout.activity_fragment);
 		//获取地图控件引用
-		120.736615,31.282195
+//		120.736615,31.282195
 
 		mMapView = (MapView) findViewById(R.id.bmapView);
-		mMapView.
+//		mMapView.
 	}
 
 //	@Override

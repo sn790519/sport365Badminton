@@ -9,10 +9,21 @@ import com.sport365.badminton.http.json.CacheOptions;
  * 
  */
 public enum SportParameter {
+
+
+	/**
+	 * 发送验证码
+	 */
+	SEND_MOBILE_CODE("SendMobileCode", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 注册
+	 */
+	REGISTER("Register", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+
 	/**
 	 * 登录
 	 */
-	Login("login", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	LOGIN("Login", "MemberHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 会所列表
 	 */

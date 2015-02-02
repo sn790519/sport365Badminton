@@ -18,7 +18,6 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.params.SystemConfig;
-import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.utils.Utilities;
 
 /**
@@ -85,14 +84,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 break;
             case R.id.tv_register:
-
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivityForResult(intent, RESULT_FIRST_USER);
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_FIRST_USER && null != data && null != data.getExtras()) {
+            String phone = data.getExtras().getString("phone");
+            if (!TextUtils.isEmpty(phone)) {
+                LoginReqBody reqBody = new LoginReqBody();
+                reqBody.mobile = phone;
+                reqBody.Password = phone;
+                login(reqBody);
+            }
+        }
+    }
 
     private void login(final LoginReqBody reqBody) {
-        SportWebService webService = new SportWebService(SportParameter.Login);
+        SportWebService webService = new SportWebService(SportParameter.LOGIN);
         sendRequestWithDialog(new ServiceRequest(mContext, webService, reqBody), null, new IRequestProxyCallback() {
 
             @Override
