@@ -26,6 +26,7 @@
 
 
 	<string name="user_center">会员中心</string>
+	<string name="logout_success">退出登陆成功</string>
 	<string name="user_center_no_login">您还没有登录，点击登录</string>
 	<string name="user_center_user_name">用户名：</string>
 	<string name="user_center_score">积分：</string>

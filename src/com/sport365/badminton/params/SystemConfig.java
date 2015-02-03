@@ -91,6 +91,7 @@ public class SystemConfig {
 
     public static void clearData() {
         memberId = "";
+        loginResBody=null;
     }
 
     public static LoginResBody loginResBody;

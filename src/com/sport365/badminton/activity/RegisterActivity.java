@@ -52,6 +52,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_register.setClickable(false);
         btn_register.setOnClickListener(this);
+        btn_register.setBackgroundColor(getResources().getColor(R.color.grey));
         et_phone = (EditText) findViewById(R.id.et_phone);
         et_code = (EditText) findViewById(R.id.et_code);
 
@@ -106,6 +107,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 ResponseContent<ResponseBody> de = jsonResponse.getResponseContent(ResponseBody.class);
                 Utilities.showToast(de.getHeader().getRspDesc(), mContext);
                 btn_register.setClickable(true);
+                btn_register.setBackgroundColor(getResources().getColor(R.color.base_blue));
             }
 
             @Override
