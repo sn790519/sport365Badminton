@@ -1,6 +1,5 @@
 package com.sport365.badminton.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,17 +9,9 @@ import android.view.View;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
-import com.sport365.badminton.entity.reqbody.RegisterReqBody;
-import com.sport365.badminton.entity.reqbody.SendMobileCodeReqBody;
-import com.sport365.badminton.entity.webservice.SportParameter;
-import com.sport365.badminton.entity.webservice.SportWebService;
-import com.sport365.badminton.http.base.HttpTaskHelper;
-import com.sport365.badminton.http.base.IRequestProxyCallback;
-import com.sport365.badminton.http.json.req.ServiceRequest;
-import com.sport365.badminton.http.json.res.ResponseContent;
-import com.sport365.badminton.utils.Utilities;
-import com.squareup.okhttp.ResponseBody;
-import com.viewpagerindicator.TabPageIndicator;
+import com.sport365.badminton.activity.fragment.FindpwdByEmailFragment;
+import com.sport365.badminton.activity.fragment.FindpwdByPhoneFragment;
+import com.sport365.badminton.view.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +46,10 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
 		List<BaseFragment> list_fragments=new ArrayList<BaseFragment>();
-
-
+		FindpwdByEmailFragment fragment=new FindpwdByEmailFragment();
+		FindpwdByPhoneFragment fragment1=new FindpwdByPhoneFragment();
+		list_fragments.add(fragment);
+		list_fragments.add(fragment1);
 		mAdapter = new TabAdapter(getSupportFragmentManager(),list_fragments);
 		mViewPager.setAdapter(mAdapter);
 		tab_indicator.setViewPager(mViewPager, 0);

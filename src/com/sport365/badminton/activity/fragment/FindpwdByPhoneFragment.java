@@ -10,14 +10,10 @@ import com.sport365.badminton.R;
 
 public class FindpwdByPhoneFragment extends BaseFragment {
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.home_ballfriend_layout, container, false);
+		return inflater.inflate(R.layout.home_my_layout, container, false);
 	}
 
 
