@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 
-public class FindpwdByEmailFragment extends BaseFragment {
+public class FindPwdByEmailFragment extends BaseFragment {
 
 
 	@Override

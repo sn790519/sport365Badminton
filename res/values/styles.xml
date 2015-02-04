@@ -41,6 +41,12 @@
         <item name="android:textSize">@dimen/text_twelve_sp</item>
     </style>
 
+    <!-- 通用的左右滑动title -->
+    <style name="tab_title_style">
+        <item name="android:textColor">@color/vpi_tab_title_color</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>

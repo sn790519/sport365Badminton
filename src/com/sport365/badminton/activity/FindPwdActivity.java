@@ -9,8 +9,8 @@ import android.view.View;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
-import com.sport365.badminton.activity.fragment.FindpwdByEmailFragment;
-import com.sport365.badminton.activity.fragment.FindpwdByPhoneFragment;
+import com.sport365.badminton.activity.fragment.FindPwdByEmailFragment;
+import com.sport365.badminton.activity.fragment.FindPwdByPhoneFragment;
 import com.sport365.badminton.view.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -46,8 +46,8 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
 		List<BaseFragment> list_fragments=new ArrayList<BaseFragment>();
-		FindpwdByEmailFragment fragment=new FindpwdByEmailFragment();
-		FindpwdByPhoneFragment fragment1=new FindpwdByPhoneFragment();
+		FindPwdByPhoneFragment fragment1=new FindPwdByPhoneFragment();
+		FindPwdByEmailFragment fragment=new FindPwdByEmailFragment();
 		list_fragments.add(fragment);
 		list_fragments.add(fragment1);
 		mAdapter = new TabAdapter(getSupportFragmentManager(),list_fragments);
