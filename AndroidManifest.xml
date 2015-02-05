@@ -77,6 +77,8 @@
 		</activity>
 		<activity android:name=".activity.MapFragmentDemo">
 		</activity>
+		<activity android:name=".activity.ModifyPhoneActivity">
+		</activity>
 
 	</application>
 

@@ -1,5 +1,6 @@
 package com.sport365.badminton.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -68,8 +69,24 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         rl_phone.setOnClickListener(this);
         rl_password = (RelativeLayout) findViewById(R.id.rl_password);
         rl_password.setOnClickListener(this);
-
     }
 
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.rl_account:
+                break;
+            case R.id.rl_user_name:
+
+                break;
+            case R.id.rl_phone:
+                startActivity(new Intent(MyAccountActivity.this,ModifyPhoneActivity.class));
+                break;
+            case R.id.rl_password:
+
+                break;
+        }
+    }
 }

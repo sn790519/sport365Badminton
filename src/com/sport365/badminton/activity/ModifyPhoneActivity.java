@@ -11,6 +11,7 @@ import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 import com.sport365.badminton.activity.fragment.FindPwdByEmailFragment;
 import com.sport365.badminton.activity.fragment.FindPwdByPhoneFragment;
+import com.sport365.badminton.activity.fragment.ModifyPhone1Fragment;
 import com.sport365.badminton.view.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ import java.util.List;
 
 
 /**
- * 找回密码
+ * 修改手机号码
  * Created by vincent on 15/2/1.
  */
-public class FindPwdActivity extends BaseActivity implements View.OnClickListener {
+public class ModifyPhoneActivity extends BaseActivity implements View.OnClickListener {
 
 	private ViewPager mViewPager;
 	private TabPageIndicator tab_indicator;
@@ -37,7 +38,7 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 	}
 
 	private void initActionBar() {
-		setActionBarTitle("找回密码");
+		setActionBarTitle("修改手机号码");
 		mActionbar_right.setVisibility(View.GONE);
 	}
 
@@ -46,7 +47,7 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
 		List<BaseFragment> list_fragments=new ArrayList<BaseFragment>();
-		FindPwdByPhoneFragment fragment1=new FindPwdByPhoneFragment();
+		ModifyPhone1Fragment fragment1=new ModifyPhone1Fragment();
 		FindPwdByEmailFragment fragment=new FindPwdByEmailFragment();
 		list_fragments.add(fragment1);
 		list_fragments.add(fragment);
@@ -57,7 +58,7 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 
 
 	public class TabAdapter extends FragmentPagerAdapter {
-		public final String[] TITLES = new String[]{"手机找回", "邮箱找回"};
+		public final String[] TITLES = new String[]{"1.安全验证", "2.验证手机号"};
 		private List<BaseFragment> list_fragments;
 
 		public TabAdapter(FragmentManager fm, List<BaseFragment> list_fragments) {

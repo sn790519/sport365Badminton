@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_hight"
+            android:gravity="center_vertical"
+            >
+
+        <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:hint="请输入新手机号"
+                android:paddingLeft="@dimen/padding_fifteen_dp"
+                android:background="@android:color/transparent"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_list"/>
+        <Button
+                android:id="@+id/btn_send_code"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/base_blue"
+                android:paddingLeft="@dimen/margin_fifteen_dp"
+                android:paddingRight="@dimen/margin_fifteen_dp"
+                android:layout_marginLeft="@dimen/margin_fifteen_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发送验证码"/>
+    </LinearLayout>
+    <View
+            android:layout_marginTop="@dimen/padding_three_dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_line"/>
+    <LinearLayout
+            android:layout_height="@dimen/min_hight"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+        <EditText
+                android:id="@+id/et_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="请输入验证码"
+                android:layout_weight="1"
+                android:maxLength="30"
+                android:paddingLeft="@dimen/padding_fifteen_dp"
+                android:password="true"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_list"/>
+    </LinearLayout>
+    <View
+            android:layout_marginTop="@dimen/padding_three_dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_line"/>
+    <TextView
+            android:layout_marginLeft="@dimen/padding_fifteen_dp"
+            android:layout_marginTop="@dimen/margin_twenty_dp"
+            android:textColor="@color/base_orange"
+            android:text="重新绑定之后，之前绑定的手机号码将不能作为登录凭证"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+
