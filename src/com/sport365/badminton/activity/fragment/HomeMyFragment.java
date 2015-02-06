@@ -12,7 +12,6 @@ import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 import com.sport365.badminton.activity.LoginActivity;
 import com.sport365.badminton.activity.MainActivity;
-import com.sport365.badminton.activity.MapFragmentDemo;
 import com.sport365.badminton.activity.MyAccountActivity;
 import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
@@ -91,7 +90,6 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
 				((MainActivity) getActivity()).rb_menu_pay.setChecked(true);
 				break;
 			case R.id.rl_pay_history:
-				startActivity(new Intent(getActivity(), MapFragmentDemo.class));
 				break;
 			case R.id.rl_top:
 				if (SystemConfig.isLogin()) {

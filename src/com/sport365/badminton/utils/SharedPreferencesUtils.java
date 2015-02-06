@@ -69,7 +69,7 @@ public class SharedPreferencesUtils {
 	/**
 	 * 写入String
 	 */
-	public boolean putString(String name, String value) {
+	public  boolean putString(String name, String value) {
 		if (editor == null || TextUtils.isEmpty(name)) {
 			return false;
 		}

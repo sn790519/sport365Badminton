@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="c_tcolor_dark">#ff333333</color>
 	<color name="main_line">#ffdcdcdc</color>
 	<!-- 用于分割线、按钮描边 -->
 	<color name="background_color">#f3f3f3</color>

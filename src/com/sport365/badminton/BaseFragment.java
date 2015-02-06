@@ -1,5 +1,6 @@
 package com.sport365.badminton;
 
+import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,25 +20,30 @@ import com.squareup.okhttp.Request;
 
 public class BaseFragment extends Fragment implements OnClickListener {
 
-	private HttpTaskHelper	mHttpTaskHelper;
-	public LoadingDialog	mLoadingDialog;
+	private HttpTaskHelper mHttpTaskHelper;
+	public LoadingDialog mLoadingDialog;
+	public FragmentManager mFragmentManager;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mLoadingDialog = LoadingDialog.create(getActivity(), getActivity().getString(R.string.loading));
 		mHttpTaskHelper = new HttpTaskHelper(getActivity());
+		mFragmentManager = getActivity().getSupportFragmentManager();
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null) {}
+		if (savedInstanceState != null) {
+		}
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.getTag(v.getId()) != null) {}
+		if (v.getTag(v.getId()) != null) {
+		}
 	}
 
 	@Override
@@ -63,7 +69,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	/**
 	 * 显示弹框
-	 * 
+	 *
 	 * @param resId
 	 */
 	public void showLoadingDialog(int resId) {
@@ -72,13 +78,10 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	/**
 	 * show dialog
-	 * 
-	 * @param resId
-	 *            文案id
-	 * @param cancelable
-	 *            是否可取消
-	 * @param requestCall
-	 *            与dialog绑定的请求
+	 *
+	 * @param resId       文案id
+	 * @param cancelable  是否可取消
+	 * @param requestCall 与dialog绑定的请求
 	 */
 	public void showLoadingDialog(int resId, boolean cancelable, Request requestCall) {
 		String title;
@@ -87,8 +90,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		}
 		if (resId <= 0) {
 			title = getResources().getString(R.string.loading);
-		}
-		else {
+		} else {
 			title = getResources().getString(resId);
 		}
 		if (mLoadingDialog == null) {
@@ -113,8 +115,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 					}
 				}
 			});
-		}
-		else {
+		} else {
 			mLoadingDialog.setOnDismissListener(null);
 		}
 		mLoadingDialog.show();
@@ -135,19 +136,16 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	/**
 	 * http post request with dialog
-	 * 
-	 * @param request
-	 *            request parameters related
-	 * @param listener
-	 *            response callback
+	 *
+	 * @param request  request parameters related
+	 * @param listener response callback
 	 * @return real request，use for cancel since it will be removed later.
 	 */
 	public Request sendRequestWithNoDialog(ServiceRequest request, final IRequestProxyListener listener) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
@@ -188,8 +186,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
@@ -220,29 +217,24 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	/**
 	 * http post request with no dialog
-	 * 
-	 * @param request
-	 *            request parameters related
-	 * @param dialogConfig
-	 *            as it is
-	 * @param listener
-	 *            response callback
+	 *
+	 * @param request      request parameters related
+	 * @param dialogConfig as it is
+	 * @param listener     response callback
 	 * @return real request，use for cancel
 	 */
 	public Request sendRequestWithDialog(ServiceRequest request, DialogConfig dialogConfig, final IRequestProxyListener listener) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 		if (null == listener) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
@@ -282,16 +274,14 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("ServiceRequest == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 		if (null == callback) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
 				throw new IllegalArgumentException("IRequestPoxyListener == null");
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
