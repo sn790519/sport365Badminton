@@ -10,8 +10,7 @@ import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 import com.sport365.badminton.activity.fragment.FindPwdByEmailFragment;
-import com.sport365.badminton.activity.fragment.FindPwdByPhoneFragment;
-import com.sport365.badminton.activity.fragment.ModifyPhone1Fragment;
+import com.sport365.badminton.activity.fragment.ModifyPhoneFragment;
 import com.sport365.badminton.view.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class ModifyPhoneActivity extends BaseActivity implements View.OnClickLis
 		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
 		List<BaseFragment> list_fragments=new ArrayList<BaseFragment>();
-		ModifyPhone1Fragment fragment1=new ModifyPhone1Fragment();
+		ModifyPhoneFragment fragment1=new ModifyPhoneFragment();
 		FindPwdByEmailFragment fragment=new FindPwdByEmailFragment();
 		list_fragments.add(fragment1);
 		list_fragments.add(fragment);

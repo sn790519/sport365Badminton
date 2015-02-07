@@ -14,6 +14,10 @@ public enum SportParameter {
 	/**
 	 * 发送验证码
 	 */
+	RESET_PASSWORD_BY_MOBILE("resetpasswordbymobile", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 发送验证码
+	 */
 	SEND_MOBILE_CODE("SendMobileCode", "MemberHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 注册

@@ -31,6 +31,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		mLoadingDialog = LoadingDialog.create(getActivity(), getActivity().getString(R.string.loading));
 		mHttpTaskHelper = new HttpTaskHelper(getActivity());
 		mFragmentManager = getActivity().getSupportFragmentManager();
+		mLoadingDialog = LoadingDialog.create(getActivity(), getActivity().getString(R.string.loading));
 	}
 
 	@Override
@@ -63,76 +64,14 @@ public class BaseFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onDestroy() {
-		mHttpTaskHelper.destoryAllRequest();
 		super.onDestroy();
-	}
-
-	/**
-	 * 显示弹框
-	 *
-	 * @param resId
-	 */
-	public void showLoadingDialog(int resId) {
-		showLoadingDialog(resId, false, null);
-	}
-
-	/**
-	 * show dialog
-	 *
-	 * @param resId       文案id
-	 * @param cancelable  是否可取消
-	 * @param requestCall 与dialog绑定的请求
-	 */
-	public void showLoadingDialog(int resId, boolean cancelable, Request requestCall) {
-		String title;
-		if (null == getActivity()) {
-			return;
-		}
-		if (resId <= 0) {
-			title = getResources().getString(R.string.loading);
-		} else {
-			title = getResources().getString(resId);
-		}
-		if (mLoadingDialog == null) {
-			mLoadingDialog = LoadingDialog.create(getActivity(), title);
-		}
-
-		// 可取消的dialog若存在则不启动新的dialog
-		if (mLoadingDialog.isShowing()) {
-			mLoadingDialog.dismiss();
-		}
-
-		mLoadingDialog.setCanceledOnTouchOutside(false);
-
-		mLoadingDialog.setCancelable(cancelable);
-		if (cancelable) {
-			final Request tmpRequest = requestCall;
-			mLoadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					if (null != mHttpTaskHelper && null != tmpRequest) {
-						mHttpTaskHelper.cancelRequest(tmpRequest);
-					}
-				}
-			});
-		} else {
-			mLoadingDialog.setOnDismissListener(null);
-		}
-		mLoadingDialog.show();
-	}
-
-	/**
-	 * 显示弹框
-	 */
-	public void showLoadingDialog() {
-		showLoadingDialog(-1);
-	}
-
-	public void dismissLoadingDialog() {
-		if (mLoadingDialog != null) {
+		mHttpTaskHelper.destoryAllRequest();
+		if (null != mLoadingDialog) {
 			mLoadingDialog.dismiss();
 		}
 	}
+
+
 
 	/**
 	 * http post request with dialog
@@ -240,17 +179,17 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		}
 
 		Request realRequest = mHttpTaskHelper.createConnectionRequest(request);
-		showLoadingDialog(dialogConfig.loadingMessage(), dialogConfig.cancelable(), realRequest);
+		mLoadingDialog.show();
 		mHttpTaskHelper.sendRequest(request, realRequest, new IRequestListener() {
 			@Override
 			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
+				mLoadingDialog.dismiss();
 				listener.onSuccess(jsonResponse, requestInfo);
 			}
 
 			@Override
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
+				mLoadingDialog.dismiss();
 				listener.onError(header, requestInfo);
 			}
 
@@ -287,17 +226,17 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		}
 
 		Request realRequest = mHttpTaskHelper.createConnectionRequest(request);
-		showLoadingDialog(dialogConfig.loadingMessage(), dialogConfig.cancelable(), realRequest);
+		mLoadingDialog.show();
 		mHttpTaskHelper.sendRequest(request, realRequest, new IRequestListener() {
 			@Override
 			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
+				mLoadingDialog.dismiss();
 				callback.onSuccess(jsonResponse, requestInfo);
 			}
 
 			@Override
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				dismissLoadingDialog();
+				mLoadingDialog.dismiss();
 				callback.onError(header, requestInfo);
 			}
 

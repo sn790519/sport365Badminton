@@ -65,19 +65,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 		switch (v.getId()) {
 			case R.id.btn_login:
-//                if (TextUtils.isEmpty(et_login_name.getText().toString())) {
-//                    Utilities.showToast(getString(R.string.account_hint), mContext);
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(et_login_pwd.getText().toString())) {
-//                    Utilities.showToast(getString(R.string.account_pasword_hint), mContext);
-//                    return;
-//                }
+                if (TextUtils.isEmpty(et_login_name.getText().toString())) {
+                    Utilities.showToast(getString(R.string.account_hint), mContext);
+                    return;
+                }
+                if (TextUtils.isEmpty(et_login_pwd.getText().toString())) {
+                    Utilities.showToast(getString(R.string.account_pasword_hint), mContext);
+                    return;
+                }
 				LoginReqBody reqBody = new LoginReqBody();
-//                reqBody.mobile = et_login_name.getText().toString();
-//                reqBody.Password = et_login_pwd.getText().toString();
-				reqBody.mobile = "13052892875";
-				reqBody.Password = "5778763";
+                reqBody.mobile = et_login_name.getText().toString();
+                reqBody.Password = et_login_pwd.getText().toString();
+//				reqBody.mobile = "13052892875";
+//				reqBody.Password = "5778763";
 				login(reqBody);
 				break;
 			case R.id.tv_find_pwd:

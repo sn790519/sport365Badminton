@@ -34,9 +34,9 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:background="@color/base_blue"
-                android:paddingLeft="@dimen/margin_fifteen_dp"
-                android:paddingRight="@dimen/margin_fifteen_dp"
-                android:layout_marginLeft="@dimen/margin_fifteen_dp"
+                android:paddingLeft="@dimen/padding_eight_dp"
+                android:paddingRight="@dimen/padding_eight_dp"
+                android:layout_marginLeft="@dimen/margin_eight_dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="发送验证码"/>
@@ -46,7 +46,40 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/main_line"/>
+        <LinearLayout
+                android:layout_height="@dimen/min_hight"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:minWidth="70dp"
+                        android:text="验证码"
+                        android:textSize="@dimen/text_size_list"/>
+
+                <EditText
+                        android:id="@+id/et_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:hint="请输入验证码"
+                        android:layout_weight="1"
+                        android:maxLength="30"
+                        android:paddingLeft="10dp"
+                        android:password="true"
+                        android:singleLine="true"
+                        android:textSize="@dimen/text_size_list"/>
+        </LinearLayout>
+
+        <View
+                android:layout_marginTop="@dimen/padding_three_dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/main_line"/>
     <LinearLayout
             android:layout_height="@dimen/min_hight"
             android:layout_width="match_parent"
@@ -59,15 +92,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:minWidth="70dp"
-                android:text="验证码"
+                android:text="原密码"
                 android:textSize="@dimen/text_size_list"/>
 
         <EditText
-                android:id="@+id/et_code"
+                android:id="@+id/et_old_code"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="请输入验证码"
+                android:hint="请输入原密码"
                 android:layout_weight="1"
                 android:maxLength="30"
                 android:paddingLeft="10dp"

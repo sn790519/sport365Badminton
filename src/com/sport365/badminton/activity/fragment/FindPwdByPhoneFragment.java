@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
+import com.sport365.badminton.entity.reqbody.FindPwdByPhoneReqBody;
 import com.sport365.badminton.entity.reqbody.SendMobileCodeReqBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
@@ -24,10 +25,13 @@ public class FindPwdByPhoneFragment extends BaseFragment implements View.OnClick
 
     private EditText et_phone;
     private EditText et_code;
+    private EditText et_old_code;
     private EditText et_new_pwd;
     private EditText et_confirm_pwd;
     private Button btn_send_code;
     private Button btn_reset_code;
+
+    private TimeCount timeCount;
 
 
     @Override
@@ -40,6 +44,7 @@ public class FindPwdByPhoneFragment extends BaseFragment implements View.OnClick
     private void findViews(View view) {
         et_phone = (EditText) view.findViewById(R.id.et_phone);
         et_code = (EditText) view.findViewById(R.id.et_code);
+        et_old_code = (EditText) view.findViewById(R.id.et_old_code);
         et_new_pwd = (EditText) view.findViewById(R.id.et_new_pwd);
         et_confirm_pwd = (EditText) view.findViewById(R.id.et_confirm_pwd);
         btn_send_code = (Button) view.findViewById(R.id.btn_send_code);
@@ -72,17 +77,37 @@ public class FindPwdByPhoneFragment extends BaseFragment implements View.OnClick
                     Utilities.showToast("请输入新密码", getActivity());
                     return;
                 }
+                if (TextUtils.isEmpty(et_old_code.getText().toString())) {
+                    Utilities.showToast("请输入原密码", getActivity());
+                    return;
+                }
                 if (TextUtils.isEmpty(et_confirm_pwd.getText().toString())) {
                     Utilities.showToast("请确认新密码", getActivity());
                     return;
                 }
-                if (et_new_pwd.getText().toString().equals(et_confirm_pwd.getText().toString())) {
-                    Utilities.showToast("密码输入错误", getActivity());
+                if (!et_new_pwd.getText().toString().equals(et_confirm_pwd.getText().toString())) {
+                    Utilities.showToast("确认密码输入错误", getActivity());
                     return;
                 }
 
+                FindPwdByPhoneReqBody reqBody1 =new FindPwdByPhoneReqBody();
+                reqBody1.mobile=et_phone.getText().toString();
+                reqBody1.code=et_code.getText().toString();
+                reqBody1.password=et_old_code.getText().toString();
+                reqBody1.newpassword=et_new_pwd.getText().toString();
+                resetPwd(reqBody1);
 
                 break;
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(timeCount!=null)
+        {
+            timeCount.cancel();
         }
     }
 
@@ -102,10 +127,34 @@ public class FindPwdByPhoneFragment extends BaseFragment implements View.OnClick
                 btn_reset_code.setClickable(true);
                 btn_reset_code.setBackgroundColor(getResources().getColor(R.color.base_blue));
                 //请求成功之后，60S内不能点击
-                TimeCount timeCount = new TimeCount(60 * 1000, 1000);
+                timeCount = new TimeCount(60 * 1000, 1000);
                 timeCount.start();
                 btn_send_code.setBackgroundColor(getResources().getColor(R.color.grey));
                 btn_send_code.setClickable(false);
+            }
+
+            @Override
+            public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+                super.onError(header, requestInfo);
+                Utilities.showToast(header.getRspDesc(), getActivity());
+            }
+        });
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param reqBody
+     */
+    private void resetPwd(FindPwdByPhoneReqBody reqBody) {
+        SportWebService webService = new SportWebService(SportParameter.RESET_PASSWORD_BY_MOBILE);
+        sendRequestWithDialog(new ServiceRequest(getActivity(), webService, reqBody), null, new IRequestProxyCallback() {
+
+            @Override
+            public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+                ResponseContent<ResponseBody> de = jsonResponse.getResponseContent(ResponseBody.class);
+                Utilities.showToast(de.getHeader().getRspDesc(), getActivity());
+                getActivity().finish();
             }
 
             @Override

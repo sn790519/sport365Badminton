@@ -36,7 +36,7 @@
                 android:background="@color/base_blue"
                 android:paddingLeft="@dimen/margin_fifteen_dp"
                 android:paddingRight="@dimen/margin_fifteen_dp"
-                android:layout_marginLeft="@dimen/margin_fifteen_dp"
+                android:layout_marginLeft="@dimen/margin_three_dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="发送验证码"/>

@@ -23,7 +23,7 @@ import com.squareup.okhttp.ResponseBody;
 /**
  * 修改密码安全验证
  */
-public class ModifyPhone1Fragment extends BaseFragment implements View.OnClickListener {
+public class ModifyPhoneFragment extends BaseFragment implements View.OnClickListener {
 
     private EditText et_phone;
     private EditText et_code;
