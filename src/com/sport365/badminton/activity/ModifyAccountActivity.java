@@ -22,10 +22,10 @@ import com.squareup.okhttp.ResponseBody;
 
 
 /**
- * 修改手机号码
+ * 修改账号
  * Created by vincent on 15/2/1.
  */
-public class ModifyPhoneActivity extends BaseActivity implements View.OnClickListener {
+public class ModifyAccountActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText et_phone;
     private EditText et_code;
@@ -38,13 +38,13 @@ public class ModifyPhoneActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modifify_phone);
+        setContentView(R.layout.activity_modifify_account);
         initActionBar();
         findViews();
     }
 
     private void initActionBar() {
-        setActionBarTitle("修改手机号码");
+        setActionBarTitle("修改账号");
         mActionbar_right.setVisibility(View.GONE);
     }
 

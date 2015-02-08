@@ -99,6 +99,10 @@
 		</activity>
 		<activity android:name=".activity.ModifyPhoneActivity">
 		</activity>
+		<activity android:name=".activity.ModifyNameActivity">
+		</activity>
+		<activity android:name=".activity.ModifyAccountActivity">
+		</activity>
 
 	</application>
 

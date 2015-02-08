@@ -77,6 +77,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         super.onClick(v);
         switch (v.getId()) {
             case R.id.rl_account:
+                startActivity(new Intent(MyAccountActivity.this,ModifyPhoneActivity.class));
                 break;
             case R.id.rl_user_name:
 

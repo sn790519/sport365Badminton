@@ -12,7 +12,11 @@ public enum SportParameter {
 
 
 	/**
-	 * 发送验证码
+	 * 修改手机号
+	 */
+	MODIFY_MEMBER_MOBILE("ModifyMemberMobile", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 通过手机号码重置密码
 	 */
 	RESET_PASSWORD_BY_MOBILE("resetpasswordbymobile", "MemberHandler.ashx", CacheOptions.NO_CACHE),
 	/**
