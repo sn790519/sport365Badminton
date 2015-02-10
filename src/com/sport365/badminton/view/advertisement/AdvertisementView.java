@@ -11,13 +11,13 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.sport365.badminton.activity.MyWebViewActivity;
-import com.sport365.badminton.entity.obj.AdvertisementObject;
+import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.utils.BundleKeys;
 
 /**
  * 广告专用.
  */
-public class AdvertisementView extends BaseImageSwitcher<AdvertisementObject> {
+public class AdvertisementView extends BaseImageSwitcher<SportAdvertismentObj> {
 
 	private String mEventId;
 	private String mParam;
@@ -36,7 +36,7 @@ public class AdvertisementView extends BaseImageSwitcher<AdvertisementObject> {
 		setScreenRate(72, 13);
 	}
 
-	public void setAdvertisementData(ArrayList<AdvertisementObject> datas) {
+	public void setAdvertisementData(ArrayList<SportAdvertismentObj> datas) {
 		setData(datas);
 	}
 
@@ -61,7 +61,7 @@ public class AdvertisementView extends BaseImageSwitcher<AdvertisementObject> {
 	protected boolean performItemClick(AdapterView<?> parent, View view, int position, long id, int true_position) {
 		if (!super.performItemClick(parent, view, position, id, true_position)) {
 
-			final AdvertisementObject data_obj = mDatas.get(true_position);
+			final SportAdvertismentObj data_obj = mDatas.get(true_position);
 
 			if (data_obj != null && !TextUtils.isEmpty(data_obj.redirectUrl)) {
 				String tag = data_obj.tag;
@@ -84,7 +84,7 @@ public class AdvertisementView extends BaseImageSwitcher<AdvertisementObject> {
 	}
 
 	@Override
-	public String getUrlString(AdvertisementObject data) {
+	public String getUrlString(SportAdvertismentObj data) {
 		return data.imageUrl;
 	}
 }

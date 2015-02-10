@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_ad_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:visibility="visible" >
 
     <TextView
@@ -12,28 +11,33 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
-        android:padding="8.0dip"
+        android:paddingBottom="10.0dp"
+        android:paddingLeft="15.0dp"
+        android:paddingTop="17.0dp"
         android:text="独墅湖体育馆羽毛球"
         android:textColor="@color/orangn"
-        android:textSize="@dimen/text_size_list" />
+        android:textSize="@dimen/list" />
+
+    <ImageView
+        android:id="@+id/iv_tag_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="24.0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/indicator_common_set_up" />
 
     <RelativeLayout
+        android:id="@+id/flag"
         android:layout_width="match_parent"
-        android:layout_height="90.0dp" >
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="0.5dp"
-            android:layout_marginTop="0.5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_default_common" />
+        android:layout_height="87.0dp"
+        android:layout_below="@id/tv_venue" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="90.0dp"
+            android:layout_height="87.0dp"
             android:layout_marginLeft="11dp"
             android:layout_toRightOf="@id/imageView"
             android:gravity="top" >
@@ -62,76 +66,120 @@
                 android:textColor="@color/hint"
                 android:textSize="@dimen/hint" />
 
-            <TextView
-                android:id="@+id/tv_distance"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_phone"
-                android:layout_marginRight="10.0dip"
-                android:layout_marginTop="4.0dip"
-                android:drawableLeft="@drawable/icon_list_address"
-                android:drawablePadding="4.0dip"
-                android:drawableRight="@drawable/icon_nearby_map"
-                android:gravity="top"
-                android:maxLines="2"
-                android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
-                android:textColor="@color/hint"
-                android:textSize="@dimen/hint" />
+                android:layout_marginTop="5.0dip" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_list_address" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6.0dip"
+                    android:drawableRight="@drawable/icon_nearby_map"
+                    android:gravity="top"
+                    android:lineSpacingMultiplier="1.5"
+                    android:maxLines="2"
+                    android:paddingLeft="4.0dp"
+                    android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                    android:textColor="@color/hint"
+                    android:textSize="@dimen/hint" />
+            </LinearLayout>
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dip"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="11dp"
-            android:layout_toRightOf="@id/imageView"
-            android:background="@color/line" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="14.0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_default_common" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/flag"
         android:orientation="horizontal"
         android:padding="8.0dip"
         android:visibility="visible"
         android:weightSum="3" >
 
-        <TextView
-            android:id="@+id/tv_club"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/icon_list_club"
-            android:drawablePadding="2.0dip"
-            android:gravity="center_vertical"
-            android:text="俱乐部(06)"
-            android:textColor="@color/hint"
-            android:textSize="@dimen/hint" />
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/tv_activity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/icon_list_activity"
-            android:drawablePadding="2.0dip"
-            android:gravity="center_vertical"
-            android:text="活动(06)"
-            android:textColor="@color/hint"
-            android:textSize="@dimen/hint" />
+            <TextView
+                android:id="@+id/tv_club"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_list_club"
+                android:drawablePadding="2.0dip"
+                android:gravity="center_vertical"
+                android:text="俱乐部(06)"
+                android:textColor="@color/green"
+                android:textSize="@dimen/info" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_game"
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/line" >
+        </View>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/icon_list_contest"
-            android:drawablePadding="2.0dip"
-            android:gravity="center_vertical"
-            android:text="比赛(06)"
-            android:textColor="@color/hint"
-            android:textSize="@dimen/hint" />
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tv_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_list_activity"
+                android:drawablePadding="2.0dip"
+                android:gravity="center_vertical"
+                android:text="活动(06)"
+                android:textColor="@color/orangn"
+                android:textSize="@dimen/info" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/line" >
+        </View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tv_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_list_contest"
+                android:drawablePadding="2.0dip"
+                android:gravity="center_vertical"
+                android:text="比赛(06)"
+                android:textColor="@color/base_blue"
+                android:textSize="@dimen/info" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

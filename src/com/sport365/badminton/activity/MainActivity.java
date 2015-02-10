@@ -79,13 +79,12 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		rb_menu_mian.setChecked(true);
 		ULog.debug("--->onCreate");
 
-		initMainPageRequest();
-		init_Get_Venue_List();
-		init_GET_VENUE_DETAIL_BYI();
-		init_GET_CLUB_LIST_BYVENUE();
-		init_GET_CLUB_INFO_BYID();
-		init_GET_ALL_ACTIVE_LIST();
-		init_GET_ACTIVE_DETAIL_BYID();
+//		init_Get_Venue_List();
+//		init_GET_VENUE_DETAIL_BYI();
+//		init_GET_CLUB_LIST_BYVENUE();
+//		init_GET_CLUB_INFO_BYID();
+//		init_GET_ALL_ACTIVE_LIST();
+//		init_GET_ACTIVE_DETAIL_BYID();
 	}
 
 	private void initActionBar() {
@@ -209,27 +208,6 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	}
 
 
-	/**
-	 * 首页接口的请求
-	 */
-	private void initMainPageRequest() {
-		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
-		reqBody.CityId = "226";
-		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_SPROT_HOME), reqBody), null, new IRequestProxyCallback() {
-
-			@Override
-			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
-				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
-				GetSprotHomeResBody resBody = de.getBody();
-			}
-
-			@Override
-			public void onError(Header header, RequestInfo requestInfo) {
-				// TODO Auto-generated method stub
-				super.onError(header, requestInfo);
-			}
-		});
-	}
 
 	/**
 	 * 会所列表

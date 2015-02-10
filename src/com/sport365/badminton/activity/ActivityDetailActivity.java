@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
-import com.sport365.badminton.entity.obj.AdvertisementObject;
+import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
@@ -31,10 +31,10 @@ public class ActivityDetailActivity extends BaseActivity {
 	private TextView tv_activity; // 活动
 	private TextView tv_game; // 比赛
 	private Button btn_rechange;//预定按钮
-	private ArrayList<AdvertisementObject> advertismentlist = new ArrayList<AdvertisementObject>(); // 广告
+	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	private AdvertisementView advertisementControlLayout;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) { 
 		super.onCreate(savedInstanceState);
 		setActionBarTitle("活动详情");
 		setContentView(R.layout.activity_detail_layout);
@@ -56,16 +56,10 @@ public class ActivityDetailActivity extends BaseActivity {
 	}
 
 	private void initADdata() {
-		AdvertisementObject ad_one = new AdvertisementObject();
+		SportAdvertismentObj ad_one = new SportAdvertismentObj();
 		ad_one.imageUrl = "http://a.hiphotos.baidu.com/image/pic/item/bba1cd11728b4710f197b4c1c0cec3fdfc032306.jpg";
 		ad_one.redirectUrl = "http://www.baidu.com";
-		AdvertisementObject ad_two = new AdvertisementObject();
-		ad_two.imageUrl = "http://f.hiphotos.baidu.com/image/pic/item/024f78f0f736afc344e8b203b019ebc4b64512eb.jpg";
-		AdvertisementObject ad_three = new AdvertisementObject();
-		ad_three.imageUrl = "http://f.hiphotos.baidu.com/image/pic/item/377adab44aed2e73de410b4a8401a18b87d6fa28.jpg";
 		advertismentlist.add(ad_one);
-		advertismentlist.add(ad_two);
-		advertismentlist.add(ad_three);
 		advertisementControlLayout = new AdvertisementView(this);
 		if (advertismentlist != null && advertismentlist.size() > 0) {
 			advertisementControlLayout.setAdvertisementData(advertismentlist);
