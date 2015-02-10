@@ -66,4 +66,6 @@
     <dimen name="line_hight">0.5dip</dimen>
 
     <dimen name="min_hight">48dp</dimen>
+
+    <dimen name="image_thumbnail_spacing">8dp</dimen>
 </resources>

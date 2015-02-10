@@ -18,6 +18,7 @@ import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.http.base.ImageLoader;
+import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
@@ -39,7 +40,7 @@ public class PlayListActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarTitle("比赛");
+		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
 		setContentView(R.layout.play_layout);
 		lv_play = (ListView) findViewById(R.id.lv_play);
 		lv_play.addHeaderView(initHeadView());

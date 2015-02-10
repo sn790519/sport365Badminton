@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.view.calendar.CalendarPickerView;
 import com.sport365.badminton.view.calendar.CalendarPickerView.SelectionMode;
 
@@ -32,7 +33,7 @@ public class CalendarTimesActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sample_calendar_picker);
-
+    setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
     final Calendar nextYear = Calendar.getInstance();
     nextYear.add(Calendar.YEAR, 1);
 
