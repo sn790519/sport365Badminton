@@ -103,6 +103,8 @@
 		</activity>
 		<activity android:name=".activity.ModifyAccountActivity">
 		</activity>
+		<activity android:name=".activity.MapViewActivity">
+		</activity>
 
 	</application>
 

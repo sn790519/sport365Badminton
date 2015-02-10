@@ -66,13 +66,25 @@ public class MapViewFragment extends BaseFragment {
 
 		mLocClient.setLocOption(option);
 		mLocClient.start();
-
 		zoomTo = MapStatusUpdateFactory.zoomTo(Float.parseFloat("11"));//缩放到11
 		mBaiduMap.animateMapStatus(zoomTo);
+
+		LatLng point = new LatLng(31.310284, 120.680922);
+		//构建Marker图标
+		BitmapDescriptor bitmap = BitmapDescriptorFactory
+				.fromResource(R.drawable.icon_balloon);
+		//构建MarkerOption，用于在地图上添加Marker
+		OverlayOptions option = new MarkerOptions()
+				.position(point)
+				.icon(bitmap);
+		//在地图上添加Marker，并显示
+		mBaiduMap.addOverlay(option);
+		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(point);
+		mBaiduMap.animateMapStatus(u);
+
 		mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
 			@Override
 			public boolean onMarkerClick(Marker marker) {
-				FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
 				return true;
 			}
@@ -91,7 +103,6 @@ public class MapViewFragment extends BaseFragment {
 			if (location == null || mMapView == null)
 				return;
 			// 此处设置开发者获取到的方向信息，顺时针0-360
-
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
 					.direction(100).latitude(location.getLatitude())
@@ -99,21 +110,21 @@ public class MapViewFragment extends BaseFragment {
 
 			String latitude = String.valueOf(location.getLatitude());
 			String longitude = String.valueOf(location.getLongitude());
-
-
 			if (!BAIDU_DEFAULT_VALUE.equals(latitude) && !BAIDU_DEFAULT_VALUE.equals(longitude)) {//4.9E-324
 				SharedPreferencesUtils.getInstance(getActivity()).putString(SharedPreferencesKeys.LOCATION_LAT, latitude);
 				SharedPreferencesUtils.getInstance(getActivity()).putString(SharedPreferencesKeys.LOCATION_LON, longitude);
 				SharedPreferencesUtils.getInstance(getActivity()).commitValue();
+				//定给成功
+				isSuccessLocation=true;
 			}
 
 			mBaiduMap.setMyLocationData(locData);
 			//如果定位失败每隔两秒再定位一次
-			if (!isSuccessLocation && !isDestroy) {
-				LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-				mBaiduMap.animateMapStatus(u);
-			}
+//			if (!isSuccessLocation && !isDestroy) {
+//				LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+//				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+//				mBaiduMap.animateMapStatus(u);
+//			}
 		}
 
 		public void onReceivePoi(BDLocation poiLocation) {

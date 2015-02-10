@@ -1,5 +1,6 @@
 package com.sport365.badminton.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -97,6 +98,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			@Override
 			public void onClick(View view) {
 				//弹出打电话
+				startActivity(new Intent(MainActivity.this,MapViewActivity.class));
 			}
 		};
 		final OnClickListener aboutUs_listener = new OnClickListener() {
