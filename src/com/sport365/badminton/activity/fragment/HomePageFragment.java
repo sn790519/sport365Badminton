@@ -148,7 +148,7 @@ public class HomePageFragment extends BaseFragment {
 		initADS();
 		
 		// 4块内容
-		tv_sport_field.setCompoundDrawablesRelativeWithIntrinsicBounds(null,mImageLoader.displayImage(imageUrl, imageView));
+//		tv_sport_field.setCompoundDrawablesRelativeWithIntrinsicBounds(null,mImageLoader.displayImage(imageUrl, imageView));
 		
 	}
 	// 初始化广告
