@@ -25,6 +25,7 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
+import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.ActionBarPopupWindow;
@@ -132,6 +133,12 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		rb_menu_ball_friend = (RadioButton) findViewById(R.id.rb_menu_ball_friend);
 		rb_menu_my = (RadioButton) findViewById(R.id.rb_menu_my);
 		rg_menu.setOnCheckedChangeListener(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		SystemConfig.clearData();
 	}
 
 	@Override

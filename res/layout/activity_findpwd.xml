@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:background="@color/whitesmoke"
+			  android:paddingLeft="@dimen/padding_fifteen_dp"
+			  android:paddingTop="@dimen/padding_twenty_five_dp"
+			  android:paddingRight="@dimen/padding_fifteen_dp"
+			  android:orientation="vertical">
+
+
+	<com.sport365.badminton.view.viewpagerindicator.TabPageIndicator
+			android:id="@+id/tab_indicator"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			>
+	</com.sport365.badminton.view.viewpagerindicator.TabPageIndicator>
+
+
+	<android.support.v4.view.ViewPager
+			android:id="@+id/viewPager"
+			android:layout_marginTop="@dimen/margin_thirty_dp"
+			android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"/>
+
+
+</LinearLayout>

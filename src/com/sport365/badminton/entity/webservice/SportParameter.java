@@ -9,6 +9,29 @@ import com.sport365.badminton.http.json.CacheOptions;
  * 
  */
 public enum SportParameter {
+
+
+	/**
+	 * 修改手机号
+	 */
+	MODIFY_MEMBER_MOBILE("ModifyMemberMobile", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 通过手机号码重置密码
+	 */
+	RESET_PASSWORD_BY_MOBILE("resetpasswordbymobile", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 发送验证码
+	 */
+	SEND_MOBILE_CODE("SendMobileCode", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 注册
+	 */
+	REGISTER("Register", "MemberHandler.ashx", CacheOptions.NO_CACHE),
+
+	/**
+	 * 登录
+	 */
+	LOGIN("Login", "MemberHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 会所列表
 	 */

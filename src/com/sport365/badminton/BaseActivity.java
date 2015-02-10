@@ -11,13 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.sport365.badminton.http.base.DialogConfig;
-import com.sport365.badminton.http.base.HttpTaskHelper;
-import com.sport365.badminton.http.base.IRequestListener;
-import com.sport365.badminton.http.base.IRequestProxyCallback;
-import com.sport365.badminton.http.base.IRequestProxyListener;
-import com.sport365.badminton.http.base.ImageLoader;
+import com.sport365.badminton.http.base.*;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.params.SystemConfig;

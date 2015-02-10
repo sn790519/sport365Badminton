@@ -1,21 +1,19 @@
 package com.sport365.badminton.activity;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
+import java.util.ArrayList;
+
 /**
  * 测试广告控件
- * 
+ *
  * @author kjh08490
- * 
  */
 public class TestAdActivity extends BaseActivity {
 	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>();// 广告

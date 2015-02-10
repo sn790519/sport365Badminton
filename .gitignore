@@ -43,6 +43,7 @@ META-INF
 # generated files
 gen/
 bin/
+classes/
 
 # Local configuration file (sdk path, etc)
 local.properties
