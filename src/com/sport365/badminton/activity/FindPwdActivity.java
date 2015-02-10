@@ -47,9 +47,9 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 
 		List<BaseFragment> list_fragments=new ArrayList<BaseFragment>();
 		FindPwdByPhoneFragment fragment1=new FindPwdByPhoneFragment();
-		FindPwdByEmailFragment fragment=new FindPwdByEmailFragment();
+//		FindPwdByEmailFragment fragment=new FindPwdByEmailFragment();
 		list_fragments.add(fragment1);
-		list_fragments.add(fragment);
+//		list_fragments.add(fragment);
 		mAdapter = new TabAdapter(getSupportFragmentManager(),list_fragments);
 		mViewPager.setAdapter(mAdapter);
 		tab_indicator.setViewPager(mViewPager, 0);
@@ -57,7 +57,8 @@ public class FindPwdActivity extends BaseActivity implements View.OnClickListene
 
 
 	public class TabAdapter extends FragmentPagerAdapter {
-		public final String[] TITLES = new String[]{"手机找回", "邮箱找回"};
+//		public final String[] TITLES = new String[]{"手机找回", "邮箱找回"};
+		public final String[] TITLES = new String[]{"手机找回"};
 		private List<BaseFragment> list_fragments;
 
 		public TabAdapter(FragmentManager fm, List<BaseFragment> list_fragments) {

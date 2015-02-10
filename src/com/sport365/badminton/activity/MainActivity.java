@@ -1,6 +1,8 @@
 package com.sport365.badminton.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import com.baidu.navisdk.BNaviEngineManager;
+import com.baidu.navisdk.BaiduNaviManager;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
@@ -71,10 +75,15 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	 */
 	private BaseFragment mMyFragment;
 
+	private boolean mIsEngineInitSuccess = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		//初始化导航引擎
+		BaiduNaviManager.getInstance().
+				initEngine(this, getSdcardDir(), mNaviEngineInitListener, SystemConfig.BAIDU_AK, null);
 		initActionBar();
 		findViews();
 		rb_menu_mian.setChecked(true);
@@ -96,12 +105,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			@Override
 			public void onClick(View view) {
 				//弹出打电话
+				startActivity(new Intent(MainActivity.this, MapViewActivity.class));
 			}
 		};
 		final OnClickListener aboutUs_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				new DialogFactory(mContext).showDialogWithClose(getString(R.string.about_us),getString(R.string.about_us_content));
+				new DialogFactory(mContext).showDialogWithClose(getString(R.string.about_us), getString(R.string.about_us_content));
 			}
 		};
 
@@ -213,7 +223,6 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
 
 
 	/**
@@ -359,6 +368,28 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 				super.onError(header, requestInfo);
 			}
 		});
+	}
+
+
+	private BNaviEngineManager.NaviEngineInitListener mNaviEngineInitListener = new BNaviEngineManager.NaviEngineInitListener() {
+		public void engineInitSuccess() {
+			//导航初始化是异步的，需要一小段时间，以这个标志来识别引擎是否初始化成功，为true时候才能发起导航
+			mIsEngineInitSuccess = true;
+		}
+
+		public void engineInitStart() {
+		}
+
+		public void engineInitFail() {
+		}
+	};
+
+	private String getSdcardDir() {
+		if (Environment.getExternalStorageState().equalsIgnoreCase(
+				Environment.MEDIA_MOUNTED)) {
+			return Environment.getExternalStorageDirectory().toString();
+		}
+		return null;
 	}
 
 }

@@ -6,6 +6,7 @@ import com.sport365.badminton.entity.resbody.LoginResBody;
 
 public class SystemConfig {
 
+
 	/**
 	 * debug模式
 	 */
@@ -14,7 +15,7 @@ public class SystemConfig {
 	/**
 	 * 百度API_KEY
 	 */
-	public static final String BAIDU_AK = "vRA2Ub7El8ximBg30jToPBle";
+	public static final String BAIDU_AK = "j93yEwcmukIygNxB7djG7YSb";
 
 	/**
 	 * 微信appid
@@ -85,7 +86,6 @@ public class SystemConfig {
 	public static final String APIACCOUNTKEY = "8874d8a8b8b391fbbd1a25bda6ecda11";// "fb13a093870f2028";
 	public static final String APIAVERSION = "20111128102912";
 
-	public static DisplayMetrics dm;
 
 	public static boolean isLogin() {
 		return !TextUtils.isEmpty(memberId);
@@ -97,4 +97,6 @@ public class SystemConfig {
 	}
 
 	public static LoginResBody loginResBody;
+
+	public static DisplayMetrics dm;
 }

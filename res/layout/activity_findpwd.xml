@@ -12,6 +12,7 @@
 			android:id="@+id/tab_indicator"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:visibility="gone"
 			>
 	</com.sport365.badminton.view.viewpagerindicator.TabPageIndicator>
 
