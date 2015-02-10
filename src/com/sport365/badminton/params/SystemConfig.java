@@ -13,7 +13,7 @@ public class SystemConfig {
     /**
      * 百度API_KEY
      */
-    public static final String BAIDU_AK = "vRA2Ub7El8ximBg30jToPBle";
+    public static final String BAIDU_AK = "j93yEwcmukIygNxB7djG7YSb";
 
     /**
      * 微信appid
