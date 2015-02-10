@@ -12,6 +12,7 @@ import com.sport365.badminton.http.base.HttpTaskHelper;
 import com.sport365.badminton.http.base.IRequestListener;
 import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.IRequestProxyListener;
+import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.params.SystemConfig;
@@ -20,6 +21,7 @@ import com.squareup.okhttp.Request;
 
 public class BaseFragment extends Fragment implements OnClickListener {
 
+	public ImageLoader mImageLoader;
 	private HttpTaskHelper mHttpTaskHelper;
 	public LoadingDialog mLoadingDialog;
 	public FragmentManager mFragmentManager;
@@ -30,8 +32,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		mLoadingDialog = LoadingDialog.create(getActivity(), getActivity().getString(R.string.loading));
 		mHttpTaskHelper = new HttpTaskHelper(getActivity());
+		mImageLoader = ImageLoader.getInstance();
 		mFragmentManager = getActivity().getSupportFragmentManager();
-		mLoadingDialog = LoadingDialog.create(getActivity(), getActivity().getString(R.string.loading));
 	}
 
 	@Override

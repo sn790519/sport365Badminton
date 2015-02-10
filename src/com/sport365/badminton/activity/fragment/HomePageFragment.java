@@ -18,30 +18,41 @@ import com.sport365.badminton.activity.ActivityListActivity;
 import com.sport365.badminton.activity.CalendarTimesActivity;
 import com.sport365.badminton.activity.ClubListActivity;
 import com.sport365.badminton.activity.PlayListActivity;
-import com.sport365.badminton.entity.obj.AdvertisementObject;
+import com.sport365.badminton.entity.obj.SportAdvertismentObj;
+import com.sport365.badminton.entity.reqbody.GetSprotHomeReqBody;
+import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
+import com.sport365.badminton.entity.webservice.SportParameter;
+import com.sport365.badminton.entity.webservice.SportWebService;
+import com.sport365.badminton.http.base.HttpTaskHelper.JsonResponse;
+import com.sport365.badminton.http.base.HttpTaskHelper.RequestInfo;
+import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.ImageLoader;
+import com.sport365.badminton.http.json.req.ServiceRequest;
+import com.sport365.badminton.http.json.res.ResponseContent;
+import com.sport365.badminton.http.json.res.ResponseContent.Header;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 首页界面
- *
+ * 
  * @author Frank
  */
 public class HomePageFragment extends BaseFragment {
-	private ArrayList<AdvertisementObject> advertismentlist = new ArrayList<AdvertisementObject>(); // 广告
+	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
+	private ArrayList<SportAdvertismentObj> endAdvertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	private AdvertisementView advertisementControlLayout;
 	private LinearLayout ll_ad_layout;
 
 	private AdvertisementView advertisementControlLayout_bottom;
 	private LinearLayout ll_ad_layout_bottom;
 
-	//运动会所
+	// 运动会所
 	private TextView tv_sport_field;
-	//俱乐部
+	// 俱乐部
 	private TextView tv_club;
-	//活动
+	// 活动
 	private TextView tv_activity;
-	//比赛
+	// 比赛
 	private TextView tv_game;
 	// 运动日历
 	private ImageView iv_sport_calendar;
@@ -55,23 +66,98 @@ public class HomePageFragment extends BaseFragment {
 		tv_activity = (TextView) view.findViewById(R.id.tv_activity);
 		tv_game = (TextView) view.findViewById(R.id.tv_game);
 		iv_sport_calendar = (ImageView) view.findViewById(R.id.iv_sport_calendar);
-		
+
+		// tv_sport_field.setCompoundDrawablesRelativeWithIntrinsicBounds(null,);
 		tv_sport_field.setOnClickListener(this);
 		tv_club.setOnClickListener(this);
 		tv_activity.setOnClickListener(this);
 		tv_game.setOnClickListener(this);
 		iv_sport_calendar.setOnClickListener(this);
 
-
 		ll_ad_layout = (LinearLayout) view.findViewById(R.id.ll_ad_layout);
 		ll_ad_layout_bottom = (LinearLayout) view.findViewById(R.id.ll_ad_layout_bottom);
+
+		return view;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO activity 创建成功后执行getactivity();
+		super.onActivityCreated(savedInstanceState);
+		initMainPageRequest();
+	}
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		Intent intent = null;
+		switch (v.getId()) {
+		case R.id.tv_sport_field:
+			intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
+			startActivity(intent);
+			break;
+		case R.id.tv_club:
+			intent = new Intent(getActivity(), ClubListActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.tv_activity:
+			intent = new Intent(getActivity(), ActivityListActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.tv_game:
+			intent = new Intent(getActivity(), PlayListActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.iv_sport_calendar:
+			intent = new Intent(getActivity(), CalendarTimesActivity.class);
+			startActivity(intent);
+			break;
+		}
+	}
+
+	/**
+	 * TODO 首页接口的请求
+	 */
+	private void initMainPageRequest() {
+		GetSprotHomeReqBody reqBody = new GetSprotHomeReqBody();
+		reqBody.CityId = "226";
+		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.GET_SPROT_HOME), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(JsonResponse jsonResponse, RequestInfo requestInfo) {
+				ResponseContent<GetSprotHomeResBody> de = jsonResponse.getResponseContent(GetSprotHomeResBody.class);
+				GetSprotHomeResBody resBody = de.getBody();
+				initFragmentView(resBody);
+			}
+
+			@Override
+			public void onError(Header header, RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	// 根据接口初始化view
+	private void initFragmentView(GetSprotHomeResBody resBody) {
+		// 顶部广告数据源
+		advertismentlist = resBody.sportAdvertismentList;
+		// 底部广告数据源
+		SportAdvertismentObj endAD = new SportAdvertismentObj();
+		endAD.imageUrl = resBody.homeImgUrl;
+		initADS();
+		
+		// 4块内容
+//		tv_sport_field.setCompoundDrawablesRelativeWithIntrinsicBounds(null,mImageLoader.displayImage(imageUrl, imageView));
+		
+	}
+	// 初始化广告
+	private void initADS()
+	{
 		advertisementControlLayout = new AdvertisementView(getActivity());
 		advertisementControlLayout.setAdvertisementRate(8, 3);
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
-		for (int i = 0; i < 6; i++) {
-			advertismentlist.add(initADdata());
-		}
 		if (advertismentlist != null && advertismentlist.size() > 0) {
 			advertisementControlLayout.setAdvertisementData(advertismentlist);
 			ll_ad_layout.setVisibility(View.VISIBLE);
@@ -81,47 +167,9 @@ public class HomePageFragment extends BaseFragment {
 		advertisementControlLayout_bottom.setAdvertisementRate(8, 3);
 		advertisementControlLayout_bottom.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout_bottom.addView(advertisementControlLayout_bottom);
-		if (advertismentlist != null && advertismentlist.size() > 0) {
-			advertisementControlLayout_bottom.setAdvertisementData(advertismentlist);
+		if (endAdvertismentlist != null && endAdvertismentlist.size() > 0) {
+			advertisementControlLayout_bottom.setAdvertisementData(endAdvertismentlist);
 			ll_ad_layout_bottom.setVisibility(View.VISIBLE);
-		}
-
-
-		return view;
-	}
-
-	private AdvertisementObject initADdata() {
-		AdvertisementObject ad_one = new AdvertisementObject();
-		ad_one.imageUrl = "http://a.hiphotos.baidu.com/image/pic/item/bba1cd11728b4710f197b4c1c0cec3fdfc032306.jpg";
-		ad_one.redirectUrl = "http://www.baidu.com";
-		return ad_one;
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		Intent intent = null;
-		switch (v.getId()) {
-			case R.id.tv_sport_field:
-				intent = new Intent(getActivity(),ActivityCenterListAtivity.class);
-				startActivity(intent);
-				break;
-			case R.id.tv_club:
-				intent = new Intent(getActivity(),ClubListActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.tv_activity:
-				intent = new Intent(getActivity(),ActivityListActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.tv_game:
-				intent = new Intent(getActivity(),PlayListActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.iv_sport_calendar:
-				intent = new Intent(getActivity(),CalendarTimesActivity.class);
-				startActivity(intent);
-				break;
 		}
 	}
 }

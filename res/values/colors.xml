@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="c_tcolor_dark">#ff333333</color>
 	<color name="main_line">#ffdcdcdc</color>
+	<color name="c_tcolor_dark">#ff333333</color>
 	<!-- 用于分割线、按钮描边 -->
 	<color name="background_color">#f3f3f3</color>
 	<color name="frame_gray">#ffcecece</color>
@@ -132,10 +132,10 @@
 	<color name="magenta">#FF00FF</color>
 	<!-- 红紫色 -->
 
-	<color name="red">#FF0000</color>
-	<!-- 红色 -->
-	<color name="light_red">#FF4040</color>
-	<!-- 亮红色 -->
+    <color name="red">#ffff3300</color>
+    <!-- 红色 -->
+    <color name="light_red">#FF4040</color>
+    <!-- 亮红色 -->
 
 	<color name="oldlace">#FDF5E6</color>
 	<!-- 老花色 -->
