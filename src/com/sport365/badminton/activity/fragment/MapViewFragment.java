@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,24 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.navisdk.CommonParams;
+import com.baidu.navisdk.comapi.mapcontrol.BNMapController;
+import com.baidu.navisdk.comapi.mapcontrol.MapParams;
+import com.baidu.navisdk.comapi.routeplan.BNRoutePlaner;
+import com.baidu.navisdk.comapi.routeplan.IRouteResultObserver;
+import com.baidu.navisdk.comapi.routeplan.RoutePlanParams;
+import com.baidu.navisdk.model.NaviDataEngine;
+import com.baidu.navisdk.model.RoutePlanModel;
+import com.baidu.navisdk.model.datastruct.RoutePlanNode;
+import com.baidu.navisdk.ui.widget.RoutePlanObserver;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 import com.sport365.badminton.utils.SharedPreferencesKeys;
 import com.sport365.badminton.utils.SharedPreferencesUtils;
+import com.sport365.badminton.utils.ULog;
+import com.sport365.badminton.utils.Utilities;
+
+import java.util.ArrayList;
 
 /**
  * 地图
@@ -31,40 +44,47 @@ public class MapViewFragment extends BaseFragment {
 	public BDLocationListener myListener = new MyLocationListener();
 	private BaiduMap mBaiduMap;
 	private LocationClient mLocClient;
-	boolean isSuccessLocation = false;// 是否首次定位
 	private MapView mMapView = null;
 	private LocationClientOption option;
-	private MapViewFragment sceneryDetailView;
 	private View view;
-	private Marker mMarker;
 	private MapStatusUpdate zoomTo;
-	private BitmapDescriptor bitmap;
+	private InfoWindow mInfoWindow;
+	private Marker mCurrentmMrker;
 
+	boolean isSuccessLocation = false;// 是否首次定位
 	private boolean isDestroy = false;
 
-	private String[] textIdsWithBus = {"驾车", "公交", "步行"};
-//	private MKPlanNode start, end;
+	// 弹出气泡窗口
+	private View mapPopView;
+	private TextView tv_name;
+	private Dialog alertDialog;
 
-	/**
-	 * 定位失败，百度返回默认的经纬度值
-	 */
+	// 定位失败，百度返回默认的经纬度值
 	private final String BAIDU_DEFAULT_VALUE = "4.9E-324";
+	private LayoutInflater mLayoutInflater;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_mapview, container, false);
+		mLayoutInflater = inflater;
 		initBaiduMap();
 		return view;
 	}
 
 	private void initBaiduMap() {
 		mMapView = (MapView) view.findViewById(R.id.bmapView);
-//		 地图初始化
 		mBaiduMap = mMapView.getMap();
-		// 开启定位图层
+		zoomTo = MapStatusUpdateFactory.zoomTo(Float.parseFloat("11"));//缩放到11
+		mBaiduMap.animateMapStatus(zoomTo);
+
+		initLocation();
+		initPopView();
+		initOverlay();
+	}
+
+	// 定位
+	private void initLocation() {
 		mBaiduMap.setMyLocationEnabled(true);
-		// 定位初始化
 		mLocClient = new LocationClient(getActivity().getApplicationContext());
 		mLocClient.registerLocationListener(myListener);
 		option = new LocationClientOption();
@@ -73,35 +93,72 @@ public class MapViewFragment extends BaseFragment {
 		option.setScanSpan(2000);
 		option.setAddrType("all");
 		option.setIsNeedAddress(true);
-
 		mLocClient.setLocOption(option);
 		mLocClient.start();
-		zoomTo = MapStatusUpdateFactory.zoomTo(Float.parseFloat("11"));//缩放到11
-		mBaiduMap.animateMapStatus(zoomTo);
+	}
 
-		LatLng point = new LatLng(31.310284, 120.680922);
-		//构建Marker图标
+	private void initOverlay() {
+		//添加Marker
+		LatLng point = new LatLng(31.297048, 120.704062);
+		LatLng point1 = new LatLng(31.309636, 120.672442);
+		LatLng point2 = new LatLng(31.279766, 120.66468);
 		BitmapDescriptor bitmap = BitmapDescriptorFactory
 				.fromResource(R.drawable.icon_balloon);
-		//构建MarkerOption，用于在地图上添加Marker
 		OverlayOptions option = new MarkerOptions()
 				.position(point)
-				.icon(bitmap);
+				.icon(bitmap).title("景点");
 		//在地图上添加Marker，并显示
-		mBaiduMap.addOverlay(option);
+		Marker marker = (Marker) mBaiduMap.addOverlay(option);
+
+		OverlayOptions option1 = new MarkerOptions()
+				.position(point1).title("景点1")
+				.icon(bitmap);
+		Marker marker1 = (Marker) mBaiduMap.addOverlay(option1);
+
+		OverlayOptions option2 = new MarkerOptions()
+				.position(point2).title("景点2")
+				.icon(bitmap);
+		Marker marker2 = (Marker) mBaiduMap.addOverlay(option2);
+
 		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(point);
 		mBaiduMap.animateMapStatus(u);
-
 		mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
 			@Override
-			public boolean onMarkerClick(Marker marker) {
-
+			public boolean onMarkerClick(final Marker marker) {
+				tv_name.setText(marker.getTitle());
+				LatLng ll = marker.getPosition();
+				mInfoWindow = new InfoWindow(mapPopView, ll, -5);
+				mBaiduMap.showInfoWindow(mInfoWindow);
 				return true;
 			}
 		});
-
 	}
 
+	private void initPopView() {
+		//地图弹出黑色气泡窗
+		mapPopView = mLayoutInflater.inflate(R.layout.pop_map_layout, null);
+		LinearLayout ll_popclick = (LinearLayout) mapPopView.findViewById(R.id.ll_popclick);
+		tv_name = (TextView) mapPopView.findViewById(R.id.tv_pop_name);
+		ll_popclick.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showNavDialog();
+			}
+		});
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		BNRoutePlaner.getInstance().setRouteResultObserver(null);
+		BNMapController.getInstance().onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		BNMapController.getInstance().onResume();
+	}
 
 	/**
 	 * 定位监听函数
@@ -117,7 +174,6 @@ public class MapViewFragment extends BaseFragment {
 					.accuracy(location.getRadius())
 					.direction(100).latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
-
 			String latitude = String.valueOf(location.getLatitude());
 			String longitude = String.valueOf(location.getLongitude());
 			if (!BAIDU_DEFAULT_VALUE.equals(latitude) && !BAIDU_DEFAULT_VALUE.equals(longitude)) {//4.9E-324
@@ -127,7 +183,6 @@ public class MapViewFragment extends BaseFragment {
 				//定给成功
 				isSuccessLocation = true;
 			}
-
 			mBaiduMap.setMyLocationData(locData);
 			//如果定位失败每隔两秒再定位一次
 //			if (!isSuccessLocation && !isDestroy) {
@@ -136,120 +191,99 @@ public class MapViewFragment extends BaseFragment {
 //				mBaiduMap.animateMapStatus(u);
 //			}
 		}
-
-		public void onReceivePoi(BDLocation poiLocation) {
-		}
 	}
 
 
-//	private void showNavDialog() {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		builder.setIcon(android.R.drawable.ic_menu_more);
-//		builder.setTitle("请选择");
-//		ListItemAdapter adapter = new ListItemAdapter();
-//		adapter.textIds = textIdsWithBus;
-//		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialogInterface, int which) {
-//
-//				if (start.pt.getLatitudeE6() == 0) {
-//					// 从缓存重新设置起点位置
-//					if (Utilities.latitude != 0 && Utilities.longitude != 0) {
-//						start.pt = new GeoPoint((int) (Utilities.latitude * 1E6), (int) (Utilities.longitude * 1E6));
-//					} else {
-//						BDLocation location = BDLocationManager.getInstance(NavigationMapActivity.this).getmLocationClient().getLastKnownLocation();
-//						if (location != null) {
-//							start.pt = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
-//						} else {
-//							BDLocationManager.getInstance(NavigationMapActivity.this).startLocation(true);//开启定位
-//							Utilities.showToast("正在获取定位信息，请稍后再试！", getApplication());
-//							return;
-//						}
-//					}
-//				}
-//				if (end == null) {
-//					if (destinations != null && !destinations.isEmpty()) {
-//						end = new MKPlanNode();
-//						end.pt = new GeoPoint((int) (destinations.get(0).lat * 1E6), (int) (destinations.get(0).lon * 1E6));
-//					} else {
-//						Utilities.showToast("抱歉，无法获得相应的导航信息！", getApplication());
-//						return;
-//					}
-//				}
-//				Utilities.mkRoute = null;
-//				Utilities.tranRoute = null;
-//
-//				if (which == 0) {
-//					navType = "驾车";
-//					mKSearch.setDrivingPolicy(MKSearch.ECAR_TIME_FIRST);
-//					// 驾乘路线搜索.
-//					mKSearch.drivingSearch("", start, "", end);
-//				} else if (which == 1) {
-//					if (navigationWithBus) {
-//						navType = "公交";
-//						mKSearch.setTransitPolicy(MKSearch.EBUS_TRANSFER_FIRST);
-//						mKSearch.transitSearch(data.cityName, start, end);
-//					} else {
-//						navType = "步行";
-//						mKSearch.walkingSearch("", start, "", end);
-//					}
-//				} else if (which == 2) {
-//					navType = "步行";
-//					mKSearch.walkingSearch("", start, "", end);
-//				}
-//
-//				if (!TextUtils.isEmpty(navType)) {
-//					setActionBarTitle(navType);
-//				}
-//				if (!alertDialog.isShowing())
-//					alertDialog.show();
-//			}
-//		};
-//		builder.setAdapter(adapter, listener);
-//		Dialog dialog = builder.create();
-//		dialog.show();
-//	}
+	private void showNavDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setIcon(android.R.drawable.ic_menu_more);
+		builder.setTitle("请选择");
+		ListItemAdapter adapter = new ListItemAdapter();
+		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int which) {
+				if (which == 0) {
+					routePlan();
+				} else if (which == 1) {
+					Utilities.showToast("11111", getActivity());
+				} else if (which == 2) {
+					Utilities.showToast("22222", getActivity());
+				}
+				if (!alertDialog.isShowing())
+					alertDialog.show();
+			}
+		};
+		builder.setAdapter(adapter, listener);
+		alertDialog = builder.create();
+		alertDialog.show();
+	}
 
+	private void routePlan() {
+		RoutePlanNode startNode = new RoutePlanNode((int) (31.297048 * 1E6), (int) (120.704062 * 1E6),
+				RoutePlanNode.FROM_MAP_POINT, "111", "aaaaaa");
+		RoutePlanNode endNode = new RoutePlanNode((int) (31.309636 * 1E6), (int) (120.672442 * 1E6),
+				RoutePlanNode.FROM_MAP_POINT, "222", "bbbbbb");
+		//将起终点添加到nodeList
+		ArrayList<RoutePlanNode> nodeList = new ArrayList<RoutePlanNode>(2);
+		nodeList.add(startNode);
+		nodeList.add(endNode);
+		BNRoutePlaner.getInstance().setObserver(new RoutePlanObserver(getActivity(), null));
+		//设置算路方式
+		BNRoutePlaner.getInstance().setCalcMode(RoutePlanParams.NE_RoutePlan_Mode.ROUTE_PLAN_MOD_MIN_TIME);
+		// 设置算路结果回调
+		BNRoutePlaner.getInstance().setRouteResultObserver(mRouteResultObserver);
+		// 设置起终点并算路
+		boolean ret = BNRoutePlaner.getInstance().setPointsToCalcRoute(
+				nodeList, CommonParams.NL_Net_Mode.NL_Net_Mode_OnLine);
+		if (!ret) {
+			Utilities.showToast("规划失败", getActivity());
+		}
+	}
 
-//	public void addOverLay(ArrayList<Scenery> scenerys) {
-//		if (null != mBaiduMap) {
-//			mBaiduMap.clear();
-//		}
-//
-//		LatLng ll = null;
-//		Scenery scenery = null;
-//		Button button = null;
-//		String lat = "", lon = "";
-//		OverlayOptions ooA;
-//
-//		mBaiduMap.animateMapStatus(zoomTo);
-//		for (int i = 0; i < scenerys.size(); i++) {
-//			scenery = scenerys.get(i);
-//			lat = scenery.latitude;
-//			lon = scenery.longitude;
-//			if (TextUtils.isEmpty(lat) || TextUtils.isEmpty(lon)) {
-//				return;
-//			}
-//			ll = new LatLng(Double.parseDouble(lat), Double.parseDouble(lon));
-//
-//			if (i == 0) {//将地图的中心点标记到第一个景点的经纬度上
-//				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-//				mBaiduMap.animateMapStatus(u);
-//			}
-//			button = new Button(getActivity());
-//			button.setBackgroundResource(R.drawable.map_bubble_price);
-//			button.setGravity(Gravity.CENTER);
-//			button.setPadding(0, 0, 0, 20);
-//			button.setText(scenery.sceneryName);
-//			bitmap = BitmapDescriptorFactory.fromView(button);
-//			ooA = new MarkerOptions().position(ll).icon(bitmap).zIndex(9).draggable(false);
-//			mMarker = (Marker) (mBaiduMap.addOverlay(ooA));
-//			mMarker.setZIndex(Integer.parseInt(scenery.sceneryId));
-//			mHashMap.put(scenery.sceneryId, scenery);
-//		}
+	private RoutePlanModel mRoutePlanModel = null;
+	private IRouteResultObserver mRouteResultObserver = new IRouteResultObserver() {
 
-//	}
+		@Override
+		public void onRoutePlanYawingSuccess() {
+			// TODO Auto-generated method stub
+			ULog.debug("-------onRoutePlanYawingSuccess");
+		}
 
+		@Override
+		public void onRoutePlanYawingFail() {
+			// TODO Auto-generated method stub
+			ULog.debug("-------onRoutePlanYawingFail");
+		}
+
+		@Override
+		public void onRoutePlanSuccess() {
+			// TODO Auto-generated method stub
+			BNMapController.getInstance().setLayerMode(
+					MapParams.Const.LayerMode.MAP_LAYER_MODE_ROUTE_DETAIL);
+			mRoutePlanModel = (RoutePlanModel) NaviDataEngine.getInstance()
+					.getModel(CommonParams.Const.ModelName.ROUTE_PLAN);
+			ULog.debug("-------onRoutePlanSuccess");
+		}
+
+		@Override
+		public void onRoutePlanFail() {
+			// TODO Auto-generated method stub
+			ULog.debug("-------onRoutePlanFail");
+		}
+
+		@Override
+		public void onRoutePlanCanceled() {
+			// TODO Auto-generated method stub
+			ULog.debug("-------onRoutePlanCanceled");
+		}
+
+		@Override
+		public void onRoutePlanStart() {
+			// TODO Auto-generated method stub
+			ULog.debug("-------onRoutePlanStart");
+		}
+
+	};
 
 	@Override
 	public void onDestroy() {
@@ -261,15 +295,12 @@ public class MapViewFragment extends BaseFragment {
 		mMapView.onDestroy();
 		mMapView = null;
 		super.onDestroy();
-		if (null != bitmap) {
-			bitmap.recycle();
-		}
 	}
 
 	class ListItemAdapter extends BaseAdapter {
 
-		String[] textIds;
-		int[] imgIds;
+		String[] textIds = {"驾车", "公交", "步行"};
+		int[] imgIds = {R.drawable.car, R.drawable.bus, R.drawable.walk};
 
 		@Override
 		public int getCount() {

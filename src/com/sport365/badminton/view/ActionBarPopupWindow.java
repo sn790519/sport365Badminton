@@ -118,7 +118,6 @@ public class ActionBarPopupWindow extends PopupWindow {
 					R.layout.list_item_actionbar_popupwindow, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.tv_title);
 			tv.setText(item.text);
-			ULog.error("------->" + item.text);
 			tv.setOnClickListener(item.onClickListener);
 			return convertView;
 		}
