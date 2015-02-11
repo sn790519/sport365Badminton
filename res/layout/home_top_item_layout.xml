@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/ll_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/flag"
+                android:orientation="horizontal"
+                android:padding="8.0dip"
+                android:visibility="visible"
+                android:weightSum="2">
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_back"
+            android:id="@+id/iv_module"/>
+
+    <TextView
+            android:id="@+id/tv_module"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/iv_module"
+            android:textColor="@color/main_secondary"
+            android:textSize="@dimen/text_size_hint"
+            android:text="景点门票"
+            android:gravity="bottom|center_horizontal"
+            android:layout_marginTop="6dp"/>
+
+</RelativeLayout>

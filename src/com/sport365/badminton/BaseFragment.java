@@ -1,9 +1,12 @@
 package com.sport365.badminton;
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -25,7 +28,8 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	private HttpTaskHelper mHttpTaskHelper;
 	public LoadingDialog mLoadingDialog;
 	public FragmentManager mFragmentManager;
-
+	public LayoutInflater mLayoutInflater;
+	public DisplayMetrics dm;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,14 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		mHttpTaskHelper = new HttpTaskHelper(getActivity());
 		mImageLoader = ImageLoader.getInstance();
 		mFragmentManager = getActivity().getSupportFragmentManager();
+		mLayoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		if (SystemConfig.dm == null) {
+			dm = new DisplayMetrics();
+			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+			SystemConfig.dm = dm;
+		} else {
+			dm = SystemConfig.dm;
+		}
 	}
 
 	@Override

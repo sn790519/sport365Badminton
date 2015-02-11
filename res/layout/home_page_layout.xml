@@ -1,119 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <!-- 广告 -->
 
     <LinearLayout
-        android:id="@+id/ll_ad_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/padding_ten_dp"
-        android:paddingLeft="@dimen/padding_eight_dp"
-        android:paddingRight="@dimen/padding_eight_dp"
-        android:paddingTop="@dimen/padding_ten_dp" >
-
-        <TextView
-            android:id="@+id/tv_sport_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_sport_member"
-            android:gravity="center"
-            android:text="@string/sport_field"
-            android:textColor="@color/secondary"
-            android:textSize="@dimen/text_fifteen_sp" />
-
-        <TextView
-            android:id="@+id/tv_club"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_club"
-            android:gravity="center"
-            android:text="@string/club"
-            android:textColor="@color/secondary"
-            android:textSize="@dimen/text_fifteen_sp" />
-
-        <TextView
-            android:id="@+id/tv_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_activities"
-            android:gravity="center"
-            android:text="@string/activity"
-            android:textColor="@color/secondary"
-            android:textSize="@dimen/text_fifteen_sp" />
-
-        <TextView
-            android:id="@+id/tv_game"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_game"
-            android:gravity="center"
-            android:text="@string/game"
-            android:textColor="@color/secondary"
-            android:textSize="@dimen/text_fifteen_sp" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_five_dp" >
-
-        <ImageView
-            android:id="@+id/iv_nearby"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/home_nearby" />
-
-        <ImageView
-            android:id="@+id/iv_sport_calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_nearby"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/home_sport_calendar" />
-
-        <ImageView
-            android:id="@+id/iv_lottory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_nearby"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/home_lottory" />
-
-        <ImageView
-            android:id="@+id/iv_except"
+            android:id="@+id/ll_ad_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_nearby"
-            android:layout_toRightOf="@id/iv_lottory"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/home_except" />
-    </RelativeLayout>
+            android:orientation="horizontal"
+            android:visibility="gone">
+    </LinearLayout>
+
+    <com.sport365.badminton.view.NoScrollGridView
+            android:id="@+id/gv_pic_uploads"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="true"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/image_thumbnail_spacing"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/image_thumbnail_spacing">
+    </com.sport365.badminton.view.NoScrollGridView>
+
+    <com.sport365.badminton.view.NoScrollGridView
+            android:id="@+id/gv_middle_uploads"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="true"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/image_thumbnail_spacing"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/image_thumbnail_spacing">
+    </com.sport365.badminton.view.NoScrollGridView>gv_middle_uploads
 
     <LinearLayout
-        android:id="@+id/ll_ad_layout_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+            android:id="@+id/ll_ad_layout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
     </LinearLayout>
 
 </LinearLayout>
