@@ -10,6 +10,8 @@ import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
+import com.baidu.lbsapi.auth.LBSAuthManagerListener;
 import com.baidu.navisdk.BNaviEngineManager;
 import com.baidu.navisdk.BaiduNaviManager;
 import com.sport365.badminton.BaseActivity;
@@ -20,14 +22,12 @@ import com.sport365.badminton.activity.fragment.HomeMyFragment;
 import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
 import com.sport365.badminton.entity.reqbody.*;
-import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper.JsonResponse;
 import com.sport365.badminton.http.base.HttpTaskHelper.RequestInfo;
 import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
-import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
 import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.ULog;
@@ -74,16 +74,32 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	 * 我的fragment
 	 */
 	private BaseFragment mMyFragment;
-
-	private boolean mIsEngineInitSuccess = false;
+	/**
+	 * 百度导航是否初始化成功
+	 */
+	public static boolean mIsEngineInitSuccess = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		//初始化导航引擎
-		BaiduNaviManager.getInstance().
-				initEngine(this, getSdcardDir(), mNaviEngineInitListener, SystemConfig.BAIDU_AK, null);
+		BaiduNaviManager.getInstance().initEngine(this, getSdcardDir(),
+				mNaviEngineInitListener, new LBSAuthManagerListener() {
+					@Override
+					public void onAuthResult(int status, String msg) {
+						String str = null;
+						if (0 == status) {
+							str = "key校验成功!";
+							mIsEngineInitSuccess = true;
+						} else {
+							str = "key校验失败, " + msg;
+							mIsEngineInitSuccess = false;
+						}
+						Toast.makeText(MainActivity.this, str,
+								Toast.LENGTH_LONG).show();
+					}
+				});
 		initActionBar();
 		findViews();
 		rb_menu_mian.setChecked(true);
@@ -371,9 +387,16 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	}
 
 
+	private String getSdcardDir() {
+		if (Environment.getExternalStorageState().equalsIgnoreCase(
+				Environment.MEDIA_MOUNTED)) {
+			return Environment.getExternalStorageDirectory().toString();
+		}
+		return null;
+	}
+
 	private BNaviEngineManager.NaviEngineInitListener mNaviEngineInitListener = new BNaviEngineManager.NaviEngineInitListener() {
 		public void engineInitSuccess() {
-			//导航初始化是异步的，需要一小段时间，以这个标志来识别引擎是否初始化成功，为true时候才能发起导航
 			mIsEngineInitSuccess = true;
 		}
 
@@ -383,13 +406,5 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		public void engineInitFail() {
 		}
 	};
-
-	private String getSdcardDir() {
-		if (Environment.getExternalStorageState().equalsIgnoreCase(
-				Environment.MEDIA_MOUNTED)) {
-			return Environment.getExternalStorageDirectory().toString();
-		}
-		return null;
-	}
 
 }
