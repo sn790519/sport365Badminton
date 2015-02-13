@@ -1,31 +1,33 @@
 package com.sport365.badminton.activity;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.entity.obj.MatchEntityObj;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
+import com.sport365.badminton.entity.reqbody.GetMatchListReqBody;
+import com.sport365.badminton.entity.resbody.GetMatchListResBody;
+import com.sport365.badminton.entity.webservice.SportParameter;
+import com.sport365.badminton.entity.webservice.SportWebService;
+import com.sport365.badminton.http.base.HttpTaskHelper;
+import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.ImageLoader;
+import com.sport365.badminton.http.json.req.ServiceRequest;
+import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
+import java.util.ArrayList;
+
 /**
  * 比赛列表页面
- * 
+ *
  * @author Frank
- * 
  */
 public class PlayListActivity extends BaseActivity {
 
@@ -33,9 +35,12 @@ public class PlayListActivity extends BaseActivity {
 	private LinearLayout ll_ad_layout;                                                // 广告
 
 	private ListView lv_play;
-	private ClubAdapter clubAdapter;
+	private PlayAdapter clubAdapter;
 	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>();    // 广告
 	private AdvertisementView advertisementControlLayout;
+
+	// 列表
+	private ArrayList<MatchEntityObj> matchTabEntity= new ArrayList<MatchEntityObj>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +49,10 @@ public class PlayListActivity extends BaseActivity {
 		setContentView(R.layout.play_layout);
 		lv_play = (ListView) findViewById(R.id.lv_play);
 		lv_play.addHeaderView(initHeadView());
-		clubAdapter = new ClubAdapter();
-		lv_play.setAdapter(clubAdapter);
-		lv_play.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(PlayListActivity.this, PlayDetailActivity.class);
-				startActivity(intent);
-			}
-		});
-		initADdata();
+		init_Get_Match_List();
 
 	}
+
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
@@ -65,10 +61,6 @@ public class PlayListActivity extends BaseActivity {
 	}
 
 	private void initADdata() {
-		SportAdvertismentObj ad_one = new SportAdvertismentObj();
-		ad_one.imageUrl = "http://a.hiphotos.baidu.com/image/pic/item/bba1cd11728b4710f197b4c1c0cec3fdfc032306.jpg";
-		ad_one.redirectUrl = "http://www.baidu.com";
-		advertismentlist.add(ad_one);
 		advertisementControlLayout = new AdvertisementView(this);
 		if (advertismentlist != null && advertismentlist.size() > 0) {
 			advertisementControlLayout.setAdvertisementData(advertismentlist);
@@ -79,11 +71,55 @@ public class PlayListActivity extends BaseActivity {
 		ll_ad_layout.addView(advertisementControlLayout);
 	}
 
-	class ClubAdapter extends BaseAdapter {
+	/**
+	 * 比赛列表
+	 */
+	private void init_Get_Match_List() {
+		final GetMatchListReqBody reqBody = new GetMatchListReqBody();
+		reqBody.page = "1";
+		reqBody.pageSize = "10";
+		reqBody.provinceId = "17";
+		reqBody.cityId = "220";
+		reqBody.countyId = "2143";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_LIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
+				GetMatchListResBody resBody = de.getBody();
+				if (resBody != null) {
+					// 广告
+					advertismentlist = resBody.matchAdvertismentList;
+					initADdata();
+
+					// 列表
+					matchTabEntity = resBody.matchTabEntity;
+					clubAdapter = new PlayAdapter();
+					lv_play.setAdapter(clubAdapter);
+					lv_play.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+							Intent intent = new Intent(PlayListActivity.this, PlayDetailActivity.class);
+							startActivity(intent);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	class PlayAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
-			return 20;
+			return matchTabEntity.size();
 		}
 
 		@Override
@@ -115,6 +151,31 @@ public class PlayListActivity extends BaseActivity {
 			} else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
+			MatchEntityObj mMatchEntityObj = matchTabEntity.get(position);
+			// 名称
+			String matchName = !TextUtils.isEmpty(mMatchEntityObj.matchName)?mMatchEntityObj.matchName:"";
+			viewHolder.tv_paly_name.setText(matchName);
+
+			// 图片
+			String matchLogo = !TextUtils.isEmpty(mMatchEntityObj.matchLogo)?mMatchEntityObj.matchLogo:"";
+			mImageLoader.displayImage(matchLogo,viewHolder.imageView);
+
+			//  时间
+			String beginDate = !TextUtils.isEmpty(mMatchEntityObj.beginDate)?mMatchEntityObj.beginDate:"";
+			String endDate = !TextUtils.isEmpty(mMatchEntityObj.endDate)?mMatchEntityObj.endDate:"";
+			viewHolder.tv_time_on.setText(beginDate+"--"+endDate);
+
+			// 大区域
+			String venueName = !TextUtils.isEmpty(mMatchEntityObj.venueName)?mMatchEntityObj.venueName:"";
+			viewHolder.tv_place_big.setText(venueName);
+
+			//小区域
+			String matchAdress = !TextUtils.isEmpty(mMatchEntityObj.matchAdress)?mMatchEntityObj.matchAdress:"";
+			viewHolder.tv_place_small.setText(matchAdress);
+
+			// 价格
+			String matchFee = !TextUtils.isEmpty(mMatchEntityObj.matchFee)?mMatchEntityObj.matchFee:"";
+			viewHolder.tv_play_price.setText(matchFee);
 			return convertView;
 		}
 
