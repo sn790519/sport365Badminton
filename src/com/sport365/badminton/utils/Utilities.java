@@ -24,16 +24,6 @@ public class Utilities {
 	private static String scream_voice_file_name = "voice";
 	public static String fileName = "badminton";
 
-	//地图数据
-	public static double latitude = 0;
-	public static double longitude = 0;
-	public static String cityName;//苏州市
-	public static String district;
-	public static String province;
-	public static String street;
-	public static long locationTime;// 记录定位时间
-	public static String address;// 定位地址信息
-
 
 	public static void CheckFileRoot(Application app) {
 		/**

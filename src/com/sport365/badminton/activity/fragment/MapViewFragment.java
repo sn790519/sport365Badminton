@@ -12,34 +12,26 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.overlayutil.DrivingRouteOverlay;
 import com.baidu.mapapi.overlayutil.TransitRouteOverlay;
+import com.baidu.mapapi.overlayutil.WalkingRouteOverlay;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.route.*;
 import com.baidu.navisdk.comapi.mapcontrol.BNMapController;
 import com.baidu.navisdk.comapi.routeplan.BNRoutePlaner;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
-import com.sport365.badminton.utils.SharedPreferencesKeys;
-import com.sport365.badminton.utils.SharedPreferencesUtils;
+import com.sport365.badminton.map.BDLocationHelper;
 import com.sport365.badminton.utils.Utilities;
 
 /**
  * 地图
  */
 public class MapViewFragment extends BaseFragment {
-	// 定位失败，百度返回默认的经纬度值
-	private final String BAIDU_DEFAULT_VALUE = "4.9E-324";
-	public BDLocationListener myListener = new MyLocationListener();
 	private BaiduMap mBaiduMap;
-	private LocationClient mLocClient;
 	private MapView mMapView = null;
-	private LocationClientOption option;
 	private View view;
 	private MapStatusUpdate zoomTo;
 	private InfoWindow mInfoWindow;
@@ -49,10 +41,7 @@ public class MapViewFragment extends BaseFragment {
 	 * 当前选中的marker
 	 */
 	private Marker mCurrentmMrker;
-	private BDLocation mCurrentLocation;
 
-	boolean isSuccessLocation = false;// 是否定位成功
-	private boolean isDestroy = false;
 
 	// 弹出气泡窗口
 	private View mapPopView;
@@ -60,13 +49,10 @@ public class MapViewFragment extends BaseFragment {
 	private Dialog alertDialog;
 
 	private LayoutInflater mLayoutInflater;
-	/**
-	 * 路线类型
-	 */
-	private String mRouteType = "";
-	private final String ROUTETYPE_WALK = "WALK";
-	private final String ROUTETYPE_TRANSIT = "TRANSIT";
-	private final String ROUTETYPE_DRIVE = "DRIVE";
+
+	private DrivingRouteOverlay drivingOverlay;
+	private WalkingRouteOverlay walkOverlay;
+	private TransitRouteOverlay transitOverlay;
 
 
 	@Override
@@ -88,20 +74,11 @@ public class MapViewFragment extends BaseFragment {
 		initOverlay();
 	}
 
-	// 定位
 	private void initLocation() {
 		mBaiduMap.setMyLocationEnabled(true);
-		mLocClient = new LocationClient(getActivity().getApplicationContext());
-		mLocClient.registerLocationListener(myListener);
-		option = new LocationClientOption();
-		option.setOpenGps(true);// 打开gps
-		option.setCoorType("bd09ll"); // 设置坐标类型
-		option.setScanSpan(2000);
-		option.setAddrType("all");
-		option.setIsNeedAddress(true);
-		mLocClient.setLocOption(option);
-		mLocClient.start();
+		mBaiduMap.setMyLocationData(BDLocationHelper.mMyLocationData);
 	}
+
 
 	private void initOverlay() {
 		//添加Marker
@@ -167,44 +144,6 @@ public class MapViewFragment extends BaseFragment {
 		BNMapController.getInstance().onResume();
 	}
 
-	/**
-	 * 定位监听函数
-	 */
-	public class MyLocationListener implements BDLocationListener {
-		@Override
-		public void onReceiveLocation(BDLocation location) {
-			// map view 销毁后不在处理新接收的位置
-			if (location == null || mMapView == null)
-				return;
-			// 此处设置开发者获取到的方向信息，顺时针0-360
-			MyLocationData locData = new MyLocationData.Builder()
-					.accuracy(location.getRadius())
-					.direction(100).latitude(location.getLatitude())
-					.longitude(location.getLongitude()).build();
-			String latitude = String.valueOf(location.getLatitude());
-			String longitude = String.valueOf(location.getLongitude());
-			if (!BAIDU_DEFAULT_VALUE.equals(latitude) && !BAIDU_DEFAULT_VALUE.equals(longitude)) {//4.9E-324
-				SharedPreferencesUtils.getInstance(getActivity()).putString(SharedPreferencesKeys.LOCATION_LAT, latitude);
-				SharedPreferencesUtils.getInstance(getActivity()).putString(SharedPreferencesKeys.LOCATION_LON, longitude);
-				SharedPreferencesUtils.getInstance(getActivity()).commitValue();
-				//定给成功
-				isSuccessLocation = true;
-			}
-			mBaiduMap.setMyLocationData(locData);
-			String city=location.getCity();
-			mCurrentLocation = location;
-			//如果定位失败每隔两秒再定位一次
-//			if (!isSuccessLocation && !isDestroy) {
-//				LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-//				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-//				mBaiduMap.animateMapStatus(u);
-//			}
-
-
-		}
-
-	}
-
 
 	private void showNavDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -214,16 +153,21 @@ public class MapViewFragment extends BaseFragment {
 		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int which) {
-				if (which == 0) {
-					if (null != mCurrentmMrker) {
-						PlanNode stNode = PlanNode.withLocation(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
-						PlanNode edNode = PlanNode.withLocation(mCurrentmMrker.getPosition());
-						routePlan(stNode, edNode);
+				if (null != mCurrentmMrker) {
+					PlanNode stNode = PlanNode.withLocation(new LatLng(BDLocationHelper.mCurrentLocation.getLatitude(), BDLocationHelper.mCurrentLocation.getLongitude()));
+					PlanNode edNode = PlanNode.withLocation(mCurrentmMrker.getPosition());
+					mSearch = RoutePlanSearch.newInstance();
+					mSearch.setOnGetRoutePlanResultListener(onGetRoutePlanResultListener);
+					if (which == 0) {
+						//驾车
+						mSearch.drivingSearch(new DrivingRoutePlanOption().from(stNode).to(edNode));
+					} else if (which == 1) {
+						//公交
+						mSearch.transitSearch((new TransitRoutePlanOption()).from(stNode).city(BDLocationHelper.mCurrentLocation.getCity()).to(edNode));
+					} else if (which == 2) {
+						//步行
+						mSearch.walkingSearch((new WalkingRoutePlanOption()).from(stNode).to(edNode));
 					}
-				} else if (which == 1) {
-					Utilities.showToast("11111", getActivity());
-				} else if (which == 2) {
-					Utilities.showToast("22222", getActivity());
 				}
 				if (!alertDialog.isShowing())
 					alertDialog.show();
@@ -234,31 +178,9 @@ public class MapViewFragment extends BaseFragment {
 		alertDialog.show();
 	}
 
-	/**
-	 * 路线规划
-	 */
-	private void routePlan(PlanNode stNode, PlanNode enNode) {
-		mSearch = RoutePlanSearch.newInstance();
-		mSearch.setOnGetRoutePlanResultListener(listener);
-		mSearch.transitSearch((new TransitRoutePlanOption())
-				.from(stNode)
-				.city("苏州")
-				.to(enNode));
-	}
-
-	OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
+	OnGetRoutePlanResultListener onGetRoutePlanResultListener = new OnGetRoutePlanResultListener() {
 		public void onGetWalkingRouteResult(WalkingRouteResult result) {
-			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-				Utilities.showToast("抱歉，未找到结果", getActivity());
-			}
-			if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
-				//起终点或途经点地址有岐义，通过以下接口获取建议查询信息
-				//result.getSuggestAddrInfo()
-				return;
-			}
-		}
-
-		public void onGetTransitRouteResult(TransitRouteResult result) {
+			//步行
 			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 				Utilities.showToast("抱歉，未找到结果", getActivity());
 			}
@@ -268,16 +190,21 @@ public class MapViewFragment extends BaseFragment {
 				return;
 			}
 			if (result.error == SearchResult.ERRORNO.NO_ERROR) {
-				TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
-				mBaiduMap.setOnMarkerClickListener(overlay);
-				overlay.setData(result.getRouteLines().get(0));
-				overlay.addToMap();
-				overlay.zoomToSpan();
+				walkOverlay = new WalkingRouteOverlay(mBaiduMap);
+				mBaiduMap.setOnMarkerClickListener(walkOverlay);
+				walkOverlay.setData(result.getRouteLines().get(0));
+				if (null != transitOverlay)
+					transitOverlay.removeFromMap();
+				if (null != drivingOverlay)
+					drivingOverlay.removeFromMap();
+				walkOverlay.addToMap();
+				walkOverlay.zoomToSpan();
 			}
 			mSearch.destroy();
 		}
 
-		public void onGetDrivingRouteResult(DrivingRouteResult result) {
+		public void onGetTransitRouteResult(TransitRouteResult result) {
+			//公交
 			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 				Utilities.showToast("抱歉，未找到结果", getActivity());
 			}
@@ -286,15 +213,48 @@ public class MapViewFragment extends BaseFragment {
 				//result.getSuggestAddrInfo()
 				return;
 			}
+			if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+				transitOverlay = new TransitRouteOverlay(mBaiduMap);
+				mBaiduMap.setOnMarkerClickListener(transitOverlay);
+				transitOverlay.setData(result.getRouteLines().get(0));
+				if (null != walkOverlay)
+					walkOverlay.removeFromMap();
+				if (null != drivingOverlay)
+					drivingOverlay.removeFromMap();
+				transitOverlay.addToMap();
+				transitOverlay.zoomToSpan();
+			}
+			mSearch.destroy();
+		}
+
+		public void onGetDrivingRouteResult(DrivingRouteResult result) {
+			//驾车
+			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+				Utilities.showToast("抱歉，未找到结果", getActivity());
+			}
+			if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+				//起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+				//result.getSuggestAddrInfo()
+				return;
+			}
+			if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+				drivingOverlay = new DrivingRouteOverlay(mBaiduMap);
+				mBaiduMap.setOnMarkerClickListener(drivingOverlay);
+				drivingOverlay.setData(result.getRouteLines().get(0));
+				if (null != walkOverlay)
+					walkOverlay.removeFromMap();
+				if (null != transitOverlay)
+					transitOverlay.removeFromMap();
+				drivingOverlay.addToMap();
+				drivingOverlay.zoomToSpan();
+			}
+			mSearch.destroy();
 		}
 	};
 
 
 	@Override
 	public void onDestroy() {
-//		// 退出时销毁定位
-		mLocClient.stop();
-		isDestroy = true;
 //		// 关闭定位图层
 		mBaiduMap.setMyLocationEnabled(false);
 		mMapView.onDestroy();

@@ -10,8 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.Toast;
 import com.baidu.lbsapi.auth.LBSAuthManagerListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 import com.baidu.navisdk.BNaviEngineManager;
 import com.baidu.navisdk.BaiduNaviManager;
 import com.sport365.badminton.BaseActivity;
@@ -29,6 +30,7 @@ import com.sport365.badminton.http.base.HttpTaskHelper.RequestInfo;
 import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
+import com.sport365.badminton.map.BDLocationHelper;
 import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
@@ -78,6 +80,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	 * 百度导航是否初始化成功
 	 */
 	public static boolean mIsEngineInitSuccess = false;
+	private BDLocationHelper bdLocationHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,18 +91,15 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 				mNaviEngineInitListener, new LBSAuthManagerListener() {
 					@Override
 					public void onAuthResult(int status, String msg) {
-						String str = null;
 						if (0 == status) {
-							str = "key校验成功!";
 							mIsEngineInitSuccess = true;
 						} else {
-							str = "key校验失败, " + msg;
 							mIsEngineInitSuccess = false;
 						}
-						Toast.makeText(MainActivity.this, str,
-								Toast.LENGTH_LONG).show();
 					}
 				});
+		bdLocationHelper = new BDLocationHelper(getApplicationContext(), new MyLocationListener());
+		bdLocationHelper.startLocation();
 		initActionBar();
 		findViews();
 		rb_menu_mian.setChecked(true);
@@ -393,6 +393,20 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			return Environment.getExternalStorageDirectory().toString();
 		}
 		return null;
+	}
+
+	/**
+	 * 定位监听函数
+	 */
+	public class MyLocationListener implements BDLocationListener {
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			if (location == null) {
+				Utilities.showToast("定位失败", mContext);
+				return;
+			}
+			bdLocationHelper.setCurrentLocation(location);
+		}
 	}
 
 	private BNaviEngineManager.NaviEngineInitListener mNaviEngineInitListener = new BNaviEngineManager.NaviEngineInitListener() {
