@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RadioGroup
+            android:id="@+id/rg_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/base_blue"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp">
+
+        <com.sport365.badminton.view.MyRadioButton
+                android:id="@+id/rb_menu_first"
+                style="@style/tab_main_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/btn_activity"
+                android:text="活动" android:checked="false" android:button="@color/base_blue"/>
+
+        <com.sport365.badminton.view.MyRadioButton
+                android:id="@+id/rb_menu_second"
+                style="@style/tab_main_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" android:textColor="@color/white"
+                android:drawableLeft="@drawable/btn_map"
+                android:text="地图" android:checked="false"/>
+
+        <com.sport365.badminton.view.MyRadioButton
+                android:id="@+id/rb_menu_third"
+                style="@style/tab_main_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" android:textColor="@color/white"
+                android:drawableLeft="@drawable/btn_club"
+                android:text="俱乐部"/>
+
+        <com.sport365.badminton.view.MyRadioButton
+                android:id="@+id/rb_menu_four"
+                style="@style/tab_main_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" android:textColor="@color/white"
+                android:drawableLeft="@drawable/btn_game"
+                android:text="比赛"/>
+    </RadioGroup>
+</LinearLayout>
