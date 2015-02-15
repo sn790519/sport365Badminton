@@ -1,123 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <!-- 广告 -->
 
     <LinearLayout
-        android:id="@+id/ll_ad_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+            android:id="@+id/ll_ad_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
         <TextView
-            android:id="@+id/tv_venue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingBottom="10.0dp"
-            android:paddingLeft="15.0dp"
-            android:paddingTop="17.0dp"
-            android:text="独墅湖体育馆羽毛球"
-            android:textColor="@color/orangn"
-            android:textSize="@dimen/list" />
+                android:id="@+id/tv_venue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingBottom="10.0dp"
+                android:paddingLeft="15.0dp"
+                android:paddingTop="17.0dp"
+                android:text="独墅湖体育馆羽毛球"
+                android:textColor="@color/orangn"
+                android:textSize="@dimen/list"/>
 
         <ImageView
-            android:id="@+id/iv_tag_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="24.0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/indicator_common_set_up" />
+                android:id="@+id/iv_tag_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="24.0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/indicator_common_set_up"/>
 
         <RelativeLayout
-            android:id="@+id/flag"
-            android:layout_width="match_parent"
-            android:layout_height="87.0dp"
-            android:layout_below="@id/tv_venue" >
+                android:id="@+id/flag"
+                android:layout_width="match_parent"
+                android:layout_height="87.0dp"
+                android:layout_below="@id/tv_venue">
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="14.0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bg_default_common" />
+                    android:id="@+id/imageView"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="14.0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_default_common"/>
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="87.0dp"
-                android:layout_marginLeft="11dp"
-                android:layout_toRightOf="@id/imageView"
-                android:gravity="top" >
+                    android:layout_width="fill_parent"
+                    android:layout_height="87.0dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_toRightOf="@id/imageView"
+                    android:gravity="top">
 
                 <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/icon_list_time"
-                    android:drawablePadding="4.0dip"
-                    android:gravity="center_vertical"
-                    android:text="10:00 -- 11:00"
-                    android:textColor="@color/hint"
-                    android:textSize="@dimen/hint" />
-
-                <TextView
-                    android:id="@+id/tv_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_time"
-                    android:layout_marginTop="4.0dip"
-                    android:drawableLeft="@drawable/icon_list_phone"
-                    android:drawablePadding="4.0dip"
-                    android:gravity="center_vertical"
-                    android:text="0515 86577806"
-                    android:textColor="@color/hint"
-                    android:textSize="@dimen/hint" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_phone"
-                    android:layout_marginTop="5.0dip" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/icon_list_address" />
-
-                    <TextView
-                        android:id="@+id/tv_distance"
+                        android:id="@+id/tv_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6.0dip"
-                        android:drawableRight="@drawable/icon_nearby_map"
-                        android:gravity="top"
-                        android:lineSpacingMultiplier="1.5"
-                        android:maxLines="2"
-                        android:paddingLeft="4.0dp"
-                        android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                        android:drawableLeft="@drawable/icon_list_time"
+                        android:drawablePadding="4.0dip"
+                        android:gravity="center_vertical"
+                        android:text="10:00 -- 11:00"
                         android:textColor="@color/hint"
-                        android:textSize="@dimen/hint" />
+                        android:textSize="@dimen/hint"/>
+
+                <TextView
+                        android:id="@+id/tv_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_time"
+                        android:layout_marginTop="4.0dip"
+                        android:drawableLeft="@drawable/icon_list_phone"
+                        android:drawablePadding="4.0dip"
+                        android:gravity="center_vertical"
+                        android:text="0515 86577806"
+                        android:textColor="@color/hint"
+                        android:textSize="@dimen/hint"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_phone"
+                        android:layout_marginTop="5.0dip">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_list_address"/>
+
+                    <TextView
+                            android:id="@+id/tv_distance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="6.0dip"
+                            android:drawableRight="@drawable/icon_nearby_map"
+                            android:gravity="top"
+                            android:lineSpacingMultiplier="1.5"
+                            android:maxLines="2"
+                            android:paddingLeft="4.0dp"
+                            android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                            android:textColor="@color/hint"
+                            android:textSize="@dimen/hint"/>
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
-
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+        <include layout="@layout/choose_item_layout"></include>
+    </LinearLayout>
 </LinearLayout>
