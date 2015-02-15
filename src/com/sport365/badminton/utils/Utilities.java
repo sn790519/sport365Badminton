@@ -1,51 +1,20 @@
 package com.sport365.badminton.utils;
 
-import static java.util.Calendar.HOUR_OF_DAY;
-import static java.util.Calendar.MILLISECOND;
-import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.SECOND;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
-
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
-import android.animation.ObjectAnimator;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Config;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Toast;
-
 import com.sport365.badminton.params.SystemConfig;
 
-/**
- * 业务逻辑工具类，包含动画
- * 
- */
+import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Utilities {
 
-	/** 链接色 */
-	public static final String LINK_COLOR = "#0088cc";
 	public static String FILE_ROOT = "";
 	public static String JSON_FILE_ROOT = "";
 	public static String JSON_FOREVER_FILE_ROOT = "";
@@ -53,39 +22,18 @@ public class Utilities {
 	private static String json_fileName = "json";
 	private static String json_forEverName = "fejson";
 	private static String scream_voice_file_name = "voice";
-	public static String fileName = "TongCheng";
+	public static String fileName = "badminton";
 
-	public static String DATABASE_NAME = "tongchengpro.db";
-	public static int DATABASE_VERSION = 3;
-	static boolean DEBUG = true && Config.DEBUG;
-	// if(DEBUG)
+	//地图数据
 	public static double latitude = 0;
 	public static double longitude = 0;
-	public static String cityName;
+	public static String cityName;//苏州市
 	public static String district;
 	public static String province;
 	public static String street;
 	public static long locationTime;// 记录定位时间
 	public static String address;// 定位地址信息
 
-	// 列表页滑动动画
-	private static Animation translate_foot_bottom_to_top,// 底部TAB显示动画
-			translate_foot_top_to_bottom;// 底部TAB隐藏动画
-	private static boolean inScroll = false;// 是否已经滑动过,动画是否已经结束
-	private static View myTabViewBottom;
-	private static Handler ticpkerHandler = new Handler();;
-	private static Runnable animationRunnable = new Runnable() {
-		@Override
-		public void run() {
-			if (myTabViewBottom != null) {
-				if (myTabViewBottom.getVisibility() == View.GONE) {
-					myTabViewBottom.clearAnimation();
-					myTabViewBottom.startAnimation(translate_foot_bottom_to_top);
-				}
-			}
-			ticpkerHandler.removeCallbacks(this);
-		}
-	};
 
 	public static void CheckFileRoot(Application app) {
 		/**
@@ -194,9 +142,9 @@ public class Utilities {
 	}
 
 	public static void setFieldValue(Object target, String fname, Class ftype, Object fvalue) { // 设置字段值
-																								// 如:username
-																								// 字段,setUsername(String
-																								// username)
+		// 如:username
+		// 字段,setUsername(String
+		// username)
 		if (target == null || fname == null || "".equals(fname) || (fvalue != null && !ftype.isAssignableFrom(fvalue.getClass()))) {// 如果类型不匹配，直接退出
 			return;
 		}
@@ -221,234 +169,10 @@ public class Utilities {
 		}
 	}
 
-	// 获取加密过的手机号
-	public static String getEncryptPhone(String phone) {
-		String result = "";
-		if (phone.length() == 11) {
-			String first = phone.substring(0, 3);
-			String second = phone.substring(7, 11);
-			result = first + "****" + second;
-		} else {
-			result = phone;
-		}
-
-		return result.toString();
-	}
-
-	// 从下面弹出背景的淡入的动画
-	public static void showPopBg(final View ll_popupbg) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 0, 1).setDuration(500);
-		objectAnimator.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				ll_popupbg.setVisibility(View.VISIBLE);
-
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-
-			}
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-
-			}
-		});
-		objectAnimator.start();
-	}
-
-	// 从下面弹出背景的淡出的动画
-	public static void dismissPopBg(final View ll_popupbg) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 1, 0).setDuration(500);
-		objectAnimator.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				ll_popupbg.setVisibility(View.GONE);
-
-			}
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-
-			}
-		});
-		objectAnimator.start();
-
-	}
-
-	/**
-	 * 从下面弹出背景的淡入的动画,在完成之前只能点击一次
-	 * 
-	 * @author Ruyan.Zhao 6045
-	 * @since tongcheng_client_6.4 Jun 4, 2014 6:31:32 PM
-	 */
-	public static void showPopBg(final View ll_popupbg, final View view) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 0, 1).setDuration(500);
-		objectAnimator.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				ll_popupbg.setVisibility(View.VISIBLE);
-				view.setClickable(false);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				view.setClickable(true);
-
-			}
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-
-			}
-		});
-		objectAnimator.start();
-	}
-
-	// 从下面弹出背景的淡出的动画
-	/**
-	 * 从下面弹出背景的淡出动画，动画完成前不可再次触发
-	 * 
-	 * @author Ruyan.Zhao 6045
-	 * @since tongcheng_client_6.4 Jun 4, 2014 6:32:56 PM
-	 */
-	public static void dismissPopBg(final View ll_popupbg, final View view) {
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(ll_popupbg, "alpha", 1, 0).setDuration(500);
-		objectAnimator.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				view.setClickable(false);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				ll_popupbg.setVisibility(View.GONE);
-				view.setClickable(true);
-			}
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-
-			}
-		});
-		objectAnimator.start();
-
-	}
-
-	/**
-	 * 将日历清除时分秒和毫秒
-	 * 
-	 * @param cal
-	 */
-	public static void setMidnight(Calendar cal) {
-		if (cal != null) {
-			cal.set(HOUR_OF_DAY, 0);
-			cal.set(MINUTE, 0);
-			cal.set(SECOND, 0);
-			cal.set(MILLISECOND, 0);
-		}
-	}
-
-	/**
-	 * 解压缩zip包
-	 * 
-	 * @author Ruyan.Zhao 6045
-	 * @since tongcheng_client_6.0.1 2014-2-20 下午3:30:12
-	 */
-	public static void upZipFile(File zipFile, String folderPath) throws ZipException, IOException {
-		if (!zipFile.exists()) {
-			return;
-		} else {
-			ZipFile zf = new ZipFile(zipFile);
-			InputStream inputStream;
-			Enumeration en = zf.entries();
-			while (en.hasMoreElements()) {
-				ZipEntry zn = (ZipEntry) en.nextElement();
-				if (!zn.isDirectory()) {
-					inputStream = zf.getInputStream(zn);
-					File f = new File(folderPath + zn.getName());
-					File file = f.getParentFile();
-					file.mkdirs();
-					FileOutputStream outputStream = new FileOutputStream(folderPath + zn.getName());
-					int len = 0;
-					byte bufer[] = new byte[1024];
-					while (-1 != (len = inputStream.read(bufer))) {
-						outputStream.write(bufer, 0, len);
-					}
-					outputStream.close();
-				}
-			}
-		}
-	}
-
-	/**
-	 * 选择日期从价格日历回来后 现在在文本框的文案 是今天明天后天 或者具体日期 日期格式是dateFormat 决定 变成
-	 * 今天明天后天的日期格式由dayFormat决定
-	 * 
-	 * @param calendar
-	 * @param dateFormat
-	 * @return
-	 */
-	public static String getDateCellValue(Calendar calendar, SimpleDateFormat dateFormat, SimpleDateFormat dayFormat) {
-		String cellValue = getTodayFromDate(calendar.getTime());
-		if (TextUtils.isEmpty(cellValue)) {
-			cellValue = dateFormat.format(calendar.getTime());
-		} else {
-			cellValue = dayFormat.format(calendar.getTime()) + "  " + cellValue;
-		}
-		return cellValue;
-	}
-
-	/**
-	 * 选择日期从价格日历回来后 现在在文本框的文案 是今天明天后天 或者具体日期 日期格式是yyyy-MM-dd EE 变成
-	 * 今天明天后天的日期格式由dayFormat决定
-	 * 
-	 * @param calendar
-	 * @return
-	 */
-	public static String getDateCellValueFormal(Calendar calendar) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  EE");
-		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
-		return getDateCellValue(calendar, dateFormat, dayFormat);
-	}
 
 	/**
 	 * 为了提升查询效率，采用map的方式，这个方法是根据传入的日期来比较，得到一个key， 具体的算法是年的差值*10000+月份*100
 	 * +日,这样就可以的到唯一的key
-	 * 
-	 * @param perDate
-	 * @param currentDate
-	 * @return
 	 */
 	public static int getDateKeyFromDate(Date perDate) {
 		int dayofMonth = perDate.getDate();
@@ -460,7 +184,7 @@ public class Utilities {
 
 	/**
 	 * 判断今天明天 和后天的逻辑
-	 * 
+	 *
 	 * @param perDate
 	 * @return
 	 */
@@ -487,80 +211,5 @@ public class Utilities {
 		return null;
 	}
 
-	public static boolean isCanSavePassengerName(String passengerName) {
-		// 如果不包含英语字母
-		int index = getFirstEnIndexFromString(passengerName);
-		if (index == -1) {
-			return true;
-		}
-		// 包含英语字母
-		String tempPassengerName = passengerName.substring(index);
-		int count = 0;
-		String regEx = "[\\u4e00-\\u9fa5]";
-		Pattern p = Pattern.compile(regEx);
-		Matcher m = p.matcher(tempPassengerName);
-		while (m.find()) {
-			for (int i = 0; i <= m.groupCount(); i++) {
-				count = count + 1;
-			}
-		}
-		if (count > 0) {
-			// 含有汉字
-			return false;
-		} else {
-			return true;
-		}
-
-	}
-
-	/**
-	 * 国际乘机人姓名匹配，只包含英文或"/",并且“/”只有一个，且不能在第一位和最后一位 符合要求返回true，否则返回false
-	 * 
-	 * @author Ruyan.Zhao 6045
-	 * @since tongcheng_client_6.3 May 5, 2014 5:39:08 PM
-	 */
-	public static boolean isCanSaveInterPassengerName(String passengerName) {
-		int count = 0;
-		String regEx = "[a-zA-Z]";
-		Pattern p = Pattern.compile(regEx);
-		Matcher m = p.matcher(passengerName);
-		while (m.find()) {
-			for (int i = 0; i <= m.groupCount(); i++) {
-				count = count + 1;
-			}
-		}
-		if (count == passengerName.length()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * 是否包含字母
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static int getFirstEnIndexFromString(String str) {
-		int index = -1;
-		String regex = ".*[a-zA-Z]+.*";
-		Matcher m = Pattern.compile(regex).matcher(str);
-		if (m.matches()) {
-			// 如果匹配 就是含有英语字母
-			if (!TextUtils.isEmpty(str)) {
-				for (int i = 0; i < str.length(); i++) {
-					int c = (int) str.charAt(i);
-					Log.e("c", c + "");
-					if ((c >= 65) && (c <= 90) || (c >= 97) && (c <= 122)) {
-						// 包含字母
-						index = i;
-						break;
-					}
-				}
-			}
-		}
-		return index;
-	}
 
 }
