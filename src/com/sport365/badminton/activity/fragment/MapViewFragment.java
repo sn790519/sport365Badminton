@@ -18,30 +18,23 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.route.RoutePlanSearch;
-import com.baidu.navisdk.CommonParams;
+import com.baidu.mapapi.overlayutil.TransitRouteOverlay;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.*;
 import com.baidu.navisdk.comapi.mapcontrol.BNMapController;
-import com.baidu.navisdk.comapi.mapcontrol.MapParams;
 import com.baidu.navisdk.comapi.routeplan.BNRoutePlaner;
-import com.baidu.navisdk.comapi.routeplan.IRouteResultObserver;
-import com.baidu.navisdk.comapi.routeplan.RoutePlanParams;
-import com.baidu.navisdk.model.NaviDataEngine;
-import com.baidu.navisdk.model.RoutePlanModel;
-import com.baidu.navisdk.model.datastruct.RoutePlanNode;
-import com.baidu.navisdk.ui.widget.RoutePlanObserver;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 import com.sport365.badminton.utils.SharedPreferencesKeys;
 import com.sport365.badminton.utils.SharedPreferencesUtils;
-import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
-
-import java.util.ArrayList;
 
 /**
  * 地图
  */
 public class MapViewFragment extends BaseFragment {
+	// 定位失败，百度返回默认的经纬度值
+	private final String BAIDU_DEFAULT_VALUE = "4.9E-324";
 	public BDLocationListener myListener = new MyLocationListener();
 	private BaiduMap mBaiduMap;
 	private LocationClient mLocClient;
@@ -50,9 +43,15 @@ public class MapViewFragment extends BaseFragment {
 	private View view;
 	private MapStatusUpdate zoomTo;
 	private InfoWindow mInfoWindow;
-	private Marker mCurrentmMrker;
+	private RoutePlanSearch mSearch;
 
-	boolean isSuccessLocation = false;// 是否首次定位
+	/**
+	 * 当前选中的marker
+	 */
+	private Marker mCurrentmMrker;
+	private BDLocation mCurrentLocation;
+
+	boolean isSuccessLocation = false;// 是否定位成功
 	private boolean isDestroy = false;
 
 	// 弹出气泡窗口
@@ -60,9 +59,15 @@ public class MapViewFragment extends BaseFragment {
 	private TextView tv_name;
 	private Dialog alertDialog;
 
-	// 定位失败，百度返回默认的经纬度值
-	private final String BAIDU_DEFAULT_VALUE = "4.9E-324";
 	private LayoutInflater mLayoutInflater;
+	/**
+	 * 路线类型
+	 */
+	private String mRouteType = "";
+	private final String ROUTETYPE_WALK = "WALK";
+	private final String ROUTETYPE_TRANSIT = "TRANSIT";
+	private final String ROUTETYPE_DRIVE = "DRIVE";
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,6 +135,7 @@ public class MapViewFragment extends BaseFragment {
 				LatLng ll = marker.getPosition();
 				mInfoWindow = new InfoWindow(mapPopView, ll, -5);
 				mBaiduMap.showInfoWindow(mInfoWindow);
+				mCurrentmMrker = marker;
 				return true;
 			}
 		});
@@ -185,13 +191,18 @@ public class MapViewFragment extends BaseFragment {
 				isSuccessLocation = true;
 			}
 			mBaiduMap.setMyLocationData(locData);
+			String city=location.getCity();
+			mCurrentLocation = location;
 			//如果定位失败每隔两秒再定位一次
 //			if (!isSuccessLocation && !isDestroy) {
 //				LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
 //				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 //				mBaiduMap.animateMapStatus(u);
 //			}
+
+
 		}
+
 	}
 
 
@@ -204,7 +215,11 @@ public class MapViewFragment extends BaseFragment {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int which) {
 				if (which == 0) {
-					routePlan();
+					if (null != mCurrentmMrker) {
+						PlanNode stNode = PlanNode.withLocation(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
+						PlanNode edNode = PlanNode.withLocation(mCurrentmMrker.getPosition());
+						routePlan(stNode, edNode);
+					}
 				} else if (which == 1) {
 					Utilities.showToast("11111", getActivity());
 				} else if (which == 2) {
@@ -219,72 +234,61 @@ public class MapViewFragment extends BaseFragment {
 		alertDialog.show();
 	}
 
-	private void routePlan() {
-		RoutePlanNode startNode = new RoutePlanNode((int) (31.297048 * 1E6), (int) (120.704062 * 1E6),
-				RoutePlanNode.FROM_MAP_POINT, "111", "aaaaaa");
-		RoutePlanNode endNode = new RoutePlanNode((int) (31.309636 * 1E6), (int) (120.672442 * 1E6),
-				RoutePlanNode.FROM_MAP_POINT, "222", "bbbbbb");
-		//将起终点添加到nodeList
-		ArrayList<RoutePlanNode> nodeList = new ArrayList<RoutePlanNode>(2);
-		nodeList.add(startNode);
-		nodeList.add(endNode);
-		BNRoutePlaner.getInstance().setObserver(new RoutePlanObserver(getActivity(), null));
-		//设置算路方式
-		BNRoutePlaner.getInstance().setCalcMode(RoutePlanParams.NE_RoutePlan_Mode.ROUTE_PLAN_MOD_MIN_TIME);
-		// 设置算路结果回调
-		BNRoutePlaner.getInstance().setRouteResultObserver(mRouteResultObserver);
-		// 设置起终点并算路
-		boolean ret = BNRoutePlaner.getInstance().setPointsToCalcRoute(
-				nodeList, CommonParams.NL_Net_Mode.NL_Net_Mode_OnLine);
-		if (!ret) {
-			Utilities.showToast("规划失败", getActivity());
-		}
+	/**
+	 * 路线规划
+	 */
+	private void routePlan(PlanNode stNode, PlanNode enNode) {
+		mSearch = RoutePlanSearch.newInstance();
+		mSearch.setOnGetRoutePlanResultListener(listener);
+		mSearch.transitSearch((new TransitRoutePlanOption())
+				.from(stNode)
+				.city("苏州")
+				.to(enNode));
 	}
 
-	private RoutePlanModel mRoutePlanModel = null;
-	private IRouteResultObserver mRouteResultObserver = new IRouteResultObserver() {
-
-		@Override
-		public void onRoutePlanYawingSuccess() {
-			// TODO Auto-generated method stub
-			ULog.debug("-------onRoutePlanYawingSuccess");
+	OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
+		public void onGetWalkingRouteResult(WalkingRouteResult result) {
+			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+				Utilities.showToast("抱歉，未找到结果", getActivity());
+			}
+			if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+				//起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+				//result.getSuggestAddrInfo()
+				return;
+			}
 		}
 
-		@Override
-		public void onRoutePlanYawingFail() {
-			// TODO Auto-generated method stub
-			ULog.debug("-------onRoutePlanYawingFail");
+		public void onGetTransitRouteResult(TransitRouteResult result) {
+			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+				Utilities.showToast("抱歉，未找到结果", getActivity());
+			}
+			if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+				//起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+				//result.getSuggestAddrInfo()
+				return;
+			}
+			if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+				TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
+				mBaiduMap.setOnMarkerClickListener(overlay);
+				overlay.setData(result.getRouteLines().get(0));
+				overlay.addToMap();
+				overlay.zoomToSpan();
+			}
+			mSearch.destroy();
 		}
 
-		@Override
-		public void onRoutePlanSuccess() {
-			// TODO Auto-generated method stub
-			BNMapController.getInstance().setLayerMode(
-					MapParams.Const.LayerMode.MAP_LAYER_MODE_ROUTE_DETAIL);
-			mRoutePlanModel = (RoutePlanModel) NaviDataEngine.getInstance()
-					.getModel(CommonParams.Const.ModelName.ROUTE_PLAN);
-			ULog.debug("-------onRoutePlanSuccess");
+		public void onGetDrivingRouteResult(DrivingRouteResult result) {
+			if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+				Utilities.showToast("抱歉，未找到结果", getActivity());
+			}
+			if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+				//起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+				//result.getSuggestAddrInfo()
+				return;
+			}
 		}
-
-		@Override
-		public void onRoutePlanFail() {
-			// TODO Auto-generated method stub
-			ULog.debug("-------onRoutePlanFail");
-		}
-
-		@Override
-		public void onRoutePlanCanceled() {
-			// TODO Auto-generated method stub
-			ULog.debug("-------onRoutePlanCanceled");
-		}
-
-		@Override
-		public void onRoutePlanStart() {
-			// TODO Auto-generated method stub
-			ULog.debug("-------onRoutePlanStart");
-		}
-
 	};
+
 
 	@Override
 	public void onDestroy() {
