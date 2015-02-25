@@ -41,6 +41,10 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
      * 右侧ImageVIew
      */
     public ImageView mActionbar_right;
+	/**
+	 * 右侧TextView
+	 */
+	public TextView mActionbar_right_text;
 
     private ActionBar mActionBar;
     public View mActionBarView;
@@ -91,6 +95,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
             });
             mActionbar_right = (ImageView) mActionBarView.findViewById(R.id.iv_actionbar_right);
             mActionbar_title = (TextView) mActionBarView.findViewById(R.id.tv_actionbar_title);
+			mActionbar_right_text=(TextView) mActionBarView.findViewById(R.id.tv_actionbar_right);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             mActionBar.setCustomView(mActionBarView, params);
         }

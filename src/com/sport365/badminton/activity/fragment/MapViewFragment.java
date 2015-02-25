@@ -42,7 +42,6 @@ public class MapViewFragment extends BaseFragment {
 	 */
 	private Marker mCurrentmMrker;
 
-
 	// 弹出气泡窗口
 	private View mapPopView;
 	private TextView tv_name;
@@ -53,6 +52,12 @@ public class MapViewFragment extends BaseFragment {
 	private DrivingRouteOverlay drivingOverlay;
 	private WalkingRouteOverlay walkOverlay;
 	private TransitRouteOverlay transitOverlay;
+
+	/**
+	 * 导航路线规划成功的回调
+	 */
+	private OnRoutePlanSuccessListener onRoutePlanSuccessListener;
+	private String naviType;
 
 
 	@Override
@@ -178,6 +183,9 @@ public class MapViewFragment extends BaseFragment {
 		alertDialog.show();
 	}
 
+	/**
+	 * 路线规划
+	 */
 	OnGetRoutePlanResultListener onGetRoutePlanResultListener = new OnGetRoutePlanResultListener() {
 		public void onGetWalkingRouteResult(WalkingRouteResult result) {
 			//步行
@@ -199,6 +207,11 @@ public class MapViewFragment extends BaseFragment {
 					drivingOverlay.removeFromMap();
 				walkOverlay.addToMap();
 				walkOverlay.zoomToSpan();
+				if (onRoutePlanSuccessListener != null) {
+					naviType = "步行";
+					Utilities.walkingRouteResult = result;
+					onRoutePlanSuccessListener.routePlanSuccess(naviType);
+				}
 			}
 			mSearch.destroy();
 		}
@@ -223,6 +236,11 @@ public class MapViewFragment extends BaseFragment {
 					drivingOverlay.removeFromMap();
 				transitOverlay.addToMap();
 				transitOverlay.zoomToSpan();
+				if (onRoutePlanSuccessListener != null) {
+					naviType = "公交";
+					Utilities.transitRouteResult = result;
+					onRoutePlanSuccessListener.routePlanSuccess(naviType);
+				}
 			}
 			mSearch.destroy();
 		}
@@ -247,6 +265,11 @@ public class MapViewFragment extends BaseFragment {
 					transitOverlay.removeFromMap();
 				drivingOverlay.addToMap();
 				drivingOverlay.zoomToSpan();
+				if (onRoutePlanSuccessListener != null) {
+					naviType = "驾车";
+					Utilities.drivingRouteResult = result;
+					onRoutePlanSuccessListener.routePlanSuccess(naviType);
+				}
 			}
 			mSearch.destroy();
 		}
@@ -306,5 +329,13 @@ public class MapViewFragment extends BaseFragment {
 			return textView;
 		}
 
+	}
+
+	public void setonRoutePlanSuccessListener(OnRoutePlanSuccessListener listener) {
+		this.onRoutePlanSuccessListener = listener;
+	}
+
+	public interface OnRoutePlanSuccessListener {
+		public void routePlanSuccess(String naviType);
 	}
 }

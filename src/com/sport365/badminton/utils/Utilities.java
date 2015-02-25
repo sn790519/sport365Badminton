@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.sport365.badminton.params.SystemConfig;
 
 import java.io.File;
@@ -14,6 +17,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Utilities {
+
+	/**
+	 * 百度地图路线数据
+	 */
+	public static WalkingRouteResult walkingRouteResult;
+	public static TransitRouteResult transitRouteResult;
+	public static DrivingRouteResult drivingRouteResult;
+
 
 	public static String FILE_ROOT = "";
 	public static String JSON_FILE_ROOT = "";

@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/padding_five_dp"
-    android:paddingRight="@dimen/padding_five_dp" >
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center_vertical"
+				android:orientation="horizontal"
+				android:paddingLeft="@dimen/padding_five_dp"
+				android:paddingRight="@dimen/padding_five_dp">
 
-    <ImageView
-        android:id="@+id/iv_actionbar_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="@dimen/padding_five_dp"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/app_name"
-        android:scaleType="center"
-        android:src="@drawable/selector_navi_back" />
+	<ImageView
+			android:id="@+id/iv_actionbar_left"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingRight="@dimen/padding_five_dp"
+			android:layout_centerVertical="true"
+			android:contentDescription="@string/app_name"
+			android:scaleType="center"
+			android:src="@drawable/selector_navi_back"/>
 
-    <TextView
-        android:id="@+id/tv_actionbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center_vertical"
-        android:singleLine="true"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+	<TextView
+			android:id="@+id/tv_actionbar_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:gravity="center_vertical"
+			android:singleLine="true"
+			android:text="@string/app_name"
+			android:textColor="@color/white"
+			android:textSize="18sp"/>
 
-    <ImageView
-        android:id="@+id/iv_actionbar_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/app_name"
-        android:scaleType="center"
-        android:src="@drawable/line_tad_more" />
+	<TextView
+			android:id="@+id/tv_actionbar_right"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:singleLine="true"
+			android:text="@string/app_name"
+			android:textColor="@color/white"
+			android:textSize="18sp"
+			android:visibility="gone"/>
+	<ImageView
+			android:id="@+id/iv_actionbar_right"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:contentDescription="@string/app_name"
+			android:scaleType="center"
+			android:src="@drawable/line_tad_more"/>
 
 </RelativeLayout>
