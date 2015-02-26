@@ -76,49 +76,50 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.TestAdActivity">
-        </activity>
-        <activity android:name=".activity.MyWebViewActivity">
-        </activity>
-        <activity android:name=".activity.ActivityCenterListAtivity">
-        </activity>
-        <activity android:name=".activity.ActivityCenterDetailActivity">
-        </activity>
-        <activity android:name=".activity.ActivityDetailActivity">
-        </activity>
-        <activity android:name=".activity.ActivityListActivity">
-        </activity>
-        <activity android:name=".activity.ClubDetailActivity">
-        </activity>
-        <activity android:name=".activity.ClubListActivity">
-        </activity>
-        <activity android:name=".activity.PlayDetailActivity">
-        </activity>
-        <activity android:name=".activity.PlayListActivity">
-        </activity>
-        <activity android:name=".activity.CalendarTimesActivity">
-        </activity>
-        <activity android:name=".activity.MyAccountActivity">
-        </activity>
-        <activity android:name=".activity.LoginActivity">
-        </activity>
-        <activity android:name=".activity.RegisterActivity">
-        </activity>
-        <activity android:name=".activity.FindPwdActivity">
-        </activity>
-        <activity android:name=".activity.ModifyPhoneActivity">
-        </activity>
-        <activity android:name=".activity.ModifyNameActivity">
-        </activity>
-        <activity android:name=".activity.ModifyAccountActivity">
-        </activity>
-        <activity android:name=".activity.MapViewActivity">
-        </activity>
-        <activity android:name=".activity.LookRouteActivity">
-        </activity>
-        <activity android:name=".activity.BNavigatorActivity"
-                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"/>
+		<activity android:name=".activity.TestAdActivity">
+		</activity>
+		<activity android:name=".activity.MyWebViewActivity">
+		</activity>
+		<activity android:name=".activity.ActivityCenterListAtivity">
+		</activity>
+		<activity android:name=".activity.ActivityCenterDetailActivity">
+		</activity>
+		<activity android:name=".activity.ActivityDetailActivity">
+		</activity>
+		<activity android:name=".activity.ActivityListActivity">
+		</activity>
+		<activity android:name=".activity.ClubDetailActivity">
+		</activity>
+		<activity android:name=".activity.ClubListActivity">
+		</activity>
+		<activity android:name=".activity.PlayDetailActivity">
+		</activity>
+		<activity android:name=".activity.PlayListActivity">
+		</activity>
+		<activity android:name=".activity.CalendarTimesActivity">
+		</activity>
+		<activity android:name=".activity.MyAccountActivity">
+		</activity>
+		<activity android:name=".activity.LoginActivity">
+		</activity>
+		<activity android:name=".activity.RegisterActivity">
+		</activity>
+		<activity android:name=".activity.FindPwdActivity">
+		</activity>
+		<activity android:name=".activity.ModifyPhoneActivity">
+		</activity>
+		<activity android:name=".activity.ModifyNameActivity">
+		</activity>
+		<activity android:name=".activity.ModifyAccountActivity">
+		</activity>
+		<activity android:name=".activity.MapViewActivity">
+		</activity>
+		<activity android:name=".activity.LookRouteActivity">
+		</activity>
+		<activity android:name=".activity.ModifyUserInfoActivity">
+		</activity>
+		<activity android:name=".activity.BNavigatorActivity"
+				  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"/>
         <!-- alipay sdk begin -->
         <activity
                 android:name="com.alipay.sdk.app.H5PayActivity"
