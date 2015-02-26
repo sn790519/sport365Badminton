@@ -69,6 +69,18 @@ public enum SportParameter {
 	 * 比赛列表
 	 */
 	GET_MATCH_LIST("GetMatchList", "MatchHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 支付宝wap支付
+	 */
+	ALIWAP_PAY("AliWapPay", "PaymentHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 支付宝客户端支付
+	 */
+	ALICLIENT_PAY("AliClientPay", "PaymentHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 微信支付
+	 */
+	WEIXIN_PAY("weixinpay", "PaymentHandler.ashx", CacheOptions.NO_CACHE),
 
 	/**
 	 * 1.获取365首页接口

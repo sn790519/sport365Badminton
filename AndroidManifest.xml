@@ -1,124 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		  package="com.sport365.badminton"
-		  android:versionCode="1"
-		  android:versionName="1.0">
+          package="com.sport365.badminton"
+          android:versionCode="1"
+          android:versionName="1.0">
 
-	<uses-sdk
-			android:minSdkVersion="14"
-			android:targetSdkVersion="21"/>
+    <uses-sdk
+            android:minSdkVersion="14"
+            android:targetSdkVersion="21"/>
 
-	<!-- 这个权限用于进行网络定位-->
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-	<!-- 这个权限用于访问GPS定位-->
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-	<!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-	<!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-	<!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-	<!-- 用于读取手机当前的状态-->
-	<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-	<!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-	<!-- 访问网络，网络定位需要上网-->
-	<uses-permission android:name="android.permission.INTERNET"/>
-	<!--SD卡读取权限，用户写入离线定位数据-->
-	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
-	<!--允许应用读取低级别的系统日志文件 -->
-	<uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
-	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-	<uses-permission android:name="android.permission.USE_CREDENTIALS"/>
-	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-	<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
-	<uses-permission android:name="android.permission.BROADCAST_STICKY"/>
-	<uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"/>
-	<uses-permission android:name="android.permission.ACCES_MOCK_LOCATION"/>
-	<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
-	<uses-permission android:name="android.permission.WAKE_LOCK"/>
-	<uses-permission android:name="android.permission.ACCESS_GPS"/>
-	<uses-permission android:name="android.permission.GET_TASKS"/>
-	<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <!-- 用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <!-- 访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--SD卡读取权限，用户写入离线定位数据-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+    <!--允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_GPS"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
-	<application
-			android:name=".BaseApplication"
-			android:allowBackup="true"
-			android:icon="@drawable/ic_launcher"
-			android:label="@string/app_name"
-			android:theme="@style/AppTheme">
-		<service android:name="com.baidu.navi.location.f" android:enabled="true"/>
-		<service
-				android:name="com.baidu.location.f"
-				android:enabled="true"
-				android:process=":remote">
-			<intent-filter>
-				<action android:name="com.baidu.location.service_v2.2">
-				</action>
-			</intent-filter>
-		</service>
-		<meta-data
-				android:name="com.baidu.lbsapi.API_KEY"
-				android:value="j93yEwcmukIygNxB7djG7YSb"/>
+    <application
+            android:name=".BaseApplication"
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+        <service android:name="com.baidu.navi.location.f" android:enabled="true"/>
+        <service
+                android:name="com.baidu.location.f"
+                android:enabled="true"
+                android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2">
+                </action>
+            </intent-filter>
+        </service>
+        <meta-data
+                android:name="com.baidu.lbsapi.API_KEY"
+                android:value="j93yEwcmukIygNxB7djG7YSb"/>
 
-		<activity
-				android:name="com.sport365.badminton.activity.MainActivity"
-				android:label="@string/app_name"
-				android:theme="@style/ActivityTheme_Light">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
+        <activity
+                android:name="com.sport365.badminton.activity.MainActivity"
+                android:label="@string/app_name"
+                android:theme="@style/ActivityTheme_Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
-		<activity android:name=".activity.TestAdActivity">
-		</activity>
-		<activity android:name=".activity.MyWebViewActivity">
-		</activity>
-		<activity android:name=".activity.ActivityCenterListAtivity">
-		</activity>
-		<activity android:name=".activity.ActivityCenterDetailActivity">
-		</activity>
-		<activity android:name=".activity.ActivityDetailActivity">
-		</activity>
-		<activity android:name=".activity.ActivityListActivity">
-		</activity>
-		<activity android:name=".activity.ClubDetailActivity">
-		</activity>
-		<activity android:name=".activity.ClubListActivity">
-		</activity>
-		<activity android:name=".activity.PlayDetailActivity">
-		</activity>
-		<activity android:name=".activity.PlayListActivity">
-		</activity>
-		<activity android:name=".activity.CalendarTimesActivity">
-		</activity>
-		<activity android:name=".activity.MyAccountActivity">
-		</activity>
-		<activity android:name=".activity.LoginActivity">
-		</activity>
-		<activity android:name=".activity.RegisterActivity">
-		</activity>
-		<activity android:name=".activity.FindPwdActivity">
-		</activity>
-		<activity android:name=".activity.ModifyPhoneActivity">
-		</activity>
-		<activity android:name=".activity.ModifyNameActivity">
-		</activity>
-		<activity android:name=".activity.ModifyAccountActivity">
-		</activity>
-		<activity android:name=".activity.MapViewActivity">
-		</activity>
-		<activity android:name=".activity.LookRouteActivity">
-		</activity>
-		<activity android:name=".activity.BNavigatorActivity"
-				  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
-	</application>
+        <activity android:name=".activity.TestAdActivity">
+        </activity>
+        <activity android:name=".activity.MyWebViewActivity">
+        </activity>
+        <activity android:name=".activity.ActivityCenterListAtivity">
+        </activity>
+        <activity android:name=".activity.ActivityCenterDetailActivity">
+        </activity>
+        <activity android:name=".activity.ActivityDetailActivity">
+        </activity>
+        <activity android:name=".activity.ActivityListActivity">
+        </activity>
+        <activity android:name=".activity.ClubDetailActivity">
+        </activity>
+        <activity android:name=".activity.ClubListActivity">
+        </activity>
+        <activity android:name=".activity.PlayDetailActivity">
+        </activity>
+        <activity android:name=".activity.PlayListActivity">
+        </activity>
+        <activity android:name=".activity.CalendarTimesActivity">
+        </activity>
+        <activity android:name=".activity.MyAccountActivity">
+        </activity>
+        <activity android:name=".activity.LoginActivity">
+        </activity>
+        <activity android:name=".activity.RegisterActivity">
+        </activity>
+        <activity android:name=".activity.FindPwdActivity">
+        </activity>
+        <activity android:name=".activity.ModifyPhoneActivity">
+        </activity>
+        <activity android:name=".activity.ModifyNameActivity">
+        </activity>
+        <activity android:name=".activity.ModifyAccountActivity">
+        </activity>
+        <activity android:name=".activity.MapViewActivity">
+        </activity>
+        <activity android:name=".activity.LookRouteActivity">
+        </activity>
+        <activity android:name=".activity.BNavigatorActivity"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"/>
+        <!-- alipay sdk begin -->
+        <activity
+                android:name="com.alipay.sdk.app.H5PayActivity"
+                android:configChanges="orientation|keyboardHidden|navigation"
+                android:exported="false"
+                android:screenOrientation="behind"
+                android:windowSoftInputMode="adjustResize|stateHidden">
+        </activity>
+        <!-- alipay sdk end -->
+        <activity
+                android:name="com.sport365.badminton.wxpay.WXPayEntryActivity"
+                android:exported="true"
+                android:launchMode="singleTop"
+                android:theme="@android:style/Theme.Dialog"/>
+    </application>
 
 </manifest>

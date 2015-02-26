@@ -20,7 +20,7 @@ public class SystemConfig {
 	/**
 	 * 微信appid
 	 */
-	public static final String WEIXIN_APP_ID = "";
+	public static final String WEIXIN_APP_ID = "wx035e7d3896d0787c";
 	public static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 
 	/**
@@ -99,4 +99,16 @@ public class SystemConfig {
 	public static LoginResBody loginResBody;
 
 	public static DisplayMetrics dm;
+
+
+	//合作者身份(PARTNER)
+	public static String PARTNER = "2088412882989360";
+	//安全校验码(Key)默认加密
+	public static String ZFB_Key = "py3lk83dan4a8ae296rr27cofjdf0eqx";
+	//商户私钥
+	public static String private_key = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKhjS62gxkxfjEINg8zoEnbfNZd3THx7U3pbTShiH1EGw8+Hyv87j5Q1KeeL6jTxBwXDBy7dP8ygP+yFl/f2uWZoyxe153gPbWvr2zArQcku7Uf+K4uGmSGnVMSW/sZQhQJ/chjGJgHFpumabs70SBatSiX7JzBIYQNb9hWHHS9BAgMBAAECgYAlqggsbxDL1ndl8uXvOF2g7y5qkcmu8lrqvG9WwBPnKM81pVcXnffwm6+i1h3t95eth0EdD2oM2C9UNVGXqj0vuQaD7iE/5t/OwSVWmtdLz/IQ229zQBGWZBlj7SLGejvC8rGXaOZjO1OHtfalF+BdXLkdKv1d5mQ4XqorBgRVEQJBANXzFFKpRpINIpI8AAi+YHeCRWf6QGJRgMZCKk/Zuw3cOXVROXvmIXAPP9fNiy9e3qHse+9ufkRntO9zOQkbPBUCQQDJe8VYbgaYyB1TMY4w57WAAgWd2o6Tzj90b1oOBrdh2GNbrKHYIMD1BcDkGgHwgoLJkmgMewP+hekaBVZ9frV9AkBXlBBuoeJEaOIM8EinS57bbNUScgsm8+v9vBnr49nBG7PdhSk9wX9Qir18jiP6eSAzMkWtRhKj17vmBMmFI8PdAkAVQMILVufJO+qj+Ok3zWk+zHfNM92wR6Q34vsL2beEUbABXo9f3eycq/Ox2/Byb0Heg1wIXP2J3pQ9E20RJcl9AkEAyvMWrlmjB3ZaIK7JzmLtng8+bu84gTrwRgHTKAve6F1ozey5PNv6i4BpeLAZXttOwbWBVrkqhffWrzpNl4ConA==";
+	//商户公钥:
+	public static String public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+
+
 }
