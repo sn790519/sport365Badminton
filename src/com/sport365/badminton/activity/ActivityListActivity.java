@@ -52,29 +52,30 @@ public class ActivityListActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		initView();
+		init_GET_ALL_ACTIVE_LIST();
+	}
+
+	/**
+	 * 初始化view
+	 */
+	private void initView() {
 		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
 		setContentView(R.layout.activity_layout);
 		lv_activity = (ListView) findViewById(R.id.lv_activity);
 		lv_activity.addHeaderView(initHeadView());
-		init_GET_ALL_ACTIVE_LIST();
 	}
 
+	/**
+	 * 初始化头部layout
+	 *
+	 * @return
+	 */
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
-	}
-
-	private void initADdata() {
-		advertisementControlLayout = new AdvertisementView(this);
-		if (advertismentlist != null && advertismentlist.size() > 0) {
-			advertisementControlLayout.setAdvertisementData(advertismentlist);
-			ll_ad_layout.setVisibility(View.VISIBLE);
-		}
-		advertisementControlLayout.setAdvertisementRate(8, 3);
-		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
-		ll_ad_layout.addView(advertisementControlLayout);
 	}
 
 	/**
@@ -101,13 +102,16 @@ public class ActivityListActivity extends BaseActivity {
 
 					// 列表数据
 					alctiveList = resBody.alctiveList;
-					activityAdapter = new ActivityAdapter(mLayoutInflater, alctiveList);
+					activityAdapter = new ActivityAdapter(mContext, alctiveList);
 					lv_activity.setAdapter(activityAdapter);
 					lv_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 						@Override
 						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 							Intent intent = new Intent(ActivityListActivity.this, ActivityDetailActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("ActiveEntityObj", alctiveList.get(position-lv_activity.getHeaderViewsCount()));
+							intent.putExtras(bundle);
 							startActivity(intent);
 						}
 					});
@@ -122,5 +126,15 @@ public class ActivityListActivity extends BaseActivity {
 		});
 	}
 
+	private void initADdata() {
+		advertisementControlLayout = new AdvertisementView(this);
+		if (advertismentlist != null && advertismentlist.size() > 0) {
+			advertisementControlLayout.setAdvertisementData(advertismentlist);
+			ll_ad_layout.setVisibility(View.VISIBLE);
+		}
+		advertisementControlLayout.setAdvertisementRate(8, 3);
+		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
+		ll_ad_layout.addView(advertisementControlLayout);
+	}
 
 }

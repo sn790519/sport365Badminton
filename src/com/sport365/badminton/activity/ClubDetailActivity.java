@@ -8,65 +8,110 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
-import com.sport365.badminton.entity.obj.SportAdvertismentObj;
+import com.sport365.badminton.activity.view.*;
+import com.sport365.badminton.entity.obj.*;
+import com.sport365.badminton.entity.reqbody.GetClubInfoByidReqBody;
+import com.sport365.badminton.entity.resbody.GetClubInfoByidResBody;
+import com.sport365.badminton.entity.webservice.SportParameter;
+import com.sport365.badminton.entity.webservice.SportWebService;
+import com.sport365.badminton.http.base.HttpTaskHelper;
+import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.ImageLoader;
+import com.sport365.badminton.http.json.req.ServiceRequest;
+import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 俱乐部详情页面
- * 
+ *
  * @author Frank
- * 
  */
 public class ClubDetailActivity extends BaseActivity {
 	private LinearLayout ll_ad_layout;// 广告
-	private TextView tv_venue;        // 场馆
-	private TextView tv_price;        // 价格
-	private ImageView imageView;        // 图片
-	private ImageView iv_tag_top;        // 置顶图片
-	private ImageView iv_activity_flag;        // 进行中
-	private TextView tv_time;        // 时间
-	private TextView tv_phone;        // 电话
-	private TextView tv_distance;    // 地址
-	private TextView tv_sign_alredy;        // 俱乐部
-	private TextView tv_activity_sign;    // 活动
-
-	private TextView tv_activity_rechange;// 活动充值
-	private TextView tv_sign_now;// 活动充值
+	private LinearLayout ll_title_layout;
+	private LinearLayout ll_tab;
+	private LinearLayout ll_content;
 	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	private AdvertisementView advertisementControlLayout;
+
+	private ClubTabEntityObj clubTabEntityObj;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.club_detail_layout);
 		setActionBarTitle("俱乐部详情");
+		initData();
 		initView();
-		initADdata();
+		init_GET_CLUB_INFO_BYID();
 	}
+
+	private void initData() {
+		clubTabEntityObj = (ClubTabEntityObj) getIntent().getSerializableExtra("ClubTabEntityObj");
+	}
+
 	private void initView() {
 		ll_ad_layout = (LinearLayout) findViewById(R.id.ll_ad_layout);
-		tv_venue = (TextView) findViewById(R.id.tv_venue);
-		tv_price = (TextView) findViewById(R.id.tv_price);
-		tv_time = (TextView) findViewById(R.id.tv_time);
-		tv_phone = (TextView) findViewById(R.id.tv_phone);
-		tv_distance = (TextView) findViewById(R.id.tv_distance);
-		tv_sign_alredy = (TextView) findViewById(R.id.tv_sign_alredy);
-		tv_activity_sign = (TextView) findViewById(R.id.tv_activity_sign);
-		tv_activity_rechange = (TextView) findViewById(R.id.tv_activity_rechange);
-		tv_sign_now = (TextView) findViewById(R.id.tv_sign_now);
-		imageView = (ImageView) findViewById(R.id.imageView);
-		iv_activity_flag = (ImageView) findViewById(R.id.iv_activity_flag);
-		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
+		ll_title_layout = (LinearLayout) findViewById(R.id.ll_title_layout);
+		ll_tab = (LinearLayout) findViewById(R.id.ll_tab);
+		ll_content = (LinearLayout) findViewById(R.id.ll_content);
+	}
 
+
+	/**
+	 * 初始化头部信息
+	 */
+	private void initTitleLayout() {
+		ClubView clubView = new ClubView(mContext);
+		clubView.setDateView(clubTabEntityObj);
+		clubView.setBottonVisible(View.GONE);
+		ll_title_layout.addView(clubView);
+	}
+
+
+	/**
+	 * 俱乐部详情
+	 */
+	// 活动的列表
+	public ArrayList<VenueEntityObj> venueList = new ArrayList<VenueEntityObj>();
+	// 活动的列表
+	public ArrayList<ActiveEntityObj> activeList = new ArrayList<ActiveEntityObj>();
+	// 比赛列表
+	public ArrayList<MatchEntityObj> matchList = new ArrayList<MatchEntityObj>();
+
+	private void init_GET_CLUB_INFO_BYID() {
+		GetClubInfoByidReqBody reqBody = new GetClubInfoByidReqBody();
+		reqBody.clubId = "1";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_INFO_BYID), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetClubInfoByidResBody> de = jsonResponse.getResponseContent(GetClubInfoByidResBody.class);
+				GetClubInfoByidResBody resBody = de.getBody();
+				if (resBody != null) {
+					venueList = resBody.venueList;
+					activeList = resBody.activeList;
+					matchList = resBody.matchList;
+					advertismentlist = resBody.clubAdvertismentList;
+					initADdata();
+					initTitleLayout();
+					initTabLayout();
+					addVenueListView(venueList);
+				}
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
 	}
 
 	private void initADdata() {
-		SportAdvertismentObj ad_one = new SportAdvertismentObj();
-		ad_one.imageUrl = "http://a.hiphotos.baidu.com/image/pic/item/bba1cd11728b4710f197b4c1c0cec3fdfc032306.jpg";
-		ad_one.redirectUrl = "http://www.baidu.com";
-		advertismentlist.add(ad_one);
 		advertisementControlLayout = new AdvertisementView(this);
 		if (advertismentlist != null && advertismentlist.size() > 0) {
 			advertisementControlLayout.setAdvertisementData(advertismentlist);
@@ -75,5 +120,82 @@ public class ClubDetailActivity extends BaseActivity {
 		advertisementControlLayout.setAdvertisementRate(8, 3);
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
+	}
+
+	/**
+	 * 初始化tab信息
+	 */
+	private void initTabLayout() {
+		ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
+			@Override
+			public void FirstOnClick() {
+				Toast.makeText(mContext, "rb_menu_first", Toast.LENGTH_LONG).show();
+				addVenueListView(venueList);
+			}
+
+			@Override
+			public void SecondOnClick() {
+				Toast.makeText(mContext, "rb_menu_second", Toast.LENGTH_LONG).show();
+				addMapView();
+			}
+
+			@Override
+			public void ThirdOnClick() {
+				Toast.makeText(mContext, "rb_menu_third", Toast.LENGTH_LONG).show();
+				addActivityListView(activeList);
+			}
+
+			@Override
+			public void FourOnClick() {
+				Toast.makeText(mContext, "rb_menu_four", Toast.LENGTH_LONG).show();
+				addMatchListView(matchList);
+			}
+		}));
+	}
+
+	/**
+	 * 加入活动的列表的view
+	 */
+	private void addVenueListView(ArrayList<VenueEntityObj> venueList) {
+		ll_content.removeAllViews();
+		for (int i = 0; venueList != null && i < venueList.size(); i++) {
+			ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
+			activityCenterView.setDateView(venueList.get(i));
+			ll_content.addView(activityCenterView);
+		}
+	}
+
+
+	/**
+	 * 加入活动的列表的view
+	 */
+	private void addActivityListView(ArrayList<ActiveEntityObj> activeList) {
+		ll_content.removeAllViews();
+		for (int i = 0; activeList != null && i < activeList.size(); i++) {
+			ActivityView activityView = new ActivityView(mContext);
+			activityView.setDateView(activeList.get(i));
+			ll_content.addView(activityView);
+		}
+	}
+
+	/**
+	 * 加入比赛列表的view
+	 *
+	 * @param matchList
+	 */
+	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {
+		ll_content.removeAllViews();
+		for (int i = 0; matchList != null && i < matchList.size(); i++) {
+			PlayView playView = new PlayView(mContext);
+			playView.setDateView(matchList.get(i));
+			ll_content.addView(playView);
+		}
+	}
+
+	/**
+	 * TODO 加入地图
+	 */
+	private void addMapView() {
+		ll_content.removeAllViews();
 	}
 }

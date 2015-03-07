@@ -13,6 +13,7 @@ import android.widget.*;
 import com.alipay.sdk.app.PayTask;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
+import com.sport365.badminton.activity.MainActivity;
 import com.sport365.badminton.activity.MyWebViewActivity;
 import com.sport365.badminton.alipay.PayResult;
 import com.sport365.badminton.alipay.SignUtils;
@@ -298,8 +299,8 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	 */
 	private void getAlipayWeb() {
 		AliWapPayReqBody reqBody = new AliWapPayReqBody();
-		reqBody.bookMobile = "13052892875";
-		reqBody.memberid = "0cebed7a1d1fc72bb70248e9a2c7b2e7";
+		reqBody.bookMobile = "18550195586";
+		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
 		reqBody.totalFee = "1";
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.ALIWAP_PAY), reqBody), null, new IRequestProxyCallback() {
 
@@ -328,8 +329,8 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	private void getAlipayClinet() {
 
 		AliClientPayReqBody reqBody = new AliClientPayReqBody();
-		reqBody.bookMobile = "13052892875";
-		reqBody.memberid = "0cebed7a1d1fc72bb70248e9a2c7b2e7";
+		reqBody.bookMobile = "18550195586";
+		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
 		reqBody.totalFee = "1";
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.ALICLIENT_PAY), reqBody), null, new IRequestProxyCallback() {
 
@@ -353,8 +354,8 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	 */
 	private void weixinPay() {
 		WeixinPayReqBody reqBody = new WeixinPayReqBody();
-		reqBody.bookMobile = "13052892875";
-		reqBody.memberid = "0cebed7a1d1fc72bb70248e9a2c7b2e7";
+		reqBody.bookMobile = "18550195586";
+		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
 		reqBody.totalFee = "1";
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null, new IRequestProxyCallback() {
 
@@ -370,7 +371,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 				String timeStamp = resBody.timeStamp;
 				String packageValue = resBody.packageValue;
 
-				api = WXAPIFactory.createWXAPI(getActivity(), appId);
+				api = WXAPIFactory.createWXAPI((MainActivity)getActivity(), appId);
 				api.registerApp(appId); // 将应用注册到微信
 
 				PayReq req = new PayReq();

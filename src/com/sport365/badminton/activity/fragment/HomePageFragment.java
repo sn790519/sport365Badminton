@@ -369,6 +369,9 @@ public class HomePageFragment extends BaseFragment {
 						}
 					} else {
 						Utilities.showToast("Data error", getActivity());
+						intent = new Intent(getActivity(), CalendarTimesActivity.class);
+						intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemSportObj.title);
+						startActivity(intent);
 					}
 				}
 			});

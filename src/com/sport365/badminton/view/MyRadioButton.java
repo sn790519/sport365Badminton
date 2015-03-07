@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.widget.RadioButton;
 
 /**
+ * RadioButton文字居中
  * Created by kjh08490 on 2015/2/15.
  */
 public class MyRadioButton extends RadioButton {

@@ -96,13 +96,16 @@ public class PlayListActivity extends BaseActivity {
 
 					// 列表
 					matchTabEntity = resBody.matchTabEntity;
-					clubAdapter = new PlayAdapter(mLayoutInflater,matchTabEntity);
+					clubAdapter = new PlayAdapter(mContext, matchTabEntity);
 					lv_play.setAdapter(clubAdapter);
 					lv_play.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 						@Override
 						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 							Intent intent = new Intent(PlayListActivity.this, PlayDetailActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("MatchEntityObj", matchTabEntity.get(position - lv_play.getHeaderViewsCount()));
+							intent.putExtras(bundle);
 							startActivity(intent);
 						}
 					});

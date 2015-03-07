@@ -54,9 +54,13 @@ public class ClubListActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.club_layout);
 		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
+		initView();
+		init_GET_CLUB_LIST_BYVENUE();
+	}
+
+	private void initView() {
 		lv_activity_center = (ListView) findViewById(R.id.lv_club);
 		lv_activity_center.addHeaderView(initHeadView());
-		init_GET_CLUB_LIST_BYVENUE();
 	}
 
 	private View initHeadView() {
@@ -66,16 +70,6 @@ public class ClubListActivity extends BaseActivity {
 		return headView;
 	}
 
-	private void initADdata() {
-		advertisementControlLayout = new AdvertisementView(this);
-		if (advertismentlist != null && advertismentlist.size() > 0) {
-			advertisementControlLayout.setAdvertisementData(advertismentlist);
-			ll_ad_layout.setVisibility(View.VISIBLE);
-		}
-		advertisementControlLayout.setAdvertisementRate(8, 3);
-		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
-		ll_ad_layout.addView(advertisementControlLayout);
-	}
 
 	/**
 	 * 俱乐部列表
@@ -99,13 +93,16 @@ public class ClubListActivity extends BaseActivity {
 					initADdata();
 					//数据
 					clubTabEntity = resBody.clubTabEntity;
-					clubAdapter = new ClubAdapter(mLayoutInflater, clubTabEntity);
+					clubAdapter = new ClubAdapter(mContext, clubTabEntity);
 					lv_activity_center.setAdapter(clubAdapter);
 					lv_activity_center.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 						@Override
 						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 							Intent intent = new Intent(ClubListActivity.this, ClubDetailActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("ClubTabEntityObj", clubTabEntity.get(position - lv_activity_center.getHeaderViewsCount()));
+							intent.putExtras(bundle);
 							startActivity(intent);
 						}
 					});
@@ -121,4 +118,14 @@ public class ClubListActivity extends BaseActivity {
 		});
 	}
 
+	private void initADdata() {
+		advertisementControlLayout = new AdvertisementView(this);
+		if (advertismentlist != null && advertismentlist.size() > 0) {
+			advertisementControlLayout.setAdvertisementData(advertismentlist);
+			ll_ad_layout.setVisibility(View.VISIBLE);
+		}
+		advertisementControlLayout.setAdvertisementRate(8, 3);
+		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
+		ll_ad_layout.addView(advertisementControlLayout);
+	}
 }

@@ -1,12 +1,5 @@
 package com.sport365.badminton.activity;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
@@ -16,185 +9,236 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.entity.reqbody.GetVenueFieldPriceReqBody;
+import com.sport365.badminton.entity.resbody.GetVenueFieldPriceResBody;
+import com.sport365.badminton.entity.webservice.SportParameter;
+import com.sport365.badminton.entity.webservice.SportWebService;
+import com.sport365.badminton.http.base.HttpTaskHelper;
+import com.sport365.badminton.http.base.IRequestProxyCallback;
+import com.sport365.badminton.http.json.req.ServiceRequest;
+import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.view.calendar.CalendarPickerView;
 import com.sport365.badminton.view.calendar.CalendarPickerView.SelectionMode;
+import com.sport365.badminton.view.calendar.MonthView;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class CalendarTimesActivity extends BaseActivity {
-  private static final String TAG = "SampleTimesSquareActivity";
-  private CalendarPickerView calendar;
-  private AlertDialog theDialog;
-  private CalendarPickerView dialogView;
+	private static final String TAG = "SampleTimesSquareActivity";
+	private CalendarPickerView calendar;
+	private AlertDialog theDialog;
+	private CalendarPickerView dialogView;
+	private MonthView.Listener listener;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.sample_calendar_picker);
-    setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
-    final Calendar nextYear = Calendar.getInstance();
-    nextYear.add(Calendar.YEAR, 1);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.sample_calendar_picker);
+		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
+		final Calendar nextYear = Calendar.getInstance();
+		nextYear.add(Calendar.YEAR, 1);
 
-    final Calendar lastYear = Calendar.getInstance();
-    lastYear.add(Calendar.YEAR, -1);
+		final Calendar lastYear = Calendar.getInstance();
+		lastYear.add(Calendar.YEAR, -1);
 
-    calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-    calendar.init(lastYear.getTime(), nextYear.getTime()) //
-        .inMode(SelectionMode.SINGLE) //
-        .withSelectedDate(new Date());
+		calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
+		calendar.init(lastYear.getTime(), nextYear.getTime()) //
+				.inMode(SelectionMode.SINGLE) //
+				.withSelectedDate(new Date());
 
-    final Button single = (Button) findViewById(R.id.button_single);
-    final Button multi = (Button) findViewById(R.id.button_multi);
-    final Button range = (Button) findViewById(R.id.button_range);
-    final Button displayOnly = (Button) findViewById(R.id.button_display_only);
-    final Button dialog = (Button) findViewById(R.id.button_dialog);
-    final Button customized = (Button) findViewById(R.id.button_customized);
-    single.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        single.setEnabled(false);
-        multi.setEnabled(true);
-        range.setEnabled(true);
-        displayOnly.setEnabled(true);
+		final Button single = (Button) findViewById(R.id.button_single);
+		final Button multi = (Button) findViewById(R.id.button_multi);
+		final Button range = (Button) findViewById(R.id.button_range);
+		final Button displayOnly = (Button) findViewById(R.id.button_display_only);
+		final Button dialog = (Button) findViewById(R.id.button_dialog);
+		final Button customized = (Button) findViewById(R.id.button_customized);
+		single.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				single.setEnabled(false);
+				multi.setEnabled(true);
+				range.setEnabled(true);
+				displayOnly.setEnabled(true);
 
-        calendar.init(lastYear.getTime(), nextYear.getTime()) //
-            .inMode(SelectionMode.SINGLE) //
-            .withSelectedDate(new Date());
-      }
-    });
+				calendar.init(lastYear.getTime(), nextYear.getTime()) //
+						.inMode(SelectionMode.SINGLE) //
+						.withSelectedDate(new Date());
+			}
+		});
 
-    multi.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        single.setEnabled(true);
-        multi.setEnabled(false);
-        range.setEnabled(true);
-        displayOnly.setEnabled(true);
+		multi.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				single.setEnabled(true);
+				multi.setEnabled(false);
+				range.setEnabled(true);
+				displayOnly.setEnabled(true);
 
-        Calendar today = Calendar.getInstance();
-        ArrayList<Date> dates = new ArrayList<Date>();
-        for (int i = 0; i < 5; i++) {
-          today.add(Calendar.DAY_OF_MONTH, 3);
-          dates.add(today.getTime());
-        }
-        calendar.init(new Date(), nextYear.getTime()) //
-            .inMode(SelectionMode.MULTIPLE) //
-            .withSelectedDates(dates);
-      }
-    });
+				Calendar today = Calendar.getInstance();
+				ArrayList<Date> dates = new ArrayList<Date>();
+				for (int i = 0; i < 5; i++) {
+					today.add(Calendar.DAY_OF_MONTH, 3);
+					dates.add(today.getTime());
+				}
+				calendar.init(new Date(), nextYear.getTime()) //
+						.inMode(SelectionMode.MULTIPLE) //
+						.withSelectedDates(dates);
+			}
+		});
 
-    range.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        single.setEnabled(true);
-        multi.setEnabled(true);
-        range.setEnabled(false);
-        displayOnly.setEnabled(true);
+		range.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				single.setEnabled(true);
+				multi.setEnabled(true);
+				range.setEnabled(false);
+				displayOnly.setEnabled(true);
 
-        Calendar today = Calendar.getInstance();
-        ArrayList<Date> dates = new ArrayList<Date>();
-        today.add(Calendar.DATE, 3);
-        dates.add(today.getTime());
-        today.add(Calendar.DATE, 5);
-        dates.add(today.getTime());
-        calendar.init(new Date(), nextYear.getTime()) //
-            .inMode(SelectionMode.RANGE) //
-            .withSelectedDates(dates);
-      }
-    });
+				Calendar today = Calendar.getInstance();
+				ArrayList<Date> dates = new ArrayList<Date>();
+				today.add(Calendar.DATE, 3);
+				dates.add(today.getTime());
+				today.add(Calendar.DATE, 5);
+				dates.add(today.getTime());
+				calendar.init(new Date(), nextYear.getTime()) //
+						.inMode(SelectionMode.RANGE) //
+						.withSelectedDates(dates);
+			}
+		});
 
-    displayOnly.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        single.setEnabled(true);
-        multi.setEnabled(true);
-        range.setEnabled(true);
-        displayOnly.setEnabled(false);
+		displayOnly.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				single.setEnabled(true);
+				multi.setEnabled(true);
+				range.setEnabled(true);
+				displayOnly.setEnabled(false);
 
-        calendar.init(new Date(), nextYear.getTime()) //
-            .inMode(SelectionMode.SINGLE) //
-            .withSelectedDate(new Date())
-            .displayOnly();
-      }
-    });
+				calendar.init(new Date(), nextYear.getTime()) //
+						.inMode(SelectionMode.SINGLE) //
+						.withSelectedDate(new Date())
+						.displayOnly();
+			}
+		});
 
-    dialog.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View view) {
-        dialogView = (CalendarPickerView) getLayoutInflater().inflate(R.layout.dialog, null, false);
-        dialogView.init(lastYear.getTime(), nextYear.getTime()) //
-            .withSelectedDate(new Date());
-        theDialog =
-            new AlertDialog.Builder(CalendarTimesActivity.this).setTitle("I'm a dialog!")
-                .setView(dialogView)
-                .setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-                  @Override public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                  }
-                })
-                .create();
-        theDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-          @Override
-          public void onShow(DialogInterface dialogInterface) {
-            Log.d(TAG, "onShow: fix the dimens!");
-            dialogView.fixDialogDimens();
-          }
-        });
-        theDialog.show();
-      }
-    });
+		dialog.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialogView = (CalendarPickerView) getLayoutInflater().inflate(R.layout.dialog, null, false);
+				dialogView.init(lastYear.getTime(), nextYear.getTime()) //
+						.withSelectedDate(new Date());
+				theDialog =
+						new AlertDialog.Builder(CalendarTimesActivity.this).setTitle("I'm a dialog!")
+								.setView(dialogView)
+								.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialogInterface, int i) {
+										dialogInterface.dismiss();
+									}
+								})
+								.create();
+				theDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+					@Override
+					public void onShow(DialogInterface dialogInterface) {
+						Log.d(TAG, "onShow: fix the dimens!");
+						dialogView.fixDialogDimens();
+					}
+				});
+				theDialog.show();
+			}
+		});
 
-    customized.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        dialogView = (CalendarPickerView) getLayoutInflater() //
-            .inflate(R.layout.dialog_customized, null, false);
-        dialogView.init(lastYear.getTime(), nextYear.getTime()).withSelectedDate(new Date());
-        theDialog =
-            new AlertDialog.Builder(CalendarTimesActivity.this).setTitle("Pimp my calendar !")
-                .setView(dialogView)
-                .setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                  }
-                }).create();
-        theDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-          @Override
-          public void onShow(DialogInterface dialogInterface) {
-            Log.d(TAG, "onShow: fix the dimens!");
-            dialogView.fixDialogDimens();
-          }
-        });
-        theDialog.show();
-      }
-    });
+		customized.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialogView = (CalendarPickerView) getLayoutInflater() //
+						.inflate(R.layout.dialog_customized, null, false);
+				dialogView.init(lastYear.getTime(), nextYear.getTime()).withSelectedDate(new Date());
+				theDialog =
+						new AlertDialog.Builder(CalendarTimesActivity.this).setTitle("Pimp my calendar !")
+								.setView(dialogView)
+								.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialogInterface, int i) {
+										dialogInterface.dismiss();
+									}
+								}).create();
+				theDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+					@Override
+					public void onShow(DialogInterface dialogInterface) {
+						Log.d(TAG, "onShow: fix the dimens!");
+						dialogView.fixDialogDimens();
+					}
+				});
+				theDialog.show();
+			}
+		});
 
-    findViewById(R.id.done_button).setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Log.d(TAG, "Selected time in millis: " + calendar.getSelectedDate().getTime());
-        String toast = "Selected: " + calendar.getSelectedDate().getTime();
-        Toast.makeText(CalendarTimesActivity.this, toast, LENGTH_SHORT).show();
-      }
-    });
-  }
+		findViewById(R.id.done_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Log.d(TAG, "Selected time in millis: " + calendar.getSelectedDate().getTime());
+				String toast = "Selected: " + calendar.getSelectedDate().getTime();
+				Toast.makeText(CalendarTimesActivity.this, toast, LENGTH_SHORT).show();
+			}
+		});
+		init_Get_VenueFieldPrice_List();
+	}
 
-  @Override public void onConfigurationChanged(Configuration newConfig) {
-    boolean applyFixes = theDialog != null && theDialog.isShowing();
-    if (applyFixes) {
-      Log.d(TAG, "Config change: unfix the dimens so I'll get remeasured!");
-      dialogView.unfixDialogDimens();
-    }
-    super.onConfigurationChanged(newConfig);
-    if (applyFixes) {
-      dialogView.post(new Runnable() {
-        @Override public void run() {
-          Log.d(TAG, "Config change done: re-fix the dimens!");
-          dialogView.fixDialogDimens();
-        }
-      });
-    }
-  }
+	/**
+	 * 价格日历中点击的事件的重写
+	 */
+	private void initListen() {
+
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		boolean applyFixes = theDialog != null && theDialog.isShowing();
+		if (applyFixes) {
+			Log.d(TAG, "Config change: unfix the dimens so I'll get remeasured!");
+			dialogView.unfixDialogDimens();
+		}
+		super.onConfigurationChanged(newConfig);
+		if (applyFixes) {
+			dialogView.post(new Runnable() {
+				@Override
+				public void run() {
+					Log.d(TAG, "Config change done: re-fix the dimens!");
+					dialogView.fixDialogDimens();
+				}
+			});
+		}
+	}
+
+	/**
+	 * 初始化价格日历
+	 */
+	private void init_Get_VenueFieldPrice_List() {
+		GetVenueFieldPriceReqBody reqBody = new GetVenueFieldPriceReqBody();
+		reqBody.OrderDate = "2015-03-01";
+		reqBody.VenueId = "2";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_VENUE_FIELDPRICE), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetVenueFieldPriceResBody> de = jsonResponse.getResponseContent(GetVenueFieldPriceResBody.class);
+				GetVenueFieldPriceResBody resBody = de.getBody();
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
 }
