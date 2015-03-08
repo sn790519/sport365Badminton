@@ -78,15 +78,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.rl_account:
                 startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+                finish();
                 break;
             case R.id.rl_user_name:
 				startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+                finish();
                 break;
             case R.id.rl_phone:
                 startActivity(new Intent(MyAccountActivity.this,ModifyPhoneActivity.class));
                 break;
             case R.id.rl_password:
 				startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+                finish();
                 break;
         }
     }

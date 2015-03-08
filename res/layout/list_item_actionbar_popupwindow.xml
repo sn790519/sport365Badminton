@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="我的激活码"
+            android:padding="@dimen/padding_three_dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_info"/>
 </LinearLayout>
