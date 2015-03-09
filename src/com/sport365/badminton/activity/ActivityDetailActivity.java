@@ -161,8 +161,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	 * 加入活动的列表的view
 	 */
 	private void addVenueListView(ArrayList<VenueEntityObj> venueList) {
-		ll_content.removeAllViews();
 		setMatchLayoutParams();
+		ll_content.removeAllViews();
 		for (int i = 0; venueList != null && i < venueList.size(); i++) {
 			ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
 			activityCenterView.setDateView(venueList.get(i));
@@ -177,8 +177,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	 * @param clubList
 	 */
 	private void addClubListView(ArrayList<ClubTabEntityObj> clubList) {
-		ll_content.removeAllViews();
 		setMatchLayoutParams();
+		ll_content.removeAllViews();
 		for (int i = 0; clubList != null && i < clubList.size(); i++) {
 			ClubView clubView = new ClubView(mContext);
 			clubView.setDateView(clubList.get(i));
@@ -192,8 +192,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	 * @param matchList
 	 */
 	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {
-		ll_content.removeAllViews();
 		setMatchLayoutParams();
+		ll_content.removeAllViews();
 		for (int i = 0; matchList != null && i < matchList.size(); i++) {
 			PlayView playView = new PlayView(mContext);
 			playView.setDateView(matchList.get(i));

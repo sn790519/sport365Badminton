@@ -158,8 +158,8 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	 * 加入活动的列表的view
 	 */
 	private void addActivityListView(ArrayList<ActiveEntityObj> activeList) {
-		ll_content.removeAllViews();
 		setMatchLayoutParams();
+		ll_content.removeAllViews();
 		for (int i = 0; activeList != null && i < activeList.size(); i++) {
 			ActivityView activityView = new ActivityView(mContext);
 			activityView.setDateView(activeList.get(i));
@@ -174,8 +174,8 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	 * @param clubList
 	 */
 	private void addClubListView(ArrayList<ClubTabEntityObj> clubList) {
-		ll_content.removeAllViews();
 		setMatchLayoutParams();
+		ll_content.removeAllViews();
 		for (int i = 0; clubList != null && i < clubList.size(); i++) {
 			ClubView clubView = new ClubView(mContext);
 			clubView.setDateView(clubList.get(i));
@@ -189,8 +189,8 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	 * @param matchList
 	 */
 	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {
-		ll_content.removeAllViews();
 		setMatchLayoutParams();
+		ll_content.removeAllViews();
 		for (int i = 0; matchList != null && i < matchList.size(); i++) {
 			PlayView playView = new PlayView(mContext);
 			playView.setDateView(matchList.get(i));
