@@ -12,6 +12,10 @@ public enum SportParameter {
 
 
 	/**
+	 * 修改个人信息
+	 */
+	MODIFY_MEMBERINFO_BY_ID("ModifyMemberInfoById","MemberHandler.ashx",CacheOptions.NO_CACHE),
+	/**
 	 * 获取省份列表
 	 */
 	GET_PROVINCE_LIST("GetProvinceList","AdministrativeDivisionsHandler.ashx",CacheOptions.NO_CACHE),

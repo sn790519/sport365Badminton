@@ -121,13 +121,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			@Override
 			public void onClick(View view) {
 				//弹出打电话
-				startActivity(new Intent(MainActivity.this, MapViewActivity.class));
+				new DialogFactory(mContext).showDialogWithClose("联系电话", SystemConfig.contactUs);
 			}
 		};
 		final OnClickListener aboutUs_listener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				new DialogFactory(mContext).showDialogWithClose(getString(R.string.about_us), getString(R.string.about_us_content));
+				new DialogFactory(mContext).showDialogWithClose(getString(R.string.about_us), SystemConfig.aboutUs);
 			}
 		};
 
