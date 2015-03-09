@@ -2,7 +2,6 @@ package com.sport365.badminton;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
