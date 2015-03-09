@@ -1,10 +1,13 @@
 package com.sport365.badminton.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.activity.fragment.MapViewFragment;
 import com.sport365.badminton.activity.view.*;
 import com.sport365.badminton.entity.obj.*;
 import com.sport365.badminton.entity.reqbody.GetActiveDetailByIdReqBody;
@@ -16,6 +19,7 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
+import com.sport365.badminton.params.SystemConfig;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ import java.util.ArrayList;
  *
  * @author Frank
  */
-public class ActivityDetailActivity extends BaseActivity {
+public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener{
 	private LinearLayout ll_ad_layout;// 广告
 	private LinearLayout ll_title_layout;//
 	private LinearLayout ll_tab;//
@@ -158,6 +162,7 @@ public class ActivityDetailActivity extends BaseActivity {
 	 */
 	private void addVenueListView(ArrayList<VenueEntityObj> venueList) {
 		ll_content.removeAllViews();
+		setMatchLayoutParams();
 		for (int i = 0; venueList != null && i < venueList.size(); i++) {
 			ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
 			activityCenterView.setDateView(venueList.get(i));
@@ -173,6 +178,7 @@ public class ActivityDetailActivity extends BaseActivity {
 	 */
 	private void addClubListView(ArrayList<ClubTabEntityObj> clubList) {
 		ll_content.removeAllViews();
+		setMatchLayoutParams();
 		for (int i = 0; clubList != null && i < clubList.size(); i++) {
 			ClubView clubView = new ClubView(mContext);
 			clubView.setDateView(clubList.get(i));
@@ -187,18 +193,71 @@ public class ActivityDetailActivity extends BaseActivity {
 	 */
 	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {
 		ll_content.removeAllViews();
+		setMatchLayoutParams();
 		for (int i = 0; matchList != null && i < matchList.size(); i++) {
 			PlayView playView = new PlayView(mContext);
 			playView.setDateView(matchList.get(i));
 			ll_content.addView(playView);
 		}
 	}
+	/**
+	 * add ItemView 改变ll_content的高度
+	 */
+	private void setMatchLayoutParams() {
+		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
+		// 设置mapview的高度
+		ll.height = LinearLayout.LayoutParams.MATCH_PARENT;
+		ll_content.setLayoutParams(ll);
+	}
 
 	/**
 	 * TODO 加入地图
 	 */
+	private String naviType;
+	int[] xy = new int[2];//用于mapview的xy的记录
 	private void addMapView() {
 		ll_content.removeAllViews();
+		MapViewFragment newFragment = new MapViewFragment();
+		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
+		// 设置mapview的高度
+		ll.height = SystemConfig.dm.heightPixels - xy[1];
+		ll_content.setLayoutParams(ll);
+		newFragment.setonRoutePlanSuccessListener(this);
+		getSupportFragmentManager().beginTransaction().add(R.id.ll_content, newFragment).commit();
+	}
+
+	@Override
+	public void routePlanSuccess(String naviType) {
+		//路线规划成功，显示路线说明
+		mActionbar_right_text.setVisibility(View.VISIBLE);
+		if (!TextUtils.isEmpty(naviType)) {
+			this.naviType = naviType;
+		}
+	}
+
+	/**
+	 * 根据地图进行actionbar的重置
+	 */
+	private void initActionBar() {
+		mActionbar_right_text.setText("线路说明");
+		mActionbar_right_text.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.putExtra("naviType", naviType);
+				intent.setClass(ActivityDetailActivity.this, LookRouteActivity.class);
+				ActivityDetailActivity.this.startActivity(intent);
+			}
+		});
+
+	}
+
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		// 获取ll_content的开始坐标xy
+		ll_content.getLocationInWindow(xy);
 	}
 
 }
