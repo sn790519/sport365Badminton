@@ -1,4 +1,4 @@
-package com.sport365.badminton.params;
+package com.sport365.badminton.utils;
 
 import android.text.TextUtils;
 import android.util.DisplayMetrics;

@@ -1,5 +1,7 @@
 package com.sport365.badminton.entity.resbody;
 
+import com.sport365.badminton.entity.obj.City;
+
 import java.util.ArrayList;
 import java.util.List;
 
