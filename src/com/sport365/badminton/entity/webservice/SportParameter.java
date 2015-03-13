@@ -2,23 +2,21 @@ package com.sport365.badminton.entity.webservice;
 
 import com.sport365.badminton.http.json.CacheOptions;
 
-/**
- * 景区接口 枚举
- * 
- * @author cws09147
- * 
- */
 public enum SportParameter {
 
 
 	/**
+	 *获取群活动
+	 */
+	GET_ACTIVE_LIST_BY_MEMBERID("GetActiveListByMemberId", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
+	/**
 	 * 修改个人信息
 	 */
-	MODIFY_MEMBERINFO_BY_ID("ModifyMemberInfoById","MemberHandler.ashx",CacheOptions.NO_CACHE),
+	MODIFY_MEMBERINFO_BY_ID("ModifyMemberInfoById", "MemberHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 获取省份列表
 	 */
-	GET_PROVINCE_LIST("GetProvinceList","AdministrativeDivisionsHandler.ashx",CacheOptions.NO_CACHE),
+	GET_PROVINCE_LIST("GetProvinceList", "AdministrativeDivisionsHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 获取城市列表
 	 */

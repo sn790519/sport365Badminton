@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 
 
 /**

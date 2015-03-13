@@ -7,7 +7,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.content.Context;
 
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.FileTools;
 
 public class CustomException implements UncaughtExceptionHandler {

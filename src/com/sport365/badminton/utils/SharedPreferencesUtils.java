@@ -14,8 +14,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.sport365.badminton.params.SystemConfig;
-
 /**
  * SharedPreferences操作
  */
