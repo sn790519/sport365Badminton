@@ -46,6 +46,7 @@ public class ClubAdapter extends BaseAdapter {
 			convertView.setTag(view);
 		} else {
 			convertView = (ClubView) convertView.getTag();
+			((ClubView)convertView).setDateView(mClubTabEntityObj);
 		}
 		return convertView;
 	}
