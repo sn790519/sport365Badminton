@@ -13,6 +13,7 @@ public class ClubTabEntityObj implements Serializable {
 	public String cityId;
 	public String countyId;
 	public String linkMemberId;
+	public String activeFee;
 	public String longitude;
 	public String latitude;
 	public String provinceName;
@@ -28,26 +29,26 @@ public class ClubTabEntityObj implements Serializable {
 	public String totalCount;
 
 	/*{
-		"id": "7",
-			"clubId": "7",
-			"clubName": "苏州园区VMAX羽毛球群",
-			"provinceId": "17",
-			"cityId": "220",
-			"countyId": "2143",
-			"linkMemberId": "16",
-			"linkTel": "18505120711",
-			"longitude": "120.728207",
-			"latitude": "31.297346",
-			"provinceName": "江苏",
-			"cityName": "苏州",
-			"countyName": "工业园区",
-			"nickname": "",
-			"clubLogo": "http://www.17workout.com/Admin/UploadFile/api/club.png",
-			"matchNum": "110",
-			"activeNum": "2",
-			"isTop": "0",
-			"isRecommend": "1",
-			"recommendValue": "1",
-			"totalCount": 0
-	}*/
+	 "id": "1",
+                    "clubId": "1",
+                    "clubName": "哼哈友羽毛球俱乐部",
+                    "provinceId": "17",
+                    "cityId": "220",
+                    "activeFee": "25",
+                    "countyId": "2143",
+                    "linkMemberId": "4",
+                    "linkTel": "13052892875",
+                    "longitude": "120.737046",
+                    "latitude": "31.278738",
+                    "provinceName": "江苏",
+                    "cityName": "苏州",
+                    "countyName": "工业园区",
+                    "nickname": "NC",
+                    "clubLogo": "http://www.17workout.com/Admin/UploadFile/api/club.png",
+                    "matchNum": "2",
+                    "activeNum": "1",
+                    "isTop": "1",
+                    "isRecommend": "0",
+                    "recommendValue": "1",
+                    "totalCount": 0	}*/
 }

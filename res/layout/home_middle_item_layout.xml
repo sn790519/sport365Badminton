@@ -22,10 +22,12 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="8dp"
             android:textColor="@color/base_blue"
             android:layout_toRightOf="@id/iv_feature_item"
             android:text="@string/about_us"
+            android:singleLine="true"
+            android:ellipsize="end"
             />
     <TextView
             android:id="@+id/tv_des"
@@ -33,9 +35,12 @@
             android:layout_width="wrap_content"
             android:textColor="@color/main_secondary"
             android:layout_toRightOf="@id/iv_feature_item"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:layout_below="@id/tv_title"
             android:text="heelo"
+            android:textSize="@dimen/text_size_hint"
+            android:singleLine="true"
+            android:ellipsize="end"
             />
 </RelativeLayout>

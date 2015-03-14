@@ -86,6 +86,7 @@ public class PlayDetailActivity extends BaseActivity {
 		PlayView playView = new PlayView(mContext);
 		playView.setDateView(matchEntityObj);
 		playView.setBottonVisible(View.GONE);
+		playView.setArrowVisible(View.GONE);
 		ll_title_layout.addView(playView);
 	}
 

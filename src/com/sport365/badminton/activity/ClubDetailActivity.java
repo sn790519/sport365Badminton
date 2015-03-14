@@ -69,6 +69,8 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
         ClubView clubView = new ClubView(mContext);
         clubView.setDateView(clubTabEntityObj);
         clubView.setBottonVisible(View.GONE);
+        clubView.setTopRecommadImageViewVisible(View.GONE);
+        clubView.setRechangeVisible(View.VISIBLE);
         ll_title_layout.addView(clubView);
     }
 
@@ -130,25 +132,21 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
         ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
             @Override
             public void FirstOnClick() {
-                Toast.makeText(mContext, "rb_menu_first", Toast.LENGTH_LONG).show();
                 addVenueListView(venueList);
             }
 
             @Override
             public void SecondOnClick() {
-                Toast.makeText(mContext, "rb_menu_second", Toast.LENGTH_LONG).show();
                 addMapView();
             }
 
             @Override
             public void ThirdOnClick() {
-                Toast.makeText(mContext, "rb_menu_third", Toast.LENGTH_LONG).show();
                 addActivityListView(activeList);
             }
 
             @Override
             public void FourOnClick() {
-                Toast.makeText(mContext, "rb_menu_four", Toast.LENGTH_LONG).show();
                 addMatchListView(matchList);
             }
         }));
@@ -163,6 +161,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
         for (int i = 0; venueList != null && i < venueList.size(); i++) {
             ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
             activityCenterView.setDateView(venueList.get(i));
+            activityCenterView.setBottonVisible(View.GONE);
             ll_content.addView(activityCenterView);
         }
     }
@@ -177,6 +176,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
         for (int i = 0; activeList != null && i < activeList.size(); i++) {
             ActivityView activityView = new ActivityView(mContext);
             activityView.setDateView(activeList.get(i));
+            activityView.setBottonVisible(View.GONE);
             ll_content.addView(activityView);
         }
     }

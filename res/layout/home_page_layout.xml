@@ -23,6 +23,7 @@
             android:horizontalSpacing="@dimen/image_thumbnail_spacing"
             android:listSelector="@android:color/transparent"
             android:numColumns="4"
+            android:background="@color/white"
             android:stretchMode="columnWidth"
             android:verticalSpacing="@dimen/image_thumbnail_spacing">
     </com.sport365.badminton.view.NoScrollGridView>

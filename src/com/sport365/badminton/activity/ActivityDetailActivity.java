@@ -133,25 +133,21 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
 			@Override
 			public void FirstOnClick() {
-				Toast.makeText(mContext, "rb_menu_first", Toast.LENGTH_LONG).show();
 				addVenueListView(venueList);
 			}
 
 			@Override
 			public void SecondOnClick() {
-				Toast.makeText(mContext, "rb_menu_second", Toast.LENGTH_LONG).show();
 				addMapView();
 			}
 
 			@Override
 			public void ThirdOnClick() {
-				Toast.makeText(mContext, "rb_menu_third", Toast.LENGTH_LONG).show();
 				addClubListView(clubList);
 			}
 
 			@Override
 			public void FourOnClick() {
-				Toast.makeText(mContext, "rb_menu_four", Toast.LENGTH_LONG).show();
 				addMatchListView(matchList);
 			}
 		}));
@@ -166,6 +162,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		for (int i = 0; venueList != null && i < venueList.size(); i++) {
 			ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
 			activityCenterView.setDateView(venueList.get(i));
+			activityCenterView.setBottonVisible(View.GONE);
 			ll_content.addView(activityCenterView);
 		}
 	}
@@ -182,6 +179,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		for (int i = 0; clubList != null && i < clubList.size(); i++) {
 			ClubView clubView = new ClubView(mContext);
 			clubView.setDateView(clubList.get(i));
+			clubView.setBottonVisible(View.GONE);
 			ll_content.addView(clubView);
 		}
 	}

@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
+
 import com.alipay.sdk.app.PayTask;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
@@ -48,7 +50,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	private static final String PAY_WX = "pay_WX";
 
 	private NoScrollGridView gv_money_choose;
-	private double[] prices = {0.01, 1f, 5f, 10f, 15f, 20f, 25f, 30f, 40f, 50f, 70f, 80f, 100f, 120f, 150f, 180f, 200f, 500f};
+	private int[] prices = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
 	private IWXAPI api; // 微信
 	// 支付选择
 	public RadioGroup rg_menu;
@@ -56,50 +58,48 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	public RadioButton rb_wx_pay;
 	private String Choose_Pay = PAY_ZFB;
 
-	//支付按钮
+	// 支付按钮
 	private Button btn_pay;
 	private static final int SDK_PAY_FLAG = 1;
-
 	private static final int SDK_CHECK_FLAG = 2;
+	
+	// 支付选择的position,默认选择充值金额第一项
+	private int choosePosition = 0;
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-				case SDK_PAY_FLAG: {
-					PayResult payResult = new PayResult((String) msg.obj);
+			case SDK_PAY_FLAG: {
+				PayResult payResult = new PayResult((String) msg.obj);
 
-					// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-					String resultInfo = payResult.getResult();
+				// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+				String resultInfo = payResult.getResult();
 
-					String resultStatus = payResult.getResultStatus();
+				String resultStatus = payResult.getResultStatus();
 
-					// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-					if (TextUtils.equals(resultStatus, "9000")) {
-						Toast.makeText(getActivity(), "支付成功",
-								Toast.LENGTH_SHORT).show();
+				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+				if (TextUtils.equals(resultStatus, "9000")) {
+					Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
+				} else {
+					// 判断resultStatus 为非“9000”则代表可能支付失败
+					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+					if (TextUtils.equals(resultStatus, "8000")) {
+						Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
+
 					} else {
-						// 判断resultStatus 为非“9000”则代表可能支付失败
-						// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-						if (TextUtils.equals(resultStatus, "8000")) {
-							Toast.makeText(getActivity(), "支付结果确认中",
-									Toast.LENGTH_SHORT).show();
+						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+						Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
 
-						} else {
-							// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-							Toast.makeText(getActivity(), "支付失败",
-									Toast.LENGTH_SHORT).show();
-
-						}
 					}
-					break;
 				}
-				case SDK_CHECK_FLAG: {
-					Toast.makeText(getActivity(), "检查结果为：" + msg.obj,
-							Toast.LENGTH_SHORT).show();
-					break;
-				}
-				default:
-					break;
+				break;
+			}
+			case SDK_CHECK_FLAG: {
+				Toast.makeText(getActivity(), "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
+				break;
+			}
+			default:
+				break;
 			}
 		}
 	};
@@ -119,6 +119,13 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		btn_pay.setOnClickListener(this);
 		PayChooseAdapter payChooseAdapter = new PayChooseAdapter();
 		gv_money_choose.setAdapter(payChooseAdapter);
+		gv_money_choose.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				choosePosition = position;
+			}
+		});
 		return view;
 	}
 
@@ -126,24 +133,24 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO activity 创建成功后执行getactivity();
 		super.onActivityCreated(savedInstanceState);
+		
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_pay:
-				if (Choose_Pay.equals(PAY_ZFB)) {
-					// 支付宝支付
-					getAlipayWeb();
-//					getAlipayClinet();
-				} else if (Choose_Pay.equals(PAY_WX)) {
-					//微信支付
-					WXPay();
-				}
-				break;
+		case R.id.btn_pay:
+			if (Choose_Pay.equals(PAY_ZFB)) {
+				// 支付宝支付
+				// getAlipayWeb();
+				getAlipayClinet();
+			} else if (Choose_Pay.equals(PAY_WX)) {
+				// 微信支付
+				WXPay();
+			}
+			break;
 		}
 	}
-
 
 	/**
 	 * call alipay sdk pay. 调用SDK支付
@@ -161,8 +168,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		}
 
 		// 完整的符合支付宝参数规范的订单信息
-		final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
-				+ "sign_type=\"RSA\"";
+		final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + "sign_type=\"RSA\"";
 
 		Runnable payRunnable = new Runnable() {
 
@@ -217,8 +223,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		orderInfo += "&total_fee=" + "\"" + resBody.amount + "\"";
 
 		// 服务器异步通知页面路径
-		orderInfo += "&notify_url=" + "\"" + resBody.notifyURL
-				+ "\"";
+		orderInfo += "&notify_url=" + "\"" + resBody.notifyURL + "\"";
 
 		// 服务接口名称， 固定值
 		orderInfo += "&service=\"mobile.securitypay.pay\"";
@@ -251,12 +256,12 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	@Override
 	public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 		switch (checkedId) {
-			case R.id.rb_zfb_pay:
-				Choose_Pay = PAY_ZFB;
-				break;
-			case R.id.rb_wx_pay:
-				Choose_Pay = PAY_WX;
-				break;
+		case R.id.rb_zfb_pay:
+			Choose_Pay = PAY_ZFB;
+			break;
+		case R.id.rb_wx_pay:
+			Choose_Pay = PAY_WX;
+			break;
 		}
 	}
 
@@ -280,15 +285,15 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup viewGroup) {
-			TextView tv = new TextView(getActivity());
-			tv.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-			tv.setText(prices[position] + "元");
-			return tv;
+			convertView = mLayoutInflater.inflate(R.layout.pay_money_item, viewGroup, false);
+			TextView tv_prive = (TextView) convertView.findViewById(R.id.tv_price);
+			tv_prive.setText(prices[position] + "元");
+			return tv_prive;
 		}
 	}
 
 	/**
-	 * 支付宝网页支付
+	 * 客户端不需要网页支付，废弃支付宝网页支付
 	 */
 	private void getAlipayWeb() {
 		AliWapPayReqBody reqBody = new AliWapPayReqBody();
@@ -315,7 +320,6 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		});
 	}
 
-
 	/**
 	 * 支付宝快捷支付 从接口获取快捷支付的相关信息
 	 */
@@ -324,7 +328,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		AliClientPayReqBody reqBody = new AliClientPayReqBody();
 		reqBody.bookMobile = "18550195586";
 		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
-		reqBody.totalFee = "1";
+		reqBody.totalFee = String.valueOf(prices[choosePosition]);
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.ALICLIENT_PAY), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
@@ -349,7 +353,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		WeixinPayReqBody reqBody = new WeixinPayReqBody();
 		reqBody.bookMobile = "18550195586";
 		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
-		reqBody.totalFee = "1";
+		reqBody.totalFee = String.valueOf(prices[choosePosition]);;
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
@@ -364,7 +368,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 				String timeStamp = resBody.timeStamp;
 				String packageValue = resBody.packageValue;
 
-				api = WXAPIFactory.createWXAPI((MainActivity)getActivity(), appId);
+				api = WXAPIFactory.createWXAPI((MainActivity) getActivity(), appId);
 				api.registerApp(appId); // 将应用注册到微信
 
 				PayReq req = new PayReq();

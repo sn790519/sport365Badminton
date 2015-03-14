@@ -305,7 +305,7 @@ public class HomePageFragment extends BaseFragment {
 			TextView tv_des = (TextView) convertView.findViewById(R.id.tv_des);
 			final SportThemeObj mItemSportObj = sportThemeList.get(position);
 			tv_title.setText(TextUtils.isEmpty(mItemSportObj.title) ? "敬请期待" : mItemSportObj.title);
-			tv_des.setText(TextUtils.isEmpty(mItemSportObj.des) ? "敬请期待" : mItemSportObj.des);
+			tv_des.setText(TextUtils.isEmpty(mItemSportObj.buttomTips) ? "敬请期待" : mItemSportObj.buttomTips);
 			// 下载并显示广告图
 			if (mItemSportObj != null) {
 				String imgUrl = mItemSportObj.imageUrl;

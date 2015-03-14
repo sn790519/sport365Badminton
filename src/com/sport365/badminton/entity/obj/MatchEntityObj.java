@@ -26,6 +26,7 @@ public class MatchEntityObj implements Serializable{
 	public String venueName;
 	public String matchAdress;
 	public String matchPresenter;
+	public String matchAwardFee;// 奖金
 
 	/*{
 		"id":"2",
