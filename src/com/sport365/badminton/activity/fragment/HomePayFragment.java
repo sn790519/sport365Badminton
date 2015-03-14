@@ -62,9 +62,11 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	private Button btn_pay;
 	private static final int SDK_PAY_FLAG = 1;
 	private static final int SDK_CHECK_FLAG = 2;
-	
+
 	// 支付选择的position,默认选择充值金额第一项
 	private int choosePosition = 0;
+
+	PayChooseAdapter payChooseAdapter;
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -117,13 +119,14 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 
 		btn_pay = (Button) view.findViewById(R.id.btn_pay);
 		btn_pay.setOnClickListener(this);
-		PayChooseAdapter payChooseAdapter = new PayChooseAdapter();
+		payChooseAdapter = new PayChooseAdapter();
 		gv_money_choose.setAdapter(payChooseAdapter);
 		gv_money_choose.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				choosePosition = position;
+				payChooseAdapter.notifyDataSetChanged();
 			}
 		});
 		return view;
@@ -133,7 +136,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO activity 创建成功后执行getactivity();
 		super.onActivityCreated(savedInstanceState);
-		
+
 	}
 
 	@Override
@@ -288,7 +291,13 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 			convertView = mLayoutInflater.inflate(R.layout.pay_money_item, viewGroup, false);
 			TextView tv_prive = (TextView) convertView.findViewById(R.id.tv_price);
 			tv_prive.setText(prices[position] + "元");
-			return tv_prive;
+			if (position == choosePosition) {
+				tv_prive.setBackgroundColor(getResources().getColor(R.color.base_orange));
+			} else {
+				tv_prive.setBackgroundColor(getResources().getColor(R.color.white));
+
+			}
+			return convertView;
 		}
 	}
 
@@ -353,7 +362,8 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		WeixinPayReqBody reqBody = new WeixinPayReqBody();
 		reqBody.bookMobile = "18550195586";
 		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
-		reqBody.totalFee = String.valueOf(prices[choosePosition]);;
+		reqBody.totalFee = String.valueOf(prices[choosePosition]);
+		;
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null, new IRequestProxyCallback() {
 
 			@Override

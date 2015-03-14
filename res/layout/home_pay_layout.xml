@@ -125,20 +125,20 @@
                     android:text="充值金额："
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_list" />
-            </LinearLayout>
 
-            <com.sport365.badminton.view.NoScrollGridView
-                android:id="@+id/gv_money_choose"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawSelectorOnTop="true"
-                android:gravity="center"
-                android:horizontalSpacing="@dimen/image_thumbnail_spacing"
-                android:listSelector="@android:color/transparent"
-                android:numColumns="4"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="@dimen/image_thumbnail_spacing" >
-            </com.sport365.badminton.view.NoScrollGridView>
+                <com.sport365.badminton.view.NoScrollGridView
+                    android:id="@+id/gv_money_choose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8.0dp"
+                    android:drawSelectorOnTop="true"
+                    android:gravity="center"
+                    android:listSelector="@android:color/transparent"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:numColumns="5"
+                    android:stretchMode="columnWidth" >
+                </com.sport365.badminton.view.NoScrollGridView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
