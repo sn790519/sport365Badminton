@@ -2,8 +2,6 @@ package com.sport365.badminton.utils;
 
 import java.util.Locale;
 
-import com.sport365.badminton.params.SystemConfig;
-
 public class ULog {
 	public static String	TAG	= "com.sport365.badminton";
 

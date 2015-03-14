@@ -26,11 +26,11 @@ import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.NoScrollGridView;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -82,29 +82,6 @@ public class HomePageFragment extends BaseFragment {
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
-		Intent intent = null;
-		switch (v.getId()) {
-//			case R.id.tv_sport_field:
-//				intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
-//				startActivity(intent);
-//				break;
-//			case R.id.tv_club:
-//				intent = new Intent(getActivity(), ClubListActivity.class);
-//				startActivity(intent);
-//				break;
-//			case R.id.tv_activity:
-//				intent = new Intent(getActivity(), ActivityListActivity.class);
-//				startActivity(intent);
-//				break;
-//			case R.id.tv_game:
-//				intent = new Intent(getActivity(), PlayListActivity.class);
-//				startActivity(intent);
-//				break;
-//			case R.id.iv_sport_calendar:
-//				intent = new Intent(getActivity(), CalendarTimesActivity.class);
-//				startActivity(intent);
-//				break;
-		}
 	}
 
 	/**
@@ -124,7 +101,6 @@ public class HomePageFragment extends BaseFragment {
 
 			@Override
 			public void onError(Header header, RequestInfo requestInfo) {
-				// TODO Auto-generated method stub
 				super.onError(header, requestInfo);
 			}
 		});
@@ -132,6 +108,9 @@ public class HomePageFragment extends BaseFragment {
 
 	// 根据接口初始化view
 	private void initFragmentView(GetSprotHomeResBody resBody) {
+		SystemConfig.aboutUs = resBody.aboutUs;
+		SystemConfig.contactUs = resBody.contactUs;
+
 		// 顶部广告数据源
 		advertismentlist = resBody.sportAdvertismentList;
 		// 底部广告数据源
@@ -241,19 +220,19 @@ public class HomePageFragment extends BaseFragment {
 						if (!TextUtils.isEmpty(mItemKeywordObj.urlType) && "0".equals(mItemKeywordObj.urlType)) {
 							if ("1".equals(mItemKeywordObj.typeId)) {
 								intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
-								intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemKeywordObj.title);
+								intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
 								startActivity(intent);
 							} else if ("2".equals(mItemKeywordObj.typeId)) {
 								intent = new Intent(getActivity(), ClubListActivity.class);
-								intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemKeywordObj.title);
+								intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
 								startActivity(intent);
 							} else if ("3".equals(mItemKeywordObj.typeId)) {
 								intent = new Intent(getActivity(), ActivityListActivity.class);
-								intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemKeywordObj.title);
+								intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
 								startActivity(intent);
 							} else if ("4".equals(mItemKeywordObj.typeId)) {
 								intent = new Intent(getActivity(), PlayListActivity.class);
-								intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemKeywordObj.title);
+								intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
 								startActivity(intent);
 							} else {
 								intent = new Intent(getActivity(), MyWebViewActivity.class);
@@ -322,10 +301,11 @@ public class HomePageFragment extends BaseFragment {
 					R.layout.home_middle_item_layout, parent, false);
 			ImageView featureImageView = (ImageView) convertView
 					.findViewById(R.id.iv_feature_item);
-			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-					itemWidth, itemHeight);
-			featureImageView.setLayoutParams(layoutParams);
+			TextView tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+			TextView tv_des = (TextView) convertView.findViewById(R.id.tv_des);
 			final SportThemeObj mItemSportObj = sportThemeList.get(position);
+			tv_title.setText(TextUtils.isEmpty(mItemSportObj.title) ? "敬请期待" : mItemSportObj.title);
+			tv_des.setText(TextUtils.isEmpty(mItemSportObj.des) ? "敬请期待" : mItemSportObj.des);
 			// 下载并显示广告图
 			if (mItemSportObj != null) {
 				String imgUrl = mItemSportObj.imageUrl;
@@ -349,11 +329,11 @@ public class HomePageFragment extends BaseFragment {
 						if (!TextUtils.isEmpty(mItemSportObj.urlType) && "0".equals(mItemSportObj.urlType)) {
 							if ("1".equals(mItemSportObj.typeId)) {
 								intent = new Intent(getActivity(), ClubListActivity.class);
-								intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemSportObj.title);
+								intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.title);
 								startActivity(intent);
 							} else if ("2".equals(mItemSportObj.typeId)) {
 								intent = new Intent(getActivity(), CalendarTimesActivity.class);
-								intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemSportObj.title);
+								intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.title);
 								startActivity(intent);
 							} else {
 								intent = new Intent(getActivity(), MyWebViewActivity.class);
@@ -370,7 +350,7 @@ public class HomePageFragment extends BaseFragment {
 					} else {
 						Utilities.showToast("Data error", getActivity());
 						intent = new Intent(getActivity(), CalendarTimesActivity.class);
-						intent.putExtra(BundleKeys.ACTIONBAETITLE,mItemSportObj.title);
+						intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.title);
 						startActivity(intent);
 					}
 				}

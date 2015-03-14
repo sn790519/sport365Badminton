@@ -22,7 +22,7 @@ public class ActivityView extends RelativeLayout {
 	private ImageView iv_tag_top;        // 置顶图片
 	private ImageView iv_activity_flag;        // 进行中
 	private TextView tv_time;        // 时间
-	private TextView tv_phone;        // 电话
+	private TextView tv_venueName;        // 电话
 	private TextView tv_distance;    // 地址
 	private TextView tv_sign_alredy;        // 俱乐部
 	private TextView tv_activity_sign;    // 活动
@@ -35,7 +35,7 @@ public class ActivityView extends RelativeLayout {
 		tv_venue = (TextView) findViewById(R.id.tv_venue);
 		tv_price = (TextView) findViewById(R.id.tv_price);
 		tv_time = (TextView) findViewById(R.id.tv_time);
-		tv_phone = (TextView) findViewById(R.id.tv_phone);
+		tv_venueName = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
 		tv_sign_alredy = (TextView) findViewById(R.id.tv_sign_alredy);
 		tv_activity_sign = (TextView) findViewById(R.id.tv_activity_sign);
@@ -47,8 +47,8 @@ public class ActivityView extends RelativeLayout {
 
 	public RelativeLayout setDateView(ActiveEntityObj mActiveEntityObj) {
 		if (mActiveEntityObj != null) {
-			// 场馆
-			String clubName = !TextUtils.isEmpty(mActiveEntityObj.clubName) ? mActiveEntityObj.clubName : "";
+			// 活动名称
+			String clubName = !TextUtils.isEmpty(mActiveEntityObj.activeTitle) ? mActiveEntityObj.activeTitle : "";
 			tv_venue.setText(clubName);
 			// 价格
 			String activeFee = !TextUtils.isEmpty(mActiveEntityObj.activeFee) ? mActiveEntityObj.activeFee : "";
@@ -58,8 +58,10 @@ public class ActivityView extends RelativeLayout {
 			ImageLoader.getInstance().displayImage(activeLogo, imageView);
 			// 时间
 			String activeDate = !TextUtils.isEmpty(mActiveEntityObj.activeDate) ? mActiveEntityObj.activeDate : "";
-			String endTime = TextUtils.isEmpty(mActiveEntityObj.endTime) ? mActiveEntityObj.endTime : "";
-			tv_time.setText(activeDate + "--" + endTime);
+			String activeHours = !TextUtils.isEmpty(mActiveEntityObj.activeHours) ? mActiveEntityObj.activeHours : "";
+			tv_time.setText(activeDate + "  (" + activeHours + "小时)");
+			// 会所名称
+			tv_venueName.setText(!TextUtils.isEmpty(mActiveEntityObj.venueName) ? mActiveEntityObj.venueName : "待定,联系客服");
 			// 地址
 			String provinceName = !TextUtils.isEmpty(mActiveEntityObj.provinceName) ? mActiveEntityObj.provinceName : "";
 			String cityName = !TextUtils.isEmpty(mActiveEntityObj.cityName) ? mActiveEntityObj.cityName : "";
@@ -72,6 +74,17 @@ public class ActivityView extends RelativeLayout {
 			// 活动
 			String huiTips = !TextUtils.isEmpty(mActiveEntityObj.huiTips) ? mActiveEntityObj.huiTips : "";
 			tv_activity_sign.setText(huiTips);
+
+			// 水印置顶1：置顶isTop
+			if ("1".equals(mActiveEntityObj.isTop)) {
+				iv_tag_top.setImageResource(R.drawable.indicator_common_set_up);
+			}
+			// 水印是否推荐1：推荐isRecommend
+			else if ("1".equals(mActiveEntityObj.isRecommend)) {
+				iv_tag_top.setImageResource(R.drawable.indicator_common_recommended);
+			} else {
+				iv_tag_top.setImageBitmap(null);
+			}
 		}
 		return this;
 	}

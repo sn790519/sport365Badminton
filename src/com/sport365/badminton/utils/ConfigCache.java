@@ -4,8 +4,6 @@ import java.io.File;
 
 import android.text.TextUtils;
 
-import com.sport365.badminton.params.SystemConfig;
-
 public class ConfigCache {
 
 	public static final int CONFIG_CACHE_MOBILE_TIMEOUT = 600000;

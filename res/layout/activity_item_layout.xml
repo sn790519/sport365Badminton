@@ -15,7 +15,16 @@
             android:layout_marginTop="0.5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/indicator_ongoing"/>
-
+    <ImageView
+            android:id="@+id/iv_tag_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="40.0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/indicator_common_set_up"/>
     <RelativeLayout
             android:id="@+id/rl_flag"
             android:layout_width="match_parent"
@@ -54,16 +63,6 @@
 
     </RelativeLayout>
 
-    <ImageView
-            android:id="@+id/iv_tag_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="40.0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/indicator_common_set_up"/>
 
     <RelativeLayout
             android:id="@+id/flag"
@@ -85,7 +84,7 @@
                     android:drawableLeft="@drawable/icon_list_time"
                     android:drawablePadding="4.0dip"
                     android:gravity="center_vertical"
-                    android:text="10:00 -- 11:00"
+                    android:text="2015"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/hint"/>
 
@@ -116,15 +115,16 @@
 
                 <TextView
                         android:id="@+id/tv_distance"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6.0dip"
+                        android:drawablePadding="6dp"
                         android:drawableRight="@drawable/icon_nearby_map"
                         android:gravity="top"
                         android:lineSpacingMultiplier="1.5"
                         android:maxLines="2"
                         android:paddingLeft="4.0dp"
-                        android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                        android:text="江苏省  苏州市  工业园区"
                         android:textColor="@color/hint"
                         android:textSize="@dimen/hint"/>
             </LinearLayout>

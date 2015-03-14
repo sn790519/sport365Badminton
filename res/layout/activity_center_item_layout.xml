@@ -27,7 +27,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="24.0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/indicator_common_set_up"/>
+            />
 
     <RelativeLayout
             android:id="@+id/flag"
@@ -88,15 +88,16 @@
 
                 <TextView
                         android:id="@+id/tv_distance"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6.0dip"
+                        android:drawablePadding="6dp"
                         android:drawableRight="@drawable/icon_nearby_map"
                         android:gravity="top"
                         android:lineSpacingMultiplier="1.5"
                         android:maxLines="2"
                         android:paddingLeft="4.0dp"
-                        android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
+                        android:text="江苏省  苏州市  工业园区"
                         android:textColor="@color/hint"
                         android:textSize="@dimen/hint"/>
             </LinearLayout>

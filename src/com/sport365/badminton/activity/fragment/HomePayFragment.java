@@ -1,6 +1,5 @@
 package com.sport365.badminton.activity.fragment;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,16 +21,14 @@ import com.sport365.badminton.entity.reqbody.AliWapPayReqBody;
 import com.sport365.badminton.entity.reqbody.WeixinPayReqBody;
 import com.sport365.badminton.entity.resbody.AliClientPayResBody;
 import com.sport365.badminton.entity.resbody.AliWapPayResBody;
-import com.sport365.badminton.entity.resbody.GetSprotHomeResBody;
 import com.sport365.badminton.entity.resbody.WeixinPayResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper;
 import com.sport365.badminton.http.base.IRequestProxyCallback;
-import com.sport365.badminton.http.base.IRequestProxyListener;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.view.NoScrollGridView;
 import com.tencent.mm.sdk.constants.Build;
@@ -41,10 +38,6 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
 
 /**
  * 充值页面

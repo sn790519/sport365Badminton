@@ -8,7 +8,7 @@ import com.sport365.badminton.http.base.HttpTaskHelper;
 import com.sport365.badminton.http.base.JsonHelper;
 import com.sport365.badminton.http.json.CacheOptions;
 import com.sport365.badminton.http.json.WebService;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Tools;
 
 /**

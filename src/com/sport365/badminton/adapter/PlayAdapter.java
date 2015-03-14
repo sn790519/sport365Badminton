@@ -46,6 +46,7 @@ public class PlayAdapter extends BaseAdapter {
 			convertView.setTag(view);
 		} else {
 			convertView = (PlayView) convertView.getTag();
+			((PlayView)convertView).setDateView(mMatchEntityObj);
 		}
 		return convertView;
 	}

@@ -15,12 +15,12 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import com.sport365.badminton.BaseApplication;
-import com.sport365.badminton.params.SystemConfig;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.*;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -522,4 +522,25 @@ public class Tools {
 		return GetMD5(prestr.toString(), inputCharset);
 	}
 
+	/**
+	 * 获取手机的菜单栏的高度
+	 * @param context
+	 * @return
+	 */
+	public static int getStatusBarHeight(Context context) {
+		Class<?> c = null;
+		Object obj = null;
+		Field field = null;
+		int x = 0, statusBarHeight = 0;
+		try {
+			c = Class.forName("com.android.internal.R$dimen");
+			obj = c.newInstance();
+			field = c.getField("status_bar_height");
+			x = Integer.parseInt(field.get(obj).toString());
+			statusBarHeight = context.getResources().getDimensionPixelSize(x);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return statusBarHeight;
+	}
 }

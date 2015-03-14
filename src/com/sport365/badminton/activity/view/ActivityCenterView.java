@@ -2,6 +2,7 @@ package com.sport365.badminton.activity.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.TextureView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +25,7 @@ public class ActivityCenterView extends RelativeLayout {
 	private TextView tv_club;        // 俱乐部
 	private TextView tv_activity;    // 活动
 	private TextView tv_game;        // 比赛
+	private ImageView iv_tag_top;
 
 	public ActivityCenterView(Context context) {
 		super(context);
@@ -37,6 +39,7 @@ public class ActivityCenterView extends RelativeLayout {
 		tv_game = (TextView) findViewById(R.id.tv_game);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
+		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 	}
 
 	public RelativeLayout setDateView(VenueEntityObj venueEntityobj) {
@@ -49,21 +52,33 @@ public class ActivityCenterView extends RelativeLayout {
 			String openingTime = !TextUtils.isEmpty(venueEntityobj.openingTime) ? venueEntityobj.openingTime : "";
 			String closingTime = !TextUtils.isEmpty(venueEntityobj.closingTime) ? venueEntityobj.closingTime : "";
 			tv_time.setText(openingTime + "--" + closingTime);
+			// phone
+			tv_phone.setText(!TextUtils.isEmpty(venueEntityobj.telephone) ? venueEntityobj.telephone : "");
 			// 地址
 			String provinceName = !TextUtils.isEmpty(venueEntityobj.provinceName) ? venueEntityobj.provinceName : "";
 			String cityName = !TextUtils.isEmpty(venueEntityobj.cityName) ? venueEntityobj.cityName : "";
 			String countyName = !TextUtils.isEmpty(venueEntityobj.countyName) ? venueEntityobj.countyName : "";
 			String address = !TextUtils.isEmpty(venueEntityobj.address) ? venueEntityobj.address : "";
 			tv_distance.setText(provinceName + "  " + cityName + "  " + countyName + "  " + "\n" + address);
-			//俱乐部
-			String clubNum = !TextUtils.isEmpty(venueEntityobj.clubNum) ? venueEntityobj.clubNum : "";
-			tv_club.setText("俱乐部（" + clubNum + "）");
-			//活动
-			String activeNum = !TextUtils.isEmpty(venueEntityobj.activeNum) ? venueEntityobj.activeNum : "";
-			tv_club.setText("活动（" + activeNum + "）");
-			//比赛
-			String matchNum = !TextUtils.isEmpty(venueEntityobj.matchNum) ? venueEntityobj.matchNum : "";
-			tv_club.setText("比赛（" + matchNum + "）");
+			//社团&&!"0".equals(venueEntityobj.clubNum)
+			String clubNum = !TextUtils.isEmpty(venueEntityobj.clubNum) ? "社团（" + venueEntityobj.clubNum + "）" : "社团";
+			tv_club.setText(clubNum);
+			//活动&&!"0".equals(venueEntityobj.activeNum)
+			String activeNum = !TextUtils.isEmpty(venueEntityobj.activeNum) ? "活动（" + venueEntityobj.activeNum + "）" : "活动";
+			tv_activity.setText(activeNum);
+			//比赛&&!"0".equals(venueEntityobj.matchNum)
+			String matchNum = !TextUtils.isEmpty(venueEntityobj.matchNum) ? "比赛（" + venueEntityobj.matchNum + "）" : "比赛";
+			tv_game.setText(matchNum);
+			// 水印置顶1：置顶isTop
+			if ("1".equals(venueEntityobj.isTop)) {
+				iv_tag_top.setImageResource(R.drawable.indicator_common_set_up);
+			}
+			// 水印是否推荐1：推荐isRecommend
+			else if ("1".equals(venueEntityobj.isRecommend)) {
+				iv_tag_top.setImageResource(R.drawable.indicator_common_recommended);
+			} else {
+				iv_tag_top.setImageBitmap(null);
+			}
 		}
 		return this;
 	}
@@ -77,6 +92,17 @@ public class ActivityCenterView extends RelativeLayout {
 	public RelativeLayout setBottonVisible(int FlagVisible) {
 		ll_bottom.setVisibility(FlagVisible);
 		return this;
+	}
+
+	/**
+	 * 设置推荐置顶图片GONE
+	 * @param FlagVisible
+	 * @return
+	 */
+	public RelativeLayout setTopRecommadImageViewVisible(int FlagVisible) {
+		iv_tag_top.setVisibility(FlagVisible);
+		return this;
+
 	}
 
 }

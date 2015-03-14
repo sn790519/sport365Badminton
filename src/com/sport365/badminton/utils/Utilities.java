@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
-import com.sport365.badminton.params.SystemConfig;
 
 import java.io.File;
 import java.lang.reflect.Field;
