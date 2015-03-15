@@ -46,6 +46,7 @@ public class ActivityCenterAdapter extends BaseAdapter {
 			convertView.setTag(view);
 		} else {
 			convertView = (ActivityCenterView) convertView.getTag();
+			((ActivityCenterView)convertView).setDateView(venueEntityobj);
 		}
 		return convertView;
 	}

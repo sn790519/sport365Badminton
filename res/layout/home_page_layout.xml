@@ -23,6 +23,7 @@
             android:horizontalSpacing="@dimen/image_thumbnail_spacing"
             android:listSelector="@android:color/transparent"
             android:numColumns="4"
+            android:background="@color/white"
             android:stretchMode="columnWidth"
             android:verticalSpacing="@dimen/image_thumbnail_spacing">
     </com.sport365.badminton.view.NoScrollGridView>
@@ -33,12 +34,13 @@
             android:layout_height="match_parent"
             android:drawSelectorOnTop="true"
             android:gravity="center"
+            android:layout_margin="@dimen/image_thumbnail_spacing"
             android:horizontalSpacing="@dimen/image_thumbnail_spacing"
             android:listSelector="@android:color/transparent"
             android:numColumns="2"
             android:stretchMode="columnWidth"
             android:verticalSpacing="@dimen/image_thumbnail_spacing">
-    </com.sport365.badminton.view.NoScrollGridView>gv_middle_uploads
+    </com.sport365.badminton.view.NoScrollGridView>
 
     <LinearLayout
             android:id="@+id/ll_ad_layout_bottom"

@@ -11,8 +11,7 @@ import com.sport365.badminton.entity.obj.ClubTabEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 俱乐部的view
- * Created by kjh08490 on 2015/3/7.
+ * 俱乐部的view Created by kjh08490 on 2015/3/7.
  */
 public class ClubView extends RelativeLayout {
 	private TextView tv_venue; // 场馆
@@ -24,6 +23,8 @@ public class ClubView extends RelativeLayout {
 	private TextView tv_club; // 俱乐部
 	private TextView tv_activity; // 活动
 	private TextView tv_game; // 比赛
+	private TextView btn_rechange; // 充值
+	private ImageView iv_tag_top;
 
 	private LinearLayout ll_bottom;
 
@@ -38,8 +39,10 @@ public class ClubView extends RelativeLayout {
 		tv_club = (TextView) findViewById(R.id.tv_club);
 		tv_activity = (TextView) findViewById(R.id.tv_activity);
 		tv_game = (TextView) findViewById(R.id.tv_game);
+		btn_rechange = (TextView) findViewById(R.id.btn_rechange);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
+		iv_tag_top = (ImageView)findViewById(R.id.iv_tag_top);
 	}
 
 	public RelativeLayout setDateView(ClubTabEntityObj mClubTabEntityObj) {
@@ -47,34 +50,48 @@ public class ClubView extends RelativeLayout {
 			// 场馆
 			String clubName = !TextUtils.isEmpty(mClubTabEntityObj.clubName) ? mClubTabEntityObj.clubName : "";
 			tv_venue.setText(clubName);
+			//均价
+			tv_phone.setText("均价：");
 			// 价格
-			String privce = "20元";
-			tv_price.setText(privce);
+			String privce = !TextUtils.isEmpty(mClubTabEntityObj.activeFee) ? mClubTabEntityObj.activeFee : "";
+			tv_price.setText(privce + "元/2小时/次");
 			// 图片
 			String clubLogo = !TextUtils.isEmpty(mClubTabEntityObj.clubLogo) ? mClubTabEntityObj.clubLogo : "";
 			ImageLoader.getInstance().displayImage(clubLogo, imageView);
-			// 时间
-			tv_time.setText("时间");
+			// 群主
+			String nickname = !TextUtils.isEmpty(mClubTabEntityObj.nickname) ? mClubTabEntityObj.nickname : "";
+			tv_time.setText("群主：" + nickname);
 			// 地址
 			String provinceName = !TextUtils.isEmpty(mClubTabEntityObj.provinceName) ? mClubTabEntityObj.provinceName : "";
 			String cityName = !TextUtils.isEmpty(mClubTabEntityObj.cityName) ? mClubTabEntityObj.cityName : "";
 			String countyName = !TextUtils.isEmpty(mClubTabEntityObj.countyName) ? mClubTabEntityObj.countyName : "";
 			tv_distance.setText(provinceName + "  " + cityName + "  " + countyName + "\n" + "缺少");
 			// 俱乐部
-			String activeNum = !TextUtils.isEmpty(mClubTabEntityObj.activeNum) ? mClubTabEntityObj.activeNum : "";
-			tv_club.setText("俱乐部（" + activeNum + "）");
+			tv_club.setText("充值会费");
 			// 活动
+			String activeNum = !TextUtils.isEmpty(mClubTabEntityObj.activeNum) ? mClubTabEntityObj.activeNum : "";
 			tv_activity.setText("活动（" + activeNum + "）");
-			String matchNum = !TextUtils.isEmpty(mClubTabEntityObj.matchNum) ? mClubTabEntityObj.matchNum : "";
 			// 比赛
+			String matchNum = !TextUtils.isEmpty(mClubTabEntityObj.matchNum) ? mClubTabEntityObj.matchNum : "";
 			tv_game.setText("比赛（" + matchNum + "）");
+
+			// 水印置顶1：置顶isTop
+			if ("1".equals(mClubTabEntityObj.isTop)) {
+				iv_tag_top.setImageResource(R.drawable.indicator_common_set_up);
+			}
+			// 水印是否推荐1：推荐isRecommend
+			else if ("1".equals(mClubTabEntityObj.isRecommend)) {
+				iv_tag_top.setImageResource(R.drawable.indicator_common_recommended);
+			} else {
+				iv_tag_top.setImageBitmap(null);
+			}
 		}
 		return this;
 	}
 
 	/**
 	 * 隐藏item的底部框
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -82,4 +99,25 @@ public class ClubView extends RelativeLayout {
 		ll_bottom.setVisibility(FlagVisible);
 		return this;
 	}
+	/**
+	 * 设置推荐置顶图片GONE
+	 * @param FlagVisible
+	 * @return
+	 */
+	public RelativeLayout setTopRecommadImageViewVisible(int FlagVisible) {
+		iv_tag_top.setVisibility(FlagVisible);
+		return this;
+
+	}
+	
+	/**
+	 * 设置充值按显示，默认不显示
+	 * @param FlagVisible
+	 * @return
+	 */
+	public RelativeLayout setRechangeVisible(int FlagVisible){
+		btn_rechange.setVisibility(FlagVisible);
+		return this;
+	}
+	
 }

@@ -15,33 +15,33 @@
             android:id="@+id/tv_venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/tv_price"
+            android:layout_alignParentLeft="true"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingBottom="10.0dp"
             android:paddingLeft="15.0dp"
             android:paddingTop="17.0dp"
-            android:layout_alignParentLeft="true"
             android:text="独墅湖体育馆羽毛球"
             android:textColor="@color/orangn"
             android:textSize="@dimen/list" />
-
         <TextView
-            android:id="@+id/tv_price"
+            android:id="@+id/btn_rechange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
             android:ellipsize="end"
-            android:gravity="right"
-            android:maxLines="2"
+            android:maxLines="1"
+            android:paddingBottom="10.0dp"
+            android:paddingTop="10.0dp"
             android:paddingLeft="15.0dp"
-            android:paddingRight="10.0dp"
-            android:paddingTop="17.0dp"
-            android:text="200 元"
-            android:textColor="@color/green"
-            android:layout_alignBaseline="@id/tv_venue"
-            android:textSize="@dimen/hint" />
-
+            android:paddingRight="15dp"
+            android:background="@drawable/btn_rechange"
+            android:text="充值"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="@dimen/list" />
     </RelativeLayout>
 
     <ImageView
@@ -81,7 +81,7 @@
 
             <TextView
                 android:id="@+id/tv_phone"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_time"
                 android:layout_marginTop="4.0dip"
@@ -90,6 +90,19 @@
                 android:gravity="center_vertical"
                 android:text="0515 86577806"
                 android:textColor="@color/hint"
+                android:textSize="@dimen/hint" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_phone"
+                android:layout_alignBaseline="@id/tv_phone"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:paddingLeft="4.0dp"
+                android:text="200 元"
+                android:textColor="@color/green"
                 android:textSize="@dimen/hint" />
 
             <LinearLayout
@@ -106,7 +119,7 @@
 
                 <TextView
                     android:id="@+id/tv_distance"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="6.0dip"
                     android:drawableRight="@drawable/icon_nearby_map"

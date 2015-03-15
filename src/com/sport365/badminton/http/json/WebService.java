@@ -2,7 +2,7 @@ package com.sport365.badminton.http.json;
 
 import android.text.TextUtils;
 
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 
 /**
  * Every web service should extends this to implement an entire web service.

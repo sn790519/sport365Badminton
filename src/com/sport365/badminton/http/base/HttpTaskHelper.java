@@ -20,7 +20,7 @@ import com.sport365.badminton.http.RetCodes;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContainer;
 import com.sport365.badminton.http.json.res.ResponseContent;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.ConfigCache;
 import com.sport365.badminton.utils.FileTools;
 import com.sport365.badminton.utils.Tools;

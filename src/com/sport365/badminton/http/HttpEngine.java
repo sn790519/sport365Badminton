@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.sport365.badminton.http.base.BizException;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Tools;
 import com.sport365.badminton.utils.Utilities;
 import com.squareup.okhttp.CacheControl;

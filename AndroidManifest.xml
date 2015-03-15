@@ -118,6 +118,10 @@
 		</activity>
 		<activity android:name=".activity.ModifyUserInfoActivity">
 		</activity>
+		<activity android:name=".activity.MyFixationActivity">
+		</activity>
+		<activity android:name=".activity.MyGroupActivity">
+		</activity>
 		<activity android:name=".activity.BNavigatorActivity"
 				  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"/>
         <!-- alipay sdk begin -->

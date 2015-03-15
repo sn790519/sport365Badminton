@@ -10,14 +10,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
-import com.sport365.badminton.activity.LoginActivity;
-import com.sport365.badminton.activity.MainActivity;
-import com.sport365.badminton.activity.MyAccountActivity;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.activity.*;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 
 public class HomeMyFragment extends BaseFragment implements View.OnClickListener {
-
 
     /**
      * 顶部登陆
@@ -36,6 +33,8 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
     private TextView tv_user_name;
     private TextView tv_user_score;
     private Button btn_logout;
+    private RelativeLayout rl_myqunhuodong;
+    private RelativeLayout rl_mygudinghuodong;
 
 
     @Override
@@ -48,15 +47,14 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
     private void findViews(View view) {
         btn_logout = (Button) view.findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(this);
-        if (null != SystemConfig.loginResBody && SystemConfig.isLogin()) {
-            btn_logout.setVisibility(View.VISIBLE);
-        } else {
-            btn_logout.setVisibility(View.GONE);
-        }
         rl_pay = (RelativeLayout) view.findViewById(R.id.rl_pay);
         rl_pay.setOnClickListener(this);
         rl_pay_history = (RelativeLayout) view.findViewById(R.id.rl_pay_history);
         rl_pay_history.setOnClickListener(this);
+        rl_mygudinghuodong = (RelativeLayout) view.findViewById(R.id.rl_mygudinghuodong);
+        rl_mygudinghuodong.setOnClickListener(this);
+        rl_myqunhuodong = (RelativeLayout) view.findViewById(R.id.rl_myqunhuodong);
+        rl_myqunhuodong.setOnClickListener(this);
         rl_top = (RelativeLayout) view.findViewById(R.id.rl_top);
         rl_top.setOnClickListener(this);
         rl_user_account = (RelativeLayout) view.findViewById(R.id.rl_user_account);
@@ -66,9 +64,11 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
         if (SystemConfig.isLogin()) {
             tv_no_login.setVisibility(View.GONE);
             rl_user_account.setVisibility(View.VISIBLE);
+            btn_logout.setVisibility(View.VISIBLE);
         } else {
             tv_no_login.setVisibility(View.VISIBLE);
             rl_user_account.setVisibility(View.GONE);
+            btn_logout.setVisibility(View.GONE);
         }
     }
 
@@ -95,6 +95,23 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
                 ((MainActivity) getActivity()).rb_menu_pay.setChecked(true);
                 break;
             case R.id.rl_pay_history:
+                break;
+            case R.id.rl_myqunhuodong:
+                //我的群活动
+                if (SystemConfig.isLogin()) {
+                    startActivity(new Intent(getActivity(), MyGroupActivity.class));
+                } else {
+                    Utilities.showToast("请先登录", getActivity());
+                }
+                break;
+            case R.id.rl_mygudinghuodong:
+                //我的固定活动
+                if (SystemConfig.isLogin()) {
+                    Utilities.showToast("请先登录", getActivity());
+                } else {
+                    startActivity(new Intent(getActivity(), MyFixationActivity.class));
+                }
+
                 break;
             case R.id.rl_top:
                 if (SystemConfig.isLogin()) {

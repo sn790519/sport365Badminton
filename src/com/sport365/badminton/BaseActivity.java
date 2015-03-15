@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.sport365.badminton.http.base.*;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Tools;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;

@@ -1,6 +1,6 @@
 package com.sport365.badminton.http.entity;
 
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Tools;
 
 /*

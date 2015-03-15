@@ -1,6 +1,5 @@
 package com.sport365.badminton.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +30,7 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent.Header;
 import com.sport365.badminton.map.BDLocationHelper;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.ULog;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.ActionBarPopupWindow;

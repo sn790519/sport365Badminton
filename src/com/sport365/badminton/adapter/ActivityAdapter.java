@@ -48,6 +48,7 @@ public class ActivityAdapter extends BaseAdapter {
 			convertView.setTag(view);
 		} else {
 			convertView = (ActivityView) convertView.getTag();
+			((ActivityView)convertView).setDateView(mActiveEntityObj);
 		}
 		return convertView;
 	}

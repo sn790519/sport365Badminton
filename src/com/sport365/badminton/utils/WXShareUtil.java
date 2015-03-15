@@ -12,7 +12,6 @@ import android.os.Environment;
 
 import com.sport365.badminton.BaseApplication;
 import com.sport365.badminton.R;
-import com.sport365.badminton.params.SystemConfig;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;

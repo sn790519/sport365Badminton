@@ -1,4 +1,4 @@
-package com.sport365.badminton.entity.resbody;
+package com.sport365.badminton.entity.obj;
 
 /**
  * Created by vincent on 15/3/4.

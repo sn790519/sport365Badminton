@@ -20,7 +20,7 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
-import com.sport365.badminton.params.SystemConfig;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 import java.util.ArrayList;
@@ -79,6 +79,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
 		activityCenterView.setDateView(venueEntityObj);
 		activityCenterView.setBottonVisible(View.GONE);
+		activityCenterView.setTopRecommadImageViewVisible(View.GONE);
 		ll_title_layout.addView(activityCenterView);
 	}
 
@@ -111,6 +112,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 					initTitleLayout();
 					initTabLayout();
 					addActivityListView(activeList);
+//					addMapView();
 				}
 
 			}
@@ -130,25 +132,21 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
 			@Override
 			public void FirstOnClick() {
-				Toast.makeText(mContext, "rb_menu_first", Toast.LENGTH_LONG).show();
 				addActivityListView(activeList);
 			}
 
 			@Override
 			public void SecondOnClick() {
-				Toast.makeText(mContext, "rb_menu_second", Toast.LENGTH_LONG).show();
 				addMapView();
 			}
 
 			@Override
 			public void ThirdOnClick() {
-				Toast.makeText(mContext, "rb_menu_third", Toast.LENGTH_LONG).show();
 				addClubListView(clubList);
 			}
 
 			@Override
 			public void FourOnClick() {
-				Toast.makeText(mContext, "rb_menu_four", Toast.LENGTH_LONG).show();
 				addMatchListView(matchList);
 			}
 		}));
@@ -163,6 +161,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		for (int i = 0; activeList != null && i < activeList.size(); i++) {
 			ActivityView activityView = new ActivityView(mContext);
 			activityView.setDateView(activeList.get(i));
+			activityView.setBottonVisible(View.GONE);
 			ll_content.addView(activityView);
 		}
 	}
@@ -179,6 +178,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		for (int i = 0; clubList != null && i < clubList.size(); i++) {
 			ClubView clubView = new ClubView(mContext);
 			clubView.setDateView(clubList.get(i));
+			clubView.setBottonVisible(View.GONE);
 			ll_content.addView(clubView);
 		}
 	}
@@ -194,6 +194,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		for (int i = 0; matchList != null && i < matchList.size(); i++) {
 			PlayView playView = new PlayView(mContext);
 			playView.setDateView(matchList.get(i));
+			playView.setBottonVisible(View.GONE);
 			ll_content.addView(playView);
 		}
 	}
@@ -213,6 +214,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	 */
 	private String naviType;
 	int[] xy = new int[2];//用于mapview的xy的记录
+
 	private void addMapView() {
 		ll_content.removeAllViews();
 		MapViewFragment newFragment = new MapViewFragment();

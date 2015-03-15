@@ -15,7 +15,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import com.sport365.badminton.BaseApplication;
-import com.sport365.badminton.params.SystemConfig;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
