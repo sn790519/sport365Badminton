@@ -2,10 +2,13 @@ package com.sport365.badminton.activity.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.MatchEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
@@ -14,7 +17,7 @@ import com.sport365.badminton.http.base.ImageLoader;
  * 比赛的view
  * Created by kjh08490 on 2015/3/7.
  */
-public class PlayView extends RelativeLayout {
+public class PlayView extends RelativeLayout implements OnClickListener{
 	private TextView tv_title;
 	private TextView tv_play_activity_pic;        //周期活动
 	private ImageView imageView;        // 图片
@@ -26,6 +29,10 @@ public class PlayView extends RelativeLayout {
 	private TextView tv_place_big;    // 大区域
 	private TextView tv_distance;        // 小区域
 	private TextView tv_company_name;        // 主办方
+	/**
+	 * 设置监听
+	 */
+	private PlayListen mPlayListen;
 	
 
 	private LinearLayout ll_bottom;// 底部报名的按钮
@@ -40,8 +47,10 @@ public class PlayView extends RelativeLayout {
 		tv_time_on = (TextView) findViewById(R.id.tv_time_on);
 		tv_place_big = (TextView) findViewById(R.id.tv_place_big);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
+		tv_distance.setOnClickListener(this);
 		tv_company_name = (TextView) findViewById(R.id.tv_company_name);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
+		ll_bottom.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
 	}
@@ -99,5 +108,47 @@ public class PlayView extends RelativeLayout {
 		iv_arrow.setVisibility(FlagVisible);
 		return this;
 	}
+	/**
+	 * 设置监听
+	 * @param mPlayListen
+	 */
+	public void setPlayListen(PlayListen mPlayListen){
+		this.mPlayListen = mPlayListen;
+	}
+	
+	/**
+	 * 设置比赛监听
+	 * @author Frank
+	 *
+	 */
+	public interface PlayListen{
+		/**
+		 * 去预定
+		 */
+		public void doBookName();
+		/**
+		 * 地图查看位置
+		 */
+		public void goMapShow();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_distance:
+			if(mPlayListen != null){mPlayListen.goMapShow();}
+			break;
+		case R.id.ll_bottom:
+			if(mPlayListen != null){mPlayListen.doBookName();}
+			break;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 }
 

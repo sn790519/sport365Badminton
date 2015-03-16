@@ -2,30 +2,33 @@ package com.sport365.badminton.activity.view;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.TextureView;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.VenueEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 运动会所的view
- * Created by kjh08490 on 2015/3/7.
+ * 运动会所的view Created by kjh08490 on 2015/3/7.
  */
-public class ActivityCenterView extends RelativeLayout {
+public class ActivityCenterView extends RelativeLayout implements OnClickListener {
 	private LinearLayout ll_bottom;// 底部框
-	private TextView tv_venue;        // 场馆
-	private ImageView imageView;        // 图片
-	private TextView tv_time;        // 时间
-	private TextView tv_phone;        // 电话
-	private TextView tv_distance;    // 地址
-	private TextView tv_club;        // 俱乐部
-	private TextView tv_activity;    // 活动
-	private TextView tv_game;        // 比赛
+	private TextView tv_venue; // 场馆
+	private ImageView imageView; // 图片
+	private TextView tv_time; // 时间
+	private TextView tv_phone; // 电话
+	private TextView tv_distance; // 地址
+	private TextView tv_club; // 俱乐部
+	private TextView tv_activity; // 活动
+	private TextView tv_game; // 比赛
 	private ImageView iv_tag_top;
+
+	private ActivityCenterListen mActivityCenterListen;
 
 	public ActivityCenterView(Context context) {
 		super(context);
@@ -35,8 +38,11 @@ public class ActivityCenterView extends RelativeLayout {
 		tv_phone = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
 		tv_club = (TextView) findViewById(R.id.tv_club);
+		tv_club.setOnClickListener(this);
 		tv_activity = (TextView) findViewById(R.id.tv_activity);
+		tv_activity.setOnClickListener(this);
 		tv_game = (TextView) findViewById(R.id.tv_game);
+		tv_game.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
@@ -60,13 +66,13 @@ public class ActivityCenterView extends RelativeLayout {
 			String countyName = !TextUtils.isEmpty(venueEntityobj.countyName) ? venueEntityobj.countyName : "";
 			String address = !TextUtils.isEmpty(venueEntityobj.address) ? venueEntityobj.address : "";
 			tv_distance.setText(provinceName + "  " + cityName + "  " + countyName + "  " + "\n" + address);
-			//社团&&!"0".equals(venueEntityobj.clubNum)
+			// 社团&&!"0".equals(venueEntityobj.clubNum)
 			String clubNum = !TextUtils.isEmpty(venueEntityobj.clubNum) ? "社团（" + venueEntityobj.clubNum + "）" : "社团";
 			tv_club.setText(clubNum);
-			//活动&&!"0".equals(venueEntityobj.activeNum)
+			// 活动&&!"0".equals(venueEntityobj.activeNum)
 			String activeNum = !TextUtils.isEmpty(venueEntityobj.activeNum) ? "活动（" + venueEntityobj.activeNum + "）" : "活动";
 			tv_activity.setText(activeNum);
-			//比赛&&!"0".equals(venueEntityobj.matchNum)
+			// 比赛&&!"0".equals(venueEntityobj.matchNum)
 			String matchNum = !TextUtils.isEmpty(venueEntityobj.matchNum) ? "比赛（" + venueEntityobj.matchNum + "）" : "比赛";
 			tv_game.setText(matchNum);
 			// 水印置顶1：置顶isTop
@@ -85,7 +91,7 @@ public class ActivityCenterView extends RelativeLayout {
 
 	/**
 	 * 隐藏item的底部框
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -96,13 +102,66 @@ public class ActivityCenterView extends RelativeLayout {
 
 	/**
 	 * 设置推荐置顶图片GONE
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
 	public RelativeLayout setTopRecommadImageViewVisible(int FlagVisible) {
 		iv_tag_top.setVisibility(FlagVisible);
 		return this;
+	}
 
+	/**
+	 * 设置ActivitycenterListen的底部的监听方法
+	 * 
+	 * @param mActivityCenterListen
+	 */
+	public void setActivityCenterListen(ActivityCenterListen mActivityCenterListen) {
+		this.mActivityCenterListen = mActivityCenterListen;
+	}
+
+	/**
+	 * 设置底部按钮的监听事件
+	 * 
+	 * @author Frank
+	 * 
+	 */
+	public interface ActivityCenterListen {
+		/**
+		 * 查看社团team
+		 */
+		public void lookTeam();
+
+		/**
+		 * 查看活动
+		 */
+		public void lookActivity();
+
+		/**
+		 * 查看比赛
+		 */
+		public void lookMathce();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_club:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.lookTeam();
+			}
+			break;
+		case R.id.tv_activity:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.lookActivity();
+			}
+			break;
+		case R.id.tv_game:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.lookMathce();
+			}
+			break;
+		}
 	}
 
 }

@@ -167,7 +167,7 @@
                 android:drawableLeft="@drawable/icon_list_club"
                 android:drawablePadding="2.0dip"
                 android:gravity="center_vertical"
-                android:text="俱乐部(06)"
+                android:text="充值会费"
                 android:textColor="@color/green"
                 android:textSize="@dimen/info" />
         </LinearLayout>

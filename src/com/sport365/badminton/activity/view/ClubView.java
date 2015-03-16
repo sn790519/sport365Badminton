@@ -2,10 +2,13 @@ package com.sport365.badminton.activity.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.ClubTabEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
@@ -13,7 +16,7 @@ import com.sport365.badminton.http.base.ImageLoader;
 /**
  * 俱乐部的view Created by kjh08490 on 2015/3/7.
  */
-public class ClubView extends RelativeLayout {
+public class ClubView extends RelativeLayout implements OnClickListener{
 	private TextView tv_venue; // 场馆
 	private TextView tv_price; // 价格
 	private ImageView imageView; // 图片
@@ -27,6 +30,8 @@ public class ClubView extends RelativeLayout {
 	private ImageView iv_tag_top;
 
 	private LinearLayout ll_bottom;
+	// 设置club的底部的监听
+	private ClubListen mClubListen;
 
 	public ClubView(Context context) {
 		super(context);
@@ -37,9 +42,12 @@ public class ClubView extends RelativeLayout {
 		tv_phone = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
 		tv_club = (TextView) findViewById(R.id.tv_club);
+		tv_club.setOnClickListener(this);
 		tv_activity = (TextView) findViewById(R.id.tv_activity);
 		tv_game = (TextView) findViewById(R.id.tv_game);
+		tv_game.setOnClickListener(this);
 		btn_rechange = (TextView) findViewById(R.id.btn_rechange);
+		btn_rechange.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
 		iv_tag_top = (ImageView)findViewById(R.id.iv_tag_top);
@@ -118,6 +126,52 @@ public class ClubView extends RelativeLayout {
 	public RelativeLayout setRechangeVisible(int FlagVisible){
 		btn_rechange.setVisibility(FlagVisible);
 		return this;
+	}
+	/**
+	 * 设置club监听
+	 * @param mClubListen
+	 */
+	public void setClubListen(ClubListen mClubListen){
+		this.mClubListen = mClubListen;
+	}
+	
+	
+	/**
+	 * Club底部button的listen
+	 * @author Frank
+	 *
+	 */
+	public interface ClubListen{
+		/**
+		 * 去充值事件
+		 */
+		public void doRechange();
+		/**
+		 * 查看活动
+		 */
+		public void lookActivitys();
+		/**
+		 * 查看比赛
+		 */
+		public void lookMathces();
+	}
+
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_club:
+			if(mClubListen != null){mClubListen.lookActivitys();}
+			break;
+		case R.id.tv_game:
+			if(mClubListen != null){mClubListen.lookMathces();}
+			break;
+		case R.id.btn_rechange:
+			if(mClubListen != null){mClubListen.doRechange();}
+			break;
+		default:
+			break;
+		}
 	}
 	
 }

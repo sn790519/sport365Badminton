@@ -1,33 +1,38 @@
 package com.sport365.badminton.activity.view;
 
 import android.content.Context;
-import android.content.pm.LabeledIntent;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.sport365.badminton.R;
 import com.sport365.badminton.entity.obj.ActiveEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 活动的view
- * Created by kjh08490 on 2015/3/7.
+ * 活动的view Created by kjh08490 on 2015/3/7.
  */
-public class ActivityView extends RelativeLayout {
-	private TextView tv_venue;        // 场馆
-	private TextView tv_price;        // 价格
-	private ImageView imageView;        // 图片
-	private ImageView iv_tag_top;        // 置顶图片
-	private ImageView iv_activity_flag;        // 进行中
-	private TextView tv_time;        // 时间
-	private TextView tv_venueName;        // 电话
-	private TextView tv_distance;    // 地址
-	private TextView tv_sign_alredy;        // 俱乐部
-	private TextView tv_activity_sign;    // 活动
+public class ActivityView extends RelativeLayout implements OnClickListener{
+	private TextView tv_venue; // 场馆
+	private TextView tv_price; // 价格
+	private ImageView imageView; // 图片
+	private ImageView iv_tag_top; // 置顶图片
+	private ImageView iv_activity_flag; // 进行中
+	private TextView tv_time; // 时间
+	private TextView tv_venueName; // 电话
+	private TextView tv_distance; // 地址
+	private TextView tv_sign_alredy; // 俱乐部
+	private TextView tv_activity_sign; // 活动
 
 	private LinearLayout ll_bottom;
+	/**
+	 * 设置底部按钮的监听事件
+	 */
+	private ActivityListen mActivityListen;
 
 	public ActivityView(Context context) {
 		super(context);
@@ -38,7 +43,10 @@ public class ActivityView extends RelativeLayout {
 		tv_venueName = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
 		tv_sign_alredy = (TextView) findViewById(R.id.tv_sign_alredy);
+		// 设置已经报名的点击事件
+		tv_sign_alredy.setOnClickListener(this);
 		tv_activity_sign = (TextView) findViewById(R.id.tv_activity_sign);
+		tv_activity_sign.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		iv_activity_flag = (ImageView) findViewById(R.id.iv_activity_flag);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
@@ -91,12 +99,50 @@ public class ActivityView extends RelativeLayout {
 
 	/**
 	 * 隐藏item的底部框
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
 	public RelativeLayout setBottonVisible(int FlagVisible) {
 		ll_bottom.setVisibility(FlagVisible);
 		return this;
+	}
+	/**
+	 * 设置活动底部按钮的监听事件
+	 * @param mActivityListen
+	 */
+	public void setActivityListen(ActivityListen mActivityListen){
+		this.mActivityListen = mActivityListen;
+	}
+
+	/**
+	 * 设置活动的监听事件
+	 * 
+	 * @author Frank
+	 * 
+	 */
+	public interface ActivityListen {
+		/**
+		 * 查看报名人员
+		 */
+		public void lookBookNames();
+
+		/**
+		 * 报名
+		 */
+		public void doBook();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_sign_alredy:
+			if(mActivityListen != null){mActivityListen.lookBookNames();}
+			break;
+		case R.id.tv_activity_sign:
+			if(mActivityListen != null){mActivityListen.doBook();}
+			break;
+		
+		}
 	}
 }
