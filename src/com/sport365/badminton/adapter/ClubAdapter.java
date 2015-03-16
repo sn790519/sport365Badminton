@@ -48,7 +48,8 @@ public class ClubAdapter extends BaseAdapter {
 			
 			@Override
 			public void lookMathces() {
-			}
+				
+						}
 			
 			@Override
 			public void lookActivitys() {
