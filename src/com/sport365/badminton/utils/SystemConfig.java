@@ -91,10 +91,18 @@ public class SystemConfig {
 	public static final String APIAVERSION = "20111128102912";
 
 
+	/**
+	 * 判断是否登陆
+	 *
+	 * @return
+	 */
 	public static boolean isLogin() {
 		return !TextUtils.isEmpty(memberId);
 	}
 
+	/**
+	 * 清空登录数据
+	 */
 	public static void clearData() {
 		memberId = "";
 		loginResBody = null;

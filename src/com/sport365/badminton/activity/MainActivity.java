@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 	/**
 	 * 充值fragment
 	 */
-	private BaseFragment mPayFragment;
+	private HomePayFragment mPayFragment;
 	/**
 	 * 惠球友fragment
 	 */
@@ -187,11 +187,13 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 			case R.id.rb_menu_pay:
 				if (mPayFragment != null) {
 					fragmentTransaction.show(mPayFragment);
+					mPayFragment.initData();
 				} else {
 					mPayFragment = new HomePayFragment();
 					fragmentTransaction.add(R.id.ll_fragment_container, mPayFragment);
 				}
 				mCurrentFragment = mPayFragment;
+				Utilities.isPayLoginLogic(mContext);
 				break;
 			case R.id.rb_menu_ball_friend:
 				if (mBallfriendFragment != null) {
@@ -239,6 +241,14 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 		return super.onKeyDown(keyCode, event);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 重新刷新pay页面的数据
+		if (mPayFragment != null) {
+			mPayFragment.initData();
+		}
+	}
 
 	/**
 	 * 会所列表

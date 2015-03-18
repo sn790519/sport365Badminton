@@ -2,11 +2,15 @@ package com.sport365.badminton.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
+import android.view.View;
 import android.widget.Toast;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.sport365.badminton.activity.LoginActivity;
+import com.sport365.badminton.view.DialogFactory;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -211,5 +215,37 @@ public class Utilities {
 		return null;
 	}
 
+	/**
+	 * 根据登录情况进行提示登录
+	 */
+	public static void isPayLoginLogic(final Context mContext) {
+		if (SystemConfig.isLogin()) {
+			return;
+		} else {
+			new DialogFactory(mContext).showDialog("", "您还未登录，请登录后支付。", "确定", new DialogFactory.onBtnClickListener() {
 
+				@Override
+				public void btnLeftClickListener(View v) {
+					Intent intent = new Intent(mContext, LoginActivity.class);
+					mContext.startActivity(intent);
+				}
+
+				@Override
+				public void btnNeutralClickListener(View v) {
+
+				}
+
+				@Override
+				public void btnRightClickListener(View v) {
+
+				}
+
+				@Override
+				public void btnCloseClickListener(View v) {
+
+				}
+			},true);
+
+		}
+	}
 }

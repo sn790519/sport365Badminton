@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.alipay.sdk.app.PayTask;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
+import com.sport365.badminton.activity.LoginActivity;
 import com.sport365.badminton.activity.MainActivity;
 import com.sport365.badminton.activity.MyWebViewActivity;
 import com.sport365.badminton.alipay.PayResult;
@@ -32,6 +33,8 @@ import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.BundleKeys;
+import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.NoScrollGridView;
 import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -50,7 +53,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	private static final String PAY_WX = "pay_WX";
 
 	private NoScrollGridView gv_money_choose;
-	private int[] prices = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+	private int[] prices = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
 	private IWXAPI api; // 微信
 	// 支付选择
 	public RadioGroup rg_menu;
@@ -63,6 +66,12 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	private static final int SDK_PAY_FLAG = 1;
 	private static final int SDK_CHECK_FLAG = 2;
 
+	// View
+	private TextView tv_name;
+	private TextView tv_phone;
+	private TextView tv_email;
+	private TextView tv_qq;
+
 	// 支付选择的position,默认选择充值金额第一项
 	private int choosePosition = 0;
 
@@ -71,37 +80,37 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case SDK_PAY_FLAG: {
-				PayResult payResult = new PayResult((String) msg.obj);
+				case SDK_PAY_FLAG: {
+					PayResult payResult = new PayResult((String) msg.obj);
 
-				// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-				String resultInfo = payResult.getResult();
+					// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+					String resultInfo = payResult.getResult();
 
-				String resultStatus = payResult.getResultStatus();
+					String resultStatus = payResult.getResultStatus();
 
-				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-				if (TextUtils.equals(resultStatus, "9000")) {
-					Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
-				} else {
-					// 判断resultStatus 为非“9000”则代表可能支付失败
-					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
-
+					// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+					if (TextUtils.equals(resultStatus, "9000")) {
+						Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
 					} else {
-						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
+						// 判断resultStatus 为非“9000”则代表可能支付失败
+						// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+						if (TextUtils.equals(resultStatus, "8000")) {
+							Toast.makeText(getActivity(), "支付结果确认中", Toast.LENGTH_SHORT).show();
 
+						} else {
+							// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+							Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
+
+						}
 					}
+					break;
 				}
-				break;
-			}
-			case SDK_CHECK_FLAG: {
-				Toast.makeText(getActivity(), "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
-				break;
-			}
-			default:
-				break;
+				case SDK_CHECK_FLAG: {
+					Toast.makeText(getActivity(), "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
+					break;
+				}
+				default:
+					break;
 			}
 		}
 	};
@@ -129,6 +138,10 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 				payChooseAdapter.notifyDataSetChanged();
 			}
 		});
+		tv_name = (TextView) view.findViewById(R.id.tv_name);
+		tv_phone = (TextView) view.findViewById(R.id.tv_phone);
+		tv_email = (TextView) view.findViewById(R.id.tv_email);
+		tv_qq = (TextView) view.findViewById(R.id.tv_qq);
 		return view;
 	}
 
@@ -136,22 +149,33 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO activity 创建成功后执行getactivity();
 		super.onActivityCreated(savedInstanceState);
-
 	}
+
+	/**
+	 * 初始化View的默认信息
+	 */
+	public void initData() {
+		if (SystemConfig.loginResBody != null && tv_name != null && tv_phone != null && tv_email != null && tv_qq != null) {
+			tv_name.setText(TextUtils.isEmpty(SystemConfig.loginResBody.mobile) ? "" : SystemConfig.loginResBody.mobile);
+			tv_phone.setText(TextUtils.isEmpty(SystemConfig.loginResBody.mobile) ? "" : SystemConfig.loginResBody.mobile);
+			tv_email.setText(TextUtils.isEmpty(SystemConfig.loginResBody.email) ? "" : SystemConfig.loginResBody.email);
+			tv_qq.setText(TextUtils.isEmpty(SystemConfig.loginResBody.qq) ? "" : SystemConfig.loginResBody.qq);
+		}
+	}
+
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_pay:
-			if (Choose_Pay.equals(PAY_ZFB)) {
-				// 支付宝支付
-				// getAlipayWeb();
-				getAlipayClinet();
-			} else if (Choose_Pay.equals(PAY_WX)) {
-				// 微信支付
-				WXPay();
-			}
-			break;
+			case R.id.btn_pay:
+				if (Choose_Pay.equals(PAY_ZFB)) {
+					// 支付宝支付
+					getAlipayClinet();
+				} else if (Choose_Pay.equals(PAY_WX)) {
+					// 微信支付
+					WXPay();
+				}
+				break;
 		}
 	}
 
@@ -259,12 +283,12 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	@Override
 	public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 		switch (checkedId) {
-		case R.id.rb_zfb_pay:
-			Choose_Pay = PAY_ZFB;
-			break;
-		case R.id.rb_wx_pay:
-			Choose_Pay = PAY_WX;
-			break;
+			case R.id.rb_zfb_pay:
+				Choose_Pay = PAY_ZFB;
+				break;
+			case R.id.rb_wx_pay:
+				Choose_Pay = PAY_WX;
+				break;
 		}
 	}
 
@@ -301,42 +325,14 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		}
 	}
 
-	/**
-	 * 客户端不需要网页支付，废弃支付宝网页支付
-	 */
-	private void getAlipayWeb() {
-		AliWapPayReqBody reqBody = new AliWapPayReqBody();
-		reqBody.bookMobile = "18550195586";
-		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
-		reqBody.totalFee = "1";
-		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.ALIWAP_PAY), reqBody), null, new IRequestProxyCallback() {
-
-			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				ResponseContent<AliWapPayResBody> de = jsonResponse.getResponseContent(AliWapPayResBody.class);
-				AliWapPayResBody resBody = de.getBody();
-				Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
-				intent.putExtra(BundleKeys.WEBVIEEW_LOADURL, resBody.payUrl);
-				intent.putExtra(BundleKeys.WEBVIEEW_TITLE, "支付宝网页支付");
-				startActivity(intent);
-			}
-
-			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				// TODO Auto-generated method stub
-				super.onError(header, requestInfo);
-			}
-		});
-	}
 
 	/**
 	 * 支付宝快捷支付 从接口获取快捷支付的相关信息
 	 */
 	private void getAlipayClinet() {
-
 		AliClientPayReqBody reqBody = new AliClientPayReqBody();
-		reqBody.bookMobile = "18550195586";
-		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
+		reqBody.bookMobile = SystemConfig.loginResBody.mobile;
+		reqBody.memberid = SystemConfig.loginResBody.memberId;
 		reqBody.totalFee = String.valueOf(prices[choosePosition]);
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.ALICLIENT_PAY), reqBody), null, new IRequestProxyCallback() {
 
@@ -360,8 +356,8 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 	 */
 	private void weixinPay() {
 		WeixinPayReqBody reqBody = new WeixinPayReqBody();
-		reqBody.bookMobile = "18550195586";
-		reqBody.memberid = "8ea0d71f6bad8f1de55cdcef2a8bd6b9";
+		reqBody.bookMobile = SystemConfig.loginResBody.mobile;
+		reqBody.memberid = SystemConfig.loginResBody.memberId;
 		reqBody.totalFee = String.valueOf(prices[choosePosition]);
 		;
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null, new IRequestProxyCallback() {
