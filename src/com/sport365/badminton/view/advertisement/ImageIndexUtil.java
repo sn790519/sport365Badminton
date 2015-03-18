@@ -49,8 +49,8 @@ public class ImageIndexUtil extends View{
 	}
 	
 	private void init(Context context) {
-		selectorBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.icon_point) ;
-		bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.icon_pointlight) ;
+		selectorBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.icon_pointlight) ;
+		bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.icon_point) ;
 		bitmapWidth = bitmap.getWidth() ;
 		bitmapHeight = bitmap.getHeight() ;
 		setLayoutParams(params) ;
@@ -63,7 +63,6 @@ public class ImageIndexUtil extends View{
 		width = getWidth() ;
 		height = getHeight() ;
 		drawSelector(selectIndex) ;
-		
 	}
 	Paint paint = new Paint() ;
 	private void drawSelector(int index) {
