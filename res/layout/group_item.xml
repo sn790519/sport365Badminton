@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:paddingLeft="12dp"
+                android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/iv_tag_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/label"/>
+
+
+    <TextView
+            android:id="@+id/tv_screenings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="998    1018+周五+生物纳米园"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/text_size_xlarge"/>
+
+    <TextView
+            android:id="@+id/tv_time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_screenings"
+            android:layout_marginTop="4.0dip"
+            android:gravity="center_vertical"
+            android:text="活动时间："
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_eighteen_sp"/>
+
+    <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_time1"
+            android:layout_alignBaseline="@id/tv_time1"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:paddingLeft="4.0dp"
+            android:text="2015-05-05 22:14:20"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/text_eighteen_sp"/>
+
+
+    <TextView
+            android:id="@+id/tv_place1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:text="运动场馆："
+            android:layout_below="@id/tv_time1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_eighteen_sp"/>
+
+    <TextView
+            android:id="@+id/tv_place"
+            android:layout_toRightOf="@+id/tv_place1"
+            android:layout_alignBaseline="@id/tv_place1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:text="创意产业园"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_eighteen_sp"/>
+
+    <TextView
+            android:id="@+id/tv_last1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:text="活动时长："
+            android:layout_below="@id/tv_place1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_eighteen_sp"/>
+
+    <TextView
+            android:id="@+id/tv_last"
+            android:layout_toRightOf="@+id/tv_place1"
+            android:layout_alignBaseline="@id/tv_last1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:text="2个小时"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_eighteen_sp"/>
+
+    <Button
+            android:id="@+id/btn_ing"
+            android:text="进行中"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/iv_tag_top"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>
