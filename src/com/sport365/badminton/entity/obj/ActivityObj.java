@@ -35,5 +35,5 @@ public class ActivityObj {
 	public String isDel;//
 	public String code;//
 	public String mobile;//
-
+	public String isOn;//是不是正在进行中 -1；0；1
 }

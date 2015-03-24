@@ -35,4 +35,7 @@ public class LoginResBody implements Serializable {
     public String isValid;// 1 ,//是否有效
     public String isDel;// 0 ,//是否删除
     public String lastLoginTime;// 2015-1-31 17:48:01 //最近登录时间
+
+    public String pointValue;
+    public String decryptMemberId;
 }

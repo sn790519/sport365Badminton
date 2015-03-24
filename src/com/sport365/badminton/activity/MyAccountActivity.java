@@ -41,14 +41,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void initData() {
         if (null != SystemConfig.loginResBody && SystemConfig.isLogin()) {
-            tv_user_Id.setText(SystemConfig.loginResBody.memberId);
+            tv_user_Id.setText(SystemConfig.loginResBody.decryptMemberId);
             tv_user_account.setText(SystemConfig.loginResBody.account);
             tv_user_name.setText(SystemConfig.loginResBody.userName);
             tv_user_phone.setText(SystemConfig.loginResBody.mobile);
             tv_user_password.setText("*********");
-            tv_user_account_money.setText(SystemConfig.loginResBody.remainderMoney);
-            tv_user_account_total.setText(SystemConfig.loginResBody.rechargeMoney);
-            tv_user_post.setText(SystemConfig.loginResBody.consumeMoney);
+            tv_user_account_money.setText("￥"+SystemConfig.loginResBody.remainderMoney);
+            tv_user_account_total.setText("￥"+SystemConfig.loginResBody.rechargeMoney);
+            tv_user_post.setText("￥"+SystemConfig.loginResBody.consumeMoney);
         }
     }
 

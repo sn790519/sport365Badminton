@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
 import com.sport365.badminton.activity.*;
+import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 
@@ -82,7 +83,7 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
                     tv_no_login.setVisibility(View.GONE);
                     rl_user_account.setVisibility(View.VISIBLE);
                     tv_user_name.setText(SystemConfig.loginResBody.account);
-                    tv_user_score.setText(SystemConfig.loginResBody.consumeMoney);
+                    tv_user_score.setText(SystemConfig.loginResBody.pointValue);
                 } else {
                     tv_no_login.setVisibility(View.VISIBLE);
                     rl_user_account.setVisibility(View.GONE);
@@ -107,9 +108,12 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
             case R.id.rl_mygudinghuodong:
                 //我的固定活动
                 if (SystemConfig.isLogin()) {
-                    Utilities.showToast("请先登录", getActivity());
+                    Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
+                    intent.putExtra(BundleKeys.WEBVIEEW_LOADURL, "http://yundong.shenghuo365.net/yd365/fixed-action.html" + SystemConfig.url_end+SystemConfig.memberId);
+                    intent.putExtra(BundleKeys.WEBVIEEW_TITLE, "我的固定活动");
+                    startActivity(intent);
                 } else {
-                    startActivity(new Intent(getActivity(), MyFixationActivity.class));
+                    Utilities.showToast("请先登录", getActivity());
                 }
 
                 break;
@@ -130,8 +134,10 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
             tv_no_login.setVisibility(View.GONE);
             rl_user_account.setVisibility(View.VISIBLE);
             tv_user_name.setText(SystemConfig.loginResBody.account);
-            tv_user_score.setText(SystemConfig.loginResBody.consumeMoney);
+            tv_user_score.setText(SystemConfig.loginResBody.pointValue);
+            btn_logout.setVisibility(View.VISIBLE);
         } else {
+            btn_logout.setVisibility(View.GONE);
             tv_no_login.setVisibility(View.VISIBLE);
             rl_user_account.setVisibility(View.GONE);
             tv_user_name.setText("");
