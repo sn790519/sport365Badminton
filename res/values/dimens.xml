@@ -68,5 +68,6 @@
     <dimen name="min_hight">48dp</dimen>
     <dimen name="min_width">60dp</dimen>
 
-    <dimen name="image_thumbnail_spacing">4dp</dimen>
+    <dimen name="image_thumbnail_spacing">5dp</dimen>
+    <dimen name="pay_item_height">40dp</dimen>
 </resources>

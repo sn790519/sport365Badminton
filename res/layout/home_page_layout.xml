@@ -34,7 +34,9 @@
             android:layout_height="match_parent"
             android:drawSelectorOnTop="true"
             android:gravity="center"
-            android:layout_margin="@dimen/image_thumbnail_spacing"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:horizontalSpacing="@dimen/image_thumbnail_spacing"
             android:listSelector="@android:color/transparent"
             android:numColumns="2"
@@ -46,6 +48,9 @@
             android:id="@+id/ll_ad_layout_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal"
             android:visibility="gone">
     </LinearLayout>
