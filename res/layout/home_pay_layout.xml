@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_ten_dp"
                 android:gravity="center_vertical"
-                android:minHeight="25dp"
+                android:minHeight="@dimen/pay_item_height"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_ten_dp"
                 android:gravity="center_vertical"
-                android:minHeight="25dp"
+                android:minHeight="@dimen/pay_item_height"
                 android:orientation="horizontal" >
 
                 <TextView
