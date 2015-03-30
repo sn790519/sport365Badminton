@@ -85,7 +85,6 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	}
 
 
-
 	/**
 	 * http post request with dialog
 	 *
@@ -126,14 +125,6 @@ public class BaseFragment extends Fragment implements OnClickListener {
 		});
 	}
 
-	/**
-	 * Be similar to
-	 * {@link #sendRequestWithNoDialog(ServiceRequest, IRequestProxyListener)},
-	 * but no need to implement all callback functions in
-	 * {@link IRequestProxyCallback}, only
-	 * {@link IRequestProxyCallback#onSuccess(com.tongcheng.android.base.HttpTaskHelper.JsonResponse, com.tongcheng.android.base.HttpTaskHelper.RequestInfo)}
-	 * is must.
-	 */
 	public Request sendRequestWithNoDialog(ServiceRequest request, final IRequestProxyCallback callback) {
 		if (null == request) {
 			if (SystemConfig.IS_OPEN_DEBUG) {
@@ -219,7 +210,6 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	 * {@link #sendRequestWithDialog(ServiceRequest, DialogConfig, IRequestProxyListener)}
 	 * , but no need to implement all callback functions in
 	 * {@link IRequestProxyCallback}, only
-	 * {@link IRequestProxyCallback#onSuccess(com.tongcheng.android.base.HttpTaskHelper.JsonResponse, com.tongcheng.android.base.HttpTaskHelper.RequestInfo)}
 	 * is must.
 	 */
 	public Request sendRequestWithDialog(ServiceRequest request, DialogConfig dialogConfig, final IRequestProxyCallback callback) {

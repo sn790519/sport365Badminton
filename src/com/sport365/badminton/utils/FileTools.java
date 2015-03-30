@@ -1,30 +1,14 @@
 package com.sport365.badminton.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
-
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.graphics.*;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
 import com.sport365.badminton.R;
 import com.sport365.badminton.http.base.BizException;
+
+import java.io.*;
 
 public class FileTools {
 
@@ -90,76 +74,15 @@ public class FileTools {
 		return bitmapReal;
 	}
 
-	/**
-	 * 得到普通背景图片
-	 * 
-	 * @param activity
-	 * @param price
-	 * @return
-	 */
-
 	public static Drawable getDrawable(Activity activity, String price, float density) {
 		InputStream is = activity.getResources().openRawResource(R.drawable.bg_map_price);
 		return get(activity, is, price, density);
 	}
 
-	/**
-	 * 得到普通背景图片(满房)
-	 * 
-	 * @param activity
-	 * @param price
-	 * @return
-	 */
-	public static Drawable getDrawableFullRoom(Activity activity, String price, float density) {
-		InputStream is = activity.getResources().openRawResource(R.drawable.bg_map_full);
-		return get(activity, is, price, density);
-	}
-
-	/**
-	 * 得到被选中的背景图片（黄色）
-	 * 
-	 * @param activity
-	 * @param price
-	 * @return
-	 */
-	public static Drawable getDrawablePressed(Activity activity, String price, float density) {
-		InputStream is = activity.getResources().openRawResource(R.drawable.bg_mapdown_price);
-		return get(activity, is, price, density);
-	}
-
-	// save drawable to file
-	public static void saveDrawableToFile(Drawable drawable, String bitName) {
-		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-		try {
-			saveMyBitmap(bitmap, getFileNameWithEx(bitName));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// 将bitmap保存到file
-	public static void saveMyBitmap(Bitmap bm, String bitName) throws IOException {
-		File f = new File(Utilities.FILE_ROOT + bitName);
-		f.createNewFile();
-		FileOutputStream fOut = null;
-		try {
-			fOut = new FileOutputStream(f);
-			String fileExtension = getExtensionName(bitName);
-
-			if (fileExtension.equals("png"))
-				bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-			else
-				bm.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-			fOut.flush();
-			fOut.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Java文件操作 获取文件扩展名
-	 * 
+	 * <p/>
 	 * Created on: 2011-8-2
 	 */
 	public static String getExtensionName(String filename) {
@@ -174,7 +97,7 @@ public class FileTools {
 
 	/**
 	 * Java文件操作 获取带扩展名的文件名
-	 * 
+	 *
 	 * @param urlName
 	 * @return filename
 	 */
@@ -253,7 +176,7 @@ public class FileTools {
 
 	/**
 	 * 2张图片合成
-	 * 
+	 *
 	 * @param src1
 	 * @param src2
 	 * @return
@@ -282,7 +205,7 @@ public class FileTools {
 
 	/**
 	 * 删除一个文件
-	 * 
+	 *
 	 * @param dirName
 	 * @param fileName
 	 */
@@ -293,13 +216,6 @@ public class FileTools {
 		}
 	}
 
-	/**
-	 * 重命名文件
-	 * 
-	 * @return 重命名之后的文件路径
-	 * @author Ruyan.Zhao 6045
-	 * @since tongcheng_client_6.0.1 2014-2-28 下午1:33:35
-	 */
 	public static String renameFolder(String folderPath) {
 		File file = new File(folderPath);
 		final File to = new File(file.getAbsolutePath() + System.currentTimeMillis());
@@ -307,15 +223,6 @@ public class FileTools {
 		return to.getAbsolutePath();
 	}
 
-	/**
-	 * 删除文件夹
-	 * 
-	 * @param filePathAndName
-	 *            String 文件夹路径及名称 如c:/fqf
-	 * @param fileContent
-	 *            String
-	 * @return boolean
-	 */
 	public static void delFolder(String folderPath) {
 		try {
 			delAllFile(folderPath); // 删除完里面所有内容
@@ -330,15 +237,6 @@ public class FileTools {
 		}
 	}
 
-	/**
-	 * 删除文件夹（带返回值）
-	 * 
-	 * @param filePathAndName
-	 *            String 文件夹路径及名称 如c:/fqf
-	 * @param fileContent
-	 *            String
-	 * @return boolean
-	 */
 	public static boolean deleteFolder(String folderPath) {
 		try {
 			delAllFile(folderPath); // 删除完里面所有内容
@@ -356,9 +254,8 @@ public class FileTools {
 
 	/**
 	 * 删除文件夹里面的所有文件
-	 * 
-	 * @param path
-	 *            String 文件夹路径 如 c:/fqf
+	 *
+	 * @param path String 文件夹路径 如 c:/fqf
 	 */
 	public static void delAllFile(String path) {
 

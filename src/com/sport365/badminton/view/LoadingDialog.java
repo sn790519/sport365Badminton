@@ -6,6 +6,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class LoadingDialog extends Dialog {
 			tv_message.setVisibility(View.GONE);
 		else
 			tv_message.setText(message);
+//		mLoadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 		return mLoadingDialog;
 	}
 

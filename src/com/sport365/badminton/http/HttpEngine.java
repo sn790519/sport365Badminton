@@ -88,11 +88,9 @@ public class HttpEngine {
 
 	/**
 	 * 异步创建网络连接方法
-	 * 
-	 * @param requestCall
-	 *            the requestCall for okhttp
-	 * @throws com.tongcheng.android.base.BizException
-	 *             错误处理异常，用于判断请求成功以及自定义errorCode
+	 *
+	 * @param requestCall the requestCall for okhttp
+	 *                    错误处理异常，用于判断请求成功以及自定义errorCode
 	 */
 	public void getConnectionResponseAsync(Call requestCall, Callback callback) throws BizException {
 
@@ -113,9 +111,8 @@ public class HttpEngine {
 
 	/**
 	 * 获得请求对应的缓存文件名
-	 * 
-	 * @param requestServerName
-	 *            请求具体接口名称
+	 *
+	 * @param requestServerName 请求具体接口名称
 	 * @param m
 	 * @param <T1>
 	 * @return
@@ -127,13 +124,10 @@ public class HttpEngine {
 
 	/**
 	 * create request
-	 * 
-	 * @param url
-	 *            传入完整的url链接
-	 * @param jsonData
-	 *            请求数据类型，json格式
-	 * @param headers
-	 *            请求的headers，可定制
+	 *
+	 * @param url      传入完整的url链接
+	 * @param jsonData 请求数据类型，json格式
+	 * @param headers  请求的headers，可定制
 	 * @return
 	 */
 	public Request createRequest(String url, String jsonData, HashMap<String, String> headers) {
@@ -174,7 +168,7 @@ public class HttpEngine {
 
 	/**
 	 * create request related tag
-	 * 
+	 *
 	 * @return
 	 */
 	private String createRequestTag() {
