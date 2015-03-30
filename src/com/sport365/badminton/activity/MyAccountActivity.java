@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
+import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.utils.SystemConfig;
 
 
@@ -46,9 +47,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             tv_user_name.setText(SystemConfig.loginResBody.userName);
             tv_user_phone.setText(SystemConfig.loginResBody.mobile);
             tv_user_password.setText("*********");
-            tv_user_account_money.setText("￥"+SystemConfig.loginResBody.remainderMoney);
-            tv_user_account_total.setText("￥"+SystemConfig.loginResBody.rechargeMoney);
-            tv_user_post.setText("￥"+SystemConfig.loginResBody.consumeMoney);
+            tv_user_account_money.setText("￥" + SystemConfig.loginResBody.remainderMoney);
+            tv_user_account_total.setText("￥" + SystemConfig.loginResBody.rechargeMoney);
+            tv_user_post.setText("￥" + SystemConfig.loginResBody.consumeMoney);
         }
     }
 
@@ -77,20 +78,31 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         super.onClick(v);
         switch (v.getId()) {
             case R.id.rl_account:
-                startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+//                startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+                startWebviewActivity();
                 finish();
                 break;
             case R.id.rl_user_name:
-				startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+//				startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
                 finish();
+                startWebviewActivity();
                 break;
             case R.id.rl_phone:
-                startActivity(new Intent(MyAccountActivity.this,ModifyPhoneActivity.class));
+                startActivity(new Intent(MyAccountActivity.this, ModifyPhoneActivity.class));
                 break;
             case R.id.rl_password:
-				startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
+//				startActivity(new Intent(MyAccountActivity.this,ModifyUserInfoActivity.class));
                 finish();
+                startWebviewActivity();
                 break;
         }
+    }
+
+
+    private void startWebviewActivity() {
+        Intent intent = new Intent(MyAccountActivity.this, ModifyUserInfoWebviewActivity.class);
+        intent.putExtra(BundleKeys.WEBVIEEW_LOADURL, "http://yundong.shenghuo365.net/yd365/modify-count.html" + SystemConfig.url_end + SystemConfig.memberId);
+        intent.putExtra(BundleKeys.WEBVIEEW_TITLE, "修改个人信息");
+        startActivity(intent);
     }
 }

@@ -46,7 +46,7 @@ public class LoadingDialog extends Dialog {
 			tv_message.setVisibility(View.GONE);
 		else
 			tv_message.setText(message);
-//		mLoadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		mLoadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 		return mLoadingDialog;
 	}
 

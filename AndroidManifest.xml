@@ -121,6 +121,12 @@
 		</activity>
 		<activity android:name=".activity.MyFixationActivity">
 		</activity>
+		<activity android:name=".activity.LotteryActivity">
+		</activity>
+		<activity android:name=".activity.BallFriendActivity">
+		</activity>
+		<activity android:name=".activity.ModifyUserInfoWebviewActivity">
+		</activity>
 		<activity android:name=".activity.MyGroupActivity">
 		</activity>
 		<activity android:name=".activity.BNavigatorActivity"

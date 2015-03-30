@@ -1,71 +1,99 @@
 package com.sport365.badminton.activity.fragment;
 
+import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.webkit.*;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
+import com.sport365.badminton.activity.MainActivity;
+import com.sport365.badminton.utils.SystemConfig;
+import com.sport365.badminton.utils.ULog;
 
+/**
+ * 惠球友
+ */
 public class HomeBallFriendFragment extends BaseFragment {
-	Bundle outState;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		if (outState != null) {
-			System.out.println("HomeBallFriendFragment+++++++++++++++++++++onCreateView+" + outState.getString("key") + "+++++++++++++++++++++++");
-		} else {
-			System.out.println("HomeBallFriendFragment----onCreate()");
-		}
-	}
+    protected WebView my_webview;
+    protected Handler myHandler = new Handler();
 
-	/**
-	 * onPause保存的数据在onResume()显示调用
-	 */
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (outState != null) {
-			System.out.println("HomeBallFriendFragment+++++++++++++++++++++onResume()+" + outState.getString("key") + "+++++++++++++++++++++++");
-		} else {
-			System.out.println("HomeBallFriendFragment---onResume()");
-		}
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-	/**
-	 * 用Arraylist的方法进行保存，那么只会走一次oncreateView()方法
-	 */
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			// 处理onSaveInstanceState异常保存的数据
-			System.out.println("HomeBallFriendFragment+++++++++++++++++++++onCreateView+" + savedInstanceState.getBoolean("hasTabs") + "+++++++++++++++++++++++");
-		}
+        View view = inflater.inflate(R.layout.home_ballfriend_layout, container, false);
+        my_webview = (WebView) view.findViewById(R.id.my_webview);
+        WebSettings webSettings = my_webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);// 设置响应JS
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        my_webview.setVerticalScrollBarEnabled(false);
+        my_webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        my_webview.setWebViewClient(new WebViewClient() {// 设置WebView客户端对象
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
 
-		return inflater.inflate(R.layout.home_ballfriend_layout, container, false);
-	}
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
 
-	/**
-	 * 切换fragment保存数据,并在onResume()方法中调用
-	 */
-	@Override
-	public void onPause() {
-		super.onPause();
-		System.out.println("HomeBallFriendFragment+++++++++++++++++++++pause ball friend++++++++++++++++++++++");
-		outState = new Bundle();
-		outState.putString("key", "key");
-	}
+            }
 
-	/**
-	 * 异常情况保存数据
-	 */
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean("hasTabs", false);
-		System.out.println("HomeBallFriendFragment+++++++++++++++++++++onSaveInstanceState ball friend++++++++++++++++++++++");
-	}
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+            }
+        });
+
+        my_webview.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                if (progress == 100) {
+                    if (null != mLoadingDialog) {
+                        mLoadingDialog.dismiss();
+                    }
+                } else {
+                    if (null != mLoadingDialog && !mLoadingDialog.isShowing()) {
+                        mLoadingDialog.show();
+                    }
+                }
+            }
+
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
+            }
+        });
+
+        my_webview.addJavascriptInterface(new Object() {
+
+            @JavascriptInterface
+            public void closeActivity() {
+                myHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((MainActivity) getActivity()).rb_menu_mian.setChecked(true);
+                    }
+                });
+            }
+        }, "javaMethod");
+
+        my_webview.loadUrl("http://yundong.shenghuo365.net/yd365/cheap-index.html" + "?app=1");
+        ULog.error("url=----http://yundong.shenghuo365.net/yd365/cheap-index.html" + "?app=1");
+        return view;
+    }
+
+
 }
