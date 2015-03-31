@@ -44,7 +44,7 @@ public class CalendarTimesActivity extends BaseActivity {
 		calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
 
 		Calendar today = Calendar.getInstance();
-		ArrayList<Date> dates = new ArrayList<Date>();
+		final ArrayList<Date> dates = new ArrayList<Date>();
 		for (int i = 0; i < 5; i++) {
 			today.add(Calendar.DAY_OF_MONTH, 3);
 			dates.add(today.getTime());
@@ -59,18 +59,15 @@ public class CalendarTimesActivity extends BaseActivity {
 
 			@Override
 			public boolean onCellClicked(Date date) {
-				String toast = "Selected: " + calendar.getSelectedDate().getTime();
-				Toast.makeText(CalendarTimesActivity.this, toast, LENGTH_SHORT).show();
+				for(int i = 0 ; i<dates.size(); i++){
+					if(date.getTime() == dates.get(i).getTime()){
+						String toast = "Selected: " + calendar.getSelectedDate().getTime();
+						Toast.makeText(CalendarTimesActivity.this, toast, LENGTH_SHORT).show();
+					}
+				}
 				return true;
 			}
 		});
-	}
-
-	/**
-	 * 价格日历中点击的事件的重写
-	 */
-	private void initListen() {
-
 	}
 
 
@@ -79,7 +76,7 @@ public class CalendarTimesActivity extends BaseActivity {
 	 */
 	private void init_Get_VenueFieldPrice_List() {
 		GetVenueFieldPriceReqBody reqBody = new GetVenueFieldPriceReqBody();
-		reqBody.OrderDate = "2015-03-01";
+		reqBody.OrderDate = "2015-03-29";
 		reqBody.VenueId = "2";
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_VENUE_FIELDPRICE), reqBody), null, new IRequestProxyCallback() {
 

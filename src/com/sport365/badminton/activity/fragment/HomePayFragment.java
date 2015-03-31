@@ -1,6 +1,8 @@
 package com.sport365.badminton.activity.fragment;
 
-import android.content.Intent;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,22 +10,24 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
-import com.sport365.badminton.activity.LoginActivity;
 import com.sport365.badminton.activity.MainActivity;
-import com.sport365.badminton.activity.MyWebViewActivity;
 import com.sport365.badminton.alipay.PayResult;
 import com.sport365.badminton.alipay.SignUtils;
 import com.sport365.badminton.entity.reqbody.AliClientPayReqBody;
-import com.sport365.badminton.entity.reqbody.AliWapPayReqBody;
 import com.sport365.badminton.entity.reqbody.WeixinPayReqBody;
 import com.sport365.badminton.entity.resbody.AliClientPayResBody;
-import com.sport365.badminton.entity.resbody.AliWapPayResBody;
 import com.sport365.badminton.entity.resbody.WeixinPayResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
@@ -32,17 +36,11 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
-import com.sport365.badminton.utils.BundleKeys;
-import com.sport365.badminton.utils.Utilities;
-import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.NoScrollGridView;
 import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * 充值页面
@@ -372,7 +370,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 				String nonceStr = resBody.nonceStr;
 				String sign = resBody.sign;
 				String timeStamp = resBody.timeStamp;
-				String packageValue = resBody.packageValue;
+				String packageValue = resBody.packageStr;
 
 				api = WXAPIFactory.createWXAPI((MainActivity) getActivity(), appId);
 				boolean falg = api.registerApp(appId); // 将应用注册到微信

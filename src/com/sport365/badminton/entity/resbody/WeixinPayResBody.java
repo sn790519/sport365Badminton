@@ -33,6 +33,7 @@ public class WeixinPayResBody implements Serializable {
 	public String nonceStr;
 	public String timeStamp;
 	public String packageValue;
+	public String packageStr;
 	public String sign;
 	public String signType;
 	public String accessToken;
