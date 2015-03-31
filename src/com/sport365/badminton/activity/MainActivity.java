@@ -18,7 +18,6 @@ import com.baidu.navisdk.BaiduNaviManager;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.BaseFragment;
 import com.sport365.badminton.R;
-import com.sport365.badminton.activity.fragment.HomeBallFriendFragment;
 import com.sport365.badminton.activity.fragment.HomeMyFragment;
 import com.sport365.badminton.activity.fragment.HomePageFragment;
 import com.sport365.badminton.activity.fragment.HomePayFragment;
