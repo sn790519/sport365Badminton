@@ -358,8 +358,8 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 		WeixinPayReqBody reqBody = new WeixinPayReqBody();
 		reqBody.bookMobile = SystemConfig.loginResBody.mobile;
 		reqBody.memberid = SystemConfig.loginResBody.memberId;
-		reqBody.totalFee = String.valueOf(prices[choosePosition]);
-		;
+//		reqBody.totalFee = String.valueOf(prices[choosePosition]);
+		reqBody.totalFee ="0.01";
 		sendRequestWithDialog(new ServiceRequest(getActivity(), new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
@@ -375,7 +375,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 				String packageValue = resBody.packageValue;
 
 				api = WXAPIFactory.createWXAPI((MainActivity) getActivity(), appId);
-				api.registerApp(appId); // 将应用注册到微信
+				boolean falg = api.registerApp(appId); // 将应用注册到微信
 
 				PayReq req = new PayReq();
 				req.appId = appId;
@@ -387,7 +387,7 @@ public class HomePayFragment extends BaseFragment implements RadioGroup.OnChecke
 				req.sign = sign;
 
 				// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-				api.sendReq(req);
+				boolean falg2 = api.sendReq(req);
 			}
 
 			@Override
