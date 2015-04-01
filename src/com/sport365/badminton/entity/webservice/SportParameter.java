@@ -90,7 +90,7 @@ public enum SportParameter {
 	/**
 	 * 价格日历
 	 */
-	GET_VENUE_FIELDPRICE("GetVenueFieldPrice", "VenueHandler.ashx", CacheOptions.NO_CACHE),
+	GET_ACTIVE_CALENDARLIST("getactivecalendarlist", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
 
 	/**
 	 * 1.获取365首页接口

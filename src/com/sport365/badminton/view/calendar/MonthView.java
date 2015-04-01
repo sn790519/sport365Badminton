@@ -80,7 +80,7 @@ public class MonthView extends LinearLayout {
 
 					String cellDate = Integer.toString(cell.getValue());
 					if (!cellView.getText().equals(cellDate)) {
-						cellView.setText(cellDate+"\n￥60");
+						cellView.setText(cellDate);
 					}
 					cellView.setEnabled(cell.isCurrentMonth());
 					cellView.setClickable(!displayOnly);
