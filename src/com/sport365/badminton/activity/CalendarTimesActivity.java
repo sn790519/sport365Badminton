@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -57,7 +58,13 @@ public class CalendarTimesActivity extends BaseActivity {
 			public boolean onCellClicked(Date date) {
 				for (int i = 0; i < activeDates.size(); i++) {
 					if (date.getTime() == activeDates.get(i).getTime()) {
-						Toast.makeText(CalendarTimesActivity.this, (new SimpleDateFormat("yyyy-MM-dd")).format(activeDates.get(i)), LENGTH_SHORT).show();
+						String dates = new SimpleDateFormat("yyyy-MM-dd").format(activeDates.get(i));
+						Intent intent = new Intent(CalendarTimesActivity.this,ActivityListActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("date", dates);
+						intent.putExtras(bundle);
+						startActivity(intent);
+						Toast.makeText(CalendarTimesActivity.this,dates, LENGTH_SHORT).show();
 					}
 				}
 				return true;

@@ -48,10 +48,14 @@ public class ActivityListActivity extends BaseActivity {
 	private AdvertisementView advertisementControlLayout;
 
 	public ArrayList<ActiveEntityObj> alctiveList = new ArrayList<ActiveEntityObj>();// 列表
+	
+	private String date;// 价格日历
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// 价格日历来的日期
+		date = getIntent().getExtras().getString("date");
 		initView();
 		init_GET_ALL_ACTIVE_LIST();
 	}
