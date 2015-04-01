@@ -22,7 +22,8 @@ public class SystemConfig {
      */
     public static final String WEIXIN_APP_ID = "wx035e7d3896d0787c";
     public static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
-
+    /** 商家向财付通申请的商家id */
+    public static final String PARTNER_ID = "1229396101";
     /**
      * 是否显示log
      */
