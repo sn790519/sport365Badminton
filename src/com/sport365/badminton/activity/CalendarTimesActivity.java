@@ -91,9 +91,8 @@ public class CalendarTimesActivity extends BaseActivity {
 								try {
 									String dates = new SimpleDateFormat("yyyy-MM-dd").format(activeDates.get(i).date);
 									Intent intent = new Intent(CalendarTimesActivity.this, ActivityListActivity.class);
-									Bundle bundle = new Bundle();
-									bundle.putString("date", dates);
-									intent.putExtras(bundle);
+									intent.putExtra("date", dates);
+									intent.putExtra(ActivityListActivity.ACTIVITYFROM,ActivityListActivity.CADACTIVITYLIST);
 									startActivity(intent);
 									Toast.makeText(CalendarTimesActivity.this, dates, LENGTH_SHORT).show();
 								} catch (Exception e) {

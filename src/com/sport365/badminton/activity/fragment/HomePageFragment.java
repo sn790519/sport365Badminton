@@ -226,10 +226,12 @@ public class HomePageFragment extends BaseFragment {
                             } else if ("2".equals(mItemKeywordObj.typeId)) {
                                 intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
                                 intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
+                                intent.putExtra(ActivityCenterListAtivity.ACTIVITYCENTERFROM, ActivityCenterListAtivity.ACTIVITYCENTERLIST);
                                 startActivity(intent);
                             } else if ("3".equals(mItemKeywordObj.typeId)) {
                                 intent = new Intent(getActivity(), ActivityListActivity.class);
                                 intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
+                                intent.putExtra(ActivityListActivity.ACTIVITYFROM,ActivityListActivity.ACTIVITYLIST);
                                 startActivity(intent);
                             } else if ("4".equals(mItemKeywordObj.typeId)) {
                                 intent = new Intent(getActivity(), PlayListActivity.class);
@@ -329,8 +331,13 @@ public class HomePageFragment extends BaseFragment {
                         if (!TextUtils.isEmpty(mItemSportObj.urlType) && "0".equals(mItemSportObj.urlType)) {
                             if ("1".equals(mItemSportObj.typeId)) {
                                 //第一个  我身边
-                                intent = new Intent(getActivity(), ClubListActivity.class);
+                            	if(BDLocationHelper.mCurrentLocation.getLatitude() == 0 || BDLocationHelper.mCurrentLocation.getLongitude() == 0){
+                            		Utilities.showToast("请打开定位", getActivity());
+                            		return;
+                            	}
+                                intent = new Intent(getActivity(), ActivityListActivity.class);
                                 intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.buttomTips);
+                                intent.putExtra(ActivityListActivity.ACTIVITYFROM,ActivityListActivity.NEARACTIVITYLIST);
                                 startActivity(intent);
                             } else if ("2".equals(mItemSportObj.typeId)) {
                                 //第二个，运动日历
@@ -349,9 +356,14 @@ public class HomePageFragment extends BaseFragment {
                                 }
 
                             } else if ("4".equals(mItemSportObj.typeId)) {
+                            	if(BDLocationHelper.mCurrentLocation.getLatitude() == 0 || BDLocationHelper.mCurrentLocation.getLongitude() == 0){
+                            		Utilities.showToast("请打开定位", getActivity());
+                            		return;
+                            	}
                                 //第四个
                                 intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
                                 intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.buttomTips);
+                                intent.putExtra(ActivityCenterListAtivity.ACTIVITYCENTERFROM, ActivityCenterListAtivity.ACTIVITYCENTERNEATLIST);
                                 startActivity(intent);
                             }
                         }

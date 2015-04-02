@@ -4,17 +4,12 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
@@ -22,6 +17,7 @@ import com.sport365.badminton.adapter.ActivityCenterAdapter;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.entity.obj.VenueEntityObj;
 import com.sport365.badminton.entity.reqbody.GetVenueListReqBody;
+import com.sport365.badminton.entity.reqbody.GetnearvenuelistReqBody;
 import com.sport365.badminton.entity.resbody.GetVenueListResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
@@ -30,22 +26,29 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
+import com.sport365.badminton.map.BDLocationHelper;
 import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 运动会所列表页面
- *
+ * 
  * @author Frank
  */
 public class ActivityCenterListAtivity extends BaseActivity {
+	// 来源的标记
+	public static final String ACTIVITYCENTERFROM = "activitycenterfrom";
+	// 正常的列表
+	public static final int ACTIVITYCENTERLIST = 1;
+	// 我身边的来
+	public static final int ACTIVITYCENTERNEATLIST = 2;
 
-	private EditText et_search_text;                                                // 搜索输入框
-	private LinearLayout ll_ad_layout;                                                // 广告
+	private EditText et_search_text; // 搜索输入框
+	private LinearLayout ll_ad_layout; // 广告
 
 	private ListView lv_activity_center;
 	private ActivityCenterAdapter activityCenterAdapter;
-	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>();    // 广告
+	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	public ArrayList<VenueEntityObj> venueEntity = new ArrayList<VenueEntityObj>();// 列表数据
 	private AdvertisementView advertisementControlLayout;
 
@@ -54,7 +57,15 @@ public class ActivityCenterListAtivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_center_layout);
 		initView();
-		init_Get_Venue_List();
+		switch (getIntent().getIntExtra(ACTIVITYCENTERFROM, 1)) {
+		case ACTIVITYCENTERLIST:
+			init_Get_Venue_List();
+			break;
+		case ACTIVITYCENTERNEATLIST:
+			nearActivitycenterList();
+			break;
+
+		}
 	}
 
 	private void initView() {
@@ -65,7 +76,7 @@ public class ActivityCenterListAtivity extends BaseActivity {
 
 	/**
 	 * 初始化头部layout
-	 *
+	 * 
 	 * @return
 	 */
 	private View initHeadView() {
@@ -91,30 +102,58 @@ public class ActivityCenterListAtivity extends BaseActivity {
 			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 				ResponseContent<GetVenueListResBody> de = jsonResponse.getResponseContent(GetVenueListResBody.class);
 				GetVenueListResBody resBody = de.getBody();
-				if (resBody != null) {
-					advertismentlist = resBody.venueAdvertismentList;
-					venueEntity = resBody.venueEntity;
-				}
-				initADdata();
-				activityCenterAdapter = new ActivityCenterAdapter(mContext, venueEntity);
-				lv_activity_center.setAdapter(activityCenterAdapter);
-				lv_activity_center.setOnItemClickListener(new OnItemClickListener() {
-
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						Intent intent = new Intent(ActivityCenterListAtivity.this, ActivityCenterDetailActivity.class);
-						Bundle bundle = new Bundle();
-						bundle.putSerializable("VenueEntityObj", venueEntity.get(position-lv_activity_center.getHeaderViewsCount()));
-						intent.putExtras(bundle);
-						startActivity(intent);
-					}
-				});
+				onSuccessHandle(resBody);
 			}
 
 			@Override
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				// TODO Auto-generated method stub
 				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	// 我身边运动会所的列表
+	private void nearActivitycenterList() {
+		GetnearvenuelistReqBody reqBody = new GetnearvenuelistReqBody();
+		reqBody.page = "1";
+		reqBody.pageSize = "20";
+		reqBody.latitude = BDLocationHelper.mCurrentLocation.getLatitude() + "";
+		reqBody.longitude = BDLocationHelper.mCurrentLocation.getLongitude() + "";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_NEAR_VENUELIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetVenueListResBody> de = jsonResponse.getResponseContent(GetVenueListResBody.class);
+				GetVenueListResBody resBody = de.getBody();
+				onSuccessHandle(resBody);
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	private void onSuccessHandle(GetVenueListResBody resBody) {
+		if (resBody != null) {
+			advertismentlist = resBody.venueAdvertismentList;
+			venueEntity = resBody.venueEntity;
+		}
+		initADdata();
+		activityCenterAdapter = new ActivityCenterAdapter(mContext, venueEntity);
+		lv_activity_center.setAdapter(activityCenterAdapter);
+		lv_activity_center.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(ActivityCenterListAtivity.this, ActivityCenterDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("VenueEntityObj", venueEntity.get(position - lv_activity_center.getHeaderViewsCount()));
+				intent.putExtras(bundle);
+				startActivity(intent);
 			}
 		});
 	}
