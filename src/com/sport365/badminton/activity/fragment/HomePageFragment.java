@@ -220,11 +220,11 @@ public class HomePageFragment extends BaseFragment {
                     if (mItemKeywordObj != null && !TextUtils.isEmpty(mItemKeywordObj.typeId)) {
                         if (!TextUtils.isEmpty(mItemKeywordObj.urlType) && "0".equals(mItemKeywordObj.urlType)) {
                             if ("1".equals(mItemKeywordObj.typeId)) {
-                                intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
+                                intent = new Intent(getActivity(), ClubListActivity.class);
                                 intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
                                 startActivity(intent);
                             } else if ("2".equals(mItemKeywordObj.typeId)) {
-                                intent = new Intent(getActivity(), ClubListActivity.class);
+                                intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
                                 intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemKeywordObj.title);
                                 startActivity(intent);
                             } else if ("3".equals(mItemKeywordObj.typeId)) {
@@ -330,19 +330,19 @@ public class HomePageFragment extends BaseFragment {
                             if ("1".equals(mItemSportObj.typeId)) {
                                 //第一个  我身边
                                 intent = new Intent(getActivity(), ClubListActivity.class);
-                                intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.title);
+                                intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.buttomTips);
                                 startActivity(intent);
                             } else if ("2".equals(mItemSportObj.typeId)) {
                                 //第二个，运动日历
                                 intent = new Intent(getActivity(), CalendarTimesActivity.class);
-                                intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.title);
+                                intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.buttomTips);
                                 startActivity(intent);
                             } else if ("3".equals(mItemSportObj.typeId)) {
                                 //第三个，抽奖
                                 if (SystemConfig.isLogin()) {
                                     intent = new Intent(getActivity(), LotteryActivity.class);
                                     intent.putExtra(BundleKeys.WEBVIEEW_LOADURL, "http://yundong.shenghuo365.net/yd365/lottery.html" + SystemConfig.url_end + SystemConfig.memberId);
-                                    intent.putExtra(BundleKeys.WEBVIEEW_TITLE, "抽奖");
+                                    intent.putExtra(BundleKeys.WEBVIEEW_TITLE, mItemSportObj.buttomTips);
                                     startActivity(intent);
                                 } else {
                                     Utilities.showToast("请先登录", getActivity());
@@ -350,7 +350,9 @@ public class HomePageFragment extends BaseFragment {
 
                             } else if ("4".equals(mItemSportObj.typeId)) {
                                 //第四个
-
+                                intent = new Intent(getActivity(), ActivityCenterListAtivity.class);
+                                intent.putExtra(BundleKeys.ACTIONBAETITLE, mItemSportObj.buttomTips);
+                                startActivity(intent);
                             }
                         }
                     } else {

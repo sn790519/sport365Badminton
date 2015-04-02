@@ -46,7 +46,7 @@ public class HomePayFragment extends BaseFragment implements
 	private static final String PAY_WX = "pay_WX";
 
 	private NoScrollGridView gv_money_choose;
-	private int[] prices = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+	private int[] prices = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
 	// 支付选择
 	public RadioGroup rg_menu;
 	private RadioButton rb_zfb_pay;
@@ -72,48 +72,48 @@ public class HomePayFragment extends BaseFragment implements
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case SDK_PAY_FLAG: {
-				PayResult payResult = new PayResult((String) msg.obj);
+				case SDK_PAY_FLAG: {
+					PayResult payResult = new PayResult((String) msg.obj);
 
-				// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-				String resultInfo = payResult.getResult();
+					// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+					String resultInfo = payResult.getResult();
 
-				String resultStatus = payResult.getResultStatus();
+					String resultStatus = payResult.getResultStatus();
 
-				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-				if (TextUtils.equals(resultStatus, "9000")) {
-					Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT)
-							.show();
-				} else {
-					// 判断resultStatus 为非“9000”则代表可能支付失败
-					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-					if (TextUtils.equals(resultStatus, "8000")) {
-						Toast.makeText(getActivity(), "支付结果确认中",
-								Toast.LENGTH_SHORT).show();
-
+					// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+					if (TextUtils.equals(resultStatus, "9000")) {
+						Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT)
+								.show();
 					} else {
-						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-						Toast.makeText(getActivity(), "支付失败",
-								Toast.LENGTH_SHORT).show();
+						// 判断resultStatus 为非“9000”则代表可能支付失败
+						// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+						if (TextUtils.equals(resultStatus, "8000")) {
+							Toast.makeText(getActivity(), "支付结果确认中",
+									Toast.LENGTH_SHORT).show();
 
+						} else {
+							// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+							Toast.makeText(getActivity(), "支付失败",
+									Toast.LENGTH_SHORT).show();
+
+						}
 					}
+					break;
 				}
-				break;
-			}
-			case SDK_CHECK_FLAG: {
-				Toast.makeText(getActivity(), "检查结果为：" + msg.obj,
-						Toast.LENGTH_SHORT).show();
-				break;
-			}
-			default:
-				break;
+				case SDK_CHECK_FLAG: {
+					Toast.makeText(getActivity(), "检查结果为：" + msg.obj,
+							Toast.LENGTH_SHORT).show();
+					break;
+				}
+				default:
+					break;
 			}
 		}
 	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		View view = inflater
 				.inflate(R.layout.home_pay_layout, container, false);
 		gv_money_choose = (NoScrollGridView) view
@@ -133,7 +133,7 @@ public class HomePayFragment extends BaseFragment implements
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+									int position, long id) {
 				choosePosition = position;
 				payChooseAdapter.notifyDataSetChanged();
 			}
@@ -174,15 +174,15 @@ public class HomePayFragment extends BaseFragment implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_pay:
-			if (Choose_Pay.equals(PAY_ZFB)) {
-				// 支付宝支付
-				getAlipayClinet();
-			} else if (Choose_Pay.equals(PAY_WX)) {
-				// 微信支付
-				WXPay();
-			}
-			break;
+			case R.id.btn_pay:
+				if (Choose_Pay.equals(PAY_ZFB)) {
+					// 支付宝支付
+					getAlipayClinet();
+				} else if (Choose_Pay.equals(PAY_WX)) {
+					// 微信支付
+					WXPay();
+				}
+				break;
 		}
 	}
 
@@ -291,12 +291,12 @@ public class HomePayFragment extends BaseFragment implements
 	@Override
 	public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 		switch (checkedId) {
-		case R.id.rb_zfb_pay:
-			Choose_Pay = PAY_ZFB;
-			break;
-		case R.id.rb_wx_pay:
-			Choose_Pay = PAY_WX;
-			break;
+			case R.id.rb_zfb_pay:
+				Choose_Pay = PAY_ZFB;
+				break;
+			case R.id.rb_wx_pay:
+				Choose_Pay = PAY_WX;
+				break;
 		}
 	}
 
@@ -342,11 +342,15 @@ public class HomePayFragment extends BaseFragment implements
 	 */
 	private void getAlipayClinet() {
 		AliClientPayReqBody reqBody = new AliClientPayReqBody();
+		if (SystemConfig.loginResBody == null) {
+			Toast.makeText(getActivity(),"您还没有登录，请登录",Toast.LENGTH_LONG).show();
+			return;
+		}
 		reqBody.bookMobile = SystemConfig.loginResBody.mobile;
 		reqBody.memberid = SystemConfig.loginResBody.memberId;
 		reqBody.totalFee = String.valueOf(prices[choosePosition]);
 		sendRequestWithDialog(new ServiceRequest(getActivity(),
-				new SportWebService(SportParameter.ALICLIENT_PAY), reqBody),
+						new SportWebService(SportParameter.ALICLIENT_PAY), reqBody),
 				null, new IRequestProxyCallback() {
 
 					@Override
@@ -361,7 +365,7 @@ public class HomePayFragment extends BaseFragment implements
 
 					@Override
 					public void onError(ResponseContent.Header header,
-							HttpTaskHelper.RequestInfo requestInfo) {
+										HttpTaskHelper.RequestInfo requestInfo) {
 						// TODO Auto-generated method stub
 						super.onError(header, requestInfo);
 					}
@@ -378,7 +382,7 @@ public class HomePayFragment extends BaseFragment implements
 		// reqBody.totalFee = String.valueOf(prices[choosePosition]);
 		reqBody.totalFee = "1";
 		sendRequestWithDialog(new ServiceRequest(getActivity(),
-				new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null,
+						new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null,
 				new IRequestProxyCallback() {
 
 					@Override
@@ -410,7 +414,7 @@ public class HomePayFragment extends BaseFragment implements
 
 					@Override
 					public void onError(ResponseContent.Header header,
-							HttpTaskHelper.RequestInfo requestInfo) {
+										HttpTaskHelper.RequestInfo requestInfo) {
 						// TODO Auto-generated method stub
 						super.onError(header, requestInfo);
 					}

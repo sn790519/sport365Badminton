@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ll_ad_layout"
+                android:background="@drawable/bg_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
@@ -106,10 +107,14 @@
 
     <LinearLayout
             android:id="@+id/ll_bottom"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/flag"
             android:orientation="horizontal"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_log_window"
             android:padding="8.0dip"
             android:visibility="visible"
             android:weightSum="3">
@@ -135,7 +140,7 @@
         <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="@color/line">
+                android:background="@color/main_line">
         </View>
 
         <LinearLayout
@@ -159,7 +164,7 @@
         <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="@color/line">
+                android:background="@color/main_line">
         </View>
 
         <LinearLayout
