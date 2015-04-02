@@ -133,13 +133,14 @@ public class CalendarPickerView extends ListView {
 		weekdayNameFormat = new SimpleDateFormat(context.getString(R.string.day_name_format), locale);
 		fullDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
 
-		if (isInEditMode()) {
-			Calendar nextYear = Calendar.getInstance(locale);
-			nextYear.add(Calendar.YEAR, 1);
-
-			init(new Date(), nextYear.getTime()) //
-					.withSelectedDate(new Date());
-		}
+//		if (isInEditMode()) {
+//			Calendar nextYear = Calendar.getInstance(locale);
+//			nextYear.add(Calendar.YEAR, 1);
+//			CalendarItemObj calendarItemObj = new CalendarItemObj();
+//			calendarItemObj.date = new Date();
+//			init(new Date(), nextYear.getTime()) //
+//					.withSelectedDate(calendarItemObj);
+//		}
 	}
 
 	/**
@@ -267,15 +268,15 @@ public class CalendarPickerView extends ListView {
 		 * Set an initially-selected date.  The calendar will scroll to that date if it's not already
 		 * visible.
 		 */
-		public FluentInitializer withSelectedDate(Date selectedDates) {
-			return withSelectedDates(Arrays.asList(selectedDates));
-		}
+//		public FluentInitializer withSelectedDate(CalendarItemObj selectedDates) {
+//			return withSelectedDates(Arrays.asList(selectedDates.date));
+//		}
 
 		/**
 		 * Set multiple selected dates.  This will throw an {@link IllegalArgumentException} if you
 		 * pass in multiple dates and haven't already called {@link #inMode(SelectionMode)}.
 		 */
-		public FluentInitializer withSelectedDates(Collection<Date> selectedDates) {
+		public FluentInitializer withSelectedDates(ArrayList<CalendarItemObj> selectedDates) {
 			if (selectionMode == SelectionMode.SINGLE && selectedDates.size() > 1) {
 				throw new IllegalArgumentException("SINGLE mode can't be used with multiple selectedDates");
 			}
@@ -284,8 +285,8 @@ public class CalendarPickerView extends ListView {
 						"RANGE mode only allows two selectedDates.  You tried to pass " + selectedDates.size());
 			}
 			if (selectedDates != null) {
-				for (Date date : selectedDates) {
-					selectDate(date);
+				for (int i = 0; i < selectedDates.size(); i++) {
+					selectDate(selectedDates.get(i));
 				}
 			}
 			scrollToSelectedDates();
@@ -294,12 +295,12 @@ public class CalendarPickerView extends ListView {
 			return this;
 		}
 
-		public FluentInitializer withHighlightedDates(Collection<Date> dates) {
+		public FluentInitializer withHighlightedDates(Collection<CalendarItemObj> dates) {
 			highlightDates(dates);
 			return this;
 		}
 
-		public FluentInitializer withHighlightedDate(Date date) {
+		public FluentInitializer withHighlightedDate(CalendarItemObj date) {
 			return withHighlightedDates(Arrays.asList(date));
 		}
 
@@ -486,23 +487,24 @@ public class CalendarPickerView extends ListView {
 	private class CellClickedListener implements MonthView.Listener {
 		@Override
 		public void handleClick(MonthCellDescriptor cell) {
-			Date clickedDate = cell.getDate();
+			CalendarItemObj clickedDate = new CalendarItemObj();
+			clickedDate.date = cell.getDate();
 
-			if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate)) {
+			if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate.date)) {
 				return;
 			}
-			if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
+			if (!betweenDates(clickedDate.date, minCal, maxCal) || !isDateSelectable(clickedDate.date)) {
 				if (invalidDateListener != null) {
-					invalidDateListener.onInvalidDateSelected(clickedDate);
+					invalidDateListener.onInvalidDateSelected(clickedDate.date);
 				}
 			} else {
 				boolean wasSelected = doSelectDate(clickedDate, cell);
 
 				if (dateListener != null) {
 					if (wasSelected) {
-						dateListener.onDateSelected(clickedDate);
+						dateListener.onDateSelected(clickedDate.date);
 					} else {
-						dateListener.onDateUnselected(clickedDate);
+						dateListener.onDateUnselected(clickedDate.date);
 					}
 				}
 			}
@@ -520,7 +522,7 @@ public class CalendarPickerView extends ListView {
 	 *
 	 * @return - whether we were able to set the date
 	 */
-	public boolean selectDate(Date date) {
+	public boolean selectDate(CalendarItemObj date) {
 		return selectDate(date, false);
 	}
 
@@ -535,11 +537,11 @@ public class CalendarPickerView extends ListView {
 	 *
 	 * @return - whether we were able to set the date
 	 */
-	public boolean selectDate(Date date, boolean smoothScroll) {
-		validateDate(date);
+	public boolean selectDate(CalendarItemObj date, boolean smoothScroll) {
+		validateDate(date.date);
 
 		MonthCellWithMonthIndex monthCellWithMonthIndex = getMonthCellWithIndexByDate(date);
-		if (monthCellWithMonthIndex == null || !isDateSelectable(date)) {
+		if (monthCellWithMonthIndex == null || !isDateSelectable(date.date)) {
 			return false;
 		}
 		boolean wasSelected = doSelectDate(date, monthCellWithMonthIndex.cell);
@@ -564,15 +566,25 @@ public class CalendarPickerView extends ListView {
 		}
 	}
 
-	private boolean doSelectDate(Date date, MonthCellDescriptor cell) {
+	private void clearOldSelections() {
+		for (MonthCellDescriptor selectedCell : selectedCells) {
+			// De-select the currently-selected cell.
+			selectedCell.setSelected(false);
+		}
+		selectedCells.clear();
+		selectedCals.clear();
+	}
+
+	private boolean doSelectDate(CalendarItemObj date, MonthCellDescriptor cell) {
 		Calendar newlySelectedCal = Calendar.getInstance(locale);
-		newlySelectedCal.setTime(date);
+		newlySelectedCal.setTime(date.date);
 		// Sanitize input: clear out the hours/minutes/seconds/millis.
 		setMidnight(newlySelectedCal);
 
 		// Clear any remaining range state.
 		for (MonthCellDescriptor selectedCell : selectedCells) {
 			selectedCell.setRangeState(RangeState.NONE);
+//			selectedCell.setCountNum(date.countNum);
 		}
 
 		switch (selectionMode) {
@@ -600,6 +612,7 @@ public class CalendarPickerView extends ListView {
 		if (date != null) {
 			// Select a new cell.
 			if (selectedCells.size() == 0 || !selectedCells.get(0).equals(cell)) {
+				cell.setCountNum(date.countNum);
 				selectedCells.add(cell);
 				cell.setSelected(true);
 			}
@@ -633,16 +646,7 @@ public class CalendarPickerView extends ListView {
 		return date != null;
 	}
 
-	private void clearOldSelections() {
-		for (MonthCellDescriptor selectedCell : selectedCells) {
-			// De-select the currently-selected cell.
-			selectedCell.setSelected(false);
-		}
-		selectedCells.clear();
-		selectedCals.clear();
-	}
-
-	private Date applyMultiSelect(Date date, Calendar selectedCal) {
+	private CalendarItemObj applyMultiSelect(CalendarItemObj date, Calendar selectedCal) {
 		for (MonthCellDescriptor selectedCell : selectedCells) {
 			if (selectedCell.getDate().equals(date)) {
 				// De-select the currently-selected cell.
@@ -661,16 +665,16 @@ public class CalendarPickerView extends ListView {
 		return date;
 	}
 
-	public void highlightDates(Collection<Date> dates) {
-		for (Date date : dates) {
-			validateDate(date);
+	public void highlightDates(Collection<CalendarItemObj> dates) {
+		for (CalendarItemObj date : dates) {
+			validateDate(date.date);
 
 			MonthCellWithMonthIndex monthCellWithMonthIndex = getMonthCellWithIndexByDate(date);
 			if (monthCellWithMonthIndex != null) {
 				Calendar newlyHighlightedCal = Calendar.getInstance();
-				newlyHighlightedCal.setTime(date);
+				newlyHighlightedCal.setTime(date.date);
 				MonthCellDescriptor cell = monthCellWithMonthIndex.cell;
-
+				cell.setCountNum(date.countNum);
 				highlightedCells.add(cell);
 				highlightedCals.add(newlyHighlightedCal);
 				cell.setHighlighted(true);
@@ -706,16 +710,17 @@ public class CalendarPickerView extends ListView {
 	/**
 	 * Return cell and month-index (for scrolling) for a given Date.
 	 */
-	private MonthCellWithMonthIndex getMonthCellWithIndexByDate(Date date) {
+	private MonthCellWithMonthIndex getMonthCellWithIndexByDate(CalendarItemObj date) {
 		int index = 0;
 		Calendar searchCal = Calendar.getInstance(locale);
-		searchCal.setTime(date);
+		searchCal.setTime(date.date);
 		Calendar actCal = Calendar.getInstance(locale);
 
 		for (List<List<MonthCellDescriptor>> monthCells : cells) {
 			for (List<MonthCellDescriptor> weekCells : monthCells) {
 				for (MonthCellDescriptor actCell : weekCells) {
 					actCal.setTime(actCell.getDate());
+//					actCell.setCountNum(date.countNum);
 					if (sameDate(actCal, searchCal) && actCell.isSelectable()) {
 						return new MonthCellWithMonthIndex(actCell, index);
 					}
@@ -812,7 +817,7 @@ public class CalendarPickerView extends ListView {
 
 				weekCells.add(
 						new MonthCellDescriptor(date, isCurrentMonth, isSelectable, isSelected, isToday,
-								isHighlighted, value, rangeState));
+								isHighlighted, value, rangeState, ""));
 				cal.add(DATE, 1);
 			}
 		}
@@ -908,7 +913,7 @@ public class CalendarPickerView extends ListView {
 
 	/**
 	 * Interface to be notified when a new date is selected or unselected. This will only be called
-	 * when the user initiates the date selection.  If you call {@link #selectDate(Date)} this
+	 * when the user initiates the date selection.  If you call {@link #(Date)} this
 	 * listener will not be notified.
 	 *
 	 * @see #setOnDateSelectedListener(OnDateSelectedListener)
@@ -921,7 +926,7 @@ public class CalendarPickerView extends ListView {
 
 	/**
 	 * Interface to be notified when an invalid date is selected by the user. This will only be
-	 * called when the user initiates the date selection. If you call {@link #selectDate(Date)} this
+	 * called when the user initiates the date selection. If you call {@link #(Date)} this
 	 * listener will not be notified.
 	 *
 	 * @see #setOnInvalidDateSelectedListener(OnInvalidDateSelectedListener)

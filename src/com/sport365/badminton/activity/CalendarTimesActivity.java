@@ -24,6 +24,7 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.BundleKeys;
+import com.sport365.badminton.view.calendar.CalendarItemObj;
 import com.sport365.badminton.view.calendar.CalendarPickerView;
 import com.sport365.badminton.view.calendar.CalendarPickerView.FluentInitializer;
 import com.sport365.badminton.view.calendar.CalendarPickerView.SelectionMode;
@@ -32,7 +33,7 @@ public class CalendarTimesActivity extends BaseActivity {
 	private static final String TAG = "SampleTimesSquareActivity";
 	protected CalendarPickerView calendar;
 	private ArrayList<ActivityDateObj> activeCalendar = new ArrayList<ActivityDateObj>();
-	private ArrayList<Date> activeDates = new ArrayList<Date>();
+	private ArrayList<CalendarItemObj> activeDates = new ArrayList<CalendarItemObj>();
 
 	private Calendar nextYear;
 	private Calendar lastYear;
@@ -41,36 +42,12 @@ public class CalendarTimesActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sample_calendar_picker);
 		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
 		nextYear = Calendar.getInstance();
 		nextYear.add(Calendar.MONTH, 2);
-
 		lastYear = Calendar.getInstance();
 		lastYear.add(Calendar.MONTH, 0);
-
-		calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
-		fluedates = calendar.init(new Date(), nextYear.getTime()).inMode(SelectionMode.MULTIPLE);
 		init_Get_VenueFieldPrice_List();
-		calendar.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
-
-			@Override
-			public boolean onCellClicked(Date date) {
-				for (int i = 0; i < activeDates.size(); i++) {
-					if (date.getTime() == activeDates.get(i).getTime()) {
-						String dates = new SimpleDateFormat("yyyy-MM-dd").format(activeDates.get(i));
-						Intent intent = new Intent(CalendarTimesActivity.this,ActivityListActivity.class);
-						Bundle bundle = new Bundle();
-						bundle.putString("date", dates);
-						intent.putExtras(bundle);
-						startActivity(intent);
-						Toast.makeText(CalendarTimesActivity.this,dates, LENGTH_SHORT).show();
-					}
-				}
-				return true;
-			}
-		});
-		
 	}
 
 	/**
@@ -89,16 +66,43 @@ public class CalendarTimesActivity extends BaseActivity {
 				// 可点击的价格列表中的数据
 				for (int i = 0; i < activeCalendar.size(); i++) {
 					if ("1".equals(activeCalendar.get(i).isvalid)) {
+						CalendarItemObj calendarItemObj = new CalendarItemObj();
 						try {
-							activeDates.add(sdf.parse(activeCalendar.get(i).date));
+							calendarItemObj.date = sdf.parse(activeCalendar.get(i).date);
+							calendarItemObj.countNum = activeCalendar.get(i).amount;
+							activeDates.add(calendarItemObj);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
 					}
 				}
+				setContentView(R.layout.sample_calendar_picker);
+				calendar = (CalendarPickerView) findViewById(R.id.calendar_view);
+				fluedates = calendar.init(new Date(), nextYear.getTime()).inMode(SelectionMode.MULTIPLE);
 				// 初始化数据
 				fluedates //
 						.withSelectedDates(activeDates);
+				calendar.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
+
+					@Override
+					public boolean onCellClicked(Date date) {
+						for (int i = 0; i < activeDates.size(); i++) {
+							if (date.getTime() == activeDates.get(i).date.getTime()) {
+								try {
+									String dates = new SimpleDateFormat("yyyy-MM-dd").format(activeDates.get(i).date);
+									Intent intent = new Intent(CalendarTimesActivity.this, ActivityListActivity.class);
+									Bundle bundle = new Bundle();
+									bundle.putString("date", dates);
+									intent.putExtras(bundle);
+									startActivity(intent);
+									Toast.makeText(CalendarTimesActivity.this, dates, LENGTH_SHORT).show();
+								} catch (Exception e) {
+								}
+							}
+						}
+						return true;
+					}
+				});
 			}
 
 			@Override
