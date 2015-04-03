@@ -22,7 +22,6 @@ public class ActivityAdapter extends BaseAdapter {
 		this.mContext = mContext;
 	}
 
-
 	@Override
 	public int getCount() {
 		return alctiveList.size();
