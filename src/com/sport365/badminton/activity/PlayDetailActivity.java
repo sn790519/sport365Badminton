@@ -96,6 +96,7 @@ public class PlayDetailActivity extends BaseActivity {
 		playView.setDateView(matchEntityObj);
 		playView.setBottonVisible(View.GONE);
 		playView.setArrowVisible(View.GONE);
+		playView.setBackgroundWhiteColor();
 		playView.setPlayListen(new PlayView.PlayListen() {
 
 			@Override

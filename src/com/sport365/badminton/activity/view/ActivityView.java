@@ -183,6 +183,11 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		}
 	}
 
+	/**
+	 * 设置背景为白色
+	 *
+	 * @return
+	 */
 	public RelativeLayout setBackgroundWhiteColor() {
 		if (rl_layout != null) {
 			rl_layout.setBackgroundColor(getResources().getColor(R.color.white));

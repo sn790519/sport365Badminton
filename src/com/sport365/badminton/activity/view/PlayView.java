@@ -17,7 +17,7 @@ import com.sport365.badminton.http.base.ImageLoader;
  * 比赛的view
  * Created by kjh08490 on 2015/3/7.
  */
-public class PlayView extends RelativeLayout implements OnClickListener{
+public class PlayView extends RelativeLayout implements OnClickListener {
 	private TextView tv_title;
 	private TextView tv_play_activity_pic;        //周期活动
 	private ImageView imageView;        // 图片
@@ -29,18 +29,21 @@ public class PlayView extends RelativeLayout implements OnClickListener{
 	private TextView tv_place_big;    // 大区域
 	private TextView tv_distance;        // 小区域
 	private TextView tv_company_name;        // 主办方
+
+	private LinearLayout rl_layout;// 背景
 	/**
 	 * 设置监听
 	 */
 	private PlayListen mPlayListen;
-	
+
 
 	private LinearLayout ll_bottom;// 底部报名的按钮
+
 	public PlayView(Context context) {
 		super(context);
 		inflate(context, R.layout.play_item_layout, this);
 		tv_play_activity_pic = (TextView) findViewById(R.id.tv_play_activity_pic);
-		tv_title = (TextView)findViewById(R.id.tv_title);
+		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_paly_name = (TextView) findViewById(R.id.tv_paly_name);
 		tv_play_num = (TextView) findViewById(R.id.tv_play_num);
 		tv_play_price = (TextView) findViewById(R.id.tv_play_price);
@@ -53,6 +56,7 @@ public class PlayView extends RelativeLayout implements OnClickListener{
 		ll_bottom.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
+		rl_layout = (LinearLayout) findViewById(R.id.rl_layout);
 	}
 
 	public RelativeLayout setDateView(MatchEntityObj mMatchEntityObj) {
@@ -72,7 +76,7 @@ public class PlayView extends RelativeLayout implements OnClickListener{
 			//  时间
 			String beginDate = !TextUtils.isEmpty(mMatchEntityObj.beginDate) ? mMatchEntityObj.beginDate : "";
 			String endDate = !TextUtils.isEmpty(mMatchEntityObj.endDate) ? mMatchEntityObj.endDate : "";
-			tv_time_on.setText("时间："+beginDate + "--" + endDate);
+			tv_time_on.setText("时间：" + beginDate + "--" + endDate);
 
 			// 大区域
 			String matchAdress = !TextUtils.isEmpty(mMatchEntityObj.matchAdress) ? mMatchEntityObj.matchAdress : "";
@@ -80,11 +84,11 @@ public class PlayView extends RelativeLayout implements OnClickListener{
 
 			//奖金
 			String matchAwardFee = !TextUtils.isEmpty(mMatchEntityObj.matchAwardFee) ? mMatchEntityObj.matchAwardFee : "";
-			tv_place_big.setText("￥"+matchAwardFee);
+			tv_place_big.setText("￥" + matchAwardFee);
 
 			// 价格
 			String matchFee = !TextUtils.isEmpty(mMatchEntityObj.matchFee) ? mMatchEntityObj.matchFee : "";
-			tv_play_price.setText("￥"+matchFee);
+			tv_play_price.setText("￥" + matchFee);
 		}
 		return this;
 	}
@@ -99,33 +103,38 @@ public class PlayView extends RelativeLayout implements OnClickListener{
 		ll_bottom.setVisibility(FlagVisible);
 		return this;
 	}
+
 	/**
 	 * 方法将箭头隐藏
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
-	public RelativeLayout setArrowVisible(int FlagVisible){
+	public RelativeLayout setArrowVisible(int FlagVisible) {
 		iv_arrow.setVisibility(FlagVisible);
 		return this;
 	}
+
 	/**
 	 * 设置监听
+	 *
 	 * @param mPlayListen
 	 */
-	public void setPlayListen(PlayListen mPlayListen){
+	public void setPlayListen(PlayListen mPlayListen) {
 		this.mPlayListen = mPlayListen;
 	}
-	
+
 	/**
 	 * 设置比赛监听
-	 * @author Frank
 	 *
+	 * @author Frank
 	 */
-	public interface PlayListen{
+	public interface PlayListen {
 		/**
 		 * 去预定
 		 */
 		public void doBookName();
+
 		/**
 		 * 地图查看位置
 		 */
@@ -135,20 +144,31 @@ public class PlayView extends RelativeLayout implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_distance:
-			if(mPlayListen != null){mPlayListen.goMapShow();}
-			break;
-		case R.id.ll_bottom:
-			if(mPlayListen != null){mPlayListen.doBookName();}
-			break;
+			case R.id.tv_distance:
+				if (mPlayListen != null) {
+					mPlayListen.goMapShow();
+				}
+				break;
+			case R.id.ll_bottom:
+				if (mPlayListen != null) {
+					mPlayListen.doBookName();
+				}
+				break;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * 设置背景为白色
+	 *
+	 * @return
+	 */
+	public RelativeLayout setBackgroundWhiteColor() {
+		if (rl_layout != null) {
+			rl_layout.setBackgroundColor(getResources().getColor(R.color.white));
+		}
+		return this;
+	}
+
+
 }
 

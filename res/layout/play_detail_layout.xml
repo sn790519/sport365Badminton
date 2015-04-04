@@ -1,74 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="40dp">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
-        <!-- 广告 -->
         <LinearLayout
-                android:id="@+id/ll_ad_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-        </LinearLayout>
-        <LinearLayout
-                android:id="@+id/ll_title_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:visibility="visible">
-        </LinearLayout>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dip"
-            android:background="@color/line" />
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8.0dp"
-                android:visibility="visible">
-            <TextView
+            <!-- 广告 -->
+            <LinearLayout
+                    android:id="@+id/ll_ad_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="详细信息"
-                    android:textColor="@color/green"
-                    android:textSize="@dimen/list"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+            </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/ll_title_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+            </LinearLayout>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="@color/line"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:padding="8.0dp"
+                    android:visibility="visible">
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="比赛详情"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/list"
+                        />
+            </LinearLayout>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="@color/line"/>
+            <TextView
+                    android:id="@+id/tv_matchrule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:background="@color/white"
                     />
         </LinearLayout>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dip"
-            android:background="@color/line" />
-        <TextView
-                android:id="@+id/tv_matchrule"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                />
-        <LinearLayout
-                android:id="@+id/ll_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/base_blue"
-                android:orientation="horizontal"
-                android:padding="8.0dip"
-                android:visibility="gone">
+    </ScrollView>
+    <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_blue_log_window"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:padding="8.0dip"
+            android:visibility="visible">
 
-            <TextView
-                    android:id="@+id/tv_club"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="我要报名"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/list"/>
-        </LinearLayout>
+        <TextView
+                android:id="@+id/tv_club"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="我要报名"
+                android:textColor="@color/white"
+                android:textSize="@dimen/list"/>
     </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>
