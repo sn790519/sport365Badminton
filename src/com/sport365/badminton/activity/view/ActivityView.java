@@ -194,4 +194,14 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		}
 		return this;
 	}
+	
+	/**
+	 * 设置item每一项margintop的值
+	 */
+	public RelativeLayout setMarginTop() {
+		RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) rl_layout.getLayoutParams();
+		ll.setMargins(0, 18, 0, 0);
+		rl_layout.setLayoutParams(ll);
+		return this;
+	}
 }

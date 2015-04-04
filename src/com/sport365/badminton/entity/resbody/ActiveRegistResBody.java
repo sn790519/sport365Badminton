@@ -9,5 +9,8 @@ import java.io.Serializable;
  * 
  */
 public class ActiveRegistResBody implements Serializable {
+	
+	public String code;// 2000 是失败
+	public String returnMsg;
 
 }

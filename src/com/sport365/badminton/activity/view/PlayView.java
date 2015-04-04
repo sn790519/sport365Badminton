@@ -14,28 +14,26 @@ import com.sport365.badminton.entity.obj.MatchEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 比赛的view
- * Created by kjh08490 on 2015/3/7.
+ * 比赛的view Created by kjh08490 on 2015/3/7.
  */
 public class PlayView extends RelativeLayout implements OnClickListener {
 	private TextView tv_title;
-	private TextView tv_play_activity_pic;        //周期活动
-	private ImageView imageView;        // 图片
-	private ImageView iv_arrow;        // 箭头
-	private TextView tv_paly_name;        // 活动名称
-	private TextView tv_play_num;        // 活动报名的人数
-	private TextView tv_play_price;    // 价格
-	private TextView tv_time_on;        // 时间
-	private TextView tv_place_big;    // 大区域
-	private TextView tv_distance;        // 小区域
-	private TextView tv_company_name;        // 主办方
+	private TextView tv_play_activity_pic; // 周期活动
+	private ImageView imageView; // 图片
+	private ImageView iv_arrow; // 箭头
+	private TextView tv_paly_name; // 活动名称
+	private TextView tv_play_num; // 活动报名的人数
+	private TextView tv_play_price; // 价格
+	private TextView tv_time_on; // 时间
+	private TextView tv_place_big; // 大区域
+	private TextView tv_distance; // 小区域
+	private TextView tv_company_name; // 主办方
 
 	private LinearLayout rl_layout;// 背景
 	/**
 	 * 设置监听
 	 */
 	private PlayListen mPlayListen;
-
 
 	private LinearLayout ll_bottom;// 底部报名的按钮
 
@@ -73,7 +71,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 			// 图片
 			String matchLogo = !TextUtils.isEmpty(mMatchEntityObj.matchLogo) ? mMatchEntityObj.matchLogo : "";
 			ImageLoader.getInstance().displayImage(matchLogo, imageView);
-			//  时间
+			// 时间
 			String beginDate = !TextUtils.isEmpty(mMatchEntityObj.beginDate) ? mMatchEntityObj.beginDate : "";
 			String endDate = !TextUtils.isEmpty(mMatchEntityObj.endDate) ? mMatchEntityObj.endDate : "";
 			tv_time_on.setText("时间：" + beginDate + "--" + endDate);
@@ -82,7 +80,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 			String matchAdress = !TextUtils.isEmpty(mMatchEntityObj.matchAdress) ? mMatchEntityObj.matchAdress : "";
 			tv_distance.setText(matchAdress);
 
-			//奖金
+			// 奖金
 			String matchAwardFee = !TextUtils.isEmpty(mMatchEntityObj.matchAwardFee) ? mMatchEntityObj.matchAwardFee : "";
 			tv_place_big.setText("￥" + matchAwardFee);
 
@@ -95,7 +93,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 隐藏item的底部框
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -106,7 +104,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 方法将箭头隐藏
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -117,7 +115,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置监听
-	 *
+	 * 
 	 * @param mPlayListen
 	 */
 	public void setPlayListen(PlayListen mPlayListen) {
@@ -126,7 +124,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置比赛监听
-	 *
+	 * 
 	 * @author Frank
 	 */
 	public interface PlayListen {
@@ -144,22 +142,22 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tv_distance:
-				if (mPlayListen != null) {
-					mPlayListen.goMapShow();
-				}
-				break;
-			case R.id.ll_bottom:
-				if (mPlayListen != null) {
-					mPlayListen.doBookName();
-				}
-				break;
+		case R.id.tv_distance:
+			if (mPlayListen != null) {
+				mPlayListen.goMapShow();
+			}
+			break;
+		case R.id.ll_bottom:
+			if (mPlayListen != null) {
+				mPlayListen.doBookName();
+			}
+			break;
 		}
 	}
 
 	/**
 	 * 设置背景为白色
-	 *
+	 * 
 	 * @return
 	 */
 	public RelativeLayout setBackgroundWhiteColor() {
@@ -169,6 +167,14 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 		return this;
 	}
 
+	/**
+	 * 设置item每一项margintop的值
+	 */
+	public RelativeLayout setMarginTop() {
+		RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) rl_layout.getLayoutParams();
+		ll.setMargins(0, 18, 0, 0);
+		rl_layout.setLayoutParams(ll);
+		return this;
+	}
 
 }
-

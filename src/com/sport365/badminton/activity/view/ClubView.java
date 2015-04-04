@@ -17,6 +17,9 @@ import com.sport365.badminton.http.base.ImageLoader;
  * 俱乐部的view Created by kjh08490 on 2015/3/7.
  */
 public class ClubView extends RelativeLayout implements OnClickListener {
+	
+	private RelativeLayout rl_layout;// 
+	
 	private TextView tv_venue; // 场馆
 	private TextView tv_price; // 价格
 	private ImageView imageView; // 图片
@@ -52,6 +55,7 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 		btn_rechange.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
+		rl_layout = (RelativeLayout)findViewById(R.id.rl_layout);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 	}
 
@@ -202,4 +206,15 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 		}
 	}
 
+	/**
+	 * 设置item每一项margintop的值
+	 */
+	public RelativeLayout setMarginTop() {
+		RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) rl_layout.getLayoutParams();
+		ll.setMargins(0, 18, 0, 0);
+		rl_layout.setLayoutParams(ll);
+		return this;
+	}
+	
+	
 }

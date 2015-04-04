@@ -17,6 +17,8 @@ import com.sport365.badminton.http.base.ImageLoader;
  * 运动会所的view Created by kjh08490 on 2015/3/7.
  */
 public class ActivityCenterView extends RelativeLayout implements OnClickListener {
+	private RelativeLayout rl_layout;//
+	
 	private LinearLayout ll_bottom;// 底部框
 	private TextView tv_venue; // 场馆
 	private ImageView imageView; // 图片
@@ -46,6 +48,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 		tv_game.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
+		rl_layout = (RelativeLayout) findViewById(R.id.rl_layout);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 	}
 
@@ -92,7 +95,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 隐藏item的底部框
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -103,7 +106,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 设置推荐置顶图片GONE
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -114,7 +117,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 设置ActivitycenterListen的底部的监听方法
-	 *
+	 * 
 	 * @param mActivityCenterListen
 	 */
 	public void setActivityCenterListen(ActivityCenterListen mActivityCenterListen) {
@@ -123,7 +126,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 设置底部按钮的监听事件
-	 *
+	 * 
 	 * @author Frank
 	 */
 	public interface ActivityCenterListen {
@@ -151,27 +154,37 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tv_club:
-				if (mActivityCenterListen != null) {
-					mActivityCenterListen.lookTeam();
-				}
-				break;
-			case R.id.tv_activity:
-				if (mActivityCenterListen != null) {
-					mActivityCenterListen.lookActivity();
-				}
-				break;
-			case R.id.tv_game:
-				if (mActivityCenterListen != null) {
-					mActivityCenterListen.lookMathce();
-				}
-				break;
-			case R.id.tv_distance:
-				if (mActivityCenterListen != null) {
-					mActivityCenterListen.goMapShow();
-				}
-				break;
+		case R.id.tv_club:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.lookTeam();
+			}
+			break;
+		case R.id.tv_activity:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.lookActivity();
+			}
+			break;
+		case R.id.tv_game:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.lookMathce();
+			}
+			break;
+		case R.id.tv_distance:
+			if (mActivityCenterListen != null) {
+				mActivityCenterListen.goMapShow();
+			}
+			break;
 		}
+	}
+
+	/**
+	 * 设置item每一项margintop的值
+	 */
+	public RelativeLayout setMarginTop() {
+		RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) rl_layout.getLayoutParams();
+		ll.setMargins(0, 18, 0, 0);
+		rl_layout.setLayoutParams(ll);
+		return this;
 	}
 
 }

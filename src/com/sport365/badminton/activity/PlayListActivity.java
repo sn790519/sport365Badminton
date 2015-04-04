@@ -176,7 +176,7 @@ public class PlayListActivity extends BaseActivity {
 
 				@Override
 				public void doBookName() {
-					activeRegist(matchTabEntity.get(position).activeId);
+					activeRegist(matchTabEntity.get(position).matchId);
 				}
 			});
 			return convertView;
@@ -234,6 +234,12 @@ public class PlayListActivity extends BaseActivity {
 					@Override
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
+						ActiveRegistResBody resbody = de.getBody();
+						if(resbody != null){
+							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
+						}else{
+							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
+						}
 					}
 
 					@Override

@@ -231,6 +231,12 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 					@Override
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
+						ActiveRegistResBody resbody = de.getBody();
+						if(resbody != null){
+							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
+						}else{
+							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
+						}
 					}
 
 					@Override

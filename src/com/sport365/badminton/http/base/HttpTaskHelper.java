@@ -594,7 +594,7 @@ public class HttpTaskHelper {
 	 * A container contains both request JSON and response JSON, It's used as a
 	 * return value for HTTP response.
 	 * 
-	 * @author zhangfei
+	 * @author 
 	 */
 	public class JsonResponse {
 		private String request;
