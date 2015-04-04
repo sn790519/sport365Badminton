@@ -414,7 +414,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		MapViewFragment newFragment = new MapViewFragment();
 		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
 		// 设置mapview的高度
-		ll.height = SystemConfig.dm.heightPixels / 2;
+		ll.height = SystemConfig.dm.heightPixels * 11 / 20;
 		ll_content.setLayoutParams(ll);
 		newFragment.setonRoutePlanSuccessListener(this);
 		getSupportFragmentManager().beginTransaction().add(R.id.ll_content, newFragment).commit();
