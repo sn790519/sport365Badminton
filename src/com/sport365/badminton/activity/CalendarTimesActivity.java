@@ -10,6 +10,7 @@ import java.util.Date;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.sport365.badminton.BaseActivity;
@@ -43,6 +44,7 @@ public class CalendarTimesActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
+		mActionbar_right.setVisibility(View.GONE);
 		nextYear = Calendar.getInstance();
 		nextYear.add(Calendar.MONTH, 2);
 		lastYear = Calendar.getInstance();

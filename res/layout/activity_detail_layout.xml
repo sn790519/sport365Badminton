@@ -25,43 +25,79 @@
                 android:orientation="horizontal"
                 android:visibility="visible">
         </LinearLayout>
+        <View android:layout_width="fill_parent"
+              android:layout_height="1dp"
+              android:background="@color/main_line"/>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:padding="8.0dip"
+                android:padding="4.0dip"
                 android:visibility="visible"
                 android:weightSum="2">
-
-            <TextView
-                    android:layout_width="0dp"
+            <LinearLayout
+                    android:id="@+id/ll_joinmember"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:drawablePadding="2.0dip"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="参与人员"
-                    android:textColor="@color/hint"
-                    android:textSize="@dimen/hint"/>
-
-            <TextView
-                    android:layout_width="0dp"
+                    android:visibility="visible"
+                    >
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_people_involved_in"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="2.0dip"
+                        android:layout_gravity="center_vertical"
+                        android:text="参与人员"
+                        android:textColor="@color/hint"
+                        android:textSize="@dimen/hint"/>
+            </LinearLayout>
+            <View android:layout_width="1dp"
+                  android:layout_height="fill_parent"
+                  android:background="@color/main_line"/>
+            <LinearLayout
+                    android:id="@+id/ll_contactmember"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:drawablePadding="2.0dip"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="联系管理员"
-                    android:textColor="@color/hint"
-                    android:textSize="@dimen/hint"/>
+                    android:visibility="visible"
+                    >
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_contact_administrator"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="2.0dip"
+                        android:layout_gravity="center_vertical"
+                        android:text="联系管理员"
+                        android:textColor="@color/hint"
+                        android:textSize="@dimen/hint"/>
+            </LinearLayout>
         </LinearLayout>
+        <View android:layout_width="fill_parent"
+              android:layout_height="1dp"
+              android:background="@color/main_line"/>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:padding="8.0dip"
+                android:padding="4.0dip"
                 android:visibility="visible"
                 android:weightSum="2">
+
 
             <TextView
                     android:id="@+id/tv_activity_rechange"
@@ -69,7 +105,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawablePadding="2.0dip"
+                    android:padding="8dp"
                     android:gravity="center_vertical|center_horizontal"
+                    android:background="@drawable/bg_green_btn"
                     android:text="活动充值"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/hint"/>
@@ -78,10 +116,12 @@
                     android:id="@+id/tv_sign_now"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1" android:padding="8dp"
                     android:drawablePadding="2.0dip"
+                    android:layout_marginLeft="20dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="立即报名"
+                    android:background="@drawable/bg_orange_btn"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/hint"/>
         </LinearLayout>

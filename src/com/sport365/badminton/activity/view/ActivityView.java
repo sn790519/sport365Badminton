@@ -17,6 +17,8 @@ import com.sport365.badminton.http.base.ImageLoader;
  * 活动的view Created by kjh08490 on 2015/3/7.
  */
 public class ActivityView extends RelativeLayout implements OnClickListener {
+	private RelativeLayout rl_layout;// 背景
+
 	private TextView tv_venue; // 场馆
 	private TextView tv_price; // 价格
 	private ImageView imageView; // 图片
@@ -56,6 +58,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		iv_activity_flag = (ImageView) findViewById(R.id.iv_activity_flag);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
+		rl_layout = (RelativeLayout) findViewById(R.id.rl_layout);
 	}
 
 	public RelativeLayout setDateView(final ActiveEntityObj mActiveEntityObj) {
@@ -178,5 +181,12 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 				}
 				break;
 		}
+	}
+
+	public RelativeLayout setBackgroundWhiteColor() {
+		if (rl_layout != null) {
+			rl_layout.setBackgroundColor(getResources().getColor(R.color.white));
+		}
+		return this;
 	}
 }
