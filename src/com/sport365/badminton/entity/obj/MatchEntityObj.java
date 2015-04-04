@@ -23,6 +23,7 @@ public class MatchEntityObj implements Serializable{
 	public String matchRealNum;
 	public String matchTopNum;
 	public String venueId;
+	public String activeId;
 	public String venueName;
 	public String matchAdress;
 	public String matchPresenter;
