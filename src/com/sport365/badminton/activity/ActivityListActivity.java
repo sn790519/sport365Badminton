@@ -2,22 +2,30 @@ package com.sport365.badminton.activity;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
-import com.sport365.badminton.adapter.ActivityAdapter;
+import com.sport365.badminton.activity.view.ActivityView;
+import com.sport365.badminton.activity.view.ActivityView.ActivityListen;
 import com.sport365.badminton.entity.obj.ActiveEntityObj;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
+import com.sport365.badminton.entity.reqbody.ActiveregistReqBody;
 import com.sport365.badminton.entity.reqbody.GetAllActiveListReqBody;
+import com.sport365.badminton.entity.reqbody.GetactivememberlistReqBody;
 import com.sport365.badminton.entity.reqbody.GetnearactivelistReqBody;
+import com.sport365.badminton.entity.resbody.ActiveRegistResBody;
 import com.sport365.badminton.entity.resbody.GetAllActiveListResBody;
+import com.sport365.badminton.entity.resbody.GetactivememberlistResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper;
@@ -27,6 +35,9 @@ import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.map.BDLocationHelper;
 import com.sport365.badminton.utils.BundleKeys;
+import com.sport365.badminton.utils.SystemConfig;
+import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
@@ -159,8 +170,8 @@ public class ActivityListActivity extends BaseActivity {
 		GetnearactivelistReqBody reqBody = new GetnearactivelistReqBody();
 		reqBody.page = "1";
 		reqBody.pageSize = "20";
-		reqBody.latitude = BDLocationHelper.mCurrentLocation.getLatitude()+"";
-		reqBody.longitude = BDLocationHelper.mCurrentLocation.getLongitude()+"";
+		reqBody.latitude = BDLocationHelper.mCurrentLocation.getLatitude() + "";
+		reqBody.longitude = BDLocationHelper.mCurrentLocation.getLongitude() + "";
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_NEAR_ACTIVELIST), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
@@ -212,6 +223,131 @@ public class ActivityListActivity extends BaseActivity {
 		advertisementControlLayout.setAdvertisementRate(8, 3);
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
+	}
+
+	class ActivityAdapter extends BaseAdapter {
+		public ArrayList<ActiveEntityObj> alctiveList = new ArrayList<ActiveEntityObj>();// 列表
+
+		private Context mContext;
+
+		public ActivityAdapter(Context mContext, ArrayList<ActiveEntityObj> alctiveList) {
+			this.alctiveList = alctiveList;
+			this.mContext = mContext;
+		}
+
+		@Override
+		public int getCount() {
+			return alctiveList.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			ActiveEntityObj mActiveEntityObj = alctiveList.get(position);
+			if (convertView == null) {
+				convertView = new ActivityView(mContext);
+			}
+			((ActivityView) convertView).setDateView(mActiveEntityObj);
+			((ActivityView) convertView).setActivityListen(new ActivityListen() {
+
+				@Override
+				public void lookBookNames() {
+					getActiveMemberList(alctiveList.get(position).activeId);
+				}
+
+				@Override
+				public void doBook() {
+					activeRegist(alctiveList.get(position).activeId);
+				}
+			});
+			return convertView;
+		}
+
+	}
+
+	// 活动中拉取报名列表
+	private void getActiveMemberList(String activeId) {
+		GetactivememberlistReqBody reqBody = new GetactivememberlistReqBody();
+		reqBody.activeId = activeId;
+		reqBody.typeId = "0";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ACTIVE_MEMBERLIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetactivememberlistResBody> de = jsonResponse.getResponseContent(GetactivememberlistResBody.class);
+				GetactivememberlistResBody resBody = de.getBody();
+				String members = "";
+				for (int i = 0; i < resBody.activeRegistList.size(); i++) {
+					members = members + resBody.activeRegistList.get(i).nickName + "\n";
+				}
+				if (resBody != null) {
+					Utilities.showDialogWithMemberName(mContext, members);
+				}
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	// 活动中报名
+	private void activeRegist(final String activeId) {
+		if (!SystemConfig.isLogin()) {
+			Utilities.showDialogWithMemberName(mContext, "你还没有登录，请登录。");
+			return;
+		}
+
+		new DialogFactory(mContext).showDialog2Btn("", "你将进行活动报名，请确认？", "取消", "确定", new DialogFactory.onBtnClickListener() {
+
+			@Override
+			public void btnLeftClickListener(View v) {
+			}
+
+			@Override
+			public void btnNeutralClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnRightClickListener(View v) {
+				ActiveregistReqBody reqBody = new ActiveregistReqBody();
+				reqBody.activeId = activeId;
+				reqBody.typeId = "0";
+				reqBody.memberId = SystemConfig.memberId;
+				sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.ACTIVE_REGIST), reqBody), null, new IRequestProxyCallback() {
+
+					@Override
+					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
+					}
+
+					@Override
+					public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+						// TODO Auto-generated method stub
+						super.onError(header, requestInfo);
+						Utilities.showDialogWithMemberName(mContext, header.getRspDesc());
+					}
+				});
+			}
+
+			@Override
+			public void btnCloseClickListener(View v) {
+
+			}
+		}, true);
+
 	}
 
 }

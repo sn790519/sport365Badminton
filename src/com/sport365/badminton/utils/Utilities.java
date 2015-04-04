@@ -28,7 +28,6 @@ public class Utilities {
 	public static TransitRouteResult transitRouteResult;
 	public static DrivingRouteResult drivingRouteResult;
 
-
 	public static String FILE_ROOT = "";
 	public static String JSON_FILE_ROOT = "";
 	public static String JSON_FOREVER_FILE_ROOT = "";
@@ -37,7 +36,6 @@ public class Utilities {
 	private static String json_forEverName = "fejson";
 	private static String scream_voice_file_name = "voice";
 	public static String fileName = "badminton";
-
 
 	public static void CheckFileRoot(Application app) {
 		/**
@@ -173,7 +171,6 @@ public class Utilities {
 		}
 	}
 
-
 	/**
 	 * 为了提升查询效率，采用map的方式，这个方法是根据传入的日期来比较，得到一个key， 具体的算法是年的差值*10000+月份*100
 	 * +日,这样就可以的到唯一的key
@@ -188,7 +185,7 @@ public class Utilities {
 
 	/**
 	 * 判断今天明天 和后天的逻辑
-	 *
+	 * 
 	 * @param perDate
 	 * @return
 	 */
@@ -244,8 +241,65 @@ public class Utilities {
 				public void btnCloseClickListener(View v) {
 
 				}
-			},true);
+			}, true);
 
 		}
+	}
+
+	/**
+	 * 文案＋确定按钮
+	 * @param mContext
+	 * @param content
+	 */
+	public static void showDialogWithMemberName(final Context mContext, String content) {
+		new DialogFactory(mContext).showDialog("", content, "确定", new DialogFactory.onBtnClickListener() {
+
+			@Override
+			public void btnLeftClickListener(View v) {
+			}
+
+			@Override
+			public void btnNeutralClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnRightClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnCloseClickListener(View v) {
+
+			}
+		}, true);
+	}
+	/**
+	 * 文案＋确定＋取消按钮
+	 * @param mContext
+	 * @param content
+	 */
+	public static void showDialogWithSureCancle(final Context mContext, String content) {
+		new DialogFactory(mContext).showDialog2Btn("", content, "确定", "取消", new DialogFactory.onBtnClickListener() {
+
+			@Override
+			public void btnLeftClickListener(View v) {
+			}
+
+			@Override
+			public void btnNeutralClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnRightClickListener(View v) {
+
+			}
+
+			@Override
+			public void btnCloseClickListener(View v) {
+
+			}
+		}, true);
 	}
 }

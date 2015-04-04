@@ -16,10 +16,11 @@ import com.sport365.badminton.http.base.ImageLoader;
 /**
  * 活动的view Created by kjh08490 on 2015/3/7.
  */
-public class ActivityView extends RelativeLayout implements OnClickListener{
+public class ActivityView extends RelativeLayout implements OnClickListener {
 	private TextView tv_venue; // 场馆
 	private TextView tv_price; // 价格
 	private ImageView imageView; // 图片
+	private ImageView iv_hui; // 是否有惠的标志
 	private ImageView iv_tag_top; // 置顶图片
 	private ImageView iv_activity_flag; // 进行中
 	private TextView tv_time; // 时间
@@ -27,6 +28,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener{
 	private TextView tv_distance; // 地址
 	private TextView tv_sign_alredy; // 俱乐部
 	private TextView tv_activity_sign; // 活动
+	private TextView tv_hui_tips; // 惠的文案
 
 	private LinearLayout ll_bottom;
 	/**
@@ -46,14 +48,16 @@ public class ActivityView extends RelativeLayout implements OnClickListener{
 		// 设置已经报名的点击事件
 		tv_sign_alredy.setOnClickListener(this);
 		tv_activity_sign = (TextView) findViewById(R.id.tv_activity_sign);
+		tv_hui_tips = (TextView) findViewById(R.id.tv_hui_tips);
 		tv_activity_sign.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
+		iv_hui = (ImageView) findViewById(R.id.iv_hui);
 		iv_activity_flag = (ImageView) findViewById(R.id.iv_activity_flag);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
 	}
 
-	public RelativeLayout setDateView(ActiveEntityObj mActiveEntityObj) {
+	public RelativeLayout setDateView(final ActiveEntityObj mActiveEntityObj) {
 		if (mActiveEntityObj != null) {
 			// 活动名称
 			String clubName = !TextUtils.isEmpty(mActiveEntityObj.activeTitle) ? mActiveEntityObj.activeTitle : "";
@@ -64,6 +68,22 @@ public class ActivityView extends RelativeLayout implements OnClickListener{
 			// 图片
 			String activeLogo = !TextUtils.isEmpty(mActiveEntityObj.activeLogo) ? mActiveEntityObj.activeLogo : "";
 			ImageLoader.getInstance().displayImage(activeLogo, imageView);
+			// 惠
+			tv_hui_tips.setVisibility(View.GONE);
+			String huiTips = !TextUtils.isEmpty(mActiveEntityObj.huiTips) ? mActiveEntityObj.huiTips : "";
+			tv_hui_tips.setText(huiTips);
+			if ("1".equals(mActiveEntityObj.isHui)) {
+				iv_hui.setVisibility(View.VISIBLE);
+				iv_hui.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						tv_hui_tips.setVisibility(tv_hui_tips.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+					}
+				});
+			} else {
+				iv_hui.setVisibility(View.GONE);
+			}
 			// 时间
 			String activeDate = !TextUtils.isEmpty(mActiveEntityObj.activeDate) ? mActiveEntityObj.activeDate : "";
 			String activeHours = !TextUtils.isEmpty(mActiveEntityObj.activeHours) ? mActiveEntityObj.activeHours : "";
@@ -80,8 +100,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener{
 			String realNum = !TextUtils.isEmpty(mActiveEntityObj.realNum) ? mActiveEntityObj.realNum : "";
 			tv_sign_alredy.setText(realNum + "人已报名");
 			// 活动
-			String huiTips = !TextUtils.isEmpty(mActiveEntityObj.huiTips) ? mActiveEntityObj.huiTips : "";
-			tv_activity_sign.setText(huiTips);
+			tv_activity_sign.setText("活动报名");
 
 			// 水印置顶1：置顶isTop
 			if ("1".equals(mActiveEntityObj.isTop)) {
@@ -107,12 +126,14 @@ public class ActivityView extends RelativeLayout implements OnClickListener{
 		ll_bottom.setVisibility(FlagVisible);
 		return this;
 	}
+
 	/**
 	 * 设置活动底部按钮的监听事件
-	 * @param mActivityListen
+	 * 
+	 * @param activityListe
 	 */
-	public void setActivityListen(ActivityListen mActivityListen){
-		this.mActivityListen = mActivityListen;
+	public void setActivityListen(ActivityListen activityListe) {
+		this.mActivityListen = activityListe;
 	}
 
 	/**
@@ -137,12 +158,16 @@ public class ActivityView extends RelativeLayout implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_sign_alredy:
-			if(mActivityListen != null){mActivityListen.lookBookNames();}
+			if (mActivityListen != null) {
+				mActivityListen.lookBookNames();
+			}
 			break;
 		case R.id.tv_activity_sign:
-			if(mActivityListen != null){mActivityListen.doBook();}
+			if (mActivityListen != null) {
+				mActivityListen.doBook();
+			}
 			break;
-		
+
 		}
 	}
 }

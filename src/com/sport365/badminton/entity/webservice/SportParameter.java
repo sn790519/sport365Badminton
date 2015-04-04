@@ -64,6 +64,14 @@ public enum SportParameter {
 	 */
 	GET_NEAR_ACTIVELIST("getnearactivelist", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
 	/**
+	 * 活动报名列表
+	 */
+	GET_ACTIVE_MEMBERLIST("getactivememberlist", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
+	/**
+	 * 活动中的报名
+	 */
+	ACTIVE_REGIST("activeregist", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
+	/**
 	 * 活动详情
 	 */
 	GET_ACTIVE_DETAIL_BYID("GetActiveDetailById", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
