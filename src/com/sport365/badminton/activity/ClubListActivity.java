@@ -1,26 +1,19 @@
 package com.sport365.badminton.activity;
 
-import java.util.ArrayList;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
-import com.sport365.badminton.adapter.ClubAdapter;
+import com.sport365.badminton.activity.view.ClubView;
 import com.sport365.badminton.entity.obj.ClubTabEntityObj;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.entity.reqbody.GetClubListByVenueReqBody;
+import com.sport365.badminton.entity.reqbody.GetclublistReqBody;
 import com.sport365.badminton.entity.resbody.GetClubListByVenueResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
@@ -30,8 +23,10 @@ import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.BundleKeys;
+import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
-import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 /**
  * 俱乐部列表页面
@@ -39,6 +34,17 @@ import org.w3c.dom.Text;
  * @author Frank
  */
 public class ClubListActivity extends BaseActivity {
+	// 点击来源
+	public static final String CLUBFROM = "ClubFrom";
+
+	// 正常社团俱乐部列表
+	public static final int CLUBLIST = 1;
+	// 从运动会所进入社团列表
+	public static final int ACTIVITYTOCLUBLIST = 2;
+
+	// 传参数用的常量
+	public static final String VENUEID = "venueId";
+
 	private EditText et_search_text; // 搜索输入框
 	private LinearLayout ll_ad_layout; // 广告
 
@@ -53,9 +59,19 @@ public class ClubListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.club_layout);
-		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
+		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
+		setActionBarTitle(TextUtils.isEmpty(titleName) ? "社团" : titleName);
 		initView();
-		init_GET_CLUB_LIST_BYVENUE();
+		switch (getIntent().getIntExtra(CLUBFROM, CLUBLIST)) {
+			case CLUBLIST:
+				init_GET_CLUB_LIST_BYVENUE();
+				break;
+			case ACTIVITYTOCLUBLIST:
+				String venueId = getIntent().getStringExtra(VENUEID);
+				init_GET_CLUB_LIST(venueId);
+				break;
+		}
+
 	}
 
 	private void initView() {
@@ -78,36 +94,16 @@ public class ClubListActivity extends BaseActivity {
 		GetClubListByVenueReqBody reqBody = new GetClubListByVenueReqBody();
 		reqBody.page = "1";
 		reqBody.pageSize = "10";
-		reqBody.provinceId = "17";
-		reqBody.cityId = "220";
-		reqBody.countyId = "2143";
+//		reqBody.provinceId = "17";
+//		reqBody.cityId = "220";
+//		reqBody.countyId = "2143";
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST_BYVENUE), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
 			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 				ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
 				GetClubListByVenueResBody resBody = de.getBody();
-				if (resBody != null) {
-					//广告
-					advertismentlist = resBody.clubAdvertismentList;
-					initADdata();
-					//数据
-					clubTabEntity = resBody.clubTabEntity;
-					clubAdapter = new ClubAdapter(mContext, clubTabEntity);
-					lv_activity_center.setAdapter(clubAdapter);
-					lv_activity_center.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-							Intent intent = new Intent(ClubListActivity.this, ClubDetailActivity.class);
-							Bundle bundle = new Bundle();
-							bundle.putSerializable("ClubTabEntityObj", clubTabEntity.get(position - lv_activity_center.getHeaderViewsCount()));
-							intent.putExtras(bundle);
-							startActivity(intent);
-						}
-					});
-				}
-
+				successHandle(resBody);
 			}
 
 			@Override
@@ -116,6 +112,52 @@ public class ClubListActivity extends BaseActivity {
 				super.onError(header, requestInfo);
 			}
 		});
+	}
+
+	// 从运动会所进入的请求
+	private void init_GET_CLUB_LIST(String venueId) {
+		GetclublistReqBody reqBody = new GetclublistReqBody();
+		reqBody.page = "1";
+		reqBody.pageSize = "10";
+		reqBody.venueId = venueId;
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+				GetClubListByVenueResBody resBody = de.getBody();
+				successHandle(resBody);
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	private void successHandle(GetClubListByVenueResBody resBody) {
+		if (resBody != null) {
+			//广告
+			advertismentlist = resBody.clubAdvertismentList;
+			initADdata();
+			//数据
+			clubTabEntity = resBody.clubTabEntity;
+			clubAdapter = new ClubAdapter(mContext, clubTabEntity);
+			lv_activity_center.setAdapter(clubAdapter);
+			lv_activity_center.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Intent intent = new Intent(ClubListActivity.this, ClubDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("ClubTabEntityObj", clubTabEntity.get(position - lv_activity_center.getHeaderViewsCount()));
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+			});
+		}
 	}
 
 	private void initADdata() {
@@ -128,4 +170,83 @@ public class ClubListActivity extends BaseActivity {
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
 	}
+
+	class ClubAdapter extends BaseAdapter {
+		public ArrayList<ClubTabEntityObj> clubTabEntity = new ArrayList<ClubTabEntityObj>();
+		private Context mContext;
+
+		public ClubAdapter(Context mContext, ArrayList<ClubTabEntityObj> clubTabEntity) {
+			this.clubTabEntity = clubTabEntity;
+			this.mContext = mContext;
+		}
+
+		@Override
+		public int getCount() {
+			return clubTabEntity.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			final ClubTabEntityObj mClubTabEntityObj = clubTabEntity.get(position);
+			if (convertView == null) {
+				convertView = new ClubView(mContext);
+			}
+			((ClubView) convertView).setDateView(mClubTabEntityObj);
+			((ClubView) convertView).setClubListen(new ClubView.ClubListen() {
+
+				@Override
+				public void lookMathces() {
+					Utilities.showToast("查看比赛", mContext);
+				}
+
+				@Override
+				public void lookActivitys() {
+					// 当数量为 0 时，不做任何处理
+					if (TextUtils.isEmpty(mClubTabEntityObj.activeNum) || "0".equals(mClubTabEntityObj.activeNum)) {
+						return;
+					} else {
+						// 请求列表
+						Intent intent = new Intent(ClubListActivity.this, ActivityListActivity.class);
+						intent.putExtra(ActivityListActivity.ACTIVITYFROM, ActivityListActivity.CLUBLIST);
+						intent.putExtra(ActivityListActivity.VENUEID, mClubTabEntityObj.clubId);
+						startActivity(intent);
+					}
+				}
+
+				@Override
+				public void doRechange() {
+					Utilities.showToast("充值页面", mContext);
+					Intent intent = new Intent(ClubListActivity.this,
+							MainActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intent.putExtra(MainActivity.PAYTYPE, MainActivity.PAYTYPE);
+					startActivity(intent);
+					ClubListActivity.this.finish();
+				}
+
+				@Override
+				public void goMapShow() {
+					Utilities.showToast("查看地图", mContext);
+					Intent intent = new Intent(ClubListActivity.this, MapViewActivity.class);
+					intent.putExtra(MapViewActivity.LAT, mClubTabEntityObj.latitude);
+					intent.putExtra(MapViewActivity.LON, mClubTabEntityObj.longitude);
+					startActivity(intent);
+				}
+			});
+			return convertView;
+		}
+
+	}
+
 }

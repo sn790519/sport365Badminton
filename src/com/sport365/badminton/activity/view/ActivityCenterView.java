@@ -37,6 +37,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		tv_phone = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
+		tv_distance.setOnClickListener(this);
 		tv_club = (TextView) findViewById(R.id.tv_club);
 		tv_club.setOnClickListener(this);
 		tv_activity = (TextView) findViewById(R.id.tv_activity);
@@ -91,7 +92,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 隐藏item的底部框
-	 * 
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -102,7 +103,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 设置推荐置顶图片GONE
-	 * 
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -113,7 +114,7 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 设置ActivitycenterListen的底部的监听方法
-	 * 
+	 *
 	 * @param mActivityCenterListen
 	 */
 	public void setActivityCenterListen(ActivityCenterListen mActivityCenterListen) {
@@ -122,9 +123,8 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 
 	/**
 	 * 设置底部按钮的监听事件
-	 * 
+	 *
 	 * @author Frank
-	 * 
 	 */
 	public interface ActivityCenterListen {
 		/**
@@ -141,26 +141,36 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 		 * 查看比赛
 		 */
 		public void lookMathce();
+
+		/**
+		 * 地图查看位置
+		 */
+		public void goMapShow();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_club:
-			if (mActivityCenterListen != null) {
-				mActivityCenterListen.lookTeam();
-			}
-			break;
-		case R.id.tv_activity:
-			if (mActivityCenterListen != null) {
-				mActivityCenterListen.lookActivity();
-			}
-			break;
-		case R.id.tv_game:
-			if (mActivityCenterListen != null) {
-				mActivityCenterListen.lookMathce();
-			}
-			break;
+			case R.id.tv_club:
+				if (mActivityCenterListen != null) {
+					mActivityCenterListen.lookTeam();
+				}
+				break;
+			case R.id.tv_activity:
+				if (mActivityCenterListen != null) {
+					mActivityCenterListen.lookActivity();
+				}
+				break;
+			case R.id.tv_game:
+				if (mActivityCenterListen != null) {
+					mActivityCenterListen.lookMathce();
+				}
+				break;
+			case R.id.tv_distance:
+				if (mActivityCenterListen != null) {
+					mActivityCenterListen.goMapShow();
+				}
+				break;
 		}
 	}
 

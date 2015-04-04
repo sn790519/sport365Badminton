@@ -80,6 +80,10 @@ public enum SportParameter {
 	 */
 	GET_CLUB_LIST_BYVENUE("GetClubListByVenue", "ClubHandler.ashx", CacheOptions.NO_CACHE),
 	/**
+	 * 运动会所中点击社团的接口
+	 */
+	GET_CLUB_LIST("getclublist", "ClubHandler.ashx", CacheOptions.NO_CACHE),
+	/**
 	 * 俱乐部详情
 	 */
 	GET_CLUB_INFO_BYID("GetClubInfoByid", "ClubHandler.ashx", CacheOptions.NO_CACHE),

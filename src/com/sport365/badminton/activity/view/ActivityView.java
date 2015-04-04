@@ -44,6 +44,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		tv_venueName = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
+		tv_distance.setOnClickListener(this);
 		tv_sign_alredy = (TextView) findViewById(R.id.tv_sign_alredy);
 		// 设置已经报名的点击事件
 		tv_sign_alredy.setOnClickListener(this);
@@ -118,7 +119,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 隐藏item的底部框
-	 * 
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -129,7 +130,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置活动底部按钮的监听事件
-	 * 
+	 *
 	 * @param activityListe
 	 */
 	public void setActivityListen(ActivityListen activityListe) {
@@ -138,9 +139,8 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置活动的监听事件
-	 * 
+	 *
 	 * @author Frank
-	 * 
 	 */
 	public interface ActivityListen {
 		/**
@@ -152,22 +152,31 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		 * 报名
 		 */
 		public void doBook();
+
+		/**
+		 * 地图查看位置
+		 */
+		public void goMapShow();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_sign_alredy:
-			if (mActivityListen != null) {
-				mActivityListen.lookBookNames();
-			}
-			break;
-		case R.id.tv_activity_sign:
-			if (mActivityListen != null) {
-				mActivityListen.doBook();
-			}
-			break;
-
+			case R.id.tv_sign_alredy:
+				if (mActivityListen != null) {
+					mActivityListen.lookBookNames();
+				}
+				break;
+			case R.id.tv_activity_sign:
+				if (mActivityListen != null) {
+					mActivityListen.doBook();
+				}
+				break;
+			case R.id.tv_distance:
+				if (mActivityListen != null) {
+					mActivityListen.goMapShow();
+				}
+				break;
 		}
 	}
 }

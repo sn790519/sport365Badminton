@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,7 +39,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 比赛列表页面
- * 
+ *
  * @author Frank
  */
 public class PlayListActivity extends BaseActivity {
@@ -57,8 +58,9 @@ public class PlayListActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
 		setContentView(R.layout.play_layout);
+		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
+		setActionBarTitle(TextUtils.isEmpty(titleName) ? "比赛" : titleName);
 		lv_play = (ListView) findViewById(R.id.lv_play);
 		lv_play.addHeaderView(initHeadView());
 		init_Get_Match_List();
@@ -156,7 +158,7 @@ public class PlayListActivity extends BaseActivity {
 
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
-			MatchEntityObj mMatchEntityObj = matchTabEntity.get(position);
+			final MatchEntityObj mMatchEntityObj = matchTabEntity.get(position);
 			if (convertView == null) {
 				convertView = new PlayView(mContext);
 			}
@@ -165,7 +167,11 @@ public class PlayListActivity extends BaseActivity {
 
 				@Override
 				public void goMapShow() {
-
+					Utilities.showToast("地图页面", mContext);
+					Intent intent = new Intent(PlayListActivity.this, MapViewActivity.class);
+					intent.putExtra(MapViewActivity.LAT, mMatchEntityObj.latitude);
+					intent.putExtra(MapViewActivity.LON, mMatchEntityObj.longitude);
+					startActivity(intent);
 				}
 
 				@Override
@@ -180,7 +186,29 @@ public class PlayListActivity extends BaseActivity {
 	// 比赛中报名
 	private void activeRegist(final String activeId) {
 		if (!SystemConfig.isLogin()) {
-			Utilities.showDialogWithMemberName(mContext, "你还没有登录，请登录。");
+			new DialogFactory(mContext).showDialog("", "你还没有登录，请登录。", "确定", new DialogFactory.onBtnClickListener() {
+
+				@Override
+				public void btnLeftClickListener(View v) {
+					Intent intent = new Intent(mContext, LoginActivity.class);
+					mContext.startActivity(intent);
+				}
+
+				@Override
+				public void btnNeutralClickListener(View v) {
+
+				}
+
+				@Override
+				public void btnRightClickListener(View v) {
+
+				}
+
+				@Override
+				public void btnCloseClickListener(View v) {
+
+				}
+			}, true);
 			return;
 		}
 

@@ -20,6 +20,7 @@ import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
+import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
  *
  * @author Frank
  */
-public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener{
+public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
 	private LinearLayout ll_ad_layout;// 广告
 	private LinearLayout ll_title_layout;//
 	private LinearLayout ll_tab;//
@@ -44,6 +45,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		super.onCreate(savedInstanceState);
 		setActionBarTitle("活动详情");
 		setContentView(R.layout.activity_detail_layout);
+		mActionbar_right.setVisibility(View.GONE);
 		initData();
 		initView();
 //		initADdata();
@@ -85,6 +87,27 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		ActivityView activityView = new ActivityView(mContext);
 		activityView.setDateView(activeEntityObj);
 		activityView.setBottonVisible(View.GONE);
+		activityView.setActivityListen(new ActivityView.ActivityListen() {
+
+			@Override
+			public void lookBookNames() {
+				// do nothing
+			}
+
+			@Override
+			public void doBook() {
+				// do nothing
+			}
+
+			@Override
+			public void goMapShow() {
+				Utilities.showToast("查看地图", mContext);
+				Intent intent = new Intent(ActivityDetailActivity.this, MapViewActivity.class);
+				intent.putExtra(MapViewActivity.LAT, activeEntityObj.latitude);
+				intent.putExtra(MapViewActivity.LON, activeEntityObj.longitude);
+				startActivity(intent);
+			}
+		});
 		ll_title_layout.addView(activityView);
 	}
 
@@ -113,8 +136,9 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 					clubList = resBody.clubList;
 					matchList = resBody.matchList;
 					initTitleLayout();
-					initTabLayout();
-					addVenueListView(venueList);
+//					initTabLayout();
+					addMapView();
+//					addVenueListView(venueList);
 				}
 			}
 
@@ -130,7 +154,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	 * 初始化tab信息
 	 */
 	private void initTabLayout() {
-		ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
+		addMapView();
+		/*ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
 			@Override
 			public void FirstOnClick() {
 				addVenueListView(venueList);
@@ -150,7 +175,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			public void FourOnClick() {
 				addMatchListView(matchList);
 			}
-		}));
+		}));*/
 	}
 
 	/**
@@ -198,6 +223,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			ll_content.addView(playView);
 		}
 	}
+
 	/**
 	 * add ItemView 改变ll_content的高度
 	 */
@@ -212,13 +238,13 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	 * TODO 加入地图
 	 */
 	private String naviType;
-	int[] xy = new int[2];//用于mapview的xy的记录
+
 	private void addMapView() {
 		ll_content.removeAllViews();
 		MapViewFragment newFragment = new MapViewFragment();
 		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
 		// 设置mapview的高度
-		ll.height = SystemConfig.dm.heightPixels - xy[1];
+		ll.height = SystemConfig.dm.heightPixels / 2;
 		ll_content.setLayoutParams(ll);
 		newFragment.setonRoutePlanSuccessListener(this);
 		getSupportFragmentManager().beginTransaction().add(R.id.ll_content, newFragment).commit();
@@ -249,13 +275,4 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		});
 
 	}
-
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		// 获取ll_content的开始坐标xy
-		ll_content.getLocationInWindow(xy);
-	}
-
 }

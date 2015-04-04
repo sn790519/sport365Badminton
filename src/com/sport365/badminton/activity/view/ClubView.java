@@ -16,14 +16,14 @@ import com.sport365.badminton.http.base.ImageLoader;
 /**
  * 俱乐部的view Created by kjh08490 on 2015/3/7.
  */
-public class ClubView extends RelativeLayout implements OnClickListener{
+public class ClubView extends RelativeLayout implements OnClickListener {
 	private TextView tv_venue; // 场馆
 	private TextView tv_price; // 价格
 	private ImageView imageView; // 图片
 	private TextView tv_time; // 时间
 	private TextView tv_phone; // 电话
 	private TextView tv_distance; // 地址
-	private TextView tv_club; // 俱乐部
+	private TextView tv_rechange; // 充值
 	private TextView tv_activity; // 活动
 	private TextView tv_game; // 比赛
 	private TextView btn_rechange; // 充值
@@ -41,16 +41,18 @@ public class ClubView extends RelativeLayout implements OnClickListener{
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		tv_phone = (TextView) findViewById(R.id.tv_phone);
 		tv_distance = (TextView) findViewById(R.id.tv_distance);
-		tv_club = (TextView) findViewById(R.id.tv_club);
-		tv_club.setOnClickListener(this);
+		tv_distance.setOnClickListener(this);
+		tv_rechange = (TextView) findViewById(R.id.tv_rechange);
+		tv_rechange.setOnClickListener(this);
 		tv_activity = (TextView) findViewById(R.id.tv_activity);
+		tv_activity.setOnClickListener(this);
 		tv_game = (TextView) findViewById(R.id.tv_game);
 		tv_game.setOnClickListener(this);
 		btn_rechange = (TextView) findViewById(R.id.btn_rechange);
 		btn_rechange.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
-		iv_tag_top = (ImageView)findViewById(R.id.iv_tag_top);
+		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 	}
 
 	public RelativeLayout setDateView(ClubTabEntityObj mClubTabEntityObj) {
@@ -75,7 +77,7 @@ public class ClubView extends RelativeLayout implements OnClickListener{
 			String countyName = !TextUtils.isEmpty(mClubTabEntityObj.countyName) ? mClubTabEntityObj.countyName : "";
 			tv_distance.setText(provinceName + "  " + cityName + "  " + countyName + "\n" + "缺少");
 			// 俱乐部
-			tv_club.setText("充值会费");
+			tv_rechange.setText("充值会费");
 			// 活动
 			String activeNum = !TextUtils.isEmpty(mClubTabEntityObj.activeNum) ? mClubTabEntityObj.activeNum : "";
 			tv_activity.setText("活动（" + activeNum + "）");
@@ -99,7 +101,7 @@ public class ClubView extends RelativeLayout implements OnClickListener{
 
 	/**
 	 * 隐藏item的底部框
-	 * 
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -107,8 +109,10 @@ public class ClubView extends RelativeLayout implements OnClickListener{
 		ll_bottom.setVisibility(FlagVisible);
 		return this;
 	}
+
 	/**
 	 * 设置推荐置顶图片GONE
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -117,61 +121,85 @@ public class ClubView extends RelativeLayout implements OnClickListener{
 		return this;
 
 	}
-	
+
 	/**
 	 * 设置充值按显示，默认不显示
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
-	public RelativeLayout setRechangeVisible(int FlagVisible){
+	public RelativeLayout setRechangeVisible(int FlagVisible) {
 		btn_rechange.setVisibility(FlagVisible);
 		return this;
 	}
+
 	/**
 	 * 设置club监听
+	 *
 	 * @param mClubListen
 	 */
-	public void setClubListen(ClubListen mClubListen){
+	public void setClubListen(ClubListen mClubListen) {
 		this.mClubListen = mClubListen;
 	}
-	
-	
+
+
 	/**
 	 * Club底部button的listen
-	 * @author Frank
 	 *
+	 * @author Frank
 	 */
-	public interface ClubListen{
+	public interface ClubListen {
 		/**
 		 * 去充值事件
 		 */
 		public void doRechange();
+
 		/**
 		 * 查看活动
 		 */
 		public void lookActivitys();
+
 		/**
 		 * 查看比赛
 		 */
 		public void lookMathces();
+
+		/**
+		 * 地图查看位置
+		 */
+		public void goMapShow();
 	}
 
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_club:
-			if(mClubListen != null){mClubListen.lookActivitys();}
-			break;
-		case R.id.tv_game:
-			if(mClubListen != null){mClubListen.lookMathces();}
-			break;
-		case R.id.btn_rechange:
-			if(mClubListen != null){mClubListen.doRechange();}
-			break;
-		default:
-			break;
+			case R.id.tv_rechange:
+				if (mClubListen != null) {
+					mClubListen.doRechange();
+				}
+				break;
+			case R.id.tv_game:
+				if (mClubListen != null) {
+					mClubListen.lookMathces();
+				}
+				break;
+			case R.id.tv_activity:
+				if (mClubListen != null) {
+					mClubListen.lookActivitys();
+				}
+				break;
+			case R.id.btn_rechange:
+				if (mClubListen != null) {
+					mClubListen.doRechange();
+				}
+				break;
+			case R.id.tv_distance:
+				if (mClubListen != null) {
+					mClubListen.goMapShow();
+				}
+				break;
 		}
 	}
-	
+
 }

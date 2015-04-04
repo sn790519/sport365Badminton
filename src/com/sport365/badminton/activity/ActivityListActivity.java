@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,7 +43,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 活动列表页面
- * 
+ *
  * @author Frank
  */
 public class ActivityListActivity extends BaseActivity {
@@ -55,6 +56,15 @@ public class ActivityListActivity extends BaseActivity {
 	public static final int NEARACTIVITYLIST = 2;
 	// 运动日历
 	public static final int CADACTIVITYLIST = 3;
+	//运动会所点击活动的请求
+	public static final int ACTIVITYCENTERLIST = 4;
+	//社团点击活动的请求
+	public static final int CLUBLIST = 5;
+
+
+	// 常量
+	public static final String VENUEID = "VENUEID";
+	public static final String CLUBID = "CLUBID";
 
 	private EditText et_search_text; // 搜索输入框
 	private LinearLayout ll_ad_layout; // 广告
@@ -71,20 +81,30 @@ public class ActivityListActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
+		setActionBarTitle(TextUtils.isEmpty(titleName) ? "活动" : titleName);
+		setContentView(R.layout.activity_layout);
 		initView();
 		switch (getIntent().getIntExtra(ACTIVITYFROM, 1)) {
-		case ACTIVITYLIST:// 列表
-			init_GET_ALL_ACTIVE_LIST();
-			break;
-		case NEARACTIVITYLIST:// 我身边
-			nearRequest();
-			break;
-		case CADACTIVITYLIST:// 价格日历
-			// 运动日历来的日期
-			date = getIntent().getStringExtra("date");
-			cadRequest();
-			break;
-
+			case ACTIVITYLIST:// 列表
+				init_GET_ALL_ACTIVE_LIST();
+				break;
+			case NEARACTIVITYLIST:// 我身边
+				nearRequest();
+				break;
+			case CADACTIVITYLIST:// 价格日历
+				// 运动日历来的日期
+				date = getIntent().getStringExtra("date");
+				cadRequest();
+				break;
+			case ACTIVITYCENTERLIST:
+				String venueid = getIntent().getStringExtra(VENUEID);
+				activityCenterForActivity(venueid);
+				break;
+			case CLUBLIST:
+				String clubid = getIntent().getStringExtra(CLUBID);
+				clubForActivity(clubid);
+				break;
 		}
 
 	}
@@ -93,15 +113,13 @@ public class ActivityListActivity extends BaseActivity {
 	 * 初始化view
 	 */
 	private void initView() {
-		setActionBarTitle(getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE));
-		setContentView(R.layout.activity_layout);
 		lv_activity = (ListView) findViewById(R.id.lv_activity);
 		lv_activity.addHeaderView(initHeadView());
 	}
 
 	/**
 	 * 初始化头部layout
-	 * 
+	 *
 	 * @return
 	 */
 	private View initHeadView() {
@@ -191,6 +209,56 @@ public class ActivityListActivity extends BaseActivity {
 		});
 	}
 
+	// 运动会所点击活动的请求
+	private void activityCenterForActivity(String venueId) {
+		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
+		reqBody.page = "1";
+		reqBody.pageSize = "20";
+		reqBody.venueId = venueId;
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetAllActiveListResBody> de = jsonResponse.getResponseContent(GetAllActiveListResBody.class);
+				GetAllActiveListResBody resBody = de.getBody();
+				if (resBody != null) {
+					onSuccessHandle(resBody);
+				}
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
+	// 运动会所点击活动的请求
+	private void clubForActivity(String clubid) {
+		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
+		reqBody.page = "1";
+		reqBody.pageSize = "20";
+		reqBody.clubId = clubid;
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetAllActiveListResBody> de = jsonResponse.getResponseContent(GetAllActiveListResBody.class);
+				GetAllActiveListResBody resBody = de.getBody();
+				if (resBody != null) {
+					onSuccessHandle(resBody);
+				}
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
+	}
+
 	// 处理成功
 	private void onSuccessHandle(GetAllActiveListResBody resBody) {
 		// 广告
@@ -252,7 +320,7 @@ public class ActivityListActivity extends BaseActivity {
 
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
-			ActiveEntityObj mActiveEntityObj = alctiveList.get(position);
+			final ActiveEntityObj mActiveEntityObj = alctiveList.get(position);
 			if (convertView == null) {
 				convertView = new ActivityView(mContext);
 			}
@@ -267,6 +335,15 @@ public class ActivityListActivity extends BaseActivity {
 				@Override
 				public void doBook() {
 					activeRegist(alctiveList.get(position).activeId);
+				}
+
+				@Override
+				public void goMapShow() {
+					Utilities.showToast("查看地图", mContext);
+					Intent intent = new Intent(ActivityListActivity.this, MapViewActivity.class);
+					intent.putExtra(MapViewActivity.LAT, mActiveEntityObj.latitude);
+					intent.putExtra(MapViewActivity.LON, mActiveEntityObj.longitude);
+					startActivity(intent);
 				}
 			});
 			return convertView;
@@ -305,7 +382,28 @@ public class ActivityListActivity extends BaseActivity {
 	// 活动中报名
 	private void activeRegist(final String activeId) {
 		if (!SystemConfig.isLogin()) {
-			Utilities.showDialogWithMemberName(mContext, "你还没有登录，请登录。");
+			new DialogFactory(mContext).showDialog2Btn("", "你还没有登录，请登录。", "确定", "取消", new DialogFactory.onBtnClickListener() {
+
+				@Override
+				public void btnLeftClickListener(View v) {
+					startActivity(new Intent(ActivityListActivity.this, LoginActivity.class));
+				}
+
+				@Override
+				public void btnNeutralClickListener(View v) {
+
+				}
+
+				@Override
+				public void btnRightClickListener(View v) {
+
+				}
+
+				@Override
+				public void btnCloseClickListener(View v) {
+
+				}
+			}, true);
 			return;
 		}
 

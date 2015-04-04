@@ -21,6 +21,7 @@ import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
+import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_center_detail_layout);
 		setActionBarTitle("运动会所详情");
+		mActionbar_right.setVisibility(View.GONE);
 		initData();
 		initView();
 		init_GET_VENUE_DETAIL_BYID();
@@ -80,6 +82,31 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		activityCenterView.setDateView(venueEntityObj);
 		activityCenterView.setBottonVisible(View.GONE);
 		activityCenterView.setTopRecommadImageViewVisible(View.GONE);
+		activityCenterView.setActivityCenterListen(new ActivityCenterView.ActivityCenterListen() {
+			@Override
+			public void lookTeam() {
+				// do nothing
+			}
+
+			@Override
+			public void lookActivity() {
+				// do nothing
+			}
+
+			@Override
+			public void lookMathce() {
+				// do nothing
+			}
+
+			@Override
+			public void goMapShow() {
+				Utilities.showToast("查看地图", mContext);
+				Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
+				intent.putExtra(MapViewActivity.LAT, venueEntityObj.latitude);
+				intent.putExtra(MapViewActivity.LON, venueEntityObj.longitude);
+				startActivity(intent);
+			}
+		});
 		ll_title_layout.addView(activityCenterView);
 	}
 

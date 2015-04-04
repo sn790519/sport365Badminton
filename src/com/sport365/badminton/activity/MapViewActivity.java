@@ -16,20 +16,36 @@ import com.sport365.badminton.activity.fragment.MapViewFragment;
  */
 public class MapViewActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
 
+	// 经纬度常量
+	public static final String LAT = "LAT";
+	public static final String LON = "LON";
+
 	private String naviType;
+
+	// 经纬度变量
+	private String lat = "";
+	private String lon = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mapview);
 		initActionBar();
-
+		initBundle();
 		MapViewFragment newFragment = new MapViewFragment();
 		newFragment.setonRoutePlanSuccessListener(this);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.fragment_container, newFragment);
 		transaction.addToBackStack(null);
 		transaction.commit();
+	}
+
+	/**
+	 * 获取经纬度
+	 */
+	private void initBundle() {
+		lat = getIntent().getStringExtra(LAT);
+		lon = getIntent().getStringExtra(LON);
 	}
 
 	private void initActionBar() {

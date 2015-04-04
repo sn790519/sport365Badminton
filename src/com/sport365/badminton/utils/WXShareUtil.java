@@ -41,7 +41,6 @@ public class WXShareUtil {
 	}
 
 	// 分享到朋友圈(YES) or分享到微信好友(NO) toFriendCircle;
-	//
 	/**
 	 * 1. 分享纯文字
 	 * 

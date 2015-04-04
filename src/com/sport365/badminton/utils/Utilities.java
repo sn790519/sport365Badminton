@@ -185,7 +185,7 @@ public class Utilities {
 
 	/**
 	 * 判断今天明天 和后天的逻辑
-	 * 
+	 *
 	 * @param perDate
 	 * @return
 	 */
@@ -248,6 +248,7 @@ public class Utilities {
 
 	/**
 	 * 文案＋确定按钮
+	 *
 	 * @param mContext
 	 * @param content
 	 */
@@ -274,8 +275,10 @@ public class Utilities {
 			}
 		}, true);
 	}
+
 	/**
 	 * 文案＋确定＋取消按钮
+	 *
 	 * @param mContext
 	 * @param content
 	 */
