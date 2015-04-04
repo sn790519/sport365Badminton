@@ -9,8 +9,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:divider="@color/line"
-        android:dividerHeight="@dimen/line_hight"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/diven_line_hight"
         android:listSelector="@android:color/transparent" />
 
 </LinearLayout>

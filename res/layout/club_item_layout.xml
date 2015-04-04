@@ -3,6 +3,7 @@
     android:id="@+id/ll_ad_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_background"
     android:visibility="visible" >
 
     <RelativeLayout
@@ -150,6 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/flag"
         android:orientation="horizontal"
+        android:background="@drawable/border_log_window"
         android:padding="8.0dip"
         android:visibility="visible"
         android:weightSum="3" >
@@ -175,7 +177,7 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/line" >
+            android:background="@color/main_line" >
         </View>
 
         <LinearLayout
@@ -199,7 +201,7 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/line" >
+            android:background="@color/main_line" >
         </View>
 
         <LinearLayout
