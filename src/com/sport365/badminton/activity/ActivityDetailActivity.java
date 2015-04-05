@@ -1,16 +1,28 @@
 package com.sport365.badminton.activity;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.*;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.activity.fragment.MapViewFragment;
-import com.sport365.badminton.activity.view.*;
-import com.sport365.badminton.entity.obj.*;
+import com.sport365.badminton.activity.view.ActivityCenterView;
+import com.sport365.badminton.activity.view.ActivityView;
+import com.sport365.badminton.activity.view.ClubView;
+import com.sport365.badminton.activity.view.PlayView;
+import com.sport365.badminton.entity.obj.ActiveEntityObj;
+import com.sport365.badminton.entity.obj.ClubTabEntityObj;
+import com.sport365.badminton.entity.obj.MatchEntityObj;
+import com.sport365.badminton.entity.obj.SportAdvertismentObj;
+import com.sport365.badminton.entity.obj.VenueEntityObj;
 import com.sport365.badminton.entity.reqbody.ActiveregistReqBody;
 import com.sport365.badminton.entity.reqbody.GetActiveDetailByIdReqBody;
 import com.sport365.badminton.entity.reqbody.GetactivememberlistReqBody;
@@ -26,10 +38,9 @@ import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.utils.WXShareUtil;
 import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
-
-import java.util.ArrayList;
 
 /**
  * 活动详情页面
@@ -56,7 +67,15 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		super.onCreate(savedInstanceState);
 		setActionBarTitle("活动详情");
 		setContentView(R.layout.activity_detail_layout);
-		mActionbar_right.setVisibility(View.GONE);
+		mActionbar_right.setImageResource(R.drawable.share_tad_icon);
+		mActionbar_right.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// 分享
+				WXShareUtil.getInstance(mContext).sendWebpage(true, "http://www.baidu.com", "测试", "测试", null);
+			}
+		});
 		initData();
 		initView();
 //		initADdata();

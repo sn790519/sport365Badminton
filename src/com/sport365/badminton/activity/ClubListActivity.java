@@ -82,6 +82,7 @@ public class ClubListActivity extends BaseActivity {
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
+		et_search_text.setHint("请输入俱乐部的名称");
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
 	}
@@ -196,7 +197,7 @@ public class ClubListActivity extends BaseActivity {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			final ClubTabEntityObj mClubTabEntityObj = clubTabEntity.get(position);
 			if (convertView == null) {
 				convertView = new ClubView(mContext);
@@ -206,7 +207,16 @@ public class ClubListActivity extends BaseActivity {
 
 				@Override
 				public void lookMathces() {
-					Utilities.showToast("查看比赛", mContext);
+					// 当数量为 0 时，不做任何处理
+					if (TextUtils.isEmpty(mClubTabEntityObj.matchNum) || "0".equals(mClubTabEntityObj.matchNum)) {
+						return;
+					} else {
+						// 请求列表
+						Intent intent = new Intent(ClubListActivity.this, PlayListActivity.class);
+						intent.putExtra(PlayListActivity.ACTIVITYFROM, PlayListActivity.CLUBLIST);
+						intent.putExtra(PlayListActivity.CLUBID, mClubTabEntityObj.clubId);
+						startActivity(intent);
+					}
 				}
 
 				@Override

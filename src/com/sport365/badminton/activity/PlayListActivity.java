@@ -39,10 +39,25 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 比赛列表页面
- *
+ * 
  * @author Frank
  */
 public class PlayListActivity extends BaseActivity {
+
+	// 判断活动列表页面的来源的值
+	public static final String ACTIVITYFROM = "ACTIVITYFROM";
+
+	// 常量
+	public static final String VENUEID = "VENUEID";
+	public static final String CLUBID = "CLUBID";
+
+	// 正常的列表的请求
+	public static final int PLAYLIST = 0;
+
+	// 运动会所点击比赛的请求
+	public static final int ACTIVITYCENTERLIST = 1;
+	// 社团点击比赛的请求
+	public static final int CLUBLIST = 2;
 
 	private EditText et_search_text; // 搜索输入框
 	private LinearLayout ll_ad_layout; // 广告
@@ -54,6 +69,8 @@ public class PlayListActivity extends BaseActivity {
 
 	// 列表
 	private ArrayList<MatchEntityObj> matchTabEntity = new ArrayList<MatchEntityObj>();
+	// 请求参数
+	final GetMatchListReqBody reqBody = new GetMatchListReqBody();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +80,31 @@ public class PlayListActivity extends BaseActivity {
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "比赛" : titleName);
 		lv_play = (ListView) findViewById(R.id.lv_play);
 		lv_play.addHeaderView(initHeadView());
-		init_Get_Match_List();
 
+		switch (getIntent().getIntExtra(ACTIVITYFROM, PLAYLIST)) {
+		case PLAYLIST:// 正常列表
+			reqBody.page = "1";
+			reqBody.pageSize = "10";
+			break;
+		case ACTIVITYCENTERLIST:// 运动会所进来的
+			reqBody.venueId = getIntent().getStringExtra(VENUEID);
+			reqBody.page = "1";
+			reqBody.pageSize = "10";
+			break;
+
+		case CLUBLIST:// 社团进来的
+			reqBody.clubId = getIntent().getStringExtra(CLUBID);
+			reqBody.page = "1";
+			reqBody.pageSize = "10";
+			break;
+		}
+		init_Get_Match_List();
 	}
 
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
+		et_search_text.setHint("请输入比赛的名称");
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
 	}
@@ -89,9 +124,6 @@ public class PlayListActivity extends BaseActivity {
 	 * 比赛列表
 	 */
 	private void init_Get_Match_List() {
-		final GetMatchListReqBody reqBody = new GetMatchListReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "10";
 		// reqBody.provinceId = "17";
 		// reqBody.cityId = "220";
 		// reqBody.countyId = "2143";
@@ -101,27 +133,7 @@ public class PlayListActivity extends BaseActivity {
 			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 				ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
 				GetMatchListResBody resBody = de.getBody();
-				if (resBody != null) {
-					// 广告
-					advertismentlist = resBody.matchAdvertismentList;
-					initADdata();
-
-					// 列表
-					matchTabEntity = resBody.matchTabEntity;
-					clubAdapter = new PlayAdapter(mContext, matchTabEntity);
-					lv_play.setAdapter(clubAdapter);
-					lv_play.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-							Intent intent = new Intent(PlayListActivity.this, PlayDetailActivity.class);
-							Bundle bundle = new Bundle();
-							bundle.putSerializable("MatchEntityObj", matchTabEntity.get(position - lv_play.getHeaderViewsCount()));
-							intent.putExtras(bundle);
-							startActivity(intent);
-						}
-					});
-				}
+				successHandle(resBody);
 			}
 
 			@Override
@@ -130,6 +142,31 @@ public class PlayListActivity extends BaseActivity {
 				super.onError(header, requestInfo);
 			}
 		});
+	}
+
+	// 处理成功
+	private void successHandle(GetMatchListResBody resBody) {
+		if (resBody != null) {
+			// 广告
+			advertismentlist = resBody.matchAdvertismentList;
+			initADdata();
+
+			// 列表
+			matchTabEntity = resBody.matchTabEntity;
+			clubAdapter = new PlayAdapter(mContext, matchTabEntity);
+			lv_play.setAdapter(clubAdapter);
+			lv_play.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Intent intent = new Intent(PlayListActivity.this, PlayDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("MatchEntityObj", matchTabEntity.get(position - lv_play.getHeaderViewsCount()));
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+			});
+		}
 	}
 
 	class PlayAdapter extends BaseAdapter {
@@ -235,9 +272,9 @@ public class PlayListActivity extends BaseActivity {
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
 						ActiveRegistResBody resbody = de.getBody();
-						if(resbody != null){
+						if (resbody != null) {
 							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
-						}else{
+						} else {
 							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
 						}
 					}

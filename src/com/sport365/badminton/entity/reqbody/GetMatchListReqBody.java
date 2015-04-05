@@ -12,5 +12,6 @@ public class GetMatchListReqBody {
 	 public String provinceId;
 	 public String cityId;
 	 public String countyId;
+	 public String clubId;
 
 }

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 /**
  * 运动会所列表页面
- *
+ * 
  * @author Frank
  */
 public class ActivityCenterListAtivity extends BaseActivity {
@@ -60,12 +60,12 @@ public class ActivityCenterListAtivity extends BaseActivity {
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "运动会所" : titleName);
 		initView();
 		switch (getIntent().getIntExtra(ACTIVITYCENTERFROM, 1)) {
-			case ACTIVITYCENTERLIST:
-				init_Get_Venue_List();
-				break;
-			case ACTIVITYCENTERNEATLIST:
-				nearActivitycenterList();
-				break;
+		case ACTIVITYCENTERLIST:
+			init_Get_Venue_List();
+			break;
+		case ACTIVITYCENTERNEATLIST:
+			nearActivitycenterList();
+			break;
 
 		}
 	}
@@ -77,12 +77,13 @@ public class ActivityCenterListAtivity extends BaseActivity {
 
 	/**
 	 * 初始化头部layout
-	 *
+	 * 
 	 * @return
 	 */
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
+		et_search_text.setHint("请输入会所的名称");
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
 	}
@@ -236,12 +237,20 @@ public class ActivityCenterListAtivity extends BaseActivity {
 
 				@Override
 				public void lookMathce() {
-					Utilities.showToast("查看比赛", mContext);
+					// 当数量为 0 时，不做任何处理
+					if (TextUtils.isEmpty(venueEntity.get(position).matchNum) || "0".equals(venueEntity.get(position).matchNum)) {
+						return;
+					} else {
+						// 请求列表
+						Intent intent = new Intent(ActivityCenterListAtivity.this, PlayListActivity.class);
+						intent.putExtra(PlayListActivity.ACTIVITYFROM, PlayListActivity.ACTIVITYCENTERLIST);
+						intent.putExtra(PlayListActivity.VENUEID, venueEntity.get(position).venueId);
+						startActivity(intent);
+					}
 				}
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterListAtivity.this, MapViewActivity.class);
 					intent.putExtra(MapViewActivity.LAT, venueEntityobj.latitude);
 					intent.putExtra(MapViewActivity.LON, venueEntityobj.longitude);
