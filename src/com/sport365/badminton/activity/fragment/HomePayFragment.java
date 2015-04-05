@@ -392,14 +392,14 @@ public class HomePayFragment extends BaseFragment implements
 						ResponseContent<WeixinPayResBody> de = jsonResponse
 								.getResponseContent(WeixinPayResBody.class);
 						WeixinPayResBody resBody = de.getBody();
-						String appId = SystemConfig.WEIXIN_APP_ID;
-						String partnerId = SystemConfig.PARTNER_ID;
+						String appId = resBody.appId;
+						String partnerId = resBody.partnerId;
 						String prepayId = resBody.prePayId;
 						String nonceStr = resBody.nonceStr;
-						String sign = resBody.sign;
 						String timeStamp = resBody.timeStamp;
 						String packageValue = resBody.packageStr;
-
+						String sign = resBody.sign;
+						WXAPIFactory.createWXAPI(getActivity(), SystemConfig.WEIXIN_APP_ID).registerApp(SystemConfig.WEIXIN_APP_ID);
 						PayReq req = new PayReq();
 						req.appId = appId;
 						req.partnerId = partnerId;
@@ -408,6 +408,13 @@ public class HomePayFragment extends BaseFragment implements
 						req.timeStamp = timeStamp;
 						req.packageValue = packageValue;
 						req.sign = sign;
+//						req.appId = "wx035e7d3896d0787c";
+//						req.partnerId = "1229396101";
+//						req.prepayId = "1201000000150405c772db6eb8250a18";
+//						req.nonceStr = "201504052050222";
+//						req.timeStamp = "1428267025";
+//						req.packageValue = "Sign=WXpay";
+//						req.sign = "AB7B08E514452F051C3D741F54249715";
 						// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 						boolean falg2 = weixin.sendReq(req);
 					}

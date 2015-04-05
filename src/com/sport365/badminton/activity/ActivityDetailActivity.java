@@ -78,7 +78,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			public void onClick(View v) {
 				// 分享
 				WXShareUtil.getInstance(mContext).sendWebpage(true, shareUrl, shareTitle, shareTitle, null);
-				WXShareUtil.getInstance(mContext).sendWebpage(false, shareUrl, shareTitle, shareTitle, null);
+//				WXShareUtil.getInstance(mContext).sendWebpage(false, shareUrl, shareTitle, shareTitle, null);
 			}
 		});
 		initData();
