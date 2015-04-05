@@ -44,7 +44,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 活动详情页面
- *
+ * 
  * @author Frank
  */
 public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
@@ -62,6 +62,10 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	private TextView tv_activity_rechange;// 充值
 	private TextView tv_sign_now;// 报名
 
+	// 分享信息
+	private String shareTitle = "";
+	private String shareUrl = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,16 +73,17 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		setContentView(R.layout.activity_detail_layout);
 		mActionbar_right.setImageResource(R.drawable.share_tad_icon);
 		mActionbar_right.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// 分享
-				WXShareUtil.getInstance(mContext).sendWebpage(true, "http://www.baidu.com", "测试", "测试", null);
+				WXShareUtil.getInstance(mContext).sendWebpage(true, shareUrl, shareTitle, shareTitle, null);
+				WXShareUtil.getInstance(mContext).sendWebpage(false, shareUrl, shareTitle, shareTitle, null);
 			}
 		});
 		initData();
 		initView();
-//		initADdata();
+		// initADdata();
 		init_GET_ACTIVE_DETAIL_BYID();
 	}
 
@@ -141,8 +146,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			@Override
 			public void onClick(View v) {
 				// 活动充值
-				Intent intent = new Intent(ActivityDetailActivity.this,
-						MainActivity.class);
+				Intent intent = new Intent(ActivityDetailActivity.this, MainActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				intent.putExtra(MainActivity.PAYTYPE, MainActivity.PAYTYPE);
@@ -251,9 +255,9 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
 						ActiveRegistResBody resbody = de.getBody();
-						if(resbody != null){
+						if (resbody != null) {
 							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
-						}else{
+						} else {
 							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
 						}
 					}
@@ -307,7 +311,6 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		ll_title_layout.addView(activityView);
 	}
 
-
 	/**
 	 * 活动详情
 	 */
@@ -328,12 +331,16 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 				ResponseContent<GetActiveDetailByIdResBody> de = jsonResponse.getResponseContent(GetActiveDetailByIdResBody.class);
 				GetActiveDetailByIdResBody resBody = de.getBody();
 				if (resBody != null) {
+					// 分享内容的复制
+					shareTitle = resBody.shareTitle;
+					shareUrl = resBody.shareUrl;
+
 					venueList = resBody.venueList;
 					clubList = resBody.clubList;
 					matchList = resBody.matchList;
-//					initTabLayout();
+					// initTabLayout();
 					addMapView();
-//					addVenueListView(venueList);
+					// addVenueListView(venueList);
 				}
 			}
 
@@ -350,27 +357,20 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	 */
 	private void initTabLayout() {
 		addMapView();
-		/*ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
-			@Override
-			public void FirstOnClick() {
-				addVenueListView(venueList);
-			}
-
-			@Override
-			public void SecondOnClick() {
-				addMapView();
-			}
-
-			@Override
-			public void ThirdOnClick() {
-				addClubListView(clubList);
-			}
-
-			@Override
-			public void FourOnClick() {
-				addMatchListView(matchList);
-			}
-		}));*/
+		/*
+		 * ll_tab.addView(new SportRadioGroupView(mContext, null,
+		 * null).setSportCheckListen(new SportRadioGroupView.SportCheckListen()
+		 * {
+		 * 
+		 * @Override public void FirstOnClick() { addVenueListView(venueList); }
+		 * 
+		 * @Override public void SecondOnClick() { addMapView(); }
+		 * 
+		 * @Override public void ThirdOnClick() { addClubListView(clubList); }
+		 * 
+		 * @Override public void FourOnClick() { addMatchListView(matchList); }
+		 * }));
+		 */
 	}
 
 	/**
@@ -387,10 +387,9 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		}
 	}
 
-
 	/**
 	 * 加入俱乐部列表的View
-	 *
+	 * 
 	 * @param clubList
 	 */
 	private void addClubListView(ArrayList<ClubTabEntityObj> clubList) {
@@ -406,7 +405,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	/**
 	 * 加入比赛列表的view
-	 *
+	 * 
 	 * @param matchList
 	 */
 	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {
@@ -447,7 +446,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	@Override
 	public void routePlanSuccess(String naviType) {
-		//路线规划成功，显示路线说明
+		// 路线规划成功，显示路线说明
 		mActionbar_right_text.setVisibility(View.VISIBLE);
 		if (!TextUtils.isEmpty(naviType)) {
 			this.naviType = naviType;
