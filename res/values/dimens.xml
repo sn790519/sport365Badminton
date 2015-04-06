@@ -71,4 +71,5 @@
 
     <dimen name="image_thumbnail_spacing">5dp</dimen>
     <dimen name="pay_item_height">40dp</dimen>
+    <dimen name="list_indicator_height">45dp</dimen>
 </resources>

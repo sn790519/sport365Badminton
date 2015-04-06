@@ -6,9 +6,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.sport365.badminton.http.base.*;
@@ -49,6 +51,9 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 	private ActionBar mActionBar;
 	public View mActionBarView;
 
+	//footview
+	private TextView footView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +61,19 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 		ULog.debug("--->onCreate");
 		init();
 		initActionBar();
+		initFooterView();
+	}
+
+	/**
+	 * 初始化footerview
+	 */
+	private void initFooterView() {
+		footView = new TextView(mContext);
+		AbsListView.LayoutParams footerLayoutparams = new AbsListView.LayoutParams(
+				AbsListView.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.list_indicator_height));
+		footView.setLayoutParams(footerLayoutparams);
+		footView.setGravity(Gravity.CENTER);
+		footView.setText("没有更多数据了哦");
 	}
 
 	public void setActionBarTitle(String title) {
@@ -148,6 +166,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != listener) {
 					listener.onError(header, requestInfo);
+					Utilities.showToast(header.getRspDesc(), mContext);
 				}
 			}
 
@@ -181,6 +200,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != callback) {
 					callback.onError(header, requestInfo);
+					Utilities.showToast(header.getRspDesc(), mContext);
 				}
 			}
 
@@ -230,6 +250,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				mLoadingDialog.dismiss();
 				listener.onError(header, requestInfo);
+				Utilities.showToast(header.getRspDesc(), mContext);
 			}
 
 			@Override
@@ -269,6 +290,7 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				mLoadingDialog.dismiss();
 				callback.onError(header, requestInfo);
+				Utilities.showToast(header.getRspDesc(), mContext);
 			}
 
 			@Override
@@ -305,6 +327,16 @@ public class BaseActivity extends FragmentActivity implements OnClickListener {
 
 	public interface RightClickListen {
 		public void onRightMenuClick();
+	}
+
+
+	/**
+	 * 获取一个footerview
+	 *
+	 * @return
+	 */
+	public TextView getFooterView() {
+		return footView;
 	}
 
 }

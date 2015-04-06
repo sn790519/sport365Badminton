@@ -18,6 +18,7 @@ import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
+import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.LoadingDialog;
 import com.squareup.okhttp.Request;
 
@@ -113,6 +114,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != listener) {
 					listener.onError(header, requestInfo);
+					Utilities.showToast(header.getRspDesc(),getActivity());
 				}
 			}
 
@@ -146,6 +148,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				if (null != callback) {
 					callback.onError(header, requestInfo);
+					Utilities.showToast(header.getRspDesc(),getActivity());
 				}
 			}
 
@@ -195,6 +198,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				mLoadingDialog.dismiss();
 				listener.onError(header, requestInfo);
+				Utilities.showToast(header.getRspDesc(),getActivity());
 			}
 
 			@Override
@@ -241,6 +245,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				mLoadingDialog.dismiss();
 				callback.onError(header, requestInfo);
+				Utilities.showToast(header.getRspDesc(),getActivity());
 			}
 
 			@Override

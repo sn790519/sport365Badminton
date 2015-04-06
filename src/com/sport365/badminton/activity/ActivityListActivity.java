@@ -8,11 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.*;
 
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
@@ -27,6 +23,7 @@ import com.sport365.badminton.entity.reqbody.GetnearactivelistReqBody;
 import com.sport365.badminton.entity.resbody.ActiveRegistResBody;
 import com.sport365.badminton.entity.resbody.GetAllActiveListResBody;
 import com.sport365.badminton.entity.resbody.GetactivememberlistResBody;
+import com.sport365.badminton.entity.resbody.PageInfo;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper;
@@ -40,13 +37,15 @@ import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
+import com.sport365.badminton.view.pullrefresh.PullToRefreshBase;
+import com.sport365.badminton.view.pullrefresh.PullToRefreshListView;
 
 /**
  * 活动列表页面
  *
  * @author Frank
  */
-public class ActivityListActivity extends BaseActivity {
+public class ActivityListActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener {
 
 	// 判断活动列表页面的来源的值
 	public static final String ACTIVITYFROM = "ACTIVITYFROM";
@@ -68,8 +67,9 @@ public class ActivityListActivity extends BaseActivity {
 
 	private EditText et_search_text; // 搜索输入框
 	private LinearLayout ll_ad_layout; // 广告
+	private Button btn_search;// 搜索用
 
-	private ListView lv_activity;
+	private PullToRefreshListView lv_activity;
 	private ActivityAdapter activityAdapter;
 	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	private AdvertisementView advertisementControlLayout;
@@ -77,6 +77,9 @@ public class ActivityListActivity extends BaseActivity {
 	public ArrayList<ActiveEntityObj> alctiveList = new ArrayList<ActiveEntityObj>();// 列表
 
 	private String date;// 运动日历
+
+	// 页码
+	private PageInfo pageInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,23 +90,23 @@ public class ActivityListActivity extends BaseActivity {
 		initView();
 		switch (getIntent().getIntExtra(ACTIVITYFROM, 1)) {
 			case ACTIVITYLIST:// 列表
-				init_GET_ALL_ACTIVE_LIST();
+				init_GET_ALL_ACTIVE_LIST(1);
 				break;
 			case NEARACTIVITYLIST:// 我身边
-				nearRequest();
+				nearRequest(1);
 				break;
 			case CADACTIVITYLIST:// 价格日历
 				// 运动日历来的日期
 				date = getIntent().getStringExtra("date");
-				cadRequest();
+				cadRequest(1);
 				break;
 			case ACTIVITYCENTERLIST:
 				String venueid = getIntent().getStringExtra(VENUEID);
-				activityCenterForActivity(venueid);
+				activityCenterForActivity(1, venueid);
 				break;
 			case CLUBLIST:
 				String clubid = getIntent().getStringExtra(CLUBID);
-				clubForActivity(clubid);
+				clubForActivity(1, clubid);
 				break;
 		}
 
@@ -113,8 +116,10 @@ public class ActivityListActivity extends BaseActivity {
 	 * 初始化view
 	 */
 	private void initView() {
-		lv_activity = (ListView) findViewById(R.id.lv_activity);
+		lv_activity = (PullToRefreshListView) findViewById(R.id.lv_activity);
 		lv_activity.addHeaderView(initHeadView());
+		lv_activity.setMode(PullToRefreshListView.MODE_AUTO_REFRESH);
+		lv_activity.setOnRefreshListener(this);
 	}
 
 	/**
@@ -126,6 +131,18 @@ public class ActivityListActivity extends BaseActivity {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
 		et_search_text.setHint("请输入活动的名称");
+		btn_search = (Button) headView.findViewById(R.id.btn_search);
+		btn_search.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// 搜索关键字
+				if (et_search_text != null && !TextUtils.isEmpty(et_search_text.getText().toString())) {
+					getActivityListBykeyword(1, et_search_text.getText().toString());
+				} else {
+					Utilities.showToast("请输入活动的名称关键字", mContext);
+				}
+			}
+		});
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
 	}
@@ -133,13 +150,20 @@ public class ActivityListActivity extends BaseActivity {
 	/**
 	 * 活动列表
 	 */
-	private void init_GET_ALL_ACTIVE_LIST() {
+	private void init_GET_ALL_ACTIVE_LIST(int page) {
+		init_GET_ALL_ACTIVE_LIST(page, "", "", "");
+	}
+
+	private void init_GET_ALL_ACTIVE_LIST(int page, String provinceId, String cityId, String countyId) {
+		if (et_search_text != null) {
+			et_search_text.setText("");
+		}
 		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "10";
-		reqBody.provinceId = "";
-		reqBody.cityId = "";
-		reqBody.countyId = "";
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
+		reqBody.provinceId = provinceId;
+		reqBody.cityId = cityId;
+		reqBody.countyId = countyId;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
@@ -159,11 +183,64 @@ public class ActivityListActivity extends BaseActivity {
 		});
 	}
 
-	// 价格日历来的请求
-	private void cadRequest() {
+
+	private void getActivityListBykeyword(int page, String acitityNameKey) {
 		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "20";
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
+		reqBody.activeTitle = acitityNameKey;
+		if (page == 1) {
+			alctiveList.clear();
+			activityAdapter.notifyDataSetChanged();
+			if (lv_activity != null && lv_activity.getFooterViewsCount() > 0) {
+				lv_activity.removeFooterView(getFooterView());
+			}
+			sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetAllActiveListResBody> de = jsonResponse.getResponseContent(GetAllActiveListResBody.class);
+					GetAllActiveListResBody resBody = de.getBody();
+					if (resBody != null) {
+						onSuccessHandle(resBody);
+					}
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		} else {
+			sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetAllActiveListResBody> de = jsonResponse.getResponseContent(GetAllActiveListResBody.class);
+					GetAllActiveListResBody resBody = de.getBody();
+					if (resBody != null) {
+						onSuccessHandle(resBody);
+					}
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		}
+	}
+
+	// 价格日历来的请求
+	private void cadRequest(int page) {
+		if (et_search_text != null) {
+			et_search_text.setText("");
+		}
+		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
 		reqBody.activeDate = date;// 运动日历用
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
 
@@ -185,10 +262,13 @@ public class ActivityListActivity extends BaseActivity {
 	}
 
 	// 我身边的请求
-	private void nearRequest() {
+	private void nearRequest(int page) {
+		if (et_search_text != null) {
+			et_search_text.setText("");
+		}
 		GetnearactivelistReqBody reqBody = new GetnearactivelistReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "20";
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
 		reqBody.latitude = BDLocationHelper.mCurrentLocation.getLatitude() + "";
 		reqBody.longitude = BDLocationHelper.mCurrentLocation.getLongitude() + "";
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_NEAR_ACTIVELIST), reqBody), null, new IRequestProxyCallback() {
@@ -211,10 +291,13 @@ public class ActivityListActivity extends BaseActivity {
 	}
 
 	// 运动会所点击活动的请求
-	private void activityCenterForActivity(String venueId) {
+	private void activityCenterForActivity(int page, String venueId) {
+		if (et_search_text != null) {
+			et_search_text.setText("");
+		}
 		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "20";
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
 		reqBody.venueId = venueId;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
 
@@ -236,10 +319,13 @@ public class ActivityListActivity extends BaseActivity {
 	}
 
 	// 运动会所点击活动的请求
-	private void clubForActivity(String clubid) {
+	private void clubForActivity(int page, String clubid) {
+		if (et_search_text != null) {
+			et_search_text.setText("");
+		}
 		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "20";
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
 		reqBody.clubId = clubid;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ALL_ACTIVE_LIST), reqBody), null, new IRequestProxyCallback() {
 
@@ -262,14 +348,23 @@ public class ActivityListActivity extends BaseActivity {
 
 	// 处理成功
 	private void onSuccessHandle(GetAllActiveListResBody resBody) {
-		// 广告
-		advertismentlist = resBody.activeAdvertismentList;
+		if (resBody != null) {
+			pageInfo = resBody.pageInfo;
+			// 广告
+			advertismentlist = resBody.activeAdvertismentList;
+			// 列表数据
+			alctiveList.addAll(resBody.alctiveList);
+		}
 		initADdata();
-
-		// 列表数据
-		alctiveList = resBody.alctiveList;
-		activityAdapter = new ActivityAdapter(mContext, alctiveList);
-		lv_activity.setAdapter(activityAdapter);
+		if (activityAdapter == null) {
+			activityAdapter = new ActivityAdapter(mContext, alctiveList);
+			lv_activity.setAdapter(activityAdapter);
+			lv_activity.onRefreshComplete();
+		} else {
+			activityAdapter.notifyDataSetChanged();
+			lv_activity.onRefreshComplete();
+		}
+		lv_activity.setCurrentBottomAutoRefreshAble(true);
 		lv_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -292,6 +387,66 @@ public class ActivityListActivity extends BaseActivity {
 		advertisementControlLayout.setAdvertisementRate(8, 3);
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
+	}
+
+	@Override
+	public boolean onRefresh(int curMode) {
+		// 判断页码
+		int page = 1;
+		int totalPage = 1;
+		if (pageInfo != null) {
+			if (!TextUtils.isEmpty(pageInfo.page)) {
+				try {
+					page = Integer.valueOf(pageInfo.page);
+				} catch (Exception e) {
+					page = 1;
+				}
+			}
+			if (!TextUtils.isEmpty(pageInfo.totalPage)) {
+				try {
+					totalPage = Integer.valueOf(pageInfo.totalPage);
+				} catch (Exception e) {
+					totalPage = 1;
+				}
+			}
+
+		}
+		if (page < totalPage) {
+			// 判断关键字搜索 优先级高
+			if (et_search_text != null && !TextUtils.isEmpty(et_search_text.getText().toString())) {
+				getActivityListBykeyword(page + 1, et_search_text.getText().toString());
+				return true;
+			}
+			// 判断是什么进行请求的
+			switch (getIntent().getIntExtra(ACTIVITYFROM, 1)) {
+				case ACTIVITYLIST:// 列表
+					init_GET_ALL_ACTIVE_LIST(page + 1);
+					break;
+				case NEARACTIVITYLIST:// 我身边
+					nearRequest(page + 1);
+					break;
+				case CADACTIVITYLIST:// 价格日历
+					// 运动日历来的日期
+					date = getIntent().getStringExtra("date");
+					cadRequest(page + 1);
+					break;
+				case ACTIVITYCENTERLIST:
+					String venueid = getIntent().getStringExtra(VENUEID);
+					activityCenterForActivity(page + 1, venueid);
+					break;
+				case CLUBLIST:
+					String clubid = getIntent().getStringExtra(CLUBID);
+					clubForActivity(1, clubid);
+					break;
+			}
+			return true;
+		} else {
+			lv_activity.onRefreshComplete();
+			if (lv_activity.getFooterViewsCount() == 0) {
+				lv_activity.addFooterView(getFooterView(), null, false);
+			}
+			return false;
+		}
 	}
 
 	class ActivityAdapter extends BaseAdapter {
@@ -431,9 +586,9 @@ public class ActivityListActivity extends BaseActivity {
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
 						ActiveRegistResBody resbody = de.getBody();
-						if(resbody != null){
+						if (resbody != null) {
 							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
-						}else{
+						} else {
 							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
 						}
 					}

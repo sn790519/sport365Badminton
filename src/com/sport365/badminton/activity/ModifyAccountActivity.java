@@ -126,7 +126,6 @@ public class ModifyAccountActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
                 super.onError(header, requestInfo);
-                Utilities.showToast(header.getRspDesc(), mContext);
             }
         });
     }
@@ -150,7 +149,6 @@ public class ModifyAccountActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
                 super.onError(header, requestInfo);
-                Utilities.showToast(header.getRspDesc(), mContext);
             }
         });
     }

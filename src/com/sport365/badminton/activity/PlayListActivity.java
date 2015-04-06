@@ -1,19 +1,12 @@
 package com.sport365.badminton.activity;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-
+import android.widget.*;
 import com.sport365.badminton.BaseActivity;
 import com.sport365.badminton.R;
 import com.sport365.badminton.activity.view.PlayView;
@@ -24,6 +17,7 @@ import com.sport365.badminton.entity.reqbody.ActiveregistReqBody;
 import com.sport365.badminton.entity.reqbody.GetMatchListReqBody;
 import com.sport365.badminton.entity.resbody.ActiveRegistResBody;
 import com.sport365.badminton.entity.resbody.GetMatchListResBody;
+import com.sport365.badminton.entity.resbody.PageInfo;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper;
@@ -36,13 +30,17 @@ import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
+import com.sport365.badminton.view.pullrefresh.PullToRefreshBase;
+import com.sport365.badminton.view.pullrefresh.PullToRefreshListView;
+
+import java.util.ArrayList;
 
 /**
  * 比赛列表页面
- * 
+ *
  * @author Frank
  */
-public class PlayListActivity extends BaseActivity {
+public class PlayListActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener {
 
 	// 判断活动列表页面的来源的值
 	public static final String ACTIVITYFROM = "ACTIVITYFROM";
@@ -61,16 +59,17 @@ public class PlayListActivity extends BaseActivity {
 
 	private EditText et_search_text; // 搜索输入框
 	private LinearLayout ll_ad_layout; // 广告
+	private Button btn_search;// 搜索用
 
-	private ListView lv_play;
+	private PullToRefreshListView lv_play;
 	private PlayAdapter clubAdapter;
 	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	private AdvertisementView advertisementControlLayout;
 
 	// 列表
 	private ArrayList<MatchEntityObj> matchTabEntity = new ArrayList<MatchEntityObj>();
-	// 请求参数
-	final GetMatchListReqBody reqBody = new GetMatchListReqBody();
+	// 页码
+	private PageInfo pageInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,33 +77,42 @@ public class PlayListActivity extends BaseActivity {
 		setContentView(R.layout.play_layout);
 		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "比赛" : titleName);
-		lv_play = (ListView) findViewById(R.id.lv_play);
+		lv_play = (PullToRefreshListView) findViewById(R.id.lv_play);
 		lv_play.addHeaderView(initHeadView());
+		lv_play.setMode(PullToRefreshListView.MODE_AUTO_REFRESH);
+		lv_play.setOnRefreshListener(this);
 
 		switch (getIntent().getIntExtra(ACTIVITYFROM, PLAYLIST)) {
-		case PLAYLIST:// 正常列表
-			reqBody.page = "1";
-			reqBody.pageSize = "10";
-			break;
-		case ACTIVITYCENTERLIST:// 运动会所进来的
-			reqBody.venueId = getIntent().getStringExtra(VENUEID);
-			reqBody.page = "1";
-			reqBody.pageSize = "10";
-			break;
+			case PLAYLIST:// 正常列表
+				init_Get_Match_List(1);
+				break;
+			case ACTIVITYCENTERLIST:// 运动会所进来的
+				getMatchListByVenuId(1, getIntent().getStringExtra(VENUEID));
+				break;
 
-		case CLUBLIST:// 社团进来的
-			reqBody.clubId = getIntent().getStringExtra(CLUBID);
-			reqBody.page = "1";
-			reqBody.pageSize = "10";
-			break;
+			case CLUBLIST:// 社团进来的
+				getMatchListByClubId(1, getIntent().getStringExtra(CLUBID));
+				break;
 		}
-		init_Get_Match_List();
+
 	}
 
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
 		et_search_text.setHint("请输入比赛的名称");
+		btn_search = (Button) headView.findViewById(R.id.btn_search);
+		btn_search.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// 搜索关键字
+				if (et_search_text != null && !TextUtils.isEmpty(et_search_text.getText().toString())) {
+					getMatchListByKeyWorld(1, et_search_text.getText().toString());
+				} else {
+					Utilities.showToast("请输入会所的名称关键字", mContext);
+				}
+			}
+		});
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
 	}
@@ -120,28 +128,107 @@ public class PlayListActivity extends BaseActivity {
 		ll_ad_layout.addView(advertisementControlLayout);
 	}
 
+	private void init_Get_Match_List(int page) {
+		init_Get_Match_List(page, "", "", "", "", "");
+	}
+
+	private void getMatchListByVenuId(int page, String venueId) {
+		init_Get_Match_List(page, "", "", "", venueId, "");
+	}
+
+	private void getMatchListByClubId(int page, String clubId) {
+		init_Get_Match_List(page, "", "", "", "", clubId);
+	}
+
 	/**
 	 * 比赛列表
 	 */
-	private void init_Get_Match_List() {
-		// reqBody.provinceId = "17";
-		// reqBody.cityId = "220";
-		// reqBody.countyId = "2143";
-		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_LIST), reqBody), null, new IRequestProxyCallback() {
+	private void init_Get_Match_List(int page, String provinceId, String cityId, String countyId, String venueId, String clubId) {
+		GetMatchListReqBody reqBody = new GetMatchListReqBody();
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
+		reqBody.provinceId = provinceId;
+		reqBody.cityId = cityId;
+		reqBody.countyId = countyId;
+		reqBody.venueId = venueId;
+		reqBody.clubId = clubId;
+		if (page == 1) {
+			sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_LIST), reqBody), null, new IRequestProxyCallback() {
 
-			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
-				GetMatchListResBody resBody = de.getBody();
-				successHandle(resBody);
-			}
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
+					GetMatchListResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
 
-			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				// TODO Auto-generated method stub
-				super.onError(header, requestInfo);
-			}
-		});
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		} else {
+			sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_LIST), reqBody), new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
+					GetMatchListResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		}
+	}
+
+
+	private void getMatchListByKeyWorld(int page, String matchName) {
+		GetMatchListReqBody reqBody = new GetMatchListReqBody();
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
+		reqBody.matchName = matchName;
+		if (page == 1) {
+			matchTabEntity.clear();
+			clubAdapter.notifyDataSetChanged();
+			lv_play.removeFooterView(getFooterView());
+			sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_LIST), reqBody), null, new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
+					GetMatchListResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		} else {
+			sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_LIST), reqBody), new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetMatchListResBody> de = jsonResponse.getResponseContent(GetMatchListResBody.class);
+					GetMatchListResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		}
 	}
 
 	// 处理成功
@@ -149,12 +236,19 @@ public class PlayListActivity extends BaseActivity {
 		if (resBody != null) {
 			// 广告
 			advertismentlist = resBody.matchAdvertismentList;
+			pageInfo = resBody.pageInfo;
 			initADdata();
-
 			// 列表
-			matchTabEntity = resBody.matchTabEntity;
-			clubAdapter = new PlayAdapter(mContext, matchTabEntity);
-			lv_play.setAdapter(clubAdapter);
+			matchTabEntity.addAll(resBody.matchTabEntity);
+			if (clubAdapter == null) {
+				clubAdapter = new PlayAdapter(mContext, matchTabEntity);
+				lv_play.setAdapter(clubAdapter);
+				lv_play.onRefreshComplete();
+			} else {
+				clubAdapter.notifyDataSetChanged();
+				lv_play.onRefreshComplete();
+			}
+			lv_play.setCurrentBottomAutoRefreshAble(true);
 			lv_play.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				@Override
@@ -166,6 +260,56 @@ public class PlayListActivity extends BaseActivity {
 					startActivity(intent);
 				}
 			});
+		}
+	}
+
+	@Override
+	public boolean onRefresh(int curMode) {
+		// 判断页码
+		int page = 1;
+		int totalPage = 1;
+		if (pageInfo != null) {
+			if (!TextUtils.isEmpty(pageInfo.page)) {
+				try {
+					page = Integer.valueOf(pageInfo.page);
+				} catch (Exception e) {
+					page = 1;
+				}
+			}
+			if (!TextUtils.isEmpty(pageInfo.totalPage)) {
+				try {
+					totalPage = Integer.valueOf(pageInfo.totalPage);
+				} catch (Exception e) {
+					totalPage = 1;
+				}
+			}
+		}
+		if (page < totalPage) {
+			// 判断关键字搜索 优先级高
+			if (et_search_text != null && !TextUtils.isEmpty(et_search_text.getText().toString())) {
+				getMatchListByKeyWorld(page + 1, et_search_text.getText().toString());
+				return true;
+			}
+			// 判断是什么进行请求的
+			switch (getIntent().getIntExtra(ACTIVITYFROM, PLAYLIST)) {
+				case PLAYLIST:// 正常列表
+					init_Get_Match_List(page + 1);
+					break;
+				case ACTIVITYCENTERLIST:// 运动会所进来的
+					getMatchListByVenuId(page + 1, getIntent().getStringExtra(VENUEID));
+					break;
+
+				case CLUBLIST:// 社团进来的
+					getMatchListByClubId(page + 1, getIntent().getStringExtra(CLUBID));
+					break;
+			}
+			return true;
+		} else {
+			lv_play.onRefreshComplete();
+			if (lv_play.getFooterViewsCount() == 0) {
+				lv_play.addFooterView(getFooterView(), null, false);
+			}
+			return false;
 		}
 	}
 
@@ -283,7 +427,6 @@ public class PlayListActivity extends BaseActivity {
 					public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 						// TODO Auto-generated method stub
 						super.onError(header, requestInfo);
-						Utilities.showDialogWithMemberName(mContext, header.getRspDesc());
 					}
 				});
 			}

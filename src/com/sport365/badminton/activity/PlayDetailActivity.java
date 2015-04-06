@@ -205,7 +205,6 @@ public class PlayDetailActivity extends BaseActivity {
 					public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 						// TODO Auto-generated method stub
 						super.onError(header, requestInfo);
-						Utilities.showDialogWithMemberName(mContext, header.getRspDesc());
 					}
 				});
 			}

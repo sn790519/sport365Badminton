@@ -15,6 +15,7 @@ import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.entity.reqbody.GetClubListByVenueReqBody;
 import com.sport365.badminton.entity.reqbody.GetclublistReqBody;
 import com.sport365.badminton.entity.resbody.GetClubListByVenueResBody;
+import com.sport365.badminton.entity.resbody.PageInfo;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper;
@@ -23,8 +24,11 @@ import com.sport365.badminton.http.base.ImageLoader;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.BundleKeys;
+import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
+import com.sport365.badminton.view.pullrefresh.PullToRefreshBase;
+import com.sport365.badminton.view.pullrefresh.PullToRefreshListView;
 
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ import java.util.ArrayList;
  *
  * @author Frank
  */
-public class ClubListActivity extends BaseActivity {
+public class ClubListActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener {
 	// 点击来源
 	public static final String CLUBFROM = "ClubFrom";
 
@@ -48,12 +52,15 @@ public class ClubListActivity extends BaseActivity {
 	private EditText et_search_text; // 搜索输入框
 	private LinearLayout ll_ad_layout; // 广告
 
-	private ListView lv_activity_center;
+	private PullToRefreshListView lv_activity_center;
 	private ClubAdapter clubAdapter;
 	private ArrayList<SportAdvertismentObj> advertismentlist = new ArrayList<SportAdvertismentObj>(); // 广告
 	private AdvertisementView advertisementControlLayout;
 
 	public ArrayList<ClubTabEntityObj> clubTabEntity = new ArrayList<ClubTabEntityObj>();
+	// 页码
+	private PageInfo pageInfo;
+	private Button btn_search;// 搜索用
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,89 +71,194 @@ public class ClubListActivity extends BaseActivity {
 		initView();
 		switch (getIntent().getIntExtra(CLUBFROM, CLUBLIST)) {
 			case CLUBLIST:
-				init_GET_CLUB_LIST_BYVENUE();
+				init_GET_CLUB_LIST_BYVENUE(1);
 				break;
 			case ACTIVITYTOCLUBLIST:
 				String venueId = getIntent().getStringExtra(VENUEID);
-				init_GET_CLUB_LIST(venueId);
+				init_GET_CLUB_LIST(1, venueId);
 				break;
 		}
 
 	}
 
 	private void initView() {
-		lv_activity_center = (ListView) findViewById(R.id.lv_club);
+		lv_activity_center = (PullToRefreshListView) findViewById(R.id.lv_club);
 		lv_activity_center.addHeaderView(initHeadView());
+		lv_activity_center.setMode(PullToRefreshListView.MODE_AUTO_REFRESH);
+		lv_activity_center.setOnRefreshListener(this);
 	}
 
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
 		et_search_text.setHint("请输入俱乐部的名称");
+		btn_search = (Button) headView.findViewById(R.id.btn_search);
+		btn_search.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// 搜索关键字
+				if (et_search_text != null && !TextUtils.isEmpty(et_search_text.getText().toString())) {
+					getClubListByKey(1, et_search_text.getText().toString());
+				} else {
+					Utilities.showToast("请输入会所的名称关键字", mContext);
+				}
+			}
+		});
 		ll_ad_layout = (LinearLayout) headView.findViewById(R.id.ll_ad_layout);
 		return headView;
 	}
 
+	private void init_GET_CLUB_LIST_BYVENUE(int page) {
+		init_GET_CLUB_LIST_BYVENUE(page, "", "", "");
+	}
 
 	/**
 	 * 俱乐部列表
 	 */
-	private void init_GET_CLUB_LIST_BYVENUE() {
+	private void init_GET_CLUB_LIST_BYVENUE(int page, String provinceId, String cityId, String countyId) {
 		GetClubListByVenueReqBody reqBody = new GetClubListByVenueReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "10";
-//		reqBody.provinceId = "17";
-//		reqBody.cityId = "220";
-//		reqBody.countyId = "2143";
-		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST_BYVENUE), reqBody), null, new IRequestProxyCallback() {
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
+		reqBody.provinceId = provinceId;
+		reqBody.cityId = cityId;
+		reqBody.countyId = countyId;
+		if (page == 1) {
+			sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST), reqBody), null, new IRequestProxyCallback() {
 
-			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
-				GetClubListByVenueResBody resBody = de.getBody();
-				successHandle(resBody);
-			}
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+					GetClubListByVenueResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
 
-			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				// TODO Auto-generated method stub
-				super.onError(header, requestInfo);
-			}
-		});
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		} else {
+			sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST), reqBody), new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+					GetClubListByVenueResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		}
+	}
+
+	private void getClubListByKey(int page, String clubName) {
+		GetClubListByVenueReqBody reqBody = new GetClubListByVenueReqBody();
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
+		reqBody.clubName = clubName;
+		if (page == 1) {
+			clubTabEntity.clear();
+			clubAdapter.notifyDataSetChanged();
+			lv_activity_center.removeFooterView(getFooterView());
+			sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST), reqBody), null, new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+					GetClubListByVenueResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		} else {
+			sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST), reqBody), new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+					GetClubListByVenueResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		}
+
 	}
 
 	// 从运动会所进入的请求
-	private void init_GET_CLUB_LIST(String venueId) {
+	private void init_GET_CLUB_LIST(int page, String venueId) {
 		GetclublistReqBody reqBody = new GetclublistReqBody();
-		reqBody.page = "1";
-		reqBody.pageSize = "10";
+		reqBody.page = String.valueOf(page);
+		reqBody.pageSize = SystemConfig.PAGESIZE;
 		reqBody.venueId = venueId;
-		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST), reqBody), null, new IRequestProxyCallback() {
+		if (page == 1) {
+			sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST_BYVENUE), reqBody), null, new IRequestProxyCallback() {
 
-			@Override
-			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
-				ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
-				GetClubListByVenueResBody resBody = de.getBody();
-				successHandle(resBody);
-			}
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+					GetClubListByVenueResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
 
-			@Override
-			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
-				// TODO Auto-generated method stub
-				super.onError(header, requestInfo);
-			}
-		});
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		} else {
+			sendRequestWithNoDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_LIST_BYVENUE), reqBody), new IRequestProxyCallback() {
+
+				@Override
+				public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+					ResponseContent<GetClubListByVenueResBody> de = jsonResponse.getResponseContent(GetClubListByVenueResBody.class);
+					GetClubListByVenueResBody resBody = de.getBody();
+					successHandle(resBody);
+				}
+
+				@Override
+				public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+					// TODO Auto-generated method stub
+					super.onError(header, requestInfo);
+				}
+			});
+		}
 	}
 
 	private void successHandle(GetClubListByVenueResBody resBody) {
 		if (resBody != null) {
 			//广告
 			advertismentlist = resBody.clubAdvertismentList;
+			pageInfo = resBody.pageInfo;
 			initADdata();
 			//数据
-			clubTabEntity = resBody.clubTabEntity;
-			clubAdapter = new ClubAdapter(mContext, clubTabEntity);
-			lv_activity_center.setAdapter(clubAdapter);
+			clubTabEntity.addAll(resBody.clubTabEntity);
+			if (clubAdapter == null) {
+				clubAdapter = new ClubAdapter(mContext, clubTabEntity);
+				lv_activity_center.setAdapter(clubAdapter);
+				lv_activity_center.onRefreshComplete();
+			} else {
+				clubAdapter.notifyDataSetChanged();
+				lv_activity_center.onRefreshComplete();
+			}
+			lv_activity_center.setCurrentBottomAutoRefreshAble(true);
 			lv_activity_center.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				@Override
@@ -170,6 +282,54 @@ public class ClubListActivity extends BaseActivity {
 		advertisementControlLayout.setAdvertisementRate(8, 3);
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
+	}
+
+	@Override
+	public boolean onRefresh(int curMode) {
+		// 判断页码
+		int page = 1;
+		int totalPage = 1;
+		if (pageInfo != null) {
+			if (!TextUtils.isEmpty(pageInfo.page)) {
+				try {
+					page = Integer.valueOf(pageInfo.page);
+				} catch (Exception e) {
+					page = 1;
+				}
+			}
+			if (!TextUtils.isEmpty(pageInfo.totalPage)) {
+				try {
+					totalPage = Integer.valueOf(pageInfo.totalPage);
+				} catch (Exception e) {
+					totalPage = 1;
+				}
+			}
+
+		}
+		if (page < totalPage) {
+			// 判断关键字搜索 优先级高
+			if (et_search_text != null && !TextUtils.isEmpty(et_search_text.getText().toString())) {
+				getClubListByKey(page + 1, et_search_text.getText().toString());
+				return true;
+			}
+			// 判断是什么进行请求的
+			switch (getIntent().getIntExtra(CLUBFROM, CLUBLIST)) {
+				case CLUBLIST:
+					init_GET_CLUB_LIST_BYVENUE(page + 1);
+					break;
+				case ACTIVITYTOCLUBLIST:
+					String venueId = getIntent().getStringExtra(VENUEID);
+					init_GET_CLUB_LIST(page + 1, venueId);
+					break;
+			}
+			return true;
+		} else {
+			lv_activity_center.onRefreshComplete();
+			if (lv_activity_center.getFooterViewsCount() == 0) {
+				lv_activity_center.addFooterView(getFooterView(), null, false);
+			}
+			return false;
+		}
 	}
 
 	class ClubAdapter extends BaseAdapter {
@@ -235,7 +395,6 @@ public class ClubListActivity extends BaseActivity {
 
 				@Override
 				public void doRechange() {
-					Utilities.showToast("充值页面", mContext);
 					Intent intent = new Intent(ClubListActivity.this,
 							MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -247,7 +406,6 @@ public class ClubListActivity extends BaseActivity {
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ClubListActivity.this, MapViewActivity.class);
 					intent.putExtra(MapViewActivity.LAT, mClubTabEntityObj.latitude);
 					intent.putExtra(MapViewActivity.LON, mClubTabEntityObj.longitude);

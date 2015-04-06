@@ -90,7 +90,7 @@ public enum SportParameter {
 	/**
 	 * 比赛列表
 	 */
-	GET_MATCH_LIST("GetMatchList", "MatchHandler.ashx", CacheOptions.NO_CACHE),
+	GET_MATCH_LIST("getmatchlist", "MatchHandler.ashx", CacheOptions.NO_CACHE),
 	/**
 	 * 比赛详情
 	 */

@@ -113,7 +113,6 @@ public class FindPwdByEmailFragment extends BaseFragment implements View.OnClick
             @Override
             public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
                 super.onError(header, requestInfo);
-                Utilities.showToast(header.getRspDesc(), getActivity());
             }
         });
     }

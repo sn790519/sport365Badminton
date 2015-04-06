@@ -122,7 +122,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 			@Override
 			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
 				super.onError(header, requestInfo);
-				Utilities.showToast(header.getRspDesc(), mContext);
 			}
 		});
 	}

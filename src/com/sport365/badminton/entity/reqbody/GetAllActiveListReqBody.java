@@ -2,9 +2,8 @@ package com.sport365.badminton.entity.reqbody;
 
 /**
  * 活动的列表请求
- * 
+ *
  * @author Frank
- * 
  */
 public class GetAllActiveListReqBody {
 
@@ -25,6 +24,8 @@ public class GetAllActiveListReqBody {
 	public String activeDate;// 运动日历
 	public String clubId;// 俱乐部详情 底部 需要用到（后期）
 	public String venueId;// 会所底详情 底部 需要用到（后期）
-	
+
+	public String activeTitle;//关键字搜索
+
 
 }
