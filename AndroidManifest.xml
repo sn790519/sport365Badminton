@@ -88,6 +88,7 @@
         <activity
                 android:name="com.sport365.badminton.activity.MainActivity"
                 android:label="@string/app_name"
+                android:screenOrientation="portrait"
                 android:theme="@style/ActivityTheme_Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -95,55 +96,60 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MyWebViewActivity">
+        <activity android:name=".activity.MyWebViewActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ActivityCenterListAtivity">
+        <activity android:name=".activity.ActivityCenterListAtivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ActivityCenterDetailActivity">
+        <activity android:name=".activity.ActivityCenterDetailActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ActivityDetailActivity">
+        <activity android:name=".activity.ActivityDetailActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ActivityListActivity">
+        <activity android:name=".activity.ActivityListActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ClubDetailActivity">
+        <activity android:name=".activity.ClubDetailActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ClubListActivity">
+        <activity android:name=".activity.CitySelectorActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/TransparentActivity_hasActionbar"
+                  android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".activity.PlayDetailActivity">
+        <activity android:name=".activity.ClubListActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.PlayListActivity">
+        <activity android:name=".activity.PlayDetailActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.CalendarTimesActivity">
+        <activity android:name=".activity.PlayListActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.MyAccountActivity">
+        <activity android:name=".activity.CalendarTimesActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name=".activity.MyAccountActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.RegisterActivity">
+        <activity android:name=".activity.LoginActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.FindPwdActivity">
+        <activity android:name=".activity.RegisterActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ModifyPhoneActivity">
+        <activity android:name=".activity.FindPwdActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ModifyNameActivity">
+        <activity android:name=".activity.ModifyPhoneActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ModifyAccountActivity">
+        <activity android:name=".activity.ModifyNameActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.MapViewActivity">
+        <activity android:name=".activity.ModifyAccountActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.LookRouteActivity">
+        <activity android:name=".activity.MapViewActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ModifyUserInfoActivity">
+        <activity android:name=".activity.LookRouteActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.MyFixationActivity">
+        <activity android:name=".activity.ModifyUserInfoActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.LotteryActivity">
+        <activity android:name=".activity.MyFixationActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.BallFriendActivity">
+        <activity android:name=".activity.LotteryActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.ModifyUserInfoWebviewActivity">
+        <activity android:name=".activity.BallFriendActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.MyGroupActivity">
+        <activity android:name=".activity.ModifyUserInfoWebviewActivity" android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.MyGroupActivity" android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".activity.BNavigatorActivity"

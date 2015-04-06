@@ -6,7 +6,7 @@ public enum SportParameter {
 
 
 	/**
-	 *获取群活动
+	 * 获取群活动
 	 */
 	GET_ACTIVE_LIST_BY_MEMBERID("GetActiveListByMemberId", "ActiveHandler.ashx", CacheOptions.NO_CACHE),
 	/**

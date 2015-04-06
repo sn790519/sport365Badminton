@@ -7,6 +7,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="actionbar_height">52dp</dimen>
+    <dimen name="city_selector_height">48dp</dimen>
+    <dimen name="city_list_height">320dp</dimen>
     <!-- 字体大小 -->
     <dimen name="text_size_info">15sp</dimen>
     <!-- 标题字体大小 -->
@@ -65,6 +67,7 @@
     <dimen name="text_twenty_four_sp">24sp</dimen>
     <dimen name="line_hight">0.5dip</dimen>
     <dimen name="diven_line_hight">8.0dip</dimen>
+    <dimen name="city_choose_diven_line_hight">2.0dip</dimen>
 
     <dimen name="min_hight">48dp</dimen>
     <dimen name="min_width">60dp</dimen>

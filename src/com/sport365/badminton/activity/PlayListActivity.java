@@ -1,5 +1,6 @@
 package com.sport365.badminton.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
  * @author Frank
  */
 public class PlayListActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener {
+	private static final int FLAG = 1;
 
 	// 判断活动列表页面的来源的值
 	public static final String ACTIVITYFROM = "ACTIVITYFROM";
@@ -82,7 +84,8 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 
 			@Override
 			public void onClick(View v) {
-				Utilities.showToast("筛选城市", mContext);
+				Intent intent = new Intent(PlayListActivity.this, CitySelectorActivity.class);
+				startActivityForResult(intent, FLAG);
 			}
 		});
 		lv_play = (PullToRefreshListView) findViewById(R.id.lv_play);
@@ -134,6 +137,35 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 		advertisementControlLayout.setAdvertisementRate(8, 3);
 		advertisementControlLayout.setImageLoader(ImageLoader.getInstance());
 		ll_ad_layout.addView(advertisementControlLayout);
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == FLAG && resultCode == Activity.RESULT_OK) {
+			Utilities.showToast("返回处理", mContext);
+			matchTabEntity.clear();
+			clubAdapter.notifyDataSetChanged();
+			initBackDate(data);
+		}
+	}
+
+	private String proviceid = "";
+	private String cityid = "";
+	private String countryid = "";
+
+	// 处理省市页面的数据
+	private void initBackDate(Intent data) {
+		proviceid = data.getStringExtra(CitySelectorActivity.PROVINCE);
+		cityid = data.getStringExtra(CitySelectorActivity.CITY);
+		countryid = data.getStringExtra(CitySelectorActivity.COUNTRY);
+		getMatchListByCity(1, proviceid, cityid, countryid);
+	}
+
+	// 城市筛选
+	private void getMatchListByCity(int page, String provinceId, String cityId, String countyId) {
+		init_Get_Match_List(1, proviceid, cityid, countryid, "", "");
 	}
 
 	private void init_Get_Match_List(int page) {
@@ -195,8 +227,15 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 		}
 	}
 
+	// 当搜索关键字的时候需要重新为null
+	private void setNUll() {
+		proviceid = "";
+		cityid = "";
+		countryid = "";
+	}
 
 	private void getMatchListByKeyWorld(int page, String matchName) {
+		setNUll();
 		GetMatchListReqBody reqBody = new GetMatchListReqBody();
 		reqBody.page = String.valueOf(page);
 		reqBody.pageSize = SystemConfig.PAGESIZE;
@@ -298,6 +337,15 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 				getMatchListByKeyWorld(page + 1, et_search_text.getText().toString());
 				return true;
 			}
+
+			// 判断是否是城市信息
+			if (TextUtils.isEmpty(proviceid) || TextUtils.isEmpty(cityid) || TextUtils.isEmpty(countryid)) {
+
+			} else {
+				getMatchListByCity(page + 1, proviceid, cityid, countryid);
+				return true;
+			}
+
 			// 判断是什么进行请求的
 			switch (getIntent().getIntExtra(ACTIVITYFROM, PLAYLIST)) {
 				case PLAYLIST:// 正常列表

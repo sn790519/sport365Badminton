@@ -2,6 +2,7 @@ package com.sport365.badminton.activity;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.sport365.badminton.view.DialogFactory;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 import com.sport365.badminton.view.pullrefresh.PullToRefreshBase;
 import com.sport365.badminton.view.pullrefresh.PullToRefreshListView;
+import org.w3c.dom.Text;
 
 /**
  * 活动列表页面
@@ -46,6 +48,8 @@ import com.sport365.badminton.view.pullrefresh.PullToRefreshListView;
  * @author Frank
  */
 public class ActivityListActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener {
+
+	private static final int FLAG = 1;
 
 	// 判断活动列表页面的来源的值
 	public static final String ACTIVITYFROM = "ACTIVITYFROM";
@@ -91,7 +95,8 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 
 			@Override
 			public void onClick(View v) {
-				Utilities.showToast("筛选城市", mContext);
+				Intent intent = new Intent(ActivityListActivity.this, CitySelectorActivity.class);
+				startActivityForResult(intent, FLAG);
 			}
 		});
 		setContentView(R.layout.activity_layout);
@@ -118,6 +123,29 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 				break;
 		}
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == FLAG && resultCode == Activity.RESULT_OK) {
+			Utilities.showToast("返回处理", mContext);
+			alctiveList.clear();
+			activityAdapter.notifyDataSetChanged();
+			initBackDate(data);
+		}
+	}
+
+	private String proviceid = "";
+	private String cityid = "";
+	private String countryid = "";
+
+	// 处理省市页面的数据
+	private void initBackDate(Intent data) {
+		proviceid = data.getStringExtra(CitySelectorActivity.PROVINCE);
+		cityid = data.getStringExtra(CitySelectorActivity.CITY);
+		countryid = data.getStringExtra(CitySelectorActivity.COUNTRY);
+		init_GET_ALL_ACTIVE_LIST(1, proviceid, cityid, countryid);
 	}
 
 	/**
@@ -191,8 +219,15 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 		});
 	}
 
+	// 当搜索关键字的时候需要重新为null
+	private void setNUll() {
+		proviceid = "";
+		cityid = "";
+		countryid = "";
+	}
 
 	private void getActivityListBykeyword(int page, String acitityNameKey) {
+		setNUll();
 		GetAllActiveListReqBody reqBody = new GetAllActiveListReqBody();
 		reqBody.page = String.valueOf(page);
 		reqBody.pageSize = SystemConfig.PAGESIZE;
@@ -425,6 +460,15 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 				getActivityListBykeyword(page + 1, et_search_text.getText().toString());
 				return true;
 			}
+
+			// 判断是否是城市信息
+			if (TextUtils.isEmpty(proviceid) || TextUtils.isEmpty(cityid) || TextUtils.isEmpty(countryid)) {
+
+			} else {
+				init_GET_ALL_ACTIVE_LIST(page + 1, proviceid, cityid, countryid);
+				return true;
+			}
+
 			// 判断是什么进行请求的
 			switch (getIntent().getIntExtra(ACTIVITYFROM, 1)) {
 				case ACTIVITYLIST:// 列表
