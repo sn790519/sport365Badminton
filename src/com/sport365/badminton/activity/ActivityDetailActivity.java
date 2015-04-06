@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -39,12 +40,14 @@ import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.utils.WXShareUtil;
+import com.sport365.badminton.view.ActionBarPopupWindow;
 import com.sport365.badminton.view.DialogFactory;
+import com.sport365.badminton.view.SharePopWindow;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 活动详情页面
- * 
+ *
  * @author Frank
  */
 public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
@@ -77,7 +80,10 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			@Override
 			public void onClick(View v) {
 				// 分享
-				WXShareUtil.getInstance(mContext).sendWebpage(true, shareUrl, shareTitle, shareTitle, null);
+				SharePopWindow actionBarPopupWindow = new SharePopWindow(mContext);
+				actionBarPopupWindow.setAnimationStyle(R.style.AnimDialogBottom);
+				actionBarPopupWindow.setUrlANDSharetitle(shareUrl, shareTitle);
+				actionBarPopupWindow.showAtLocation(findViewById(R.id.flag), Gravity.CENTER | Gravity.BOTTOM, 0, 0);
 //				WXShareUtil.getInstance(mContext).sendWebpage(false, shareUrl, shareTitle, shareTitle, null);
 			}
 		});
@@ -389,7 +395,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	/**
 	 * 加入俱乐部列表的View
-	 * 
+	 *
 	 * @param clubList
 	 */
 	private void addClubListView(ArrayList<ClubTabEntityObj> clubList) {
@@ -405,7 +411,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	/**
 	 * 加入比赛列表的view
-	 * 
+	 *
 	 * @param matchList
 	 */
 	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {

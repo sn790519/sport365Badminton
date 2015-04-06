@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.DialogFactory;
+import com.sport365.badminton.view.SharePopWindow;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 import java.util.ArrayList;
@@ -47,12 +49,27 @@ public class PlayDetailActivity extends BaseActivity {
 	private TextView tv_matchrule;
 	private LinearLayout ll_bottom;
 
+	// 分享内容
+	private String shareUrl;
+	private String shareTitle;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setActionBarTitle("比赛详情");
 		setContentView(R.layout.play_detail_layout);
-		mActionbar_right.setVisibility(View.GONE);
+		mActionbar_right.setImageResource(R.drawable.share_tad_icon);
+		mActionbar_right.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 分享
+				SharePopWindow actionBarPopupWindow = new SharePopWindow(mContext);
+				actionBarPopupWindow.setAnimationStyle(R.style.AnimDialogBottom);
+				actionBarPopupWindow.setUrlANDSharetitle(shareUrl, shareTitle);
+				actionBarPopupWindow.showAtLocation(findViewById(R.id.flag), Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+			}
+		});
 		initData();
 		initView();
 //		initADdata();
@@ -120,7 +137,7 @@ public class PlayDetailActivity extends BaseActivity {
 	 * 俱乐部详情
 	 */
 	private void INIT_GET_MATCH_INFO_BYID() {
-		GetMatchDetailByIDReqBody reqBody = new GetMatchDetailByIDReqBody();
+		final GetMatchDetailByIDReqBody reqBody = new GetMatchDetailByIDReqBody();
 		reqBody.matchId = "2";
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_DETAIL_BYID), reqBody), null, new IRequestProxyCallback() {
 
@@ -131,6 +148,8 @@ public class PlayDetailActivity extends BaseActivity {
 				if (resBody != null && !TextUtils.isEmpty(resBody.matchRule)) {
 					tv_matchrule.setText(Html.fromHtml(resBody.matchRule));
 					ll_bottom.setVisibility(View.VISIBLE);
+					shareUrl = resBody.shareUrl;
+					shareTitle = resBody.shareTitle;
 				}
 			}
 
@@ -194,9 +213,9 @@ public class PlayDetailActivity extends BaseActivity {
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
 						ActiveRegistResBody resbody = de.getBody();
-						if(resbody != null){
+						if (resbody != null) {
 							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
-						}else{
+						} else {
 							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
 						}
 					}

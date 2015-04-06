@@ -77,5 +77,10 @@
                 android:text="我要报名"
                 android:textColor="@color/white"
                 android:textSize="@dimen/list"/>
+        <View
+                android:id="@+id/flag"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
     </LinearLayout>
 </RelativeLayout>
