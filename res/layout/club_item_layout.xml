@@ -166,7 +166,7 @@
                 android:id="@+id/tv_rechange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_list_club"
+                android:drawableLeft="@drawable/icon_list_top_rechange"
                 android:drawablePadding="2.0dip"
                 android:gravity="center_vertical"
                 android:text="充值会费"

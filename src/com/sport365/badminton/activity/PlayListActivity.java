@@ -77,6 +77,14 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 		setContentView(R.layout.play_layout);
 		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "比赛" : titleName);
+		mActionbar_right.setImageResource(R.drawable.btn_tab_choose);
+		mActionbar_right.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Utilities.showToast("筛选城市", mContext);
+			}
+		});
 		lv_play = (PullToRefreshListView) findViewById(R.id.lv_play);
 		lv_play.addHeaderView(initHeadView());
 		lv_play.setMode(PullToRefreshListView.MODE_AUTO_REFRESH);

@@ -68,6 +68,14 @@ public class ClubListActivity extends BaseActivity implements PullToRefreshBase.
 		setContentView(R.layout.club_layout);
 		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "社团" : titleName);
+		mActionbar_right.setImageResource(R.drawable.btn_tab_choose);
+		mActionbar_right.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Utilities.showToast("筛选城市", mContext);
+			}
+		});
 		initView();
 		switch (getIntent().getIntExtra(CLUBFROM, CLUBLIST)) {
 			case CLUBLIST:

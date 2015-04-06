@@ -28,6 +28,7 @@ import com.sport365.badminton.map.BDLocationHelper;
 import com.sport365.badminton.utils.BundleKeys;
 import com.sport365.badminton.utils.SystemConfig;
 import com.sport365.badminton.utils.Utilities;
+import com.sport365.badminton.utils.WXShareUtil;
 import com.sport365.badminton.view.advertisement.AdvertisementView;
 import com.sport365.badminton.view.pullrefresh.PullToRefreshBase;
 import com.sport365.badminton.view.pullrefresh.PullToRefreshListView;
@@ -66,6 +67,14 @@ public class ActivityCenterListAtivity extends BaseActivity implements PullToRef
 		setContentView(R.layout.activity_center_layout);
 		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "运动会所" : titleName);
+		mActionbar_right.setImageResource(R.drawable.btn_tab_choose);
+		mActionbar_right.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Utilities.showToast("筛选城市", mContext);
+			}
+		});
 		initView();
 		switch (getIntent().getIntExtra(ACTIVITYCENTERFROM, 1)) {
 			case ACTIVITYCENTERLIST:

@@ -86,6 +86,14 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 		super.onCreate(savedInstanceState);
 		String titleName = getIntent().getStringExtra(BundleKeys.ACTIONBAETITLE);
 		setActionBarTitle(TextUtils.isEmpty(titleName) ? "活动" : titleName);
+		mActionbar_right.setImageResource(R.drawable.btn_tab_choose);
+		mActionbar_right.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Utilities.showToast("筛选城市", mContext);
+			}
+		});
 		setContentView(R.layout.activity_layout);
 		initView();
 		switch (getIntent().getIntExtra(ACTIVITYFROM, 1)) {
