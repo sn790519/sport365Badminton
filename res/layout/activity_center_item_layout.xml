@@ -33,7 +33,7 @@
     <RelativeLayout
             android:id="@+id/flag"
             android:layout_width="match_parent"
-            android:layout_height="87.0dp"
+            android:layout_height="94.0dp"
             android:layout_below="@id/tv_venue">
         <ImageView
                 android:id="@+id/imageView"
@@ -46,7 +46,7 @@
                 android:src="@drawable/bg_default_common"/>
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="87.0dp"
+                android:layout_height="94.0dp"
                 android:layout_marginLeft="11dp"
                 android:layout_toRightOf="@id/imageView"
                 android:gravity="top">
@@ -93,6 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6.0dip"
                         android:drawablePadding="6dp"
+                        android:minHeight="30dp"
                         android:drawableRight="@drawable/icon_nearby_map"
                         android:gravity="top"
                         android:lineSpacingMultiplier="1.5"

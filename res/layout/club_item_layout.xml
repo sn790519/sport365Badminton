@@ -59,12 +59,12 @@
     <RelativeLayout
         android:id="@+id/flag"
         android:layout_width="match_parent"
-        android:layout_height="87.0dp"
+        android:layout_height="94.0dp"
         android:layout_below="@id/rl_flag" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="87.0dp"
+            android:layout_height="94.0dp"
             android:layout_marginLeft="11dp"
             android:layout_toRightOf="@id/imageView"
             android:gravity="top" >
@@ -122,13 +122,13 @@
                     android:id="@+id/tv_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minHeight="35dp"
                     android:layout_marginRight="6.0dip"
                     android:drawableRight="@drawable/icon_nearby_map"
                     android:gravity="top"
                     android:lineSpacingMultiplier="1.5"
                     android:maxLines="2"
                     android:paddingLeft="4.0dp"
-                    android:text="江苏省  苏州市  工业园区  苏州工业园区创意产业园4期"
                     android:textColor="@color/hint"
                     android:textSize="@dimen/hint" />
             </LinearLayout>
