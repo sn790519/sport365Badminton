@@ -33,6 +33,10 @@ public class MapViewActivity extends BaseActivity implements MapViewFragment.OnR
 		initActionBar();
 		initBundle();
 		MapViewFragment newFragment = new MapViewFragment();
+		Bundle bundle=new Bundle();
+		bundle.putString(MapViewActivity.LAT, lat);
+		bundle.putString(MapViewActivity.LON, lon);
+		newFragment.setArguments(bundle);
 		newFragment.setonRoutePlanSuccessListener(this);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.fragment_container, newFragment);

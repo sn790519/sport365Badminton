@@ -91,7 +91,6 @@ public class HomeBallFriendFragment extends BaseFragment {
         }, "javaMethod");
 
         my_webview.loadUrl("http://yundong.shenghuo365.net/yd365/cheap-index.html" + "?app=1");
-        ULog.error("url=----http://yundong.shenghuo365.net/yd365/cheap-index.html" + "?app=1");
         return view;
     }
 
