@@ -27,6 +27,10 @@ import com.squareup.okhttp.ResponseBody;
  */
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
+
+	public static final String CLUBID = "CLUBID";
+	private String clubid = "";
+
 	private Button btn_send_code;
 	private Button btn_register;
 	private EditText et_phone;
@@ -37,6 +41,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		// 获取clubid
+		clubid = getIntent().getStringExtra(CLUBID);
 		initActionBar();
 		findViews();
 	}

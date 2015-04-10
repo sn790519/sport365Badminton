@@ -55,7 +55,11 @@ public class ActivityCenterView extends RelativeLayout implements OnClickListene
 	public RelativeLayout setDateView(VenueEntityObj venueEntityobj) {
 		if (venueEntityobj != null) {
 			// 名称
-			tv_venue.setText(!TextUtils.isEmpty(venueEntityobj.name) ? venueEntityobj.name : "");
+			String clubName = !TextUtils.isEmpty(venueEntityobj.name) ? venueEntityobj.name : "";
+			//加入距离
+			String distance = !TextUtils.isEmpty(venueEntityobj.distance) && !"0".equals(venueEntityobj.distance) ? "（" + venueEntityobj.distance + "）" : "";
+			tv_venue.setText(clubName + distance);
+
 			// 图片
 			ImageLoader.getInstance().displayImage(!TextUtils.isEmpty(venueEntityobj.logo) ? venueEntityobj.logo : "", imageView);
 			// 时间

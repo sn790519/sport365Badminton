@@ -126,7 +126,7 @@ public class ClubListActivity extends BaseActivity implements PullToRefreshBase.
 	private View initHeadView() {
 		View headView = mLayoutInflater.inflate(R.layout.activity_center_headview_layout, null);
 		et_search_text = (EditText) headView.findViewById(R.id.et_search_text);
-		et_search_text.setHint("请输入俱乐部的名称");
+		et_search_text.setHint("请输入社团的名称");
 		btn_search = (Button) headView.findViewById(R.id.btn_search);
 		btn_search.setOnClickListener(new View.OnClickListener() {
 			@Override

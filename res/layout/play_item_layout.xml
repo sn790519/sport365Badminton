@@ -231,6 +231,7 @@
                 android:gravity="top"
                 android:singleLine="true"
                 android:paddingLeft="4.0dp"
+                android:ellipsize="end"
                 android:text="地点：江苏省  苏州市 "
                 android:textColor="@color/hint"
                 android:textSize="@dimen/hint" />

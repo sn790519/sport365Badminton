@@ -59,7 +59,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.club_detail_layout);
-		setActionBarTitle("俱乐部详情");
+		setActionBarTitle("社团详情");
 		mActionbar_right.setVisibility(View.GONE);
 		initData();
 		initView();
@@ -85,17 +85,18 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 		clubView.setDateView(clubTabEntityObj);
 		clubView.setBottonVisible(View.GONE);
 		clubView.setTopRecommadImageViewVisible(View.GONE);
-		clubView.setRechangeVisible(View.VISIBLE);
+		if(SystemConfig.isLogin()){
+			clubView.setRechangeVisible(View.GONE);
+		}else{
+			clubView.setRechangeVisible(View.VISIBLE);
+		}
 		clubView.setClubListen(new ClubView.ClubListen() {
 			@Override
 			public void doRechange() {
-				Utilities.showToast("充值页面", mContext);
-				Intent intent = new Intent(ClubDetailActivity.this, MainActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intent.putExtra(MainActivity.PAYTYPE, MainActivity.PAYTYPE);
+				// 登录
+				Intent intent = new Intent(ClubDetailActivity.this, RegisterActivity.class);
+				intent.putExtra(RegisterActivity.CLUBID, clubTabEntityObj.clubId);
 				startActivity(intent);
-				ClubDetailActivity.this.finish();
 			}
 
 			@Override
@@ -132,7 +133,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 	private void init_GET_CLUB_INFO_BYID() {
 		GetClubInfoByidReqBody reqBody = new GetClubInfoByidReqBody();
-		reqBody.clubId = "1";
+		reqBody.clubId = clubTabEntityObj.clubId;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_CLUB_INFO_BYID), reqBody), null, new IRequestProxyCallback() {
 
 			@Override
@@ -177,7 +178,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 		ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
 			@Override
 			public void FirstOnClick() {
-				addVenueListView(venueList);
+				addActivityListView(activeList);
 			}
 
 			@Override
@@ -187,7 +188,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 			@Override
 			public void ThirdOnClick() {
-				addActivityListView(activeList);
+				addVenueListView(venueList);
 			}
 
 			@Override
