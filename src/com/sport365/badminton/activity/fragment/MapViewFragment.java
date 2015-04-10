@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class MapViewFragment extends BaseFragment {
 	// 经纬度变量
 	private String lat = "";
 	private String lon = "";
+	private String name = "目的地";
 
 
 	@Override
@@ -83,9 +85,15 @@ public class MapViewFragment extends BaseFragment {
 		initLocation();
 		initPopView();
 //		initOverlay();
-		lat = getArguments().getString(MapViewActivity.LAT);
-		lon = getArguments().getString(MapViewActivity.LON);
-		setData(lat, lon);
+		Bundle bundle = getArguments();
+		if (null != bundle) {
+			lat = bundle.getString(MapViewActivity.LAT);
+			lon = bundle.getString(MapViewActivity.LON);
+			name = TextUtils.isEmpty(bundle.getString(MapViewActivity.NAME)) ? "目的地" : bundle.getString(MapViewActivity.NAME);
+			if (!TextUtils.isEmpty(lat) && !TextUtils.isEmpty(lon)) {
+				setData(lat, lon);
+			}
+		}
 	}
 
 	private void initLocation() {
@@ -100,7 +108,7 @@ public class MapViewFragment extends BaseFragment {
 				.fromResource(R.drawable.icon_balloon);
 		OverlayOptions option = new MarkerOptions()
 				.position(point)
-				.icon(bitmap).title("目的地");
+				.icon(bitmap).title(name);
 		//在地图上添加Marker，并显示
 		Marker marker = (Marker) mBaiduMap.addOverlay(option);
 		mCurrentmMrker = marker;
@@ -119,44 +127,44 @@ public class MapViewFragment extends BaseFragment {
 		});
 	}
 
-
-	private void initOverlay() {
-		//添加Marker
-		LatLng point = new LatLng(31.297048, 120.704062);
-		LatLng point1 = new LatLng(31.309636, 120.672442);
-		LatLng point2 = new LatLng(31.279766, 120.66468);
-		BitmapDescriptor bitmap = BitmapDescriptorFactory
-				.fromResource(R.drawable.icon_balloon);
-		OverlayOptions option = new MarkerOptions()
-				.position(point)
-				.icon(bitmap).title("景点");
-		//在地图上添加Marker，并显示
-		Marker marker = (Marker) mBaiduMap.addOverlay(option);
-
-		OverlayOptions option1 = new MarkerOptions()
-				.position(point1).title("景点1")
-				.icon(bitmap);
-		Marker marker1 = (Marker) mBaiduMap.addOverlay(option1);
-
-		OverlayOptions option2 = new MarkerOptions()
-				.position(point2).title("景点2")
-				.icon(bitmap);
-		Marker marker2 = (Marker) mBaiduMap.addOverlay(option2);
-
-		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(point);
-		mBaiduMap.animateMapStatus(u);
-		mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-			@Override
-			public boolean onMarkerClick(final Marker marker) {
-				tv_name.setText(marker.getTitle());
-				LatLng ll = marker.getPosition();
-				mInfoWindow = new InfoWindow(mapPopView, ll, -5);
-				mBaiduMap.showInfoWindow(mInfoWindow);
-				mCurrentmMrker = marker;
-				return true;
-			}
-		});
-	}
+//
+//	private void initOverlay() {
+//		//添加Marker
+//		LatLng point = new LatLng(31.297048, 120.704062);
+//		LatLng point1 = new LatLng(31.309636, 120.672442);
+//		LatLng point2 = new LatLng(31.279766, 120.66468);
+//		BitmapDescriptor bitmap = BitmapDescriptorFactory
+//				.fromResource(R.drawable.icon_balloon);
+//		OverlayOptions option = new MarkerOptions()
+//				.position(point)
+//				.icon(bitmap).title("景点");
+//		//在地图上添加Marker，并显示
+//		Marker marker = (Marker) mBaiduMap.addOverlay(option);
+//
+//		OverlayOptions option1 = new MarkerOptions()
+//				.position(point1).title("景点1")
+//				.icon(bitmap);
+//		Marker marker1 = (Marker) mBaiduMap.addOverlay(option1);
+//
+//		OverlayOptions option2 = new MarkerOptions()
+//				.position(point2).title("景点2")
+//				.icon(bitmap);
+//		Marker marker2 = (Marker) mBaiduMap.addOverlay(option2);
+//
+//		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(point);
+//		mBaiduMap.animateMapStatus(u);
+//		mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+//			@Override
+//			public boolean onMarkerClick(final Marker marker) {
+//				tv_name.setText(marker.getTitle());
+//				LatLng ll = marker.getPosition();
+//				mInfoWindow = new InfoWindow(mapPopView, ll, -5);
+//				mBaiduMap.showInfoWindow(mInfoWindow);
+//				mCurrentmMrker = marker;
+//				return true;
+//			}
+//		});
+//	}
 
 	private void initPopView() {
 		//地图弹出黑色气泡窗
