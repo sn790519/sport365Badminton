@@ -120,8 +120,10 @@ public class PlayDetailActivity extends BaseActivity {
 			public void goMapShow() {
 				Utilities.showToast("地图页面", mContext);
 				Intent intent = new Intent(PlayDetailActivity.this, MapViewActivity.class);
-				intent.putExtra(MapViewActivity.LAT, matchEntityObj.latitude);
-				intent.putExtra(MapViewActivity.LON, matchEntityObj.longitude);
+				Bundle bundle = new Bundle();
+				bundle.putString(MapViewActivity.LAT,  matchEntityObj.latitude);
+				bundle.putString(MapViewActivity.LON,  matchEntityObj.longitude);
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 

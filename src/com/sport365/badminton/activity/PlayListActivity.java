@@ -406,8 +406,10 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 				public void goMapShow() {
 					Utilities.showToast("地图页面", mContext);
 					Intent intent = new Intent(PlayListActivity.this, MapViewActivity.class);
-					intent.putExtra(MapViewActivity.LAT, mMatchEntityObj.latitude);
-					intent.putExtra(MapViewActivity.LON, mMatchEntityObj.longitude);
+					Bundle bundle = new Bundle();
+					bundle.putString(MapViewActivity.LAT,  mMatchEntityObj.latitude);
+					bundle.putString(MapViewActivity.LON,  mMatchEntityObj.longitude);
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 

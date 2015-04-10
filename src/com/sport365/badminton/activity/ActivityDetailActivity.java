@@ -309,8 +309,10 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			public void goMapShow() {
 				Utilities.showToast("查看地图", mContext);
 				Intent intent = new Intent(ActivityDetailActivity.this, MapViewActivity.class);
-				intent.putExtra(MapViewActivity.LAT, activeEntityObj.latitude);
-				intent.putExtra(MapViewActivity.LON, activeEntityObj.longitude);
+				Bundle bundle = new Bundle();
+				bundle.putString(MapViewActivity.LAT, activeEntityObj.latitude);
+				bundle.putString(MapViewActivity.LON, activeEntityObj.longitude);
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		});

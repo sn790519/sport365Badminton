@@ -483,8 +483,10 @@ public class ActivityCenterListAtivity extends BaseActivity implements PullToRef
 				@Override
 				public void goMapShow() {
 					Intent intent = new Intent(ActivityCenterListAtivity.this, MapViewActivity.class);
-					intent.putExtra(MapViewActivity.LAT, venueEntityobj.latitude);
-					intent.putExtra(MapViewActivity.LON, venueEntityobj.longitude);
+					Bundle bundle = new Bundle();
+					bundle.putString(MapViewActivity.LAT, venueEntityobj.latitude);
+					bundle.putString(MapViewActivity.LON, venueEntityobj.longitude);
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 			});

@@ -42,7 +42,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 运动会所的详情页面
- * 
+ *
  * @author Frank
  */
 public class ActivityCenterDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
@@ -116,8 +116,10 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 			public void goMapShow() {
 				Utilities.showToast("查看地图", mContext);
 				Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
-				intent.putExtra(MapViewActivity.LAT, venueEntityObj.latitude);
-				intent.putExtra(MapViewActivity.LON, venueEntityObj.longitude);
+				Bundle bundle = new Bundle();
+				bundle.putString(MapViewActivity.LAT,  venueEntityObj.latitude);
+				bundle.putString(MapViewActivity.LON,  venueEntityObj.longitude);
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		});
@@ -219,8 +221,10 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 				public void goMapShow() {
 					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
-					intent.putExtra(MapViewActivity.LAT, activeList.get(flag).latitude);
-					intent.putExtra(MapViewActivity.LON, activeList.get(flag).longitude);
+					Bundle bundle = new Bundle();
+					bundle.putString(MapViewActivity.LAT,  activeList.get(flag).latitude);
+					bundle.putString(MapViewActivity.LON, activeList.get(flag).longitude);
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 			});
@@ -243,7 +247,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 	/**
 	 * 加入俱乐部列表的View
-	 * 
+	 *
 	 * @param clubList
 	 */
 	private void addClubListView(final ArrayList<ClubTabEntityObj> clubList) {
@@ -276,8 +280,10 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 				public void goMapShow() {
 					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
-					intent.putExtra(MapViewActivity.LAT, clubList.get(flag).latitude);
-					intent.putExtra(MapViewActivity.LON, clubList.get(flag).longitude);
+					Bundle bundle = new Bundle();
+					bundle.putString(MapViewActivity.LAT,  clubList.get(flag).latitude);
+					bundle.putString(MapViewActivity.LON,  clubList.get(flag).longitude);
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 			});
@@ -301,7 +307,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 	/**
 	 * 加入比赛列表的view
-	 * 
+	 *
 	 * @param matchList
 	 */
 	private void addMatchListView(final ArrayList<MatchEntityObj> matchList) {
@@ -318,8 +324,10 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 				public void goMapShow() {
 					Utilities.showToast("地图页面", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
-					intent.putExtra(MapViewActivity.LAT, matchList.get(flag).latitude);
-					intent.putExtra(MapViewActivity.LON, matchList.get(flag).longitude);
+					Bundle bundle = new Bundle();
+					bundle.putString(MapViewActivity.LAT,  matchList.get(flag).latitude);
+					bundle.putString(MapViewActivity.LON,  matchList.get(flag).longitude);
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 
@@ -456,9 +464,9 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 					public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
 						ResponseContent<ActiveRegistResBody> de = jsonResponse.getResponseContent(ActiveRegistResBody.class);
 						ActiveRegistResBody resbody = de.getBody();
-						if(resbody != null){
+						if (resbody != null) {
 							Utilities.showDialogWithMemberName(mContext, resbody.returnMsg);
-						}else{
+						} else {
 							Utilities.showDialogWithMemberName(mContext, "报名失败，请联系管理员.");
 						}
 					}
