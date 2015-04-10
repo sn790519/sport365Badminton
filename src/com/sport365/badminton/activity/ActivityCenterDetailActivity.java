@@ -138,7 +138,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 	private void init_GET_VENUE_DETAIL_BYID() {
 		final GetVenueDetailByIdReqBody reqBody = new GetVenueDetailByIdReqBody();
-		reqBody.venueId = "6";
+		reqBody.venueId = venueEntityObj.venueId;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_VENUE_DETAIL_BYID), reqBody), null, new IRequestProxyCallback() {
 
 			@Override

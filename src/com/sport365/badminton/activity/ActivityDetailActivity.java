@@ -331,7 +331,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	private void init_GET_ACTIVE_DETAIL_BYID() {
 		GetActiveDetailByIdReqBody reqBody = new GetActiveDetailByIdReqBody();
-		reqBody.activeId = "387";
+		reqBody.activeId = activeEntityObj.activeId;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ACTIVE_DETAIL_BYID), reqBody), null, new IRequestProxyCallback() {
 
 			@Override

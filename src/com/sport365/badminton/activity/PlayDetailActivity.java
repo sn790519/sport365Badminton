@@ -140,7 +140,7 @@ public class PlayDetailActivity extends BaseActivity {
 	 */
 	private void INIT_GET_MATCH_INFO_BYID() {
 		final GetMatchDetailByIDReqBody reqBody = new GetMatchDetailByIDReqBody();
-		reqBody.matchId = "2";
+		reqBody.matchId = matchEntityObj.matchId;
 		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_MATCH_DETAIL_BYID), reqBody), null, new IRequestProxyCallback() {
 
 			@Override

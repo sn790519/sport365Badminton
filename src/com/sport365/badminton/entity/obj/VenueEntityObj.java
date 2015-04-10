@@ -59,4 +59,5 @@ public class VenueEntityObj implements Serializable {
 	public String isRecommend;
 	public String recommendValue;
 	public String isCache;
+	public String distance;
 }

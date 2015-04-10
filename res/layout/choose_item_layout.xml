@@ -42,7 +42,7 @@
                 android:textColor="@color/white"
                 android:button="@color/base_blue"
                 android:drawableLeft="@drawable/btn_club"
-                android:text="俱乐部"/>
+                android:text="社团"/>
 
         <RadioButton
                 android:id="@+id/rb_menu_four"

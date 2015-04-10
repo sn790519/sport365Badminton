@@ -121,7 +121,7 @@ public class SystemConfig {
 	public static final String CITYID = "226";
 
 	// 默认列表加载的条数
-	public static final String PAGESIZE = "2";
+	public static final String PAGESIZE = "10";
 
 
 	//合作者身份(PARTNER)

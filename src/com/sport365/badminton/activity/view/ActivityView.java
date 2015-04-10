@@ -65,7 +65,9 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		if (mActiveEntityObj != null) {
 			// 活动名称
 			String clubName = !TextUtils.isEmpty(mActiveEntityObj.activeTitle) ? mActiveEntityObj.activeTitle : "";
-			tv_venue.setText(clubName);
+			//加入距离
+			String distance = !TextUtils.isEmpty(mActiveEntityObj.distance) && !"0".equals(mActiveEntityObj.distance) ? "（" + mActiveEntityObj.distance + "）" : "";
+			tv_venue.setText(clubName + distance);
 			// 价格
 			String activeFee = !TextUtils.isEmpty(mActiveEntityObj.activeFee) ? mActiveEntityObj.activeFee : "";
 			tv_price.setText(activeFee + "元");
@@ -194,7 +196,7 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 		}
 		return this;
 	}
-	
+
 	/**
 	 * 设置item每一项margintop的值
 	 */

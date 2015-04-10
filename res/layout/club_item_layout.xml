@@ -39,7 +39,7 @@
             android:paddingLeft="15.0dp"
             android:paddingRight="15dp"
             android:background="@drawable/btn_rechange"
-            android:text="充值"
+            android:text="注册"
             android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="@dimen/list" />
