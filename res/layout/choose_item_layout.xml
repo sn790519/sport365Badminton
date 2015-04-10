@@ -16,6 +16,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textColor="@color/white"
+                android:gravity="center"
                 android:background="@drawable/icon_blue_orgin_bg"
                 android:drawableLeft="@drawable/btn_activity"
                 android:text="活动"
@@ -30,6 +31,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:button="@color/base_blue"
+                android:gravity="center"
                 android:drawableLeft="@drawable/btn_map"
                 android:text="地图" android:checked="false"/>
 
@@ -41,6 +43,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:button="@color/base_blue"
+                android:gravity="center"
                 android:drawableLeft="@drawable/btn_club"
                 android:text="社团"/>
 
@@ -50,6 +53,7 @@
                 android:background="@drawable/icon_blue_orgin_bg"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:drawableLeft="@drawable/btn_game"
                 android:button="@color/base_blue"

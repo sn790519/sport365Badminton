@@ -15,8 +15,10 @@ import com.sport365.badminton.entity.obj.MatchEntityObj;
 import com.sport365.badminton.entity.obj.SportAdvertismentObj;
 import com.sport365.badminton.entity.reqbody.ActiveregistReqBody;
 import com.sport365.badminton.entity.reqbody.GetMatchDetailByIDReqBody;
+import com.sport365.badminton.entity.reqbody.GetactivememberlistReqBody;
 import com.sport365.badminton.entity.resbody.ActiveRegistResBody;
 import com.sport365.badminton.entity.resbody.GetMatchDetailByIDResBody;
+import com.sport365.badminton.entity.resbody.GetactivememberlistResBody;
 import com.sport365.badminton.entity.webservice.SportParameter;
 import com.sport365.badminton.entity.webservice.SportWebService;
 import com.sport365.badminton.http.base.HttpTaskHelper;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 
 /**
  * 比赛详情页面
- *
+ * 
  * @author Frank
  */
 public class PlayDetailActivity extends BaseActivity {
@@ -72,7 +74,7 @@ public class PlayDetailActivity extends BaseActivity {
 		});
 		initData();
 		initView();
-//		initADdata();
+		// initADdata();
 		initTitleLayout();
 		INIT_GET_MATCH_INFO_BYID();
 	}
@@ -118,11 +120,11 @@ public class PlayDetailActivity extends BaseActivity {
 
 			@Override
 			public void goMapShow() {
-				Utilities.showToast("地图页面", mContext);
 				Intent intent = new Intent(PlayDetailActivity.this, MapViewActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString(MapViewActivity.LAT,  matchEntityObj.latitude);
-				bundle.putString(MapViewActivity.LON,  matchEntityObj.longitude);
+				bundle.putString(MapViewActivity.LAT, matchEntityObj.latitude);
+				bundle.putString(MapViewActivity.LON, matchEntityObj.longitude);
+				bundle.putString(MapViewActivity.NAME, matchEntityObj.matchName);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -130,6 +132,12 @@ public class PlayDetailActivity extends BaseActivity {
 			@Override
 			public void doBookName() {
 				// do nothing
+			}
+
+			@Override
+			public void checkBookName() {
+				// 
+				getActiveMemberList(matchEntityObj.matchId);
 			}
 		});
 		ll_title_layout.addView(playView);
@@ -236,6 +244,34 @@ public class PlayDetailActivity extends BaseActivity {
 			}
 		}, true);
 
+	}
+
+	// 活动中拉取报名列表
+	private void getActiveMemberList(String activeId) {
+		GetactivememberlistReqBody reqBody = new GetactivememberlistReqBody();
+		reqBody.activeId = activeId;
+		reqBody.typeId = "1";
+		sendRequestWithDialog(new ServiceRequest(mContext, new SportWebService(SportParameter.GET_ACTIVE_MEMBERLIST), reqBody), null, new IRequestProxyCallback() {
+
+			@Override
+			public void onSuccess(HttpTaskHelper.JsonResponse jsonResponse, HttpTaskHelper.RequestInfo requestInfo) {
+				ResponseContent<GetactivememberlistResBody> de = jsonResponse.getResponseContent(GetactivememberlistResBody.class);
+				GetactivememberlistResBody resBody = de.getBody();
+				String members = "";
+				for (int i = 0; i < resBody.activeRegistList.size(); i++) {
+					members = members + resBody.activeRegistList.get(i).nickName + "\n";
+				}
+				if (resBody != null) {
+					Utilities.showDialogWithMemberName(mContext, members);
+				}
+			}
+
+			@Override
+			public void onError(ResponseContent.Header header, HttpTaskHelper.RequestInfo requestInfo) {
+				// TODO Auto-generated method stub
+				super.onError(header, requestInfo);
+			}
+		});
 	}
 
 }

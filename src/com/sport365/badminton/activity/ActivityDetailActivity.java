@@ -47,7 +47,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 活动详情页面
- *
+ * 
  * @author Frank
  */
 public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
@@ -62,8 +62,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	private LinearLayout ll_joinmember;// 参与人员
 	private LinearLayout ll_contactmember;// 联系管理员
-	private TextView tv_activity_rechange;// 充值
-	private TextView tv_sign_now;// 报名
+	private LinearLayout ll_activity_rechange;// 充值
+	private LinearLayout ll_sign_now;// 报名
 
 	// 分享信息
 	private String shareTitle = "";
@@ -84,7 +84,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 				actionBarPopupWindow.setAnimationStyle(R.style.AnimDialogBottom);
 				actionBarPopupWindow.setUrlANDSharetitle(shareUrl, shareTitle);
 				actionBarPopupWindow.showAtLocation(findViewById(R.id.flag), Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-//				WXShareUtil.getInstance(mContext).sendWebpage(false, shareUrl, shareTitle, shareTitle, null);
+				// WXShareUtil.getInstance(mContext).sendWebpage(false,
+				// shareUrl, shareTitle, shareTitle, null);
 			}
 		});
 		initData();
@@ -147,8 +148,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			}
 		});
 
-		tv_activity_rechange = (TextView) findViewById(R.id.tv_activity_rechange);
-		tv_activity_rechange.setOnClickListener(new View.OnClickListener() {
+		ll_activity_rechange = (LinearLayout) findViewById(R.id.ll_activity_rechange);
+		ll_activity_rechange.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// 活动充值
@@ -160,8 +161,8 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 				ActivityDetailActivity.this.finish();
 			}
 		});
-		tv_sign_now = (TextView) findViewById(R.id.tv_sign_now);
-		tv_sign_now.setOnClickListener(new View.OnClickListener() {
+		ll_sign_now = (LinearLayout) findViewById(R.id.ll_sign_now);
+		ll_sign_now.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// 报名
@@ -312,6 +313,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 				Bundle bundle = new Bundle();
 				bundle.putString(MapViewActivity.LAT, activeEntityObj.latitude);
 				bundle.putString(MapViewActivity.LON, activeEntityObj.longitude);
+				bundle.putString(MapViewActivity.NAME, activeEntityObj.activeTitle);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -397,7 +399,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	/**
 	 * 加入俱乐部列表的View
-	 *
+	 * 
 	 * @param clubList
 	 */
 	private void addClubListView(ArrayList<ClubTabEntityObj> clubList) {
@@ -413,7 +415,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 	/**
 	 * 加入比赛列表的view
-	 *
+	 * 
 	 * @param matchList
 	 */
 	private void addMatchListView(ArrayList<MatchEntityObj> matchList) {
@@ -447,6 +449,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		Bundle bundle = new Bundle();
 		bundle.putString(MapViewActivity.LAT, activeEntityObj.latitude);
 		bundle.putString(MapViewActivity.LON, activeEntityObj.longitude);
+		bundle.putString(MapViewActivity.NAME, activeEntityObj.activeTitle);
 		newFragment.setArguments(bundle);
 		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
 		// 设置mapview的高度

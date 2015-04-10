@@ -486,6 +486,7 @@ public class ActivityCenterListAtivity extends BaseActivity implements PullToRef
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, venueEntityobj.latitude);
 					bundle.putString(MapViewActivity.LON, venueEntityobj.longitude);
+					bundle.putString(MapViewActivity.NAME, venueEntityobj.name);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}

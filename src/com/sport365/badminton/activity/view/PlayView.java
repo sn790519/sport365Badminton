@@ -31,6 +31,8 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 	private TextView tv_company_name; // 主办方
 
 	private LinearLayout rl_layout;// 背景
+	
+	private RelativeLayout rl_bookname;
 	/**
 	 * 设置监听
 	 */
@@ -57,6 +59,8 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 		imageView = (ImageView) findViewById(R.id.imageView);
 		iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
 		rl_layout = (LinearLayout) findViewById(R.id.rl_layout);
+		rl_bookname = (RelativeLayout) findViewById(R.id.rl_bookname);
+		rl_bookname.setOnClickListener(this);
 	}
 
 	public RelativeLayout setDateView(MatchEntityObj mMatchEntityObj) {
@@ -96,6 +100,9 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 			if (!TextUtils.isEmpty(matchRealNum)) {
 				tv_play_num1.setText(matchRealNum);
 				tv_play_num2.setText("/" + matchTopNum + "人报名");
+			}else{
+				tv_play_num1.setText("");
+				tv_play_num2.setText("");
 			}
 
 		}
@@ -148,6 +155,12 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 		 * 地图查看位置
 		 */
 		public void goMapShow();
+		
+		/**
+		 * 查看预定人名单
+		 * 
+		 */
+		public void checkBookName();
 	}
 
 	@Override
@@ -161,6 +174,11 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 			case R.id.ll_bottom:
 				if (mPlayListen != null) {
 					mPlayListen.doBookName();
+				}
+				break;
+			case R.id.rl_bookname:
+				if(mPlayListen != null){
+					mPlayListen.checkBookName();
 				}
 				break;
 		}

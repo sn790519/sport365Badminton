@@ -404,11 +404,11 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("地图页面", mContext);
 					Intent intent = new Intent(PlayListActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT,  mMatchEntityObj.latitude);
 					bundle.putString(MapViewActivity.LON,  mMatchEntityObj.longitude);
+					bundle.putString(MapViewActivity.NAME,  mMatchEntityObj.matchName);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -416,6 +416,12 @@ public class PlayListActivity extends BaseActivity implements PullToRefreshBase.
 				@Override
 				public void doBookName() {
 					activeRegist(matchTabEntity.get(position).matchId);
+				}
+
+				@Override
+				public void checkBookName() {
+					// TODO Auto-generated method stub
+					
 				}
 			});
 			return convertView;

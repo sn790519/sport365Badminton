@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.sport365.badminton.BaseActivity;
@@ -116,6 +117,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 				Bundle bundle = new Bundle();
 				bundle.putString(MapViewActivity.LAT, clubTabEntityObj.latitude);
 				bundle.putString(MapViewActivity.LON, clubTabEntityObj.longitude);
+				bundle.putString(MapViewActivity.NAME, clubTabEntityObj.clubName);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -206,6 +208,12 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 	private void addVenueListView(final ArrayList<VenueEntityObj> venueList) {
 		setMatchLayoutParams();
 		ll_content.removeAllViews();
+		if (venueList == null || venueList.size() == 0) {
+			ImageView iv = new ImageView(mContext);
+			iv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.no_result_pic));
+			ll_content.addView(iv);
+			return;
+		}
 		for (int i = 0; venueList != null && i < venueList.size(); i++) {
 			final int flag = i;
 			ActivityCenterView activityCenterView = new ActivityCenterView(mContext);
@@ -235,6 +243,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, venueList.get(flag).latitude);
 					bundle.putString(MapViewActivity.LON, venueList.get(flag).longitude);
+					bundle.putString(MapViewActivity.NAME, venueList.get(flag).name);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -261,6 +270,12 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 	private void addActivityListView(final ArrayList<ActiveEntityObj> activeList) {
 		setMatchLayoutParams();
 		ll_content.removeAllViews();
+		if (activeList == null || activeList.size() == 0) {
+			ImageView iv = new ImageView(mContext);
+			iv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.no_result_pic));
+			ll_content.addView(iv);
+			return;
+		}
 		for (int i = 0; activeList != null && i < activeList.size(); i++) {
 			final int flag = i;
 			ActivityView activityView = new ActivityView(mContext);
@@ -285,6 +300,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, activeList.get(flag).latitude);
 					bundle.putString(MapViewActivity.LON, activeList.get(flag).longitude);
+					bundle.putString(MapViewActivity.NAME, activeList.get(flag).activeTitle);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -314,6 +330,12 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 	private void addMatchListView(final ArrayList<MatchEntityObj> matchList) {
 		setMatchLayoutParams();
 		ll_content.removeAllViews();
+		if (matchList == null || matchList.size() == 0) {
+			ImageView iv = new ImageView(mContext);
+			iv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.no_result_pic));
+			ll_content.addView(iv);
+			return;
+		}
 		for (int i = 0; matchList != null && i < matchList.size(); i++) {
 			final int flag = i;
 			PlayView playView = new PlayView(mContext);
@@ -323,11 +345,11 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("地图页面", mContext);
 					Intent intent = new Intent(ClubDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, matchList.get(flag).latitude);
 					bundle.putString(MapViewActivity.LON, matchList.get(flag).latitude);
+					bundle.putString(MapViewActivity.NAME, matchList.get(flag).matchName);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -335,6 +357,11 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 				@Override
 				public void doBookName() {
 					activeRegist(matchList.get(flag).matchId);
+				}
+
+				@Override
+				public void checkBookName() {
+						
 				}
 			});
 			playView.setOnClickListener(new OnClickListener() {

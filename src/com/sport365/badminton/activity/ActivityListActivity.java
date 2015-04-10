@@ -552,6 +552,7 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, mActiveEntityObj.latitude);
 					bundle.putString(MapViewActivity.LON, mActiveEntityObj.longitude);
+					bundle.putString(MapViewActivity.NAME, mActiveEntityObj.activeTitle);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}

@@ -118,6 +118,14 @@ public class ActivityView extends RelativeLayout implements OnClickListener {
 			} else {
 				iv_tag_top.setImageBitmap(null);
 			}
+			
+			// 进行中的标识
+			if("1".equals(mActiveEntityObj.isValid)){
+				iv_activity_flag.setImageDrawable(getContext().getResources().getDrawable(R.drawable.indicator_ongoing));
+			}else{
+				iv_activity_flag.setImageDrawable(null);
+			}
+			
 		}
 		return this;
 	}

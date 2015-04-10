@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.sport365.badminton.BaseActivity;
@@ -42,7 +43,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
 
 /**
  * 运动会所的详情页面
- *
+ * 
  * @author Frank
  */
 public class ActivityCenterDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
@@ -117,8 +118,9 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 				Utilities.showToast("查看地图", mContext);
 				Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString(MapViewActivity.LAT,  venueEntityObj.latitude);
-				bundle.putString(MapViewActivity.LON,  venueEntityObj.longitude);
+				bundle.putString(MapViewActivity.LAT, venueEntityObj.latitude);
+				bundle.putString(MapViewActivity.LON, venueEntityObj.longitude);
+				bundle.putString(MapViewActivity.NAME, venueEntityObj.name);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -200,6 +202,12 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	private void addActivityListView(final ArrayList<ActiveEntityObj> activeList) {
 		setMatchLayoutParams();
 		ll_content.removeAllViews();
+		if (activeList == null || activeList.size() == 0) {
+			ImageView iv = new ImageView(mContext);
+			iv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.no_result_pic));
+			ll_content.addView(iv);
+			return;
+		}
 		for (int i = 0; activeList != null && i < activeList.size(); i++) {
 			final int flag = i;
 			ActivityView activityView = new ActivityView(mContext);
@@ -222,8 +230,9 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putString(MapViewActivity.LAT,  activeList.get(flag).latitude);
+					bundle.putString(MapViewActivity.LAT, activeList.get(flag).latitude);
 					bundle.putString(MapViewActivity.LON, activeList.get(flag).longitude);
+					bundle.putString(MapViewActivity.NAME, activeList.get(flag).activeTitle);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -247,12 +256,18 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 	/**
 	 * 加入俱乐部列表的View
-	 *
+	 * 
 	 * @param clubList
 	 */
 	private void addClubListView(final ArrayList<ClubTabEntityObj> clubList) {
 		setMatchLayoutParams();
 		ll_content.removeAllViews();
+		if (clubList == null || clubList.size() == 0) {
+			ImageView iv = new ImageView(mContext);
+			iv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.no_result_pic));
+			ll_content.addView(iv);
+			return;
+		}
 		for (int i = 0; clubList != null && i < clubList.size(); i++) {
 			final int flag = i;
 			ClubView clubView = new ClubView(mContext);
@@ -281,8 +296,9 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putString(MapViewActivity.LAT,  clubList.get(flag).latitude);
-					bundle.putString(MapViewActivity.LON,  clubList.get(flag).longitude);
+					bundle.putString(MapViewActivity.LAT, clubList.get(flag).latitude);
+					bundle.putString(MapViewActivity.LON, clubList.get(flag).longitude);
+					bundle.putString(MapViewActivity.NAME, clubList.get(flag).cityName);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -307,12 +323,18 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 	/**
 	 * 加入比赛列表的view
-	 *
+	 * 
 	 * @param matchList
 	 */
 	private void addMatchListView(final ArrayList<MatchEntityObj> matchList) {
 		setMatchLayoutParams();
 		ll_content.removeAllViews();
+		if (matchList == null || matchList.size() == 0) {
+			ImageView iv = new ImageView(mContext);
+			iv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.no_result_pic));
+			ll_content.addView(iv);
+			return;
+		}
 		for (int i = 0; matchList != null && i < matchList.size(); i++) {
 			final int flag = i;
 			PlayView playView = new PlayView(mContext);
@@ -325,8 +347,9 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 					Utilities.showToast("地图页面", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putString(MapViewActivity.LAT,  matchList.get(flag).latitude);
-					bundle.putString(MapViewActivity.LON,  matchList.get(flag).longitude);
+					bundle.putString(MapViewActivity.LAT, matchList.get(flag).latitude);
+					bundle.putString(MapViewActivity.LON, matchList.get(flag).longitude);
+					bundle.putString(MapViewActivity.NAME, matchList.get(flag).matchName);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -334,6 +357,12 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 				@Override
 				public void doBookName() {
 					activeRegist(matchList.get(flag).matchId);
+				}
+
+				@Override
+				public void checkBookName() {
+					// TODO Auto-generated method stub
+					
 				}
 			});
 			playView.setOnClickListener(new OnClickListener() {

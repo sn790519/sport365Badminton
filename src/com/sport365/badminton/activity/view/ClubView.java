@@ -17,9 +17,9 @@ import com.sport365.badminton.http.base.ImageLoader;
  * 俱乐部的view Created by kjh08490 on 2015/3/7.
  */
 public class ClubView extends RelativeLayout implements OnClickListener {
-	
-	private RelativeLayout rl_layout;// 
-	
+
+	private RelativeLayout rl_layout;//
+
 	private TextView tv_venue; // 场馆
 	private TextView tv_price; // 价格
 	private ImageView imageView; // 图片
@@ -55,7 +55,7 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 		btn_rechange.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView);
 		ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
-		rl_layout = (RelativeLayout)findViewById(R.id.rl_layout);
+		rl_layout = (RelativeLayout) findViewById(R.id.rl_layout);
 		iv_tag_top = (ImageView) findViewById(R.id.iv_tag_top);
 	}
 
@@ -64,7 +64,7 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 			// 场馆
 			String clubName = !TextUtils.isEmpty(mClubTabEntityObj.clubName) ? mClubTabEntityObj.clubName : "";
 			tv_venue.setText(clubName);
-			//均价
+			// 均价
 			tv_phone.setText("均价：");
 			// 价格
 			String privce = !TextUtils.isEmpty(mClubTabEntityObj.activeFee) ? mClubTabEntityObj.activeFee : "";
@@ -99,13 +99,14 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 			} else {
 				iv_tag_top.setImageBitmap(null);
 			}
+
 		}
 		return this;
 	}
 
 	/**
 	 * 隐藏item的底部框
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -116,7 +117,7 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置推荐置顶图片GONE
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -128,7 +129,7 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置充值按显示，默认不显示
-	 *
+	 * 
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -139,17 +140,16 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置club监听
-	 *
+	 * 
 	 * @param mClubListen
 	 */
 	public void setClubListen(ClubListen mClubListen) {
 		this.mClubListen = mClubListen;
 	}
 
-
 	/**
 	 * Club底部button的listen
-	 *
+	 * 
 	 * @author Frank
 	 */
 	public interface ClubListen {
@@ -174,35 +174,34 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 		public void goMapShow();
 	}
 
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tv_rechange:
-				if (mClubListen != null) {
-					mClubListen.doRechange();
-				}
-				break;
-			case R.id.tv_game:
-				if (mClubListen != null) {
-					mClubListen.lookMathces();
-				}
-				break;
-			case R.id.tv_activity:
-				if (mClubListen != null) {
-					mClubListen.lookActivitys();
-				}
-				break;
-			case R.id.btn_rechange:
-				if (mClubListen != null) {
-					mClubListen.doRechange();
-				}
-				break;
-			case R.id.tv_distance:
-				if (mClubListen != null) {
-					mClubListen.goMapShow();
-				}
-				break;
+		case R.id.tv_rechange:
+			if (mClubListen != null) {
+				mClubListen.doRechange();
+			}
+			break;
+		case R.id.tv_game:
+			if (mClubListen != null) {
+				mClubListen.lookMathces();
+			}
+			break;
+		case R.id.tv_activity:
+			if (mClubListen != null) {
+				mClubListen.lookActivitys();
+			}
+			break;
+		case R.id.btn_rechange:
+			if (mClubListen != null) {
+				mClubListen.doRechange();
+			}
+			break;
+		case R.id.tv_distance:
+			if (mClubListen != null) {
+				mClubListen.goMapShow();
+			}
+			break;
 		}
 	}
 
@@ -215,6 +214,5 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 		rl_layout.setLayoutParams(ll);
 		return this;
 	}
-	
-	
+
 }

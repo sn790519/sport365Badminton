@@ -462,6 +462,7 @@ public class ClubListActivity extends BaseActivity implements PullToRefreshBase.
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT,  mClubTabEntityObj.latitude);
 					bundle.putString(MapViewActivity.LON,  mClubTabEntityObj.longitude);
+					bundle.putString(MapViewActivity.NAME,  mClubTabEntityObj.clubName);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
