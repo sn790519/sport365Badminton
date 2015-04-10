@@ -19,24 +19,26 @@ public class MapViewActivity extends BaseActivity implements MapViewFragment.OnR
 	// 经纬度常量
 	public static final String LAT = "LAT";
 	public static final String LON = "LON";
+	//名字
+	public static final String NAME = "NAME";
 
 	private String naviType;
 
 	// 经纬度变量
-	private String lat = "";
-	private String lon = "";
+//	private String lat = "";
+//	private String lon = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mapview);
 		initActionBar();
-		initBundle();
+//		initBundle();
 		MapViewFragment newFragment = new MapViewFragment();
-		Bundle bundle=new Bundle();
-		bundle.putString(MapViewActivity.LAT, lat);
-		bundle.putString(MapViewActivity.LON, lon);
-		newFragment.setArguments(bundle);
+//		Bundle bundle=new Bundle();
+//		bundle.putString(MapViewActivity.LAT, lat);
+//		bundle.putString(MapViewActivity.LON, lon);
+		newFragment.setArguments(getIntent().getExtras());
 		newFragment.setonRoutePlanSuccessListener(this);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.fragment_container, newFragment);
@@ -47,10 +49,10 @@ public class MapViewActivity extends BaseActivity implements MapViewFragment.OnR
 	/**
 	 * 获取经纬度
 	 */
-	private void initBundle() {
-		lat = getIntent().getStringExtra(LAT);
-		lon = getIntent().getStringExtra(LON);
-	}
+//	private void initBundle() {
+//		lat = getIntent().getStringExtra(LAT);
+//		lon = getIntent().getStringExtra(LON);
+//	}
 
 	private void initActionBar() {
 		setActionBarTitle("地图");

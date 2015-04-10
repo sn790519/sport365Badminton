@@ -549,8 +549,10 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 				public void goMapShow() {
 					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityListActivity.this, MapViewActivity.class);
-					intent.putExtra(MapViewActivity.LAT, mActiveEntityObj.latitude);
-					intent.putExtra(MapViewActivity.LON, mActiveEntityObj.longitude);
+					Bundle bundle = new Bundle();
+					bundle.putString(MapViewActivity.LAT, mActiveEntityObj.latitude);
+					bundle.putString(MapViewActivity.LON, mActiveEntityObj.longitude);
+					intent.putExtras(bundle);
 					startActivity(intent);
 				}
 			});
