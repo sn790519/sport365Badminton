@@ -65,7 +65,7 @@ public class HomePayFragment extends BaseFragment implements
 	private TextView tv_qq;
 
 	// 支付选择的position,默认选择充值金额第一项
-	private int choosePosition = 0;
+	private int choosePosition = 1;
 
 	PayChooseAdapter payChooseAdapter;
 	public IWXAPI weixin;
@@ -330,7 +330,7 @@ public class HomePayFragment extends BaseFragment implements
 						R.color.base_orange));
 			} else {
 				tv_prive.setBackgroundColor(getResources().getColor(
-						R.color.white));
+						R.color.pay_backgroud));
 
 			}
 			return convertView;

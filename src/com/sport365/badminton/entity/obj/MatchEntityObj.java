@@ -20,15 +20,17 @@ public class MatchEntityObj implements Serializable{
 	public String isValid;
 	public String longitude;
 	public String latitude;
-	public String matchRealNum;
-	public String matchTopNum;
 	public String venueId;
 	public String activeId;
 	public String venueName;
 	public String matchAdress;
 	public String matchPresenter;
 	public String matchAwardFee;// 奖金
-
+	public String matchRealNum;
+	public String matchTopNum;
+	/*"matchRealNum": "11",
+			"matchTopNum": "100",
+*/
 	/*{
 		"id":"2",
 			"matchId":"2",

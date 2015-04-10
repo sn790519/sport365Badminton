@@ -274,6 +274,7 @@
     <!-- 黄绿色 -->
 
     <color name="lightblue">#ADD8E6</color>
+    <color name="pay_backgroud">#E0E0E0</color>
     <!-- 亮蓝色 -->
 
     <color name="darkgrey">#A9A9A9</color>

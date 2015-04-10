@@ -19,7 +19,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_ten_dp"
+                android:layout_marginTop="@dimen/margin_twenty_five_dp"
                 android:gravity="center_vertical"
                 android:minHeight="@dimen/pay_item_height"
                 android:orientation="horizontal" >
@@ -34,7 +34,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/hint"
+                    android:background="@color/pay_backgroud"
                     android:gravity="center_vertical"
                     android:paddingLeft="6dp"
                      />
@@ -58,7 +58,7 @@
                     android:id="@+id/tv_phone"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/hint"
+                    android:background="@color/pay_backgroud"
                     android:gravity="center_vertical"
                     android:paddingLeft="6dp"
                      />
@@ -82,7 +82,7 @@
                     android:id="@+id/tv_email"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/hint"
+                    android:background="@color/pay_backgroud"
                     android:gravity="center_vertical"
                     android:paddingLeft="6dp"
                      />
@@ -106,7 +106,7 @@
                     android:id="@+id/tv_qq"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/hint"
+                    android:background="@color/pay_backgroud"
                     android:gravity="center_vertical"
                     android:paddingLeft="6dp"
                      />
@@ -124,7 +124,7 @@
                     android:layout_marginTop="@dimen/margin_fifteen_dp"
                     android:text="充值金额："
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_list" />
+                    android:textSize="@dimen/text_size_xlarge" />
 
                 <com.sport365.badminton.view.NoScrollGridView
                     android:id="@+id/gv_money_choose"
@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:text="付款方式："
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_list" />
+                    android:textSize="@dimen/text_size_xlarge" />
 
                 <RadioGroup
                     android:id="@+id/rg_menu"

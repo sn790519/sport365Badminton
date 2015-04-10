@@ -22,7 +22,8 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 	private ImageView imageView; // 图片
 	private ImageView iv_arrow; // 箭头
 	private TextView tv_paly_name; // 活动名称
-	private TextView tv_play_num; // 活动报名的人数
+	private TextView tv_play_num1; // 活动报名的人数
+	private TextView tv_play_num2; // 活动报名的人数
 	private TextView tv_play_price; // 价格
 	private TextView tv_time_on; // 时间
 	private TextView tv_place_big; // 大区域
@@ -43,7 +44,8 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 		tv_play_activity_pic = (TextView) findViewById(R.id.tv_play_activity_pic);
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_paly_name = (TextView) findViewById(R.id.tv_paly_name);
-		tv_play_num = (TextView) findViewById(R.id.tv_play_num);
+		tv_play_num1 = (TextView) findViewById(R.id.tv_play_num1);
+		tv_play_num2 = (TextView) findViewById(R.id.tv_play_num2);
 		tv_play_price = (TextView) findViewById(R.id.tv_play_price);
 		tv_time_on = (TextView) findViewById(R.id.tv_time_on);
 		tv_place_big = (TextView) findViewById(R.id.tv_place_big);
@@ -87,13 +89,22 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 			// 价格
 			String matchFee = !TextUtils.isEmpty(mMatchEntityObj.matchFee) ? mMatchEntityObj.matchFee : "";
 			tv_play_price.setText("￥" + matchFee);
+
+			// 22/28报名
+			String matchRealNum = !TextUtils.isEmpty(mMatchEntityObj.matchRealNum) ? mMatchEntityObj.matchRealNum : "";
+			String matchTopNum = !TextUtils.isEmpty(mMatchEntityObj.matchTopNum) ? mMatchEntityObj.matchTopNum : "";
+			if (!TextUtils.isEmpty(matchRealNum)) {
+				tv_play_num1.setText(matchRealNum);
+				tv_play_num2.setText("/" + matchTopNum + "人报名");
+			}
+
 		}
 		return this;
 	}
 
 	/**
 	 * 隐藏item的底部框
-	 * 
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -104,7 +115,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 方法将箭头隐藏
-	 * 
+	 *
 	 * @param FlagVisible
 	 * @return
 	 */
@@ -115,7 +126,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置监听
-	 * 
+	 *
 	 * @param mPlayListen
 	 */
 	public void setPlayListen(PlayListen mPlayListen) {
@@ -124,7 +135,7 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 
 	/**
 	 * 设置比赛监听
-	 * 
+	 *
 	 * @author Frank
 	 */
 	public interface PlayListen {
@@ -142,22 +153,22 @@ public class PlayView extends RelativeLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_distance:
-			if (mPlayListen != null) {
-				mPlayListen.goMapShow();
-			}
-			break;
-		case R.id.ll_bottom:
-			if (mPlayListen != null) {
-				mPlayListen.doBookName();
-			}
-			break;
+			case R.id.tv_distance:
+				if (mPlayListen != null) {
+					mPlayListen.goMapShow();
+				}
+				break;
+			case R.id.ll_bottom:
+				if (mPlayListen != null) {
+					mPlayListen.doBookName();
+				}
+				break;
 		}
 	}
 
 	/**
 	 * 设置背景为白色
-	 * 
+	 *
 	 * @return
 	 */
 	public RelativeLayout setBackgroundWhiteColor() {
