@@ -444,6 +444,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	private void addMapView() {
 		ll_content.removeAllViews();
 		MapViewFragment newFragment = new MapViewFragment();
+
 		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
 		// 设置mapview的高度
 		ll.height = SystemConfig.dm.heightPixels * 11 / 20;

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,9 +84,14 @@ public class MapViewFragment extends BaseFragment {
 		initLocation();
 		initPopView();
 //		initOverlay();
-		lat = getArguments().getString(MapViewActivity.LAT);
-		lon = getArguments().getString(MapViewActivity.LON);
-		setData(lat, lon);
+		Bundle bundle = getArguments();
+		if (null != bundle) {
+			lat = bundle.getString(MapViewActivity.LAT);
+			lon = bundle.getString(MapViewActivity.LON);
+			if (!TextUtils.isEmpty(lat) && !TextUtils.isEmpty(lon)) {
+				setData(lat, lon);
+			}
+		}
 	}
 
 	private void initLocation() {
