@@ -91,6 +91,7 @@ public class HomeMyFragment extends BaseFragment implements View.OnClickListener
 					tv_user_score.setText("");
 				}
 				Utilities.showToast(getString(R.string.logout_success), getActivity());
+				btn_logout.setVisibility(View.GONE);
 				break;
 			case R.id.rl_pay:
 				((MainActivity) getActivity()).rb_menu_pay.setChecked(true);
