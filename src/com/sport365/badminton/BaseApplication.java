@@ -15,7 +15,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		application = this;
 		// 百度地图初始化
-		SDKInitializer.initialize(getApplicationContext());
+		//SDKInitializer.initialize(getApplicationContext());
 		// 百度定位初始化
 		mLocationClient = new LocationClient(this.getApplicationContext());
 	}
