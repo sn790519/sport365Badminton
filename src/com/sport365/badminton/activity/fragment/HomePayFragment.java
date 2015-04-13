@@ -42,6 +42,7 @@ import com.sport365.badminton.http.base.IRequestProxyCallback;
 import com.sport365.badminton.http.json.req.ServiceRequest;
 import com.sport365.badminton.http.json.res.ResponseContent;
 import com.sport365.badminton.utils.SystemConfig;
+import com.sport365.badminton.utils.Utilities;
 import com.sport365.badminton.view.NoScrollGridView;
 import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -394,7 +395,7 @@ public class HomePayFragment extends BaseFragment implements
 		reqBody.bookMobile = SystemConfig.loginResBody.mobile;
 		reqBody.memberid = SystemConfig.loginResBody.memberId;
 		// reqBody.totalFee = String.valueOf(prices[choosePosition]);
-		reqBody.totalFee = "1";
+		reqBody.totalFee = "0.1";
 		sendRequestWithDialog(new ServiceRequest(getActivity(),
 				new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null,
 				new IRequestProxyCallback() {
@@ -445,8 +446,8 @@ public class HomePayFragment extends BaseFragment implements
 		req.prepayId = resBody.prePayId;
 		req.nonceStr = resBody.nonceStr;
 		req.timeStamp = String.valueOf(resBody.timeStamp);
+//		req.packageValue = resBody.packageStr;// "Sign=" + packageValue;
 		req.packageValue = "Sign=Wxpay";// "Sign=" + packageValue;
-		
 		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 		signParams.add(new BasicNameValuePair("appid", req.appId));
 		signParams.add(new BasicNameValuePair("appkey", resBody.appKey));
@@ -455,8 +456,9 @@ public class HomePayFragment extends BaseFragment implements
 		signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
 		signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
 		signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
+		Log.d("wxsign", "调起支付的package串：" + req.packageValue);
 		req.sign = genSign(signParams);
-		Log.d("d", "调起支付的package串：" + req.packageValue);
+		Log.d("wxsign", "调起支付的sign-sha1串：" + req.sign);
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		weixin.sendReq(req);
 	}
@@ -473,8 +475,8 @@ public class HomePayFragment extends BaseFragment implements
 		sb.append(params.get(i).getName());
 		sb.append('=');
 		sb.append(params.get(i).getValue());
+		Log.d("wxsign", "字典签名串：" + sb.toString());
 		String sha1 = sha1(sb.toString());
-		Log.d("d", "sha1签名串：" + sb.toString());
 		return sha1;
 	}
 

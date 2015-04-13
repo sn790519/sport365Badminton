@@ -1,10 +1,8 @@
 package com.sport365.badminton.wxapi;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.sport365.badminton.utils.SystemConfig;
@@ -39,18 +37,21 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onReq(BaseReq req) {
-		Toast.makeText(WXPayEntryActivity.this, "支付问题"+req.toString(), Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("微信支付");
-			builder.setMessage("微信支付测试" + String.valueOf(resp.errCode)+String.valueOf(resp.errStr));
-			builder.show();
+			switch (resp.errCode) {
+			case 0:
+				Toast.makeText(WXPayEntryActivity.this, "支付成功" ,
+						Toast.LENGTH_LONG).show();
+				break;
+			default:
+				Toast.makeText(WXPayEntryActivity.this, "支付不成功",
+						Toast.LENGTH_LONG).show();
+				break;
+			}
 		}
-		Toast.makeText(WXPayEntryActivity.this, "支付问题"+resp.errCode, Toast.LENGTH_LONG).show();
 	}
 }
