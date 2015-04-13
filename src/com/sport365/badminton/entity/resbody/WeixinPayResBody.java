@@ -39,5 +39,6 @@ public class WeixinPayResBody implements Serializable {
 	public String accessToken;
 	public String attach;
 	public String payNotifyUrl;
+	public String appKey;
 
 }
