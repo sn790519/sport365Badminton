@@ -446,8 +446,9 @@ public class HomePayFragment extends BaseFragment implements
 		req.prepayId = resBody.prePayId;
 		req.nonceStr = resBody.nonceStr;
 		req.timeStamp = String.valueOf(resBody.timeStamp);
-//		req.packageValue = resBody.packageStr;// "Sign=" + packageValue;
-		req.packageValue = "Sign=Wxpay";// "Sign=" + packageValue;
+		req.packageValue = resBody.packageStr;// "Sign=" + packageValue;
+//		req.sign = resBody.sign;
+//		req.packageValue = "Sign=Wxpay";// "Sign=" + packageValue;
 		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 		signParams.add(new BasicNameValuePair("appid", req.appId));
 		signParams.add(new BasicNameValuePair("appkey", resBody.appKey));
