@@ -118,6 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 				//保存登录状态
 				SystemConfig.memberId = resBody.memberId;
 				SystemConfig.loginResBody = resBody;
+				setResult(RESULT_OK);
 				finish();
 			}
 
