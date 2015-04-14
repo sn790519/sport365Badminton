@@ -16,7 +16,7 @@
     <!-- 用于说明文字，提示文字 -->
     <color name="hint">#ff6e6e6e </color>
     <color name="baoming">#ff007aff </color>
-    <color name="lvse">#ff090 </color>
+    <color name="lvse">#ff009900 </color>
     <!-- 用于输入框默认显示 -->
     <color name="disable">#ffcccccc</color>
     <!-- 橘色 -->
