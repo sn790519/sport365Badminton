@@ -152,7 +152,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 					initADdata();
 					initTitleLayout();
 					initTabLayout();
-					addVenueListView(venueList);
+					addActivityListView(activeList);
 				}
 			}
 
@@ -295,7 +295,6 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ClubDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, activeList.get(flag).latitude);
