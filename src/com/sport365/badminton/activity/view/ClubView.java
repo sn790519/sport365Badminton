@@ -62,31 +62,43 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 	public RelativeLayout setDateView(ClubTabEntityObj mClubTabEntityObj) {
 		if (mClubTabEntityObj != null) {
 			// 场馆
-			String clubName = !TextUtils.isEmpty(mClubTabEntityObj.clubName) ? mClubTabEntityObj.clubName : "";
+			String clubName = !TextUtils.isEmpty(mClubTabEntityObj.clubName) ? mClubTabEntityObj.clubName
+					: "";
 			tv_venue.setText(clubName);
 			// 均价
 			tv_phone.setText("均价：");
 			// 价格
-			String privce = !TextUtils.isEmpty(mClubTabEntityObj.activeFee) ? mClubTabEntityObj.activeFee : "";
+			String privce = !TextUtils.isEmpty(mClubTabEntityObj.activeFee) ? mClubTabEntityObj.activeFee
+					: "";
 			tv_price.setText(privce + "元/2小时/次");
 			// 图片
-			String clubLogo = !TextUtils.isEmpty(mClubTabEntityObj.clubLogo) ? mClubTabEntityObj.clubLogo : "";
+			String clubLogo = !TextUtils.isEmpty(mClubTabEntityObj.clubLogo) ? mClubTabEntityObj.clubLogo
+					: "";
 			ImageLoader.getInstance().displayImage(clubLogo, imageView);
 			// 群主
-			String nickname = !TextUtils.isEmpty(mClubTabEntityObj.nickname) ? mClubTabEntityObj.nickname : "";
+			String nickname = !TextUtils.isEmpty(mClubTabEntityObj.nickname) ? mClubTabEntityObj.nickname
+					: "";
 			tv_time.setText("群主：" + nickname);
 			// 地址
-			String provinceName = !TextUtils.isEmpty(mClubTabEntityObj.provinceName) ? mClubTabEntityObj.provinceName : "";
-			String cityName = !TextUtils.isEmpty(mClubTabEntityObj.cityName) ? mClubTabEntityObj.cityName : "";
-			String countyName = !TextUtils.isEmpty(mClubTabEntityObj.countyName) ? mClubTabEntityObj.countyName : "";
-			tv_distance.setText(provinceName + "  " + cityName + "  " + countyName + "\n" + "缺少");
+			String provinceName = !TextUtils
+					.isEmpty(mClubTabEntityObj.provinceName) ? mClubTabEntityObj.provinceName
+					: "";
+			String cityName = !TextUtils.isEmpty(mClubTabEntityObj.cityName) ? mClubTabEntityObj.cityName
+					: "";
+			String countyName = !TextUtils
+					.isEmpty(mClubTabEntityObj.countyName) ? mClubTabEntityObj.countyName
+					: "";
+			tv_distance.setText(provinceName + "  " + cityName + "  "
+					+ countyName);
 			// 俱乐部
 			tv_rechange.setText("充值会费");
 			// 活动
-			String activeNum = !TextUtils.isEmpty(mClubTabEntityObj.activeNum) ? mClubTabEntityObj.activeNum : "";
+			String activeNum = !TextUtils.isEmpty(mClubTabEntityObj.activeNum) ? mClubTabEntityObj.activeNum
+					: "";
 			tv_activity.setText("活动（" + activeNum + "）");
 			// 比赛
-			String matchNum = !TextUtils.isEmpty(mClubTabEntityObj.matchNum) ? mClubTabEntityObj.matchNum : "";
+			String matchNum = !TextUtils.isEmpty(mClubTabEntityObj.matchNum) ? mClubTabEntityObj.matchNum
+					: "";
 			tv_game.setText("比赛（" + matchNum + "）");
 
 			// 水印置顶1：置顶isTop
@@ -95,7 +107,8 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 			}
 			// 水印是否推荐1：推荐isRecommend
 			else if ("1".equals(mClubTabEntityObj.isRecommend)) {
-				iv_tag_top.setImageResource(R.drawable.indicator_common_recommended);
+				iv_tag_top
+						.setImageResource(R.drawable.indicator_common_recommended);
 			} else {
 				iv_tag_top.setImageBitmap(null);
 			}
@@ -209,7 +222,8 @@ public class ClubView extends RelativeLayout implements OnClickListener {
 	 * 设置item每一项margintop的值
 	 */
 	public RelativeLayout setMarginTop() {
-		RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) rl_layout.getLayoutParams();
+		RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) rl_layout
+				.getLayoutParams();
 		ll.setMargins(0, 18, 0, 0);
 		rl_layout.setLayoutParams(ll);
 		return this;

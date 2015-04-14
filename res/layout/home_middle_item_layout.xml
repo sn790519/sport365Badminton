@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_height="60dp"
-                android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:background="@color/white" >
 
     <ImageView
-            android:id="@+id/iv_feature_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:minWidth="60dp"
-            android:minHeight="60dp"
-            android:scaleType="center"
-            />
+        android:id="@+id/iv_feature_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
+        android:scaleType="center" />
 
     <TextView
-            android:id="@+id/tv_title"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:textColor="@color/base_blue"
-            android:layout_toRightOf="@id/iv_feature_item"
-            android:text="@string/about_us"
-            android:singleLine="true"
-            android:ellipsize="end"
-            />
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/iv_feature_item"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/about_us"
+        android:textColor="@color/base_blue" />
+
     <TextView
-            android:id="@+id/tv_des"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="@color/main_secondary"
-            android:layout_toRightOf="@id/iv_feature_item"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_below="@id/tv_title"
-            android:text="heelo"
-            android:textSize="@dimen/text_size_hint"
-            android:singleLine="true"
-            android:ellipsize="end"
-            />
+        android:id="@+id/tv_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/iv_feature_item"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="heelo"
+        android:textColor="@color/main_secondary"
+        android:textSize="@dimen/text_size_hint" />
+
 </RelativeLayout>

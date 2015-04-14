@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <com.sport365.badminton.view.pullrefresh.PullToRefreshListView
-            xmlns:ptr="http://schemas.android.com/apk/res/com.sport365.badminton"
-            ptr:pullmode="both"
-            android:id="@+id/lv_activity_center"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:divider="@color/transparent"
-            android:dividerHeight="@dimen/diven_line_hight"
-            android:listSelector="@android:color/transparent"
-            />
+        xmlns:ptr="http://schemas.android.com/apk/res/com.sport365.badminton"
+        android:id="@+id/lv_activity_center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/diven_line_hight"
+        android:listSelector="@android:color/transparent"
+        ptr:pullmode="both" />
 
 </LinearLayout>

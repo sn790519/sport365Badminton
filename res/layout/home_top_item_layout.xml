@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/iv_module"
-            android:textColor="@color/main_secondary"
+            android:textColor="@color/main_primary"
             android:textSize="@dimen/text_size_hint"
             android:text="景点门票"
             android:gravity="bottom|center_horizontal"

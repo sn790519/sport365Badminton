@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="main_line">#ffdcdcdc</color>
     <color name="c_tcolor_dark">#ff333333</color>
     <!-- 用于分割线、按钮描边 -->
@@ -13,7 +14,9 @@
     <!-- 用于tab文字，二级文字 -->
     <color name="secondary">#ff666666</color>
     <!-- 用于说明文字，提示文字 -->
-    <color name="hint">#ff999999</color>
+    <color name="hint">#ff6e6e6e </color>
+    <color name="baoming">#ff007aff </color>
+    <color name="lvse">#ff090 </color>
     <!-- 用于输入框默认显示 -->
     <color name="disable">#ffcccccc</color>
     <!-- 橘色 -->
@@ -543,15 +546,7 @@
    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
-   <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
-
-
-
-
-
-
-
-
+   <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
     -->
 
     <drawable name="transparent_background">#00000000</drawable>
@@ -600,4 +595,5 @@
     <!-- 用于输入框默认提示 -->
     <color name="main_green">#ff50b400</color>
     <color name="c_tcolor_dark_grey">#ff7f7f7f</color>
+
 </resources>
