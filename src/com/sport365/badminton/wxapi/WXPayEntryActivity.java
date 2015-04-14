@@ -17,7 +17,6 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
  * 微信支付回调类
  */
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-	private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
 	private IWXAPI api;
 
 	@Override
@@ -48,10 +47,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 						Toast.LENGTH_LONG).show();
 				break;
 			default:
-				Toast.makeText(WXPayEntryActivity.this, "支付不成功",
+				Toast.makeText(WXPayEntryActivity.this, "支付失败",
 						Toast.LENGTH_LONG).show();
 				break;
 			}
 		}
+		finish();
 	}
 }

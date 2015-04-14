@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class ActionBarPopupWindow extends PopupWindow {
 
 	private Context mContext;
-	private View contentView;
+	private LinearLayout ll_background;
 	private int popupWindowHeight, popupWindowWidth;
 	private ListView lv_popup_window;
 	private LayoutInflater mInflater;
@@ -39,7 +41,8 @@ public class ActionBarPopupWindow extends PopupWindow {
 
 	private void initView() {
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		contentView = mInflater.inflate(R.layout.actionbar_popupwindow_layout,null);
+		View contentView = mInflater.inflate(R.layout.actionbar_popupwindow_layout,null);
+		ll_background = (LinearLayout)contentView.findViewById(R.id.ll_background);
 		lv_popup_window = (ListView) contentView.findViewById(R.id.lv_popup_window);
 		if (mAdapter == null) {
 			mAdapter = new DefaultPopupWindowAdater(items);
@@ -52,7 +55,7 @@ public class ActionBarPopupWindow extends PopupWindow {
 	 */
 	private void setPopupWindowProperties() {
 		// 设置SelectPicPopupWindow的View
-		this.setContentView(contentView);
+		this.setContentView(ll_background);
 		// 设置SelectPicPopupWindow弹出窗体的宽、高
 		this.setWidth(popupWindowWidth > 0 ? popupWindowWidth
 				: ViewGroup.LayoutParams.WRAP_CONTENT);

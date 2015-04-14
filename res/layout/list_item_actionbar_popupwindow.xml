@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:padding="10dp"
+              android:paddingLeft="10dp"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp"
+              android:layout_gravity="center"
               android:orientation="horizontal">
 
 
@@ -11,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="我的激活码"
+            android:text="联系我们"
             android:padding="@dimen/padding_three_dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_info"/>

@@ -143,7 +143,7 @@ public class MainActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(
-						mContext, 0, 0, list);
+						mContext,SystemConfig.dm.widthPixels*2/7 , 0, list);
 				actionBarPopupWindow.showAsDropDown(mActionbar_right, 0, 15);
 			}
 		});
