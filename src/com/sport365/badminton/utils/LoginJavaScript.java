@@ -18,15 +18,20 @@ public class LoginJavaScript {
     }
 
     @JavascriptInterface
-    public void startLoginActivity() {
-        myHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(activity, LoginActivity.class);
-                activity.startActivityForResult(intent,0);
-            }
-        });
-
+    public String startLoginActivity() {
+        if (SystemConfig.isLogin()) {
+            return SystemConfig.memberId;
+        } else {
+            myHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+//                    activity.startActivityForResult(intent,0);
+                    activity.startActivity(intent);
+                }
+            });
+            return null;
+        }
     }
 }
 
