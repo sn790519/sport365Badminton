@@ -444,7 +444,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	// 比赛中报名
 	private void activeRegist(final String activeId) {
 		if (!SystemConfig.isLogin()) {
-			new DialogFactory(mContext).showDialog("", "你还没有登录，请登录。", "确定", new DialogFactory.onBtnClickListener() {
+			new DialogFactory(mContext).showDialog("提示", "你还没有登录，请登录。", "确定", new DialogFactory.onBtnClickListener() {
 
 				@Override
 				public void btnLeftClickListener(View v) {
@@ -470,7 +470,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 			return;
 		}
 
-		new DialogFactory(mContext).showDialog2Btn("", "你将进行活动报名，请确认？", "取消", "确定", new DialogFactory.onBtnClickListener() {
+		new DialogFactory(mContext).showDialog2Btn("提示", "你将进行活动报名，请确认？", "取消", "确定", new DialogFactory.onBtnClickListener() {
 
 			@Override
 			public void btnLeftClickListener(View v) {

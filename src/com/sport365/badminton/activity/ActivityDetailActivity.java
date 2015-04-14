@@ -122,7 +122,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			@Override
 			public void onClick(View v) {
 				// 联系管理员
-				new DialogFactory(mContext).showDialog2Btn("", "确定拨打电话：13052892876", "确定", "取消", new DialogFactory.onBtnClickListener() {
+				new DialogFactory(mContext).showDialog2Btn("提示", "确定拨打电话：13052892876", "确定", "取消", new DialogFactory.onBtnClickListener() {
 
 					@Override
 					public void btnLeftClickListener(View v) {
@@ -214,7 +214,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 	// 活动中报名
 	private void activeRegist(final String activeId) {
 		if (!SystemConfig.isLogin()) {
-			new DialogFactory(mContext).showDialog2Btn("", "你还没有登录，请登录。", "确定", "取消", new DialogFactory.onBtnClickListener() {
+			new DialogFactory(mContext).showDialog2Btn("提示", "你还没有登录，请登录。", "确定", "取消", new DialogFactory.onBtnClickListener() {
 
 				@Override
 				public void btnLeftClickListener(View v) {
@@ -239,7 +239,7 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 			return;
 		}
 
-		new DialogFactory(mContext).showDialog2Btn("", "你将进行活动报名，请确认？", "取消", "确定", new DialogFactory.onBtnClickListener() {
+		new DialogFactory(mContext).showDialog2Btn("提示", "你将进行活动报名，请确认？", "取消", "确定", new DialogFactory.onBtnClickListener() {
 
 			@Override
 			public void btnLeftClickListener(View v) {

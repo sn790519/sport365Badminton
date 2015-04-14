@@ -219,7 +219,7 @@ public class Utilities {
 		if (SystemConfig.isLogin()) {
 			return;
 		} else {
-			new DialogFactory(mContext).showDialog("", "您还未登录，请登录后支付。", "确定", new DialogFactory.onBtnClickListener() {
+			new DialogFactory(mContext).showDialog("提示", "您还未登录，请登录后支付。", "确定", new DialogFactory.onBtnClickListener() {
 
 				@Override
 				public void btnLeftClickListener(View v) {
@@ -253,27 +253,7 @@ public class Utilities {
 	 * @param content
 	 */
 	public static void showDialogWithMemberName(final Context mContext, String content) {
-		new DialogFactory(mContext).showDialog("", content, "确定", new DialogFactory.onBtnClickListener() {
-
-			@Override
-			public void btnLeftClickListener(View v) {
-			}
-
-			@Override
-			public void btnNeutralClickListener(View v) {
-
-			}
-
-			@Override
-			public void btnRightClickListener(View v) {
-
-			}
-
-			@Override
-			public void btnCloseClickListener(View v) {
-
-			}
-		}, true);
+		new DialogFactory(mContext).showDialogWithClose("提示", content);
 	}
 
 	/**
@@ -283,7 +263,7 @@ public class Utilities {
 	 * @param content
 	 */
 	public static void showDialogWithSureCancle(final Context mContext, String content) {
-		new DialogFactory(mContext).showDialog2Btn("", content, "确定", "取消", new DialogFactory.onBtnClickListener() {
+		new DialogFactory(mContext).showDialog2Btn("提示", content, "确定", "取消", new DialogFactory.onBtnClickListener() {
 
 			@Override
 			public void btnLeftClickListener(View v) {
