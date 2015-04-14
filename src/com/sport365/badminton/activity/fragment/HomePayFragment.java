@@ -174,7 +174,7 @@ public class HomePayFragment extends BaseFragment implements
 		if (SystemConfig.loginResBody != null && tv_name != null
 				&& tv_phone != null && tv_email != null && tv_qq != null) {
 			tv_name.setText(TextUtils.isEmpty(SystemConfig.loginResBody.mobile) ? ""
-					: SystemConfig.loginResBody.mobile);
+					: SystemConfig.loginResBody.nickname);
 			tv_phone.setText(TextUtils
 					.isEmpty(SystemConfig.loginResBody.mobile) ? ""
 					: SystemConfig.loginResBody.mobile);
