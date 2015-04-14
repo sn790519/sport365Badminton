@@ -218,7 +218,7 @@
             android:name="com.sport365.badminton.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" 
-            android:theme="@android:style/Theme.NoDisplay">
+            android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

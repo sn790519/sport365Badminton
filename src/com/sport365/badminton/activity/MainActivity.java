@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (rg_menu.getCheckedRadioButtonId() == R.id.rb_menu_mian) {
+//			if (rg_menu.getCheckedRadioButtonId() == R.id.rb_menu_mian) {
 				if ((System.currentTimeMillis() - exitTime) > 2000) {
 					Utilities.showToast(
 							mContext.getResources().getString(
@@ -262,9 +262,9 @@ public class MainActivity extends BaseActivity implements
 				} else {
 					MainActivity.this.finish();
 				}
-			} else {
-				rb_menu_mian.setChecked(true);
-			}
+//			} else {
+//				rb_menu_mian.setChecked(true);
+//			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

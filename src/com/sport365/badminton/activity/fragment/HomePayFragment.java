@@ -394,8 +394,8 @@ public class HomePayFragment extends BaseFragment implements
 		WeixinPayReqBody reqBody = new WeixinPayReqBody();
 		reqBody.bookMobile = SystemConfig.loginResBody.mobile;
 		reqBody.memberid = SystemConfig.loginResBody.memberId;
-		// reqBody.totalFee = String.valueOf(prices[choosePosition]);
-		reqBody.totalFee = "0.1";
+		reqBody.totalFee = String.valueOf(prices[choosePosition]);
+		// reqBody.totalFee = "0.1";
 		sendRequestWithDialog(new ServiceRequest(getActivity(),
 				new SportWebService(SportParameter.WEIXIN_PAY), reqBody), null,
 				new IRequestProxyCallback() {
@@ -447,19 +447,20 @@ public class HomePayFragment extends BaseFragment implements
 		req.nonceStr = resBody.nonceStr;
 		req.timeStamp = String.valueOf(resBody.timeStamp);
 		req.packageValue = resBody.packageStr;// "Sign=" + packageValue;
-//		req.sign = resBody.sign;
-//		req.packageValue = "Sign=Wxpay";// "Sign=" + packageValue;
-		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
-		signParams.add(new BasicNameValuePair("appid", req.appId));
-		signParams.add(new BasicNameValuePair("appkey", resBody.appKey));
-		signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
-		signParams.add(new BasicNameValuePair("package", req.packageValue));
-		signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
-		signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
-		signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
-		Log.d("wxsign", "调起支付的package串：" + req.packageValue);
-		req.sign = genSign(signParams);
-		Log.d("wxsign", "调起支付的sign-sha1串：" + req.sign);
+		req.sign = resBody.sign;
+		/*
+		 * req.packageValue = "Sign=Wxpay";// "Sign=" + packageValue;
+		 * List<NameValuePair> signParams = new LinkedList<NameValuePair>();
+		 * signParams.add(new BasicNameValuePair("appid", req.appId));
+		 * signParams.add(new BasicNameValuePair("appkey", resBody.appKey));
+		 * signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
+		 * signParams.add(new BasicNameValuePair("package", req.packageValue));
+		 * signParams.add(new BasicNameValuePair("partnerid", req.partnerId));
+		 * signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
+		 * signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
+		 * Log.d("wxsign", "调起支付的package串：" + req.packageValue); req.sign =
+		 * genSign(signParams); Log.d("wxsign", "调起支付的sign-sha1串：" + req.sign);
+		 */
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		weixin.sendReq(req);
 	}
