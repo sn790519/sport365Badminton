@@ -396,6 +396,11 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 	private void addMapView() {
 		ll_content.removeAllViews();
 		MapViewFragment newFragment = new MapViewFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(MapViewActivity.LAT, venueEntityObj.latitude);
+		bundle.putString(MapViewActivity.LON, venueEntityObj.longitude);
+		bundle.putString(MapViewActivity.NAME, venueEntityObj.name);
+		newFragment.setArguments(bundle);
 		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
 		// 设置mapview的高度
 		ll.height = SystemConfig.dm.heightPixels - xy[1];

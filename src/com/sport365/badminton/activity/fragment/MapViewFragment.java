@@ -80,7 +80,7 @@ public class MapViewFragment extends BaseFragment {
 	private void initBaiduMap() {
 		mMapView = (MapView) view.findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
-		zoomTo = MapStatusUpdateFactory.zoomTo(Float.parseFloat("11"));//缩放到11
+		zoomTo = MapStatusUpdateFactory.zoomTo(Float.parseFloat("13"));//缩放到11
 		mBaiduMap.animateMapStatus(zoomTo);
 		initLocation();
 		initPopView();

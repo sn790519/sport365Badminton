@@ -396,6 +396,11 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 	private void addMapView() {
 		ll_content.removeAllViews();
 		MapViewFragment newFragment = new MapViewFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(MapViewActivity.LAT, clubTabEntityObj.latitude);
+		bundle.putString(MapViewActivity.LON, clubTabEntityObj.longitude);
+		bundle.putString(MapViewActivity.NAME, clubTabEntityObj.clubName);
+		newFragment.setArguments(bundle);
 		LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) ll_content.getLayoutParams();
 		// 设置mapview的高度
 		ll.height = SystemConfig.dm.heightPixels - xy[1];
