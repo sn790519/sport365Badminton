@@ -115,7 +115,6 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 			@Override
 			public void goMapShow() {
-				Utilities.showToast("查看地图", mContext);
 				Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString(MapViewActivity.LAT, venueEntityObj.latitude);
@@ -227,7 +226,6 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, activeList.get(flag).latitude);
@@ -293,7 +291,6 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, clubList.get(flag).latitude);
@@ -344,7 +341,6 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("地图页面", mContext);
 					Intent intent = new Intent(ActivityCenterDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, matchList.get(flag).latitude);

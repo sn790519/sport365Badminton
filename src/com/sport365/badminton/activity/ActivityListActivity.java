@@ -547,7 +547,6 @@ public class ActivityListActivity extends BaseActivity implements PullToRefreshB
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ActivityListActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, mActiveEntityObj.latitude);

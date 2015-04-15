@@ -96,7 +96,6 @@ public class CalendarTimesActivity extends BaseActivity {
 									intent.putExtra("date", dates);
 									intent.putExtra(ActivityListActivity.ACTIVITYFROM,ActivityListActivity.CADACTIVITYLIST);
 									startActivity(intent);
-									Toast.makeText(CalendarTimesActivity.this, dates, LENGTH_SHORT).show();
 								} catch (Exception e) {
 								}
 							}

@@ -112,7 +112,6 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 			@Override
 			public void goMapShow() {
-				Utilities.showToast("查看地图", mContext);
 				Intent intent = new Intent(ClubDetailActivity.this, MapViewActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString(MapViewActivity.LAT, clubTabEntityObj.latitude);
@@ -238,7 +237,6 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 				@Override
 				public void goMapShow() {
-					Utilities.showToast("查看地图", mContext);
 					Intent intent = new Intent(ClubDetailActivity.this, MapViewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString(MapViewActivity.LAT, venueList.get(flag).latitude);

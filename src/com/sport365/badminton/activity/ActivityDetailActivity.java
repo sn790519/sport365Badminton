@@ -308,7 +308,6 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 
 			@Override
 			public void goMapShow() {
-				Utilities.showToast("查看地图", mContext);
 				Intent intent = new Intent(ActivityDetailActivity.this, MapViewActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString(MapViewActivity.LAT, activeEntityObj.latitude);
