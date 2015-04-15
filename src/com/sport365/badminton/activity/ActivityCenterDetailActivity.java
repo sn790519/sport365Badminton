@@ -64,6 +64,7 @@ public class ActivityCenterDetailActivity extends BaseActivity implements MapVie
 		mActionbar_right.setVisibility(View.GONE);
 		initData();
 		initView();
+		initActionBar();
 		init_GET_VENUE_DETAIL_BYID();
 	}
 

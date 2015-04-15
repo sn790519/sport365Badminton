@@ -50,7 +50,7 @@ import com.sport365.badminton.view.advertisement.AdvertisementView;
  * 
  * @author Frank
  */
-public class ActivityDetailActivity extends BaseActivity implements MapViewFragment.OnRoutePlanSuccessListener {
+public class ActivityDetailActivity extends BaseActivity {
 	private LinearLayout ll_ad_layout;// 广告
 	private LinearLayout ll_title_layout;//
 	private LinearLayout ll_tab;//
@@ -454,18 +454,18 @@ public class ActivityDetailActivity extends BaseActivity implements MapViewFragm
 		// 设置mapview的高度
 		ll.height = SystemConfig.dm.heightPixels * 11 / 20;
 		ll_content.setLayoutParams(ll);
-		newFragment.setonRoutePlanSuccessListener(this);
+//		newFragment.setonRoutePlanSuccessListener(this);
 		getSupportFragmentManager().beginTransaction().add(R.id.ll_content, newFragment).commit();
 	}
 
-	@Override
-	public void routePlanSuccess(String naviType) {
-		// 路线规划成功，显示路线说明
-		mActionbar_right_text.setVisibility(View.VISIBLE);
-		if (!TextUtils.isEmpty(naviType)) {
-			this.naviType = naviType;
-		}
-	}
+//	@Override
+//	public void routePlanSuccess(String naviType) {
+//		// 路线规划成功，显示路线说明
+//		mActionbar_right_text.setVisibility(View.VISIBLE);
+//		if (!TextUtils.isEmpty(naviType)) {
+//			this.naviType = naviType;
+//		}
+//	}
 
 	/**
 	 * 根据地图进行actionbar的重置

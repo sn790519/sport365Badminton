@@ -64,6 +64,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 		mActionbar_right.setVisibility(View.GONE);
 		initData();
 		initView();
+		initActionBar();
 		init_GET_CLUB_INFO_BYID();
 	}
 
