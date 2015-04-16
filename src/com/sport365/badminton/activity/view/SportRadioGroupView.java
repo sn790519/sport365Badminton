@@ -9,14 +9,13 @@ import com.sport365.badminton.R;
 
 /**
  * RadioGroupView控件
- * Created by kjh08490 on 2015/3/7.
  */
 public class SportRadioGroupView extends LinearLayout implements RadioGroup.OnCheckedChangeListener {
-	private RadioGroup rg_menu;
-	private RadioButton rb_menu_first;
-	private RadioButton rb_menu_second;
-	private RadioButton rb_menu_third;
-	private RadioButton rb_menu_four;
+	public RadioGroup rg_menu;
+	public RadioButton rb_menu_first;
+	public RadioButton rb_menu_second;
+	public RadioButton rb_menu_third;
+	public RadioButton rb_menu_four;
 
 	private int[] drawableIds;// 图片的资源ids的列表
 	private String[] strStr;// 文案描述的列表

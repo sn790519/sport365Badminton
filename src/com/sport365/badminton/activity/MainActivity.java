@@ -225,9 +225,6 @@ public class MainActivity extends BaseActivity implements
 						"http://yundong.shenghuo365.net/yd365/cheap-index.html?memberId=android");
 				ULog.error("http://yundong.shenghuo365.net/yd365/cheap-index.html?memberId=android");
 				startActivity(intent);
-				// Utilities.showToast("请先登录", mContext);
-				// mCurrentButton.setChecked(true);
-				// return;
 			}
 			break;
 		case R.id.rb_menu_my:
