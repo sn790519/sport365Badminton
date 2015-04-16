@@ -6,6 +6,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.sport365.badminton.R;
+import com.sport365.badminton.view.MyRadioButton;
 
 /**
  * RadioGroupView控件

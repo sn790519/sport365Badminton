@@ -8,7 +8,6 @@ import com.sport365.badminton.entity.obj.MatchEntityObj;
 import com.sport365.badminton.entity.obj.VenueEntityObj;
 
 /**
- * 活动返回实体 Created by kjh08490 on 2015/3/7.
  */
 public class GetActiveDetailByIdResBody implements Serializable {
 

@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by kjh08490 on 2015/2/10.
  */
 public class GetAllActiveListResBody implements Serializable{
 

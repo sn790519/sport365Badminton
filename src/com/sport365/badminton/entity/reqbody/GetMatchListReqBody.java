@@ -1,7 +1,6 @@
 package com.sport365.badminton.entity.reqbody;
 
 /**
- * Created by kjh08490 on 2015/2/13.
  */
 public class GetMatchListReqBody {
 

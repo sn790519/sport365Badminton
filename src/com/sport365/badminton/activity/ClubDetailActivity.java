@@ -201,7 +201,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 				addMatchListView(matchList);
 			}
 		});
-		sportRadioGroupView.rg_menu.check(sportRadioGroupView.rb_menu_second.getId());
+//		sportRadioGroupView.rg_menu.check(sportRadioGroupView.rb_menu_second.getId());
 //		sportRadioGroupView.rg_menu.getChildAt(1).setSelected(true);
 		ll_tab.addView(sportRadioGroupView);
 	}

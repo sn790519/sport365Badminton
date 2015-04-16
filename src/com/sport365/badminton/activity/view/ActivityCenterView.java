@@ -14,7 +14,7 @@ import com.sport365.badminton.entity.obj.VenueEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 运动会所的view Created by kjh08490 on 2015/3/7.
+ * 运动会所的view
  */
 public class ActivityCenterView extends RelativeLayout implements OnClickListener {
 	private RelativeLayout rl_layout;//
