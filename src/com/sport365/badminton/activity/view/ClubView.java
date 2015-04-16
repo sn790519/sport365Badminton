@@ -14,7 +14,7 @@ import com.sport365.badminton.entity.obj.ClubTabEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 俱乐部的view Created by kjh08490 on 2015/3/7.
+ * 俱乐部的view
  */
 public class ClubView extends RelativeLayout implements OnClickListener {
 

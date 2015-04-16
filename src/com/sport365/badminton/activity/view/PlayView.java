@@ -14,7 +14,7 @@ import com.sport365.badminton.entity.obj.MatchEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 比赛的view Created by kjh08490 on 2015/3/7.
+ * 比赛的view
  */
 public class PlayView extends RelativeLayout implements OnClickListener {
 	private TextView tv_title;

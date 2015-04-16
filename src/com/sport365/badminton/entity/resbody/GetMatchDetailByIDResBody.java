@@ -3,7 +3,7 @@ package com.sport365.badminton.entity.resbody;
 import java.io.Serializable;
 
 /**
- * 比赛详情的页面的实体 Created by kjh08490 on 2015/3/7.
+ * 比赛详情的页面的实体
  */
 public class GetMatchDetailByIDResBody implements Serializable {
 

@@ -87,9 +87,9 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 		clubView.setDateView(clubTabEntityObj);
 		clubView.setBottonVisible(View.GONE);
 		clubView.setTopRecommadImageViewVisible(View.GONE);
-		if(SystemConfig.isLogin()){
+		if (SystemConfig.isLogin()) {
 			clubView.setRechangeVisible(View.GONE);
-		}else{
+		} else {
 			clubView.setRechangeVisible(View.VISIBLE);
 		}
 		clubView.setClubListen(new ClubView.ClubListen() {
@@ -179,7 +179,8 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 	 * 初始化tab信息
 	 */
 	private void initTabLayout() {
-		ll_tab.addView(new SportRadioGroupView(mContext, null, null).setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
+		SportRadioGroupView sportRadioGroupView = new SportRadioGroupView(mContext, null, null);
+		sportRadioGroupView.setSportCheckListen(new SportRadioGroupView.SportCheckListen() {
 			@Override
 			public void FirstOnClick() {
 				addActivityListView(activeList);
@@ -199,7 +200,10 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 			public void FourOnClick() {
 				addMatchListView(matchList);
 			}
-		}));
+		});
+//		sportRadioGroupView.rg_menu.check(sportRadioGroupView.rb_menu_second.getId());
+//		sportRadioGroupView.rg_menu.getChildAt(1).setSelected(true);
+		ll_tab.addView(sportRadioGroupView);
 	}
 
 	/**
@@ -359,7 +363,7 @@ public class ClubDetailActivity extends BaseActivity implements MapViewFragment.
 
 				@Override
 				public void checkBookName() {
-						
+
 				}
 			});
 			playView.setOnClickListener(new OnClickListener() {

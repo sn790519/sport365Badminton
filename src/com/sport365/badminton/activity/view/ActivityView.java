@@ -14,7 +14,7 @@ import com.sport365.badminton.entity.obj.ActiveEntityObj;
 import com.sport365.badminton.http.base.ImageLoader;
 
 /**
- * 活动的view Created by kjh08490 on 2015/3/7.
+ * 活动的view
  */
 public class ActivityView extends RelativeLayout implements OnClickListener {
 	private RelativeLayout rl_layout;// 背景

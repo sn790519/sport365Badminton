@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  * 城市联动页面
- * Created by kjh08490 on 2015/4/6.
  */
 public class CitySelectorActivity extends BaseActivity {
 

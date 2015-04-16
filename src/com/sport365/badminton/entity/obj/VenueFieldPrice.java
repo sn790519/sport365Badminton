@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 价格日历的实体
- * Created by kjh08490 on 2015/3/7.
  */
 public class VenueFieldPrice implements Serializable {
 	/*"id":"120832",

@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by kjh08490 on 2015/3/7.
  */
 public class GetClubInfoByidResBody implements Serializable {
 	// 活动的列表

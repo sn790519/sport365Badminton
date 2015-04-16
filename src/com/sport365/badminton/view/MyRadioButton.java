@@ -4,91 +4,38 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.widget.RadioButton;
 
 /**
  * RadioButton文字居中
- * Created by kjh08490 on 2015/2/15.
  */
 public class MyRadioButton extends RadioButton {
 
-	private Context context;
 
-	private Drawable mButtonDrawable;
-	private int mButtonResource;
+    public MyRadioButton(Context context) {
+        super(context);
+    }
 
-	public MyRadioButton(Context context) {
-		super(context);
-		this.context = context;
-	}
+    public MyRadioButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public MyRadioButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.context = context;
-	}
+    @Override
+    protected void onDraw(Canvas canvas) {
+        Drawable[] drawables = getCompoundDrawables();
+        if (drawables != null) {
+            Drawable drawableLeft = drawables[2];
+            if (drawableLeft != null) {
 
-	@Override
-	public void setButtonDrawable(int resid) {
-		if (resid != 0 && resid == mButtonResource) {
-			return;
-		}
-
-		mButtonResource = resid;
-
-		Drawable d = null;
-		if (mButtonResource != 0) {
-			d = getResources().getDrawable(mButtonResource);
-		}
-		setButtonDrawable(d);
-	}
-
-	@Override
-	public void setButtonDrawable(Drawable d) {
-		if (d != null) {
-			if (mButtonDrawable != null) {
-				mButtonDrawable.setCallback(null);
-				unscheduleDrawable(mButtonDrawable);
-			}
-			d.setCallback(this);
-			d.setState(getDrawableState());
-			d.setVisible(getVisibility() == VISIBLE, false);
-			mButtonDrawable = d;
-			mButtonDrawable.setState(null);
-			setMinHeight(mButtonDrawable.getIntrinsicHeight());
-		}
-
-		refreshDrawableState();
-	}
-
-	// 核心代码部分
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-
-		final Drawable buttonDrawable = mButtonDrawable;
-		if (buttonDrawable != null) {
-			final int verticalGravity = getGravity()
-					& Gravity.VERTICAL_GRAVITY_MASK;
-			final int height = buttonDrawable.getIntrinsicHeight();
-			final int width = buttonDrawable.getIntrinsicWidth();
-
-			int y = 0;
-
-			switch (verticalGravity) {
-				case Gravity.BOTTOM:
-					y = getHeight() - height;
-					break;
-				case Gravity.CENTER_VERTICAL:
-					y = (getHeight() - height) / 2;
-					break;
-			}
-
-			int x = 0;
-			x = (getWidth() - width) / 2;
-
-			buttonDrawable.setBounds(x, y, x + width, y + height);
-			buttonDrawable.draw(canvas);
-		}
-	}
+                float textWidth = getPaint().measureText(getText().toString());
+                int drawablePadding = getCompoundDrawablePadding();
+                int drawableWidth = 0;
+                drawableWidth = drawableLeft.getIntrinsicWidth();
+                float bodyWidth = textWidth + drawableWidth + drawablePadding;
+                setPadding(0, 0, (int) (getWidth() - bodyWidth), 0);
+                canvas.translate((getWidth() - bodyWidth) / 2, 0);
+            }
+        }
+        super.onDraw(canvas);
+    }
 }
